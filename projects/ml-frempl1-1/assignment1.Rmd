@@ -1,7 +1,7 @@
 ---
 title: "Estimating Technical Prices with Machine Learning Algorithms"
 author:
-  - name: "Joakim Lavlund Bilyk, Sebastian Cramer and Teis Blem"
+  - name: "Joakim Bilyk, Sebastian Cramer and Teis Blem"
     affiliation: "University of Copenhagen"
 date: "`r Sys.Date()`"
 abstract: "This document provides a practical example of applications of machine learning algorithms to car insurance data using the `mlr3` package. A popular model used in pricing of non-life insurance policies is the frequency-severity model, where the price is decomposed into the product of the probability of a claim arrises and the expected claim size given a claim occurs. This model is fitted using machine learning algorithms such as penalized linear regression and random forests. This paper argues that the ranger model gives a particular well fit to both the frequency and severity model."
