@@ -263,6 +263,8 @@ dev.off()
 ```{r,echo=FALSE}
 ## Feature selection and formatting
 data("freMPL1",package = "CASdatasets")
+#Add id
+freMPL1[,"id"] <- 1:dim(freMPL1)[1]
 
 #1: RecordBeg and RecordEnd discarded
 freMPL1 <- freMPL1 %>%
@@ -339,7 +341,7 @@ We will search for the most efficient estimators for both the severity and frequ
 #Get the severity data
 df_sev <- df %>% 
   filter(ClaimInd == 1) %>%
-  select(-Exposure)
+  select(-Exposure,-id)
 
 #Start a task
 task_sev <- df_sev %>%
@@ -364,7 +366,7 @@ task_sev_train <- as_task_regr(df_sev_train, target = "ClaimAmount")
 ```{r,echo = FALSE,message=FALSE,results='hide'}
 #Generalized Additive Model
 sev_gam_tuned_regr <- lrn("regr.gam") 
-indicators <- colnames(df)[!(colnames(df) %in% c("LicAge","BonusMalus","DrivAge","ClaimAmount","Exposure","ClaimInd"))]
+indicators <- colnames(df_sev)[!(colnames(df_sev) %in% c("LicAge","BonusMalus","DrivAge","ClaimAmount","Exposure","ClaimInd"))]
 #indicators <- indicators[!grepl("RiskVar",indicators)]
 sev_gam_tuned_regr$param_set$values$formula <- reformulate(c("s(LicAge)",
                                                          "s(BonusMalus)",
@@ -745,10 +747,10 @@ We can check the model predictions on a couple of specific policies, namely the 
 
 ```{r,echo=FALSE}
 policies <- c(6257,24131,25018,25196,30503,30563)
-policies_sev_gam <- sev_gam_tuned_regr$predict_newdata(df[policies,])
+policies_sev_gam <- sev_gam_tuned_regr$predict_newdata(df[freMPL1$id %in% policies,])
 options(scipen = 999)
 library(kableExtra)
-kbl(freMPL1[policies,],caption = "Policy covariates for policies of interest (6257, 24131, 25018, 25196, 30503 and 30563).", format="latex", booktabs=TRUE) %>% 
+kbl(freMPL1[freMPL1$id %in% policies,],caption = "Policy covariates for policies of interest (6257, 24131, 25018, 25196, 30503 and 30563).", format="latex", booktabs=TRUE) %>% 
   kable_styling(latex_options=c("scale_down","hold_position"))
 ```
 
@@ -784,7 +786,7 @@ $$
 Through 5-fold cross validation we choose the parameters $\lambda = `r round(sev_glmnet_learner_instance$result_learner_param_vals$s,digits = 6)`$ and $\alpha = `r round(sev_glmnet_learner_instance$result_learner_param_vals$alpha,digits = 6)`$. We may consider the estimate for the policies from above.
 
 ```{r,echo=FALSE}
-policies_sev_glmnet <- sev_glmnet_tuned_regr$predict_newdata(df[policies,])
+policies_sev_glmnet <- sev_glmnet_tuned_regr$predict_newdata(df[freMPL1$id %in% policies,])
 ```
 
 | Estimator | $\hat R_{L^2}$ | $\hat R_{L^1}$ | 6257 | 24131 | 25018 | 25196 | 30503  | 30563 |
@@ -802,7 +804,7 @@ policies_sev_glmnet <- sev_glmnet_tuned_regr$predict_newdata(df[policies,])
 \end{figure}
 
 ```{r,echo=FALSE}
-policies_sev_xgb <- sev_xgb_tuned_regr$predict_newdata(df[policies,])
+policies_sev_xgb <- sev_xgb_tuned_regr$predict_newdata(df[freMPL1$id %in% policies,])
 ```
 
 | Estimator | $\hat R_{L^2}$ | $\hat R_{L^1}$ | 6257 | 24131 | 25018 | 25196 | 30503  | 30563 |
@@ -822,7 +824,7 @@ policies_sev_xgb <- sev_xgb_tuned_regr$predict_newdata(df[policies,])
 \end{figure}
 
 ```{r,echo=FALSE}
-policies_sev_bart <- sev_bart_tuned_regr$predict_newdata(df[policies,])
+policies_sev_bart <- sev_bart_tuned_regr$predict_newdata(df[freMPL1$id %in% policies,])
 ```
 
 | Estimator | $\hat R_{L^2}$ | $\hat R_{L^1}$ | 6257 | 24131 | 25018 | 25196 | 30503  | 30563 |
@@ -840,7 +842,7 @@ policies_sev_bart <- sev_bart_tuned_regr$predict_newdata(df[policies,])
 \end{figure}
 
 ```{r,echo=FALSE}
-policies_sev_ranger <- sev_ranger_tuned_regr$predict_newdata(df[policies,])
+policies_sev_ranger <- sev_ranger_tuned_regr$predict_newdata(df[freMPL1$id %in% policies,])
 ```
 
 | Estimator | $\hat R_{L^2}$ | $\hat R_{L^1}$ | 6257 | 24131 | 25018 | 25196 | 30503  | 30563 |
@@ -920,7 +922,7 @@ $$
 df_freq <- df %>%
   mutate(ClaimInd = factor(ClaimInd, levels = c(0,1))) %>%
   #Make sure not to include ClaimAmount
-  select(-ClaimAmount)
+  select(-ClaimAmount,-id)
 
 #Start a task
 task_freq <- df_freq %>%
@@ -946,7 +948,7 @@ task_freq_train <- as_task_classif(df_freq_train,
 #Generalized Additive Model
 freq_gam_tuned <- lrn("classif.gam",
                       predict_type = "prob")
-indicators <- colnames(df)[!(colnames(df) %in% c("LicAge","BonusMalus","DrivAge","ClaimAmount","ClaimInd"))]
+indicators <- colnames(df)[!(colnames(df) %in% c("LicAge","BonusMalus","DrivAge","id","ClaimAmount","ClaimInd"))]
 freq_gam_tuned$param_set$values$formula <- reformulate(c("s(LicAge)",
                                                          "s(BonusMalus)",
                                                          "s(DrivAge)",
@@ -1177,7 +1179,7 @@ $$
 We can check the model predictions on a couple of specific policies, namely the row numbers 6257, 25018, 30503 and 30563. Let us briefly take a look at the four policies.
 
 ```{r,echo=FALSE}
-policies_freq_gam <- freq_gam_tuned$predict_newdata(df_freq[policies,])
+policies_freq_gam <- freq_gam_tuned$predict_newdata(df_freq[freMPL1$id %in% policies,])
 ```
 
 Then applying the estimator we obtain the estimates.
@@ -1199,7 +1201,7 @@ Then applying the estimator we obtain the estimates.
 We can check the model predictions on a couple of specific policies, namely the row numbers 6257, 25018, 30503 and 30563. Let us briefly take a look at the four policies.
 
 ```{r,echo=FALSE}
-policies_freq_glmnet <- freq_glmnet_tuned$predict_newdata(df_freq[policies,])
+policies_freq_glmnet <- freq_glmnet_tuned$predict_newdata(df_freq[freMPL1$id %in% policies,])
 ```
 
 Then applying the estimator we obtain the estimates.
@@ -1219,7 +1221,7 @@ Then applying the estimator we obtain the estimates.
 We can check the model predictions on a couple of specific policies, namely the row numbers 6257, 25018, 30503 and 30563. Let us briefly take a look at the four policies.
 
 ```{r,echo=FALSE}
-policies_freq_xgb <- freq_xgb_tuned$predict_newdata(df_freq[policies,])
+policies_freq_xgb <- freq_xgb_tuned$predict_newdata(df_freq[freMPL1$id %in% policies,])
 ```
 
 Then applying the estimator we obtain the estimates.
@@ -1239,7 +1241,7 @@ Then applying the estimator we obtain the estimates.
 We can check the model predictions on a couple of specific policies, namely the row numbers 6257, 25018, 30503 and 30563. Let us briefly take a look at the four policies.
 
 ```{r,echo=FALSE}
-policies_freq_bart <- freq_bart_tuned$predict_newdata(df_freq[policies,])
+policies_freq_bart <- freq_bart_tuned$predict_newdata(df_freq[freMPL1$id %in% policies,])
 ```
 
 Then applying the estimator we obtain the estimates.
@@ -1259,7 +1261,7 @@ Then applying the estimator we obtain the estimates.
 We can check the model predictions on a couple of specific policies, namely the row numbers 6257, 25018, 30503 and 30563. Let us briefly take a look at the four policies.
 
 ```{r,echo=FALSE}
-policies_ranger_glmnet <- freq_ranger_tuned$predict_newdata(df_freq[policies,])
+policies_ranger_glmnet <- freq_ranger_tuned$predict_newdata(df_freq[freMPL1$id %in% policies,])
 ```
 
 Then applying the estimator we obtain the estimates.
@@ -1329,23 +1331,23 @@ options(scipen = 999)
 
 | Policy | Exposure | $\hat \mu_X$ | $\hat p_X$ | $\hat \pi$ |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| 6257 | `r round(freMPL1$Exposure[6257],2)` | `r round(freMPL1$mu_hat[6257],2)` | `r round(freMPL1$p_hat[6257],5)` | `r round(freMPL1$pi_hat[6257],2)` | 
-| 24131 | `r round(freMPL1$Exposure[24131],2)` | `r round(freMPL1$mu_hat[24131],2)` | `r round(freMPL1$p_hat[24131],5)` | `r round(freMPL1$pi_hat[24131],2)` | 
-| 25018 | `r round(freMPL1$Exposure[25018],2)` | `r round(freMPL1$mu_hat[25018],2)` | `r round(freMPL1$p_hat[25018],5)` | `r round(freMPL1$pi_hat[25018],2)` | 
-| 25196 | `r round(freMPL1$Exposure[25196],2)` | `r round(freMPL1$mu_hat[25196],2)` | `r round(freMPL1$p_hat[25196],5)` | `r round(freMPL1$pi_hat[25196],2)` | 
-| 30503 | `r round(freMPL1$Exposure[30503],2)` | `r round(freMPL1$mu_hat[30503],2)` | `r round(freMPL1$p_hat[30503],5)` | `r round(freMPL1$pi_hat[30503],2)` | 
-| 30563 | `r round(freMPL1$Exposure[30563],2)` | `r round(freMPL1$mu_hat[30563],2)` | `r round(freMPL1$p_hat[30563],5)` | `r round(freMPL1$pi_hat[30563],2)` |
+| 6257 | `r round(freMPL1$Exposure[freMPL1$id == 6257],2)` | `r round(freMPL1$mu_hat[freMPL1$id == 6257],2)` | `r round(freMPL1$p_hat[freMPL1$id == 6257],5)` | `r round(freMPL1$pi_hat[freMPL1$id == 6257],2)` | 
+| 24131 | `r round(freMPL1$Exposure[freMPL1$id == 24131],2)` | `r round(freMPL1$mu_hat[freMPL1$id == 24131],2)` | `r round(freMPL1$p_hat[freMPL1$id == 24131],5)` | `r round(freMPL1$pi_hat[freMPL1$id == 24131],2)` | 
+| 25018 | `r round(freMPL1$Exposure[freMPL1$id == 25018],2)` | `r round(freMPL1$mu_hat[freMPL1$id == 25018],2)` | `r round(freMPL1$p_hat[freMPL1$id == 25018],5)` | `r round(freMPL1$pi_hat[freMPL1$id == 25018],2)` | 
+| 25196 | `r round(freMPL1$Exposure[freMPL1$id == 25196],2)` | `r round(freMPL1$mu_hat[freMPL1$id == 25196],2)` | `r round(freMPL1$p_hat[freMPL1$id == 25196],5)` | `r round(freMPL1$pi_hat[freMPL1$id == 25196],2)` | 
+| 30503 | `r round(freMPL1$Exposure[freMPL1$id == 30503],2)` | `r round(freMPL1$mu_hat[freMPL1$id == 30503],2)` | `r round(freMPL1$p_hat[freMPL1$id == 30503],5)` | `r round(freMPL1$pi_hat[freMPL1$id == 30503],2)` | 
+| 30563 | `r round(freMPL1$Exposure[freMPL1$id == 30563],2)` | `r round(freMPL1$mu_hat[freMPL1$id == 30563],2)` | `r round(freMPL1$p_hat[freMPL1$id == 30563],5)` | `r round(freMPL1$pi_hat[freMPL1$id == 30563],2)` |
 
 If we set the exposure to one we get new estimates and the technical price the insurance firm will give to new contracts.
 
 | Policy | Exposure | $\hat \mu_X$ | $\hat p_X$ | $\hat \pi$ |
 | :-: | :-: | :-: | :-: | :-: | :-: |
-| 6257 | 1 | `r round(m_mu_ranger_2[6257],2)` | `r round(m_p_ranger_2[6257],5)` | `r round(freMPL1$pi_hat_new[6257],2)` | 
-| 24131 | 1 | `r round(m_mu_ranger_2[24131],2)` | `r round(m_p_ranger_2[24131],5)` | `r round(freMPL1$pi_hat_new[24131],2)` | 
-| 25018 | 1 | `r round(m_mu_ranger_2[25018],2)` | `r round(m_p_ranger_2[25018],5)` | `r round(freMPL1$pi_hat_new[25018],2)` | 
-| 25196 | 1 | `r round(m_mu_ranger_2[25196],2)` | `r round(m_p_ranger_2[25196],5)` | `r round(freMPL1$pi_hat_new[25196],2)` | 
-| 30503 | 1 | `r round(m_mu_ranger_2[30503],2)` | `r round(m_p_ranger_2[30503],5)` | `r round(freMPL1$pi_hat_new[30503],2)` | 
-| 30563 | 1 | `r round(m_mu_ranger_2[30563],2)` | `r round(m_p_ranger_2[30563],5)` | `r round(freMPL1$pi_hat_new[30563],2)` | 
+| 6257 | 1 | `r round(m_mu_ranger_2[freMPL1$id == 6257],2)` | `r round(m_p_ranger_2[freMPL1$id == 6257],5)` | `r round(freMPL1$pi_hat_new[freMPL1$id == 6257],2)` | 
+| 24131 | 1 | `r round(m_mu_ranger_2[freMPL1$id == 24131],2)` | `r round(m_p_ranger_2[freMPL1$id == 24131],5)` | `r round(freMPL1$pi_hat_new[freMPL1$id == 24131],2)` | 
+| 25018 | 1 | `r round(m_mu_ranger_2[freMPL1$id == 25018],2)` | `r round(m_p_ranger_2[freMPL1$id == 25018],5)` | `r round(freMPL1$pi_hat_new[freMPL1$id == 25018],2)` | 
+| 25196 | 1 | `r round(m_mu_ranger_2[freMPL1$id == 25196],2)` | `r round(m_p_ranger_2[freMPL1$id == 25196],5)` | `r round(freMPL1$pi_hat_new[freMPL1$id == 25196],2)` | 
+| 30503 | 1 | `r round(m_mu_ranger_2[freMPL1$id == 30503],2)` | `r round(m_p_ranger_2[freMPL1$id == 30503],5)` | `r round(freMPL1$pi_hat_new[freMPL1$id == 30503],2)` | 
+| 30563 | 1 | `r round(m_mu_ranger_2[freMPL1$id == 30563],2)` | `r round(m_p_ranger_2[freMPL1$id == 30563],5)` | `r round(freMPL1$pi_hat_new[freMPL1$id == 30563],2)` | 
 
 In the table above we have altered the dataset with exposure set to 1 for all rows, to predict the price of a new contract i.e. with exposure of one year. One sees that the prices for the new contracts are larger than the technical price for the historical as the exposure is larger. Furthermore as expected we see that the estimate $\hat \mu_X$ does not depend on the exposure.
 
@@ -1424,6 +1426,8 @@ These changes may be read in the script below.
 ```{r, eval = FALSE}
 ## Feature selection and formatting
 data("freMPL1",package = "CASdatasets")
+#Add id
+freMPL1[,"id"] <- 1:dim(freMPL1)[1]
 
 #1: RecordBeg and RecordEnd discarded
 freMPL1 <- freMPL1 %>%
@@ -1490,7 +1494,7 @@ We start by preparing test and training data and start a task.
 #Get the severity data
 df_sev <- df %>% 
   filter(ClaimInd == 1) %>%
-  select(-Exposure)
+  select(-Exposure,-id)
 
 #Start a task
 task_sev <- df_sev %>%
@@ -1521,7 +1525,7 @@ Now we define a learner for each of the five estimators some will be tuned in th
 sev_gam_tuned_regr <- lrn("regr.gam") 
 indicators <- colnames(df)[!(colnames(df) %in% c("LicAge","BonusMalus",
                                                  "DrivAge","ClaimAmount",
-                                                 "Exposure","ClaimInd"))]
+                                                 "Exposure","ClaimInd","id"))]
 sev_gam_tuned_regr$param_set$values$formula <- reformulate(c("s(LicAge)",
                                                          "s(BonusMalus)",
                                                          "s(DrivAge)",
@@ -1712,7 +1716,7 @@ We start by preparing test and training data and start a task.
 df_freq <- df %>%
   mutate(ClaimInd = factor(ClaimInd, levels = c(0,1))) %>%
   #Make sure not to include ClaimAmount
-  select(-ClaimAmount)
+  select(-ClaimAmount,-id)
 
 #Start a task
 task_freq <- df_freq %>%
@@ -1743,7 +1747,7 @@ Now we define a learner for each of the five estimators some will be tuned in th
 freq_gam_tuned <- lrn("classif.gam",
                       predict_type = "prob")
 indicators <- colnames(df)[!(colnames(df) %in% c("LicAge","BonusMalus","DrivAge",
-                                                 "ClaimAmount","ClaimInd"))]
+                                                 "ClaimAmount","ClaimInd","id"))]
 freq_gam_tuned$param_set$values$formula <- reformulate(c("s(LicAge)",
                                                          "s(BonusMalus)",
                                                          "s(DrivAge)",
