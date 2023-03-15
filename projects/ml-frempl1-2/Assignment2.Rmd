@@ -1,0 +1,49 @@
+---
+title: "Comparing and Intereting Machine Learning Algorithms Estimating Technical Prices"
+author:
+  - name: "Joakim Bilyk, Sebastian Cramer and Teis Blem"
+    affiliation: "University of Copenhagen"
+date: "`r Sys.Date()`"
+abstract: "This document provides a practical example of applications of machine learning algorithms to car insurance data using the `mlr3` package. A popular model used in pricing of non-life insurance policies is the frequency-severity model, where the price is decomposed into the product of the probability of a claim arrises and the expected claim size given a claim occurs. This model is fitted using machine learning algorithms such as penalized linear regression and random forests. This paper argues that the ranger model gives a particular well fit to both the frequency and severity model."
+keywords: "mlr3, machine learning, regression, non-life insurance, estimating technical price, XGBoost, Ranger, Bart, Elastic net regression, Generalized Additive Models"
+header-includes:
+  - \usepackage{subfig}
+  - \usepackage{wrapfig}
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+    keep_tex: yes
+    template: template.tex
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc_float: yes
+    toc: yes
+    toc_depth: 2
+    highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
