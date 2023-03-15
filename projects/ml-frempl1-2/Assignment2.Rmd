@@ -83,8 +83,47 @@ select(-helper)
 First we set up the XGBoost learners with the hyperparameters tuned from the previous assignment.
 
 ```{r}
+df <- freMPL1 %>%
+  dummy_cols(.,select_columns = c("VehAge","MariStat","VehUsage",
+                                  "VehBody","VehPrice","VehEngine",
+                                  "VehEnergy","VehMaxSpeed","VehClass",
+                                  "Garage","SocioCateg","RiskVar"),
+             remove_selected_columns = TRUE)
+colnames(df) <- make.names(colnames(df))
+
+df_sev <- df %>% 
+  filter(ClaimInd == 1) %>%
+  select(-Exposure)
+
+#Start a task
+task_sev <- df_sev %>%
+  #Make sure not to include ClaimInd
+  select(-ClaimInd) %>%
+  #Start tast with target ClaimAmound
+  as_task_regr(.,
+               target = "ClaimAmount",
+               id= "Severity")
+
+
+df_freq <- df %>%
+  mutate(ClaimInd = factor(ClaimInd, levels = c(0,1))) %>%
+  #Make sure not to include ClaimAmount
+  select(-ClaimAmount)
+
+#Start a task
+task_freq <- df_freq %>%
+  #Start tast with target ClaimInd
+  as_task_classif(.,
+               target = "ClaimInd",
+               id= "Frequency")
+
+
 XGBoost_learner_sev <- lrn("regr.xgboost", eta = 0.246407, nrounds = 379, max_depth = 3)
 XGBoost_learner_freq <- lrn("classif.xgboost", eta = 0.196547, nrounds = 1747, max_depth = 3, predict_type = "prob")
+
+XGBoost_learner_sev$train(task_sev)
+XGBoost_learner_freq$train(task_freq)
+
 
 ```
 
