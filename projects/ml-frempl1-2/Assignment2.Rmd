@@ -39,6 +39,8 @@ library(ranger)
 library(mlr3viz)
 library(fastDummies)
 library(dplyr)
+library(xgboost)
+library(treeshap) #devtools::install_github('ModelOriented/treeshap')
 ## Feature selection and formatting
 data("freMPL1",package = "CASdatasets")
 #1: RecordBeg and RecordEnd discarded
@@ -118,22 +120,30 @@ task_freq <- df_freq %>%
                id= "Frequency")
 
 
-XGBoost_learner_sev <- lrn("regr.xgboost", eta = 0.246407, nrounds = 379, max_depth = 3)
-XGBoost_learner_freq <- lrn("classif.xgboost", eta = 0.196547, nrounds = 1747, max_depth = 3, predict_type = "prob")
+XGBoost_fitted_sev <- lrn("regr.xgboost", eta = 0.246407, nrounds = 379, max_depth = 3)
+XGBoost_fitted_freq <- lrn("classif.xgboost", eta = 0.196547, nrounds = 1747, max_depth = 3, predict_type = "prob")
 
-XGBoost_learner_sev$train(task_sev)
-XGBoost_learner_freq$train(task_freq)
+xgb_regr <- xgboost(data=as.matrix(df_sev[,-7]), label=as.numeric(df_sev[,1]), ta = 0.246407, nrounds = 379, max_depth = 3)
+xgb_freq <- xgboost(data=as.matrix(df_freq[,-7]), label=as.numeric(df_freq[,1]), ta = 0.246407, nrounds = 379, max_depth = 3, objective="count:poisson")
 
-
-da
-
-
-
+XGBoost_fitted_sev$train(task_sev)
+XGBoost_fitted_freq$train(task_freq)
 ```
 
 
 
 
+```{r}
+unified_xgb <- xgboost.unify(xgb_regr,data=as.matrix(df_freq[,-7]))
+
+treeshap_xgb <- treeshap(unified_xgb,  df_sev[, -7], verbose = 0)
+
+plot_contribution(treeshap_xgb, obs = 6257)  
+plot_feature_importance(treeshap_xgb, max_vars = 6) 
+plot_feature_dependence(treeshap_xgb, "Exposure")
+plot_feature_dependence(treeshap_xgb, "BonusMalus")
+plot_feature_dependence(treeshap_xgb, "DrivAge")
+```
 
 
 
