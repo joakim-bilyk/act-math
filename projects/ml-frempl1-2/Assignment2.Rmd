@@ -23,27 +23,75 @@ output:
     toc_depth: 2
     highlight: pygments
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+library(CASdatasets)
+library(lattice)
+library(evmix)
+library(ggplot2)
+library(mlr3)
+library(mlr3learners)
+library(mlr3extralearners)
+library(dbarts)
+library(mlr3mbo)
+library(mlr3measures)
+library(mlr3tuning)
+library(ranger)
+library(mlr3viz)
+library(fastDummies)
+library(dplyr)
+## Feature selection and formatting
+data("freMPL1",package = "CASdatasets")
+#1: RecordBeg and RecordEnd discarded
+freMPL1 <- freMPL1 %>%
+select(-RecordBeg,-RecordEnd)
+#1.1: Adding ID to rows
+freMPL1 <- cbind(freMPL1,ID = seq(nrow(freMPL1)))
+#2: Claim amount and indicator
+freMPL1$ClaimAmount[freMPL1$ClaimAmount<0] <- 0
+freMPL1$ClaimInd <- ifelse(freMPL1$ClaimAmount>0,1,0)
+#3: Electric or GPL vehicals
+freMPL1 <- freMPL1 %>%
+filter(!(VehEngine %in% c("electric","GPL")))
+#4: Combining price categories
+levels(freMPL1$VehPrice)[1:3] <- "A-C"
+n <- length(levels(freMPL1$VehPrice))
+levels(freMPL1$VehPrice)[(n-5):n] <- "U-Z"
+n <- length(levels(freMPL1$VehPrice))
+levels(freMPL1$VehPrice)[(n-3):(n-1)] <- "R-T"
+#5: Combining max speed levels
+levels(freMPL1$VehMaxSpeed)[1:2] <- "1-140 kmh"
+#6: Bus set to sedan
+levels(freMPL1$VehBody)[levels(freMPL1$VehBody) == "bus"] <- "sedan"
+#7: Gender discarded
+freMPL1 <- freMPL1 %>%
+select(-Gender)
+#8: SocioCateg change levels
+freMPL1 <- freMPL1 %>%
+#Get numerical value of SocioCateg
+mutate(helper = as.numeric(substr(SocioCateg,4,5))) %>%
+#Overwrite SocioCateg
+mutate(SocioCateg = factor(ifelse(helper > 50, "C",
+ifelse( helper < 50, "A",
+"B")),
+levels = c("A","B","C"))) %>%
+select(-helper)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+First we set up the XGBoost learners with the hyperparameters tuned from the previous assignment.
+
+```{r}
+XGBoost_learner_sev <- lrn("regr.xgboost", eta = 0.246407, nrounds = 379, max_depth = 3)
+XGBoost_learner_freq <- lrn("classif.xgboost", eta = 0.196547, nrounds = 1747, max_depth = 3, predict_type = "prob")
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
