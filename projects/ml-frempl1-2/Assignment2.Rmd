@@ -97,7 +97,7 @@ df_freq <- df %>%
 
 matrix(as.numeric(unlist(df_freq)),ncol = dim(df_freq)[2])
 xgb_regr <- xgboost(data=as.matrix(df_sev %>% select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 3)
-xgb_freq <- xgboost(data=as.matrix(df_freq), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
+xgb_freq <- xgboost(data=as.matrix(df_freq %>% select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 3, objective="count:poisson")
 ```
 
 
@@ -117,4 +117,21 @@ plot_feature_dependence(treeshap_xgb, "DrivAge")
 
 
 
+```{r}
+unified_xgb <- xgboost.unify(xgb_freq,data=as.matrix(df_freq %>% select(-ClaimInd)))
 
+treeshap_xgb <- treeshap(unified_xgb,  df_freq %>% select(-ClaimInd), verbose = 0)
+
+plot_contribution(treeshap_xgb, obs = )
+plot_feature_importance(treeshap_xgb, max_vars = 10) 
+plot_feature_dependence(treeshap_xgb, "Exposure")
+plot_feature_dependence(treeshap_xgb, "LicAge")
+plot_feature_dependence(treeshap_xgb, "BonusMalus")
+plot_feature_dependence(treeshap_xgb, "DrivAge")
+
+predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID, -ClaimAmount)))
+
+
+exp(-4.79)/(exp(-4.79)+1)/0.083
+```
+exp(-4.79)/(exp(-4.79)+1)
