@@ -40,6 +40,7 @@ library(mlr3viz)
 library(fastDummies)
 library(dplyr)
 library(xgboost)
+library(glex)
 library(treeshap) #devtools::install_github('ModelOriented/treeshap')
 ## Feature selection and formatting
 data("freMPL1",package = "CASdatasets")
@@ -140,15 +141,8 @@ predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID
 ```
 
 ```{r}
-library(xgboost)
-data <- fifa20$data[colnames(fifa20$data) != 'work_rate']
-target <- fifa20$target
-param <- list(objective = "reg:squarederror", max_depth = 3)
-xgb_model <- xgboost::xgboost(as.matrix(data), params = param, label = target, nrounds = 200)
-unified_model <- xgboost.unify(xgb_model, as.matrix(data))
-x <- head(data, 1)
-shap <- treeshap(unified_model, x)
-plot_contribution(shap, 1,  min_max = c(0, 120000000))
-predict(xgb_model, newdata = as.matrix(data[1,]))
+res <- glex(xgb_regr, as.matrix(df_sev$ClaimAmount))
+a
 ```
+
 
