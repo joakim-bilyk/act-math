@@ -89,13 +89,18 @@ colnames(df) <- make.names(colnames(df))
 
 df_sev <- df %>% 
   filter(ClaimInd == 1) %>%
-  select(-Exposure,-ID)
+  select(-Exposure)
+row.names(df_sev) <- df_sev$ID
+df_sev <- df_sev %>%
+  select(-ID)
 
 df_freq <- df %>%
   #Make sure not to include ClaimAmount
-  select(-ClaimAmount,-ID)
+  select(-ClaimAmount)
+row.names(df_freq) <- df_freq$ID
+df_freq <- df_freq %>%
+  select(-ID)
 
-matrix(as.numeric(unlist(df_freq)),ncol = dim(df_freq)[2])
 xgb_regr <- xgboost(data=as.matrix(df_sev %>% select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 3)
 xgb_freq <- xgboost(data=as.matrix(df_freq %>% select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 3, objective="count:poisson")
 ```
@@ -113,6 +118,7 @@ plot_feature_importance(treeshap_xgb, max_vars = 10)
 plot_feature_dependence(treeshap_xgb, "LicAge")
 plot_feature_dependence(treeshap_xgb, "BonusMalus")
 plot_feature_dependence(treeshap_xgb, "DrivAge")
+freMPL1[freMPL1$ID==6257,]
 ```
 
 
@@ -122,7 +128,7 @@ unified_xgb <- xgboost.unify(xgb_freq,data=as.matrix(df_freq %>% select(-ClaimIn
 
 treeshap_xgb <- treeshap(unified_xgb,  df_freq %>% select(-ClaimInd), verbose = 0)
 
-plot_contribution(treeshap_xgb, obs = )
+plot_contribution(treeshap_xgb, obs =  6254)
 plot_feature_importance(treeshap_xgb, max_vars = 10) 
 plot_feature_dependence(treeshap_xgb, "Exposure")
 plot_feature_dependence(treeshap_xgb, "LicAge")
@@ -131,11 +137,18 @@ plot_feature_dependence(treeshap_xgb, "DrivAge")
 
 predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID, -ClaimAmount)))
 
-
-exp(-4.79)/(exp(-4.79)+1)/0.083
 ```
 
-Here we are getting a logit transformed frequency from the plot, so in order to reverse the function one has to do the following:
-\begin{align*}
-      logit(y)=x \Rightarrow y=\frac{\exp(x)}{exp(x)+1}
-\end{align}
+```{r}
+library(xgboost)
+data <- fifa20$data[colnames(fifa20$data) != 'work_rate']
+target <- fifa20$target
+param <- list(objective = "reg:squarederror", max_depth = 3)
+xgb_model <- xgboost::xgboost(as.matrix(data), params = param, label = target, nrounds = 200)
+unified_model <- xgboost.unify(xgb_model, as.matrix(data))
+x <- head(data, 1)
+shap <- treeshap(unified_model, x)
+plot_contribution(shap, 1,  min_max = c(0, 120000000))
+predict(xgb_model, newdata = as.matrix(data[1,]))
+```
+
