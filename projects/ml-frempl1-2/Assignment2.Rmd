@@ -134,4 +134,8 @@ predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID
 
 exp(-4.79)/(exp(-4.79)+1)/0.083
 ```
-exp(-4.79)/(exp(-4.79)+1)
+
+Here we are getting a logit transformed frequency from the plot, so in order to reverse the function one has to do the following:
+\begin{align*}
+      logit(y)=x \Rightarrow y=\frac{\exp(x)}{exp(x)+1}
+\end{align}
