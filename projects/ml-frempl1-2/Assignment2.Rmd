@@ -23,7 +23,7 @@ output:
     toc_depth: 2
     highlight: pygments
 ---
-```{r}
+```{r setup}
 library(CASdatasets)
 library(lattice)
 library(evmix)
@@ -39,9 +39,13 @@ library(ranger)
 library(mlr3viz)
 library(fastDummies)
 library(dplyr)
+library(patchwork)
 library(xgboost)
 library(glex)
 library(treeshap) #devtools::install_github('ModelOriented/treeshap')
+```
+
+```{r}
 ## Feature selection and formatting
 data("freMPL1",package = "CASdatasets")
 #1: RecordBeg and RecordEnd discarded
@@ -141,8 +145,16 @@ predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID
 ```
 
 ```{r}
-res <- glex(xgb_regr, as.matrix(df_sev$ClaimAmount))
-a
+res <- glex(xgb_regr, as.matrix(1))
+theme_set(theme_minimal(base_size = 13))
+vi_xgb <- glex_vi(res)
+
+p_vi <- autoplot(vi_xgb, threshold = 0) + 
+  labs(title = NULL, tag = "XGBoost-explanation")
+
+p_vi+
+  plot_annotation(title = "Variable importance scores by term") & 
+  theme(plot.tag.position = "bottomleft")
 ```
 
 
