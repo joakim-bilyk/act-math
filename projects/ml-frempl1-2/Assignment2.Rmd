@@ -96,8 +96,8 @@ df_freq <- df %>%
   select(-ClaimAmount,-ID)
 
 matrix(as.numeric(unlist(df_freq)),ncol = dim(df_freq)[2])
-xgb_regr <- xgboost(data=as.matrix(df_sev), label=as.numeric(df_sev[,"ClaimAmount"]), ta = 0.246407, nrounds = 379, max_depth = 3)
-xgb_freq <- xgboost(data=as.matrix(df_freq), label=as.numeric(df_freq[,"ClaimInd"]), ta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
+xgb_regr <- xgboost(data=as.matrix(df_sev), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 379, max_depth = 3)
+xgb_freq <- xgboost(data=as.matrix(df_freq), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
 ```
 
 
@@ -106,7 +106,7 @@ xgb_freq <- xgboost(data=as.matrix(df_freq), label=as.numeric(df_freq[,"ClaimInd
 ```{r}
 unified_xgb <- xgboost.unify(xgb_regr,data=as.matrix(df_sev %>% select(-ClaimAmount)))
 
-treeshap_xgb <- treeshap(unified_xgb,  df_sev, verbose = 0)
+treeshap_xgb <- treeshap(unified_xgb,  df_sev %>% select(-ClaimAmount), verbose = 0)
 
 plot_contribution(treeshap_xgb, obs = 6257)  
 plot_feature_importance(treeshap_xgb, max_vars = 6) 
