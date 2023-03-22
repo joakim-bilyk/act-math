@@ -50,7 +50,7 @@ library(treeshap) #devtools::install_github('ModelOriented/treeshap')
 data("freMPL1",package = "CASdatasets")
 #1: RecordBeg and RecordEnd discarded
 freMPL1 <- freMPL1 %>%
-select(-RecordBeg,-RecordEnd)
+dplyr::select(-RecordBeg,-RecordEnd)
 #1.1: Adding ID to rows
 freMPL1 <- cbind(freMPL1,ID = seq(nrow(freMPL1)))
 #2: Claim amount and indicator
@@ -78,45 +78,75 @@ mutate(SocioCateg = factor(ifelse(helper > 50, "C",
 ifelse( helper < 50, "A",
 "B")),
 levels = c("A","B","C"))) %>%
-select(-helper)
+dplyr::select(-helper)
 ```
 
 First we set up the XGBoost learners with the hyperparameters tuned from the previous assignment.
 
 ```{r}
-df <- freMPL1 %>%
-  dummy_cols(.,select_columns = c("VehAge","MariStat","VehUsage",
-                                  "VehBody","VehPrice","VehEngine",
-                                  "VehEnergy","VehMaxSpeed","VehClass",
-                                  "Garage","SocioCateg","RiskVar","Gender"),
-             remove_selected_columns = TRUE)
-colnames(df) <- make.names(colnames(df))
+df <- freMPL1
+levels(df$VehAge) <- c("0",  "1"  , "8" ,"2"  , "3" ,  "4"  ,"5"   ,"6", "7")
+levels(df$Gender) <- c(0,1)
+levels(df$MariStat) <- c(0,1)
+levels(df$SocioCateg) <- c(0,1,2)
+levels(df$VehUsage) <- c(0,1,2,3)
+levels(df$VehBody) <- c(0,1,2,3,4,5,6,7)
+levels(df$VehPrice) <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+levels(df$VehEnergy) <- c(0,1,2,3)
+levels(df$VehEngine) <- c(0,1,2,3,4,5)
+levels(df$VehMaxSpeed) <- c(0,1,2,3,4,5,6,7,8)
+levels(df$VehClass) <- c(0,1,2,3,4,5)
+levels(df$Garage) <- c(0,1,2)
+df$VehAge<-as.numeric(df$VehAge)
+df$Gender<-as.numeric(df$Gender)
+df$MariStat<-as.numeric(df$MariStat)
+df$SocioCateg<-as.numeric(df$SocioCateg)
+df$VehUsage<- as.numeric(df$VehUsage)
+df$VehBody<-as.numeric(df$VehBody)
+df$VehPrice<-as.numeric(df$VehPrice)
+df$VehMaxSpeed<-as.numeric(df$VehMaxSpeed)
+df$VehClass<-as.numeric(df$VehClass)
+df$VehEngine<-as.numeric(df$VehEngine)
+df$Garage<-as.numeric(df$Garage)
+df$VehEnergy <- as.numeric(df$VehEnergy)
+
 
 df_sev <- df %>% 
   filter(ClaimInd == 1) %>%
-  select(-Exposure)
+  dplyr::select(-Exposure)
 row.names(df_sev) <- df_sev$ID
 df_sev <- df_sev %>%
-  select(-ID)
+  dplyr::select(-ID)
 
 df_freq <- df %>%
   #Make sure not to include ClaimAmount
-  select(-ClaimAmount)
+  dplyr::select(-ClaimAmount)
 row.names(df_freq) <- df_freq$ID
 df_freq <- df_freq %>%
-  select(-ID)
+  dplyr::select(-ID)
 
-xgb_regr <- xgboost(data=as.matrix(df_sev %>% select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 3)
-xgb_freq <- xgboost(data=as.matrix(df_freq %>% select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 3, objective="count:poisson")
+xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 3)
+xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 3, objective="count:poisson")
 ```
 
-
+VehAge: 6-7=6 , 8-9 = 7,  10+= 8
+Gender: female = 0, male =1
+Maristat: alone=0, other = 1
+Socialcateg: A,B,C = 0,1,2
+VehUsage: Private=0, private+triptooffice=1, professional = 2, professional run =3 
+VehBody: seda=0, cabriolet=1,coupe=2,microvan=3, othermicrovan=4, sport=5, station wagon=6, van=7
+Price: c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) = "A-C" "D"   "E"   "F"   "G"   "H"   "I"   "J"   "K"   "L"   "M"   "N"   "O"   "P"   "Q"   "R-T" "U-Z"
+Engine: c(0,1,2,3,4,5) =  "carburation" "direct injection overpowered" "electric"   "GPL"    "injection"  "injection overpowered" 
+Maxspeed: "1-140 kmh" "140-150 km/h" "150-160 km/h" "160-170 km/h" "170-180 km/h" "180-190 km/h" "190-200 km/h" "200-220 km/h" "220+ km/h" = c(0,1,2,3,4,5,6,7,8)
+Class: "0"  "A"  "B"  "H"  "M1" "M2"=c(0,1,2,3,4,5)
+Garage: "Collective garage" "None"              "Private garage"  =  c(0,1,2)
+Energy: c(0,1,2,3) = "diesel"  "eletric" "GPL"     "regular"
 
 
 ```{r}
-unified_xgb <- xgboost.unify(xgb_regr,data=as.matrix(df_sev%>% select(-ClaimAmount)))
+unified_xgb <- xgboost.unify(xgb_regr,data=as.matrix(df_sev%>% dplyr::select(-ClaimAmount)))
 
-treeshap_xgb <- treeshap(unified_xgb,  df_sev %>% select(-ClaimAmount), verbose = 0)
+treeshap_xgb <- treeshap(unified_xgb,  df_sev %>% dplyr::select(-ClaimAmount), verbose = 0)
 
 #plot_contribution(treeshap_xgb, obs = 6257)   -  code does not work
 plot_feature_importance(treeshap_xgb, max_vars = 10) 
@@ -129,9 +159,9 @@ freMPL1[freMPL1$ID==6257,]
 
 
 ```{r}
-unified_xgb <- xgboost.unify(xgb_freq,data=as.matrix(df_freq %>% select(-ClaimInd)))
+unified_xgb <- xgboost.unify(xgb_freq,data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)))
 
-treeshap_xgb <- treeshap(unified_xgb,  df_freq %>% select(-ClaimInd), verbose = 0)
+treeshap_xgb <- treeshap(unified_xgb,  df_freq %>% dplyr::select(-ClaimInd), verbose = 0)
 
 plot_contribution(treeshap_xgb, obs =  6254)
 plot_feature_importance(treeshap_xgb, max_vars = 10) 
