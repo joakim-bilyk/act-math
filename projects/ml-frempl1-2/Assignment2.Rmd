@@ -81,10 +81,12 @@ levels = c("A","B","C"))) %>%
 dplyr::select(-helper)
 ```
 
+c(6254,24123,25010,25188,30495,30555)
+
 First we set up the XGBoost learners with the hyperparameters tuned from the previous assignment.
 
 ```{r}
-df <- freMPL1
+df <- freMPL1 
 levels(df$VehAge) <- c("0",  "1"  , "8" ,"2"  , "3" ,  "4"  ,"5"   ,"6", "7")
 levels(df$Gender) <- c(0,1)
 levels(df$MariStat) <- c(0,1)
@@ -125,18 +127,22 @@ row.names(df_freq) <- df_freq$ID
 df_freq <- df_freq %>%
   dplyr::select(-ID)
 
-df_ff <- df_sev %>% 
-  dplyr::select(ClaimAmount,DrivAge,Gender)
+df_gender <- df %>% 
+  dplyr::select(-Gender)
+row.names(df_sev) <- df_sev$ID
+df_gender <- df_gender %>%
+  dplyr::select(-ID)
 
-xgb_regr <- xgboost(data=as.matrix(df_ff %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_ff[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 2)
+df_gender_sev <- df_gender %>% 
+  filter(ClaimInd == 1) %>%
+  dplyr::select(-Exposure)
 
+df_gender_freq <- df_gender%>%
+  #Make sure not to include ClaimAmount
+  dplyr::select(-ClaimAmount)
 ```
 
-
-```{r}
-xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 2)
-xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 2, objective="count:poisson")
-```
++1
 
 VehAge: 6-7=6 , 8-9 = 7,  10+= 8
 Gender: female = 0, male =1
@@ -150,6 +156,15 @@ Maxspeed: "1-140 kmh" "140-150 km/h" "150-160 km/h" "160-170 km/h" "170-180 km/h
 Class: "0"  "A"  "B"  "H"  "M1" "M2"=c(0,1,2,3,4,5)
 Garage: "Collective garage" "None"              "Private garage"  =  c(0,1,2)
 Energy: c(0,1,2,3) = "diesel"  "eletric" "GPL"     "regular"
+
+```{r}
+xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 500, max_depth = 2)
+xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1700, max_depth = 2, objective="count:poisson")
+
+xgb_gender_freq <- xgboost(data=as.matrix(df_gender_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_gender_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1700, max_depth = 2, objective="count:poisson")
+xgb_gender_sev <- xgboost(data=as.matrix(df_gender_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_gender_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 500, max_depth = 2)
+```
+
 
 
 ```{r}
@@ -184,16 +199,53 @@ predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID
 ```
 
 ```{r}
-res <- glex(xgb_regr, as.matrix(df_sev$ClaimAmount))
-theme_set(theme_minimal(base_size = 13))
+res <- glex(xgb_regr, as.matrix(df))
+theme_set(theme_minimal(base_size = 10))
 vi_xgb <- glex_vi(res)
 
-p_vi <- autoplot(vi_xgb, threshold = 0) + 
+p_vi <- autoplot(vi_xgb, threshold = 200) + 
   labs(title = NULL, tag = "XGBoost-explanation")
 
 p_vi+
   plot_annotation(title = "Variable importance scores by term") & 
   theme(plot.tag.position = "bottomleft")
+
+res$m <- res$m %>%
+  select(-contains("Gender"))
+unbias_sev <- res$intercept + rowSums(res$m)
+
 ```
+
+
+
+```{r}
+res_freq <- glex(xgb_freq, as.matrix(df_freq))
+theme_set(theme_minimal(base_size = 13))
+vi_xgb <- glex_vi(res_freq)
+
+p_vi <- autoplot(vi_xgb, threshold = 0.04) + 
+  labs(title = NULL, tag = "XGBoost-explanation")
+
+p_vi+
+  plot_annotation(title = "Variable importance scores by term") & 
+  theme(plot.tag.position = "bottomleft")
+
+
+res_freq$m <- res_freq$m %>%
+  select(-contains("Gender"))
+unbias_freq <- res_freq$intercept + rowSums(res_freq$m)
+unbias_freq <- exp(unbias_freq)
+```
+
+
+
+```{r}
+unbias <- unbias_freq*unbias_sev
+skalar <- sum(freMPL1$ClaimAmount)/sum(unbias)
+unbias[c(6254,24123,25010,25188,30495,30555)]*skalar #unbiased
+predict(xgb_regr, newdata = as.matrix(df[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-Exposure, -ID)))*predict(xgb_freq, newdata = as.matrix(df[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-ID, -ClaimInd))) #with gender
+predict(xgb_gender_sev, newdata = as.matrix(df_gender[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-Exposure)))*predict(xgb_gender_freq, newdata = as.matrix(df_gender[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount, -ClaimInd))) #without gender
+```
+        F        F         M           M        F         M
 
 
