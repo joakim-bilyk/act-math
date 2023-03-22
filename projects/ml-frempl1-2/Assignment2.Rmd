@@ -30,7 +30,7 @@ library(evmix)
 library(ggplot2)
 library(mlr3)
 library(mlr3learners)
-library(mlr3extralearners)
+#library(mlr3extralearners)
 library(dbarts)
 library(mlr3mbo)
 library(mlr3measures)
@@ -41,7 +41,7 @@ library(fastDummies)
 library(dplyr)
 library(patchwork)
 library(xgboost)
-library(glex)
+library(glex) #remotes::install_github("PlantedML/glex")
 library(treeshap) #devtools::install_github('ModelOriented/treeshap')
 ```
 
@@ -125,8 +125,8 @@ row.names(df_freq) <- df_freq$ID
 df_freq <- df_freq %>%
   dplyr::select(-ID)
 
-xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 3)
-xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 3, objective="count:poisson")
+xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 2)
+xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 2, objective="count:poisson")
 ```
 
 VehAge: 6-7=6 , 8-9 = 7,  10+= 8
