@@ -125,6 +125,15 @@ row.names(df_freq) <- df_freq$ID
 df_freq <- df_freq %>%
   dplyr::select(-ID)
 
+df_ff <- df_sev %>% 
+  dplyr::select(ClaimAmount,DrivAge,Gender)
+
+xgb_regr <- xgboost(data=as.matrix(df_ff %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_ff[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 2)
+
+```
+
+
+```{r}
 xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 4000, max_depth = 2)
 xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 4000, max_depth = 2, objective="count:poisson")
 ```
@@ -175,7 +184,7 @@ predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID
 ```
 
 ```{r}
-res <- glex(xgb_regr, as.matrix(1))
+res <- glex(xgb_regr, as.matrix(df_sev$ClaimAmount))
 theme_set(theme_minimal(base_size = 13))
 vi_xgb <- glex_vi(res)
 
