@@ -79,26 +79,25 @@ ifelse( helper < 50, "A",
 "B")),
 levels = c("A","B","C"))) %>%
 dplyr::select(-helper)
+freMPL1_sev <- freMPL1[freMPL1$ClaimAmount>0,]
 ```
-
-c(6254,24123,25010,25188,30495,30555)
 
 First we set up the XGBoost learners with the hyperparameters tuned from the previous assignment.
 
 ```{r}
 df <- freMPL1 
 levels(df$VehAge) <- c("0",  "1"  , "8" ,"2"  , "3" ,  "4"  ,"5"   ,"6", "7")
-levels(df$Gender) <- c(0,1)
-levels(df$MariStat) <- c(0,1)
-levels(df$SocioCateg) <- c(0,1,2)
-levels(df$VehUsage) <- c(0,1,2,3)
-levels(df$VehBody) <- c(0,1,2,3,4,5,6,7)
-levels(df$VehPrice) <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
-levels(df$VehEnergy) <- c(0,1,2,3)
-levels(df$VehEngine) <- c(0,1,2,3,4,5)
-levels(df$VehMaxSpeed) <- c(0,1,2,3,4,5,6,7,8)
-levels(df$VehClass) <- c(0,1,2,3,4,5)
-levels(df$Garage) <- c(0,1,2)
+levels(df$Gender) <- c(1,2)
+levels(df$MariStat) <- c(1,2)
+levels(df$SocioCateg) <- c(1,2,3)
+levels(df$VehUsage) <- c(1,2,3,4)
+levels(df$VehBody) <- c(1,2,3,4,5,6,7,8)
+levels(df$VehPrice) <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)
+levels(df$VehEnergy) <- c(1,2,3,4)
+levels(df$VehEngine) <- c(1,2,3,4,5,6)
+levels(df$VehMaxSpeed) <- c(1,2,3,4,5,6,7,8,9)
+levels(df$VehClass) <- c(1,2,3,4,5,6)
+levels(df$Garage) <- c(1,2,3)
 df$VehAge<-as.numeric(df$VehAge)
 df$Gender<-as.numeric(df$Gender)
 df$MariStat<-as.numeric(df$MariStat)
@@ -111,7 +110,6 @@ df$VehClass<-as.numeric(df$VehClass)
 df$VehEngine<-as.numeric(df$VehEngine)
 df$Garage<-as.numeric(df$Garage)
 df$VehEnergy <- as.numeric(df$VehEnergy)
-
 
 df_sev <- df %>% 
   filter(ClaimInd == 1) %>%
@@ -142,45 +140,44 @@ df_gender_freq <- df_gender%>%
   dplyr::select(-ClaimAmount)
 ```
 
-+1
-
 VehAge: 6-7=6 , 8-9 = 7,  10+= 8
-Gender: female = 0, male =1
-Maristat: alone=0, other = 1
-Socialcateg: A,B,C = 0,1,2
-VehUsage: Private=0, private+triptooffice=1, professional = 2, professional run =3 
-VehBody: seda=0, cabriolet=1,coupe=2,microvan=3, othermicrovan=4, sport=5, station wagon=6, van=7
-Price: c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) = "A-C" "D"   "E"   "F"   "G"   "H"   "I"   "J"   "K"   "L"   "M"   "N"   "O"   "P"   "Q"   "R-T" "U-Z"
-Engine: c(0,1,2,3,4,5) =  "carburation" "direct injection overpowered" "electric"   "GPL"    "injection"  "injection overpowered" 
-Maxspeed: "1-140 kmh" "140-150 km/h" "150-160 km/h" "160-170 km/h" "170-180 km/h" "180-190 km/h" "190-200 km/h" "200-220 km/h" "220+ km/h" = c(0,1,2,3,4,5,6,7,8)
-Class: "0"  "A"  "B"  "H"  "M1" "M2"=c(0,1,2,3,4,5)
-Garage: "Collective garage" "None"              "Private garage"  =  c(0,1,2)
-Energy: c(0,1,2,3) = "diesel"  "eletric" "GPL"     "regular"
+Gender: female = 1, male =2
+Maristat: alone=1, other = 2
+Socialcateg: A,B,C = 1,2,3
+VehUsage: Private=1, private+triptooffice=2, professional = 3, professional run =4
+VehBody: seda=1, cabriolet=2,coupe=3,microvan=4, othermicrovan=5, sport=6, station wagon=7, van=8
+Price: c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17) = "A-C" "D"   "E"   "F"   "G"   "H"   "I"   "J"   "K"   "L"   "M"   "N"   "O"   "P"   "Q"   "R-T" "U-Z"
+Engine: c(1,2,3,4,5,6) =  "carburation" "direct injection overpowered" "electric"   "GPL"    "injection"  "injection overpowered" 
+Maxspeed: "1-140 kmh" "140-150 km/h" "150-160 km/h" "160-170 km/h" "170-180 km/h" "180-190 km/h" "190-200 km/h" "200-220 km/h" "220+ km/h" = c(1,2,3,4,5,6,7,8,9)
+Class: "0"  "A"  "B"  "H"  "M1" "M2"=c(1,2,3,4,5,6)
+Garage: "Collective garage" "None"              "Private garage"  =  c(1,2,3)
+Energy: c(1,2,3,4) = "diesel"  "eletric" "GPL"     "regular"
 
 ```{r}
-xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 500, max_depth = 2)
-xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1700, max_depth = 2, objective="count:poisson")
+xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.017881, nrounds = 5000, max_depth = 3)
+xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
 
-xgb_gender_freq <- xgboost(data=as.matrix(df_gender_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_gender_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1700, max_depth = 2, objective="count:poisson")
-xgb_gender_sev <- xgboost(data=as.matrix(df_gender_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_gender_sev[,"ClaimAmount"]), eta = 0.246407, nrounds = 500, max_depth = 2)
+xgb_gender_freq <- xgboost(data=as.matrix(df_gender_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_gender_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
+xgb_gender_sev <- xgboost(data=as.matrix(df_gender_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_gender_sev[,"ClaimAmount"]), eta = 0.017881, nrounds = 5000, max_depth = 3)
 ```
 
-
+Now we can try and explain our xgboost model with the following plots;
 
 ```{r}
 unified_xgb <- xgboost.unify(xgb_regr,data=as.matrix(df_sev%>% dplyr::select(-ClaimAmount)))
 
 treeshap_xgb <- treeshap(unified_xgb,  df_sev %>% dplyr::select(-ClaimAmount), verbose = 0)
 
-#plot_contribution(treeshap_xgb, obs = 6257)   -  code does not work
+plot_contribution(treeshap_xgb,obs=200, min_max = c(1750,2750))
 plot_feature_importance(treeshap_xgb, max_vars = 10) 
 plot_feature_dependence(treeshap_xgb, "LicAge")
-plot_feature_dependence(treeshap_xgb, "BonusMalus")
+plot_feature_dependence(treeshap_xgb, "VehPrice")
 plot_feature_dependence(treeshap_xgb, "DrivAge")
-freMPL1[freMPL1$ID==6257,]
 ```
 
-
+From the first plot one can try to get an impression of how the model deals with a singel observation. In the plot we are looking at the observation number 200 with a claim in our dataset. From the plot we can see that the civil status of the individual, being alone, is influencing the claim amount to be smaller. Furthermore we see that the vehicle being in class A increases, having riskVar 15 decreases, the driver being age 46 decreases, have had his/her license for 304 months increases the claim amount, given a claim is bound to happen. 
+From the second plot above we see a ranking of the most important features in the model over all observations, in terms of change in SHAP values. It is seen in the severity model that it is the most important factor how experienced you are behind the wheel.
+From the other plots you get to see why the features are important; for different levels of the feature, or different regions of levels, the SHAP values change somewhat drastically. 
 
 ```{r}
 unified_xgb <- xgboost.unify(xgb_freq,data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)))
@@ -193,10 +190,10 @@ plot_feature_dependence(treeshap_xgb, "Exposure")
 plot_feature_dependence(treeshap_xgb, "LicAge")
 plot_feature_dependence(treeshap_xgb, "BonusMalus")
 plot_feature_dependence(treeshap_xgb, "DrivAge")
-
-predict(xgb_freq, newdata = as.matrix(df[df$ID==6257,] %>% select(-ClaimInd, -ID, -ClaimAmount)))
-
 ```
+
+The plots are the same as before, only now we see that it is exposure that is the single biggest contributor/being the most importaint feature. This is also very clearly seen from the feature dependence plot where the more exposure you are subject to the higher the SHAp values get.
+
 
 ```{r}
 res <- glex(xgb_regr, as.matrix(df))
@@ -242,9 +239,17 @@ unbias_freq <- exp(unbias_freq)
 ```{r}
 unbias <- unbias_freq*unbias_sev
 skalar <- sum(freMPL1$ClaimAmount)/sum(unbias)
-unbias[c(6254,24123,25010,25188,30495,30555)]*skalar #unbiased
-predict(xgb_regr, newdata = as.matrix(df[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-Exposure, -ID)))*predict(xgb_freq, newdata = as.matrix(df[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-ID, -ClaimInd))) #with gender
-predict(xgb_gender_sev, newdata = as.matrix(df_gender[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-Exposure)))*predict(xgb_gender_freq, newdata = as.matrix(df_gender[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount, -ClaimInd))) #without gender
+unbiased <- unbias[c(6254,24123,25010,25188,30495,30555)]*skalar #unbiased
+
+with_gender <- predict(xgb_regr, newdata = as.matrix(df[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-Exposure, -ID)))*predict(xgb_freq, newdata = as.matrix(df[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-ID, -ClaimInd))) #with gender
+
+no_gender <- predict(xgb_gender_sev, newdata = as.matrix(df_gender[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount,-Exposure)))*predict(xgb_gender_freq, newdata = as.matrix(df_gender[c(6254,24123,25010,25188,30495,30555),]%>% dplyr::select(-ClaimAmount, -ClaimInd)))#without gender
+
+ex <- df$Exposure[c(6254,24123,25010,25188,30495,30555)]
+
+unbiased/ex
+with_gender/ex
+no_gender/ex
 ```
         F        F         M           M        F         M
 
