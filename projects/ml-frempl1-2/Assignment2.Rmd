@@ -154,11 +154,11 @@ Garage: "Collective garage" "None"              "Private garage"  =  c(1,2,3)
 Energy: c(1,2,3,4) = "diesel"  "eletric" "GPL"     "regular"
 
 ```{r}
-xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.017881, nrounds = 5000, max_depth = 3)
-xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
+xgb_regr <- xgboost(data=as.matrix(df_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_sev[,"ClaimAmount"]), eta = 0.089492, nrounds = 4925, max_depth = 3)
+xgb_freq <- xgboost(data=as.matrix(df_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_freq[,"ClaimInd"]), eta = 0.172823, nrounds = 2085, max_depth = 3, objective="count:poisson")
 
-xgb_gender_freq <- xgboost(data=as.matrix(df_gender_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_gender_freq[,"ClaimInd"]), eta = 0.196547, nrounds = 1747, max_depth = 3, objective="count:poisson")
-xgb_gender_sev <- xgboost(data=as.matrix(df_gender_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_gender_sev[,"ClaimAmount"]), eta = 0.017881, nrounds = 5000, max_depth = 3)
+xgb_gender_freq <- xgboost(data=as.matrix(df_gender_freq %>% dplyr::select(-ClaimInd)), label=as.numeric(df_gender_freq[,"ClaimInd"]), eta = 0.172823, nrounds = 2085, max_depth = 3, objective="count:poisson")
+xgb_gender_sev <- xgboost(data=as.matrix(df_gender_sev %>% dplyr::select(-ClaimAmount)), label=as.numeric(df_gender_sev[,"ClaimAmount"]), eta = 0.089492, nrounds = 4925, max_depth = 3)
 ```
 
 Now we can try and explain our xgboost model with the following plots;
