@@ -504,6 +504,93 @@ depend on the exposure.
 \hypertarget{decomposing-the-estimates}{%
 \section{Decomposing the estimates}\label{decomposing-the-estimates}}
 
+When fitting a algorithm such as XGBoost it can be difficult to
+interpret how, when it comes to pricing, the model is affected by the
+risk factors \(X\). Certainly, one could try to uncover the dynamics of
+the algorithm by studying the structure of the trees and making an
+outline of all leaves. However since most models consist of hundreds if
+not thousand of trees this task would be tidies and even though this is
+possible one would probably be left with more new questions than the
+ones answered.
+
+\begin{figure}[h]
+    \centering
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/tree_1.png} }}
+    \qquad
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/tree_2.png} }}
+    \caption{(a): Tree number 101 in $\hat m^{(biased)}_\mu(X)$. (b): Tree number 1 in $\hat m^{(biased)}_p(X)$.}
+\end{figure}
+
+Above one can see how one selected tree from either one of the decision
+trees of \(\hat m^{(biased)}_\mu\) and \(\hat m^{(biased)}_p\)
+contribute to the estimate. For instance for the severity model we see
+that the space \(\mathcal X\) is separated into four leaves where the
+estimate up until tree number 100 will be increased with a factor of
+\(\exp(\hat f_k(X))\). To be specific we see that
+
+\begin{align*}
+\exp(\hat f_k(X))=\begin{cases}
+  1+1.39\cdot 10^{-3} & \text{if}\qquad  \text{LicAge}<438.5\\
+  1+184.12\cdot 10^{-3} & \text{if}\qquad  438.5\le \text{LicAge}<439.5\\
+  1-161.40\cdot 10^{-3} & \text{if}\qquad  \text{LicAge}\ge 439.5\text{ and MariStat\_Sev}=0\\
+  1-4.44\cdot 10^{-3} & \text{if}\qquad \text{LicAge}\ge 439.5\text{ and MariStat\_Sev}=1
+\end{cases}
+\end{align*}
+
+Likewise we see that the frequency model changes the estimates with a
+factor of
+
+\begin{align*}
+\exp(\hat g_k(X))=\begin{cases}
+  1-52.46\cdot 10^{-3} & \text{if}\qquad  \text{Exposure}<0.1215\\
+  1-46.67\cdot 10^{-3} & \text{if}\qquad 0.1215\le \text{Exposure}<0.4225\\
+  1-40.58\cdot 10^{-3} & \text{if}\qquad  0.4225\le \text{Exposure}<0.6875\\
+  1-34.10\cdot 10^{-3} & \text{if}\qquad  0.6875\le \text{Exposure}
+\end{cases}
+\end{align*}
+
+The reader will notice that exposure is the first variable used in
+improving the estimate indicating the the probability of an insurance
+event is highly correlated with the amount of exposure. This is
+consistent with the assumption that the number of claims is poisson
+distributed and claims arrives as a poisson count process.
+
+\begin{figure}[h]
+    \centering
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/sev_tree_converge.png} }}
+    \qquad
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/freq_tree_converge.png} }}
+    \caption{Convergence of estimator for the first 10 policies.}
+\end{figure}
+
+Running through every step we can plot how the model estimate approaches
+a value for each added tree. Above we see how the algorithm predicts the
+first 10 policies by applying the improvement \(\exp(\hat f_k(X))\) for
+\(k=1,...,K\) and \(\exp(\hat g_l(X))\) for \(l=1,...,L\) for the two
+estimator. This picture gives us an indication of how robust the
+estimates are, but if we want to decompose the final estimate into
+contributions from each covariates we will have to turn to another tool.
+
+\hypertarget{breakdown-of-the-severity-estimator}{%
+\subsection{Breakdown of the severity
+estimator}\label{breakdown-of-the-severity-estimator}}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/sev_shap_breakdown.png}
+    \caption{Decomposition of the severity estimates for the policies 6254, 24123, 25010, 25188, 30495 and 30555. The intercept of the model is approximatly 2550. The prediction deviation gives the logarithm of the factor multiplier. That is the estimate for the policy 6254 is $2550\cdot \exp(-0.886)\approx 1050$ as seen in table 1.}
+\end{figure}
+
+\hypertarget{breakdown-of-the-frequency-estimator}{%
+\subsection{Breakdown of the frequency
+estimator}\label{breakdown-of-the-frequency-estimator}}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/freq_shap_breakdown.png}
+    \caption{Decomposition of the frequency estimates for the policies 6254, 24123, 25010, 25188, 30495 and 30555. The prediction deviation gives the logarithm of the factor multiplier.}
+\end{figure}
+
 \newpage
 
 \hypertarget{discrimination-and-debaissing-of-the-model}{%
@@ -843,7 +930,6 @@ hyperparameters}\label{estimating-hyperparameters}}
 \begin{Highlighting}[]
 \CommentTok{\#Start a task}
 \NormalTok{task\_sev }\OtherTok{\textless{}{-}}\NormalTok{ df\_sev }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ClaimAmount =}\NormalTok{ ClaimAmount) }\SpecialCharTok{\%\textgreater{}\%}
   \CommentTok{\#Start tast with target ClaimAmount}
   \FunctionTok{as\_task\_regr}\NormalTok{(.,}
                \AttributeTok{target =} \StringTok{"ClaimAmount"}\NormalTok{,}
@@ -864,7 +950,7 @@ hyperparameters}\label{estimating-hyperparameters}}
   \AttributeTok{task =}\NormalTok{ task\_sev,}
   \AttributeTok{learner =}\NormalTok{ sev\_xgb\_learner,}
   \AttributeTok{resampling =} \FunctionTok{rsmp}\NormalTok{(}\StringTok{"cv"}\NormalTok{, }\AttributeTok{folds =} \DecValTok{5}\NormalTok{), }\DocumentationTok{\#\#\#\# resampling method: 5{-}fold cross validation}
-  \AttributeTok{measures =} \FunctionTok{msr}\NormalTok{(}\StringTok{"regr.mse"}\NormalTok{), }\DocumentationTok{\#\#\#\# Root Mean Squared Log Error}
+  \AttributeTok{measures =} \FunctionTok{msr}\NormalTok{(}\StringTok{"regr.rmse"}\NormalTok{), }\DocumentationTok{\#\#\#\# Root Mean Squared Log Error}
   \AttributeTok{terminator =} \FunctionTok{trm}\NormalTok{(}\StringTok{"evals"}\NormalTok{, }\AttributeTok{n\_evals =} \DecValTok{1000}\NormalTok{) }\DocumentationTok{\#\#\#\# terminator}
 \NormalTok{)}
 \CommentTok{\#Save the instance}
@@ -891,9 +977,9 @@ Hyperparameter & Search domain & regr.rmsle & regr.rmse & regr.mse & regr.rmse &
 \endfoot
 \bottomrule
 \endlastfoot
-eta & {}[0,0.5] & 0.010857 & 0.2113299 & 0 & 0 & 0\\
-nrounds & {}[75,3000] & 221.000000 & 2345.0000000 & 0 & 0 & 0\\
-max\_depth & {}[1,2] & 1.000000 & 2.0000000 & 0 & 0 & 0\\*
+eta & {}[0,0.5] & 0.010857 & 0.2113299 & 0.318963 & 0.3076677 & 0.1096531\\
+nrounds & {}[75,3000] & 221.000000 & 2345.0000000 & 2313.000000 & 1574.0000000 & 2996.0000000\\
+max\_depth & {}[1,2] & 1.000000 & 2.0000000 & 2.000000 & 2.0000000 & 2.0000000\\*
 \end{longtable}
 
 \hypertarget{fitting-the-model}{%
@@ -1196,17 +1282,17 @@ premium}\label{estimating-the-biased-technical-premium}}
 \begin{Highlighting}[]
 \DocumentationTok{\#\#\#\# Severity}
 \NormalTok{unified\_xgb\_regr }\OtherTok{\textless{}{-}} \FunctionTok{xgboost.unify}\NormalTok{(xgb\_regr,}
-                                  \AttributeTok{data=}\NormalTok{regr\_data}\SpecialCharTok{$}\NormalTok{covariates)}
+                                  \AttributeTok{data=}\NormalTok{sev\_covariates)}
 \NormalTok{treeshap\_xgb\_regr }\OtherTok{\textless{}{-}} \FunctionTok{treeshap}\NormalTok{(unified\_xgb\_regr,}
-\NormalTok{                              regr\_data}\SpecialCharTok{$}\NormalTok{covariates,}
+\NormalTok{                              sev\_covariates,}
                               \AttributeTok{verbose =} \DecValTok{0}\NormalTok{)}
 \FunctionTok{saveRDS}\NormalTok{(treeshap\_xgb\_regr, }\AttributeTok{file =} \StringTok{"rds/treeshap\_xgb\_regr.rds"}\NormalTok{)}
 \DocumentationTok{\#\#\#\# Frequency}
 \NormalTok{unified\_xgb\_freq }\OtherTok{\textless{}{-}} \FunctionTok{xgboost.unify}\NormalTok{(xgb\_freq,}
-                                  \AttributeTok{data=}\NormalTok{freq\_data}\SpecialCharTok{$}\NormalTok{covariates)}
+                                  \AttributeTok{data=}\NormalTok{freq\_covariates)}
 
 \NormalTok{treeshap\_xgb\_freq }\OtherTok{\textless{}{-}} \FunctionTok{treeshap}\NormalTok{(unified\_xgb\_freq,}
-\NormalTok{                              freq\_data}\SpecialCharTok{$}\NormalTok{covariates,}
+\NormalTok{                              freq\_covariates,}
                               \AttributeTok{verbose =} \DecValTok{0}\NormalTok{)}
 \FunctionTok{saveRDS}\NormalTok{(treeshap\_xgb\_freq, }\AttributeTok{file =} \StringTok{"rds/treeshap\_xgb\_freq.rds"}\NormalTok{)}
 \end{Highlighting}

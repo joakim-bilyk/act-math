@@ -1,0 +1,26 @@
+\contentsline {section}{Getting familiar with the data}{2}{section*.2}%
+\contentsline {section}{Modelling the technical premium}{5}{section*.7}%
+\contentsline {subsection}{Severity}{5}{section*.8}%
+\contentsline {subsection}{Frequency}{6}{section*.10}%
+\contentsline {subsection}{Initial estimate of the technical premium}{6}{section*.12}%
+\contentsline {section}{Decomposing the estimates}{8}{section*.13}%
+\contentsline {subsection}{Breakdown of the severity estimator}{9}{section*.16}%
+\contentsline {subsection}{Breakdown of the frequency estimator}{9}{section*.18}%
+\contentsline {section}{Discrimination and debaissing of the model}{10}{section*.20}%
+\contentsline {section}{Repreducing statement}{11}{section*.21}%
+\contentsline {subsection}{Packages}{11}{section*.22}%
+\contentsline {subsection}{Statistical data}{11}{section*.23}%
+\contentsline {subsubsection}{Feature formatting}{12}{section*.24}%
+\contentsline {subsubsection}{Preparing the dataset}{13}{section*.25}%
+\contentsline {subsection}{Modelling the technical premium}{15}{section*.26}%
+\contentsline {subsubsection}{Severity model}{15}{section*.27}%
+\contentsline {paragraph}{Estimating hyperparameters}{15}{section*.28}%
+\contentsline {paragraph}{Fitting the model}{16}{section*.29}%
+\contentsline {subsubsection}{Frequency model}{18}{section*.30}%
+\contentsline {paragraph}{Estimating hyperparameters}{18}{section*.31}%
+\contentsline {paragraph}{Fitting the model}{19}{section*.32}%
+\contentsline {subsection}{Estimating the biased technical premium}{20}{section*.33}%
+\contentsline {subsection}{Extracting SHAP values}{20}{section*.34}%
+\contentsline {subsection}{Debiassing the premium}{20}{section*.35}%
+\contentsline {section}{Appendicies}{23}{section*.36}%
+\contentsline {subsection}{Distributions of severity}{23}{section*.37}%

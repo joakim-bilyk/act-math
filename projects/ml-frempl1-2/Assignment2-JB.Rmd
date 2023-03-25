@@ -581,29 +581,38 @@ In the table above we have altered the dataset with exposure set to 1 for all ro
 
 ```{r,echo = FALSE}
 unified_xgb_regr <- xgboost.unify(xgb_regr,
-                                  data=regr_data$covariates)
+                                  data=sev_covariates)
 
 update_data <- FALSE
 if (update_data == TRUE) {
   treeshap_xgb_regr <- treeshap(unified_xgb_regr,
-                                regr_data$covariates,
+                                sev_covariates,
                                 verbose = 0)
   saveRDS(treeshap_xgb_regr, file = "rds/treeshap_xgb_regr.rds")
 } else {
   treeshap_xgb_regr <- readRDS("rds/treeshap_xgb_regr.rds")
 }
-#plot_contribution(treeshap_xgb_regr,obs= 2)
+
+pols <- c(6254,24123,25010,25188,30495,30555)
+plots <- lapply(pols, function(pol) {
+  obsnr <- as.integer(row.names(df)[df$ID == pol])
+  p <- plot_contribution(treeshap_xgb_regr,obs= obsnr,explain_deviation = TRUE,
+                    title = paste0("SHAP Break-Down, policy ",pol))
+  return(p)
+})
+p <- ggpubr::ggarrange(plotlist = plots, ncol= 3,nrow = 2)
+ggsave("figures/sev_shap_breakdown.png",bg='transparent',plot = p, height = 1980*2*3/4,width = 1980*3, units="px")
 plot_feature_importance(treeshap_xgb_regr, max_vars = 10) 
 plot_feature_dependence(treeshap_xgb_regr, "LicAge")
 plot_feature_dependence(treeshap_xgb_regr, "VehPrice_Sev")
 plot_feature_dependence(treeshap_xgb_regr, "DrivAge")
 
 unified_xgb_freq <- xgboost.unify(xgb_freq,
-                                  data=freq_data$covariates)
+                                  data=freq_covariates)
 
 if (update_data == TRUE) {
   treeshap_xgb_freq <- treeshap(unified_xgb_freq,
-                                freq_data$covariates,
+                                freq_covariates,
                                 verbose = 0)
   saveRDS(treeshap_xgb_freq, file = "rds/treeshap_xgb_freq.rds")
 } else {
@@ -611,14 +620,107 @@ if (update_data == TRUE) {
 }
 
 #plot_contribution(treeshap_xgb_freq, obs = 6254)
+pols <- c(6254,24123,25010,25188,30495,30555)
+plots <- lapply(pols, function(pol) {
+  obsnr <- as.integer(row.names(df)[df$ID == pol])
+  p <- plot_contribution(treeshap_xgb_freq,obs= obsnr,explain_deviation = TRUE,
+                    title = paste0("SHAP Break-Down, policy ",pol))
+  return(p)
+})
+p <- ggpubr::ggarrange(plotlist = plots, ncol= 3,nrow = 2)
+ggsave("figures/freq_shap_breakdown.png",bg='transparent',plot = p, height = 1980*2*3/4,width = 1980*3, units="px")
 plot_feature_importance(treeshap_xgb_freq, max_vars = 10) 
 plot_feature_dependence(treeshap_xgb_freq, "Exposure")
 plot_feature_dependence(treeshap_xgb_freq, "LicAge")
 plot_feature_dependence(treeshap_xgb_freq, "BonusMalus")
 plot_feature_dependence(treeshap_xgb_freq, "DrivAge")
+# plot a tree
+#https://www.r-bloggers.com/2021/04/how-to-plot-xgboost-trees-in-r/
+#xgb.plot.tree(model = xgb_regr, trees = 100)
+#xgb.plot.tree(model = xgb_freq, trees = 0)
+tree_preds <- data.frame(it = 1:2345)
+n <- 10
+for (i in 1:2345) {
+  tree_preds[i,2:(n+1)] <- predict(xgb_regr, sev_covariates[1:n,], iterationrange=c(1,i+1))
+}
+plotdf <- tree_preds %>% reshape2::melt(., id.vars = "it")
+p <- ggplot(plotdf) + geom_line(aes(x = it, y = value, col = variable)) + theme_custom() +
+  theme(legend.position = "none") +
+  labs(title = "Severity model, convergence",
+       x = "Number of trees", y = "Estimate")
+ggsave("figures/sev_tree_converge.png",bg='transparent',plot = p, height = 1980*3/4,width = 1980, units="px")
+tree_preds <- data.frame(it = 1:4986)
+n <- 10
+for (i in 1:4986) {
+  tree_preds[i,2:(n+1)] <- predict(xgb_freq, freq_covariates[1:n,], iterationrange=c(1,i+1))
+}
+plotdf <- tree_preds %>% reshape2::melt(., id.vars = "it")
+p <-ggplot(plotdf) + geom_line(aes(x = it, y = value, col = variable)) + theme_custom() +
+  theme(legend.position = "none") +
+  labs(title = "Frequency model, convergence",
+       x = "Number of trees", y = "Estimate") 
+ggsave("figures/freq_tree_converge.png",bg='transparent',plot = p, height = 1980*3/4,width = 1980, units="px")
 ```
 
+When fitting a algorithm such as XGBoost it can be difficult to interpret how, when it comes to pricing, the model is affected by the risk factors $X$. Certainly, one could try to uncover the dynamics of the algorithm by studying the structure of the trees and making an outline of all leaves. However since most models consist of hundreds if not thousand of trees this task would be tidies and even though this is possible one would probably be left with more new questions than the ones answered. 
 
+\begin{figure}[h]
+    \centering
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/tree_1.png} }}
+    \qquad
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/tree_2.png} }}
+    \caption{(a): Tree number 101 in $\hat m^{(biased)}_\mu(X)$. (b): Tree number 1 in $\hat m^{(biased)}_p(X)$.}
+\end{figure}
+
+Above one can see how one selected tree from either one of the decision trees of $\hat m^{(biased)}_\mu$ and $\hat m^{(biased)}_p$ contribute to the estimate. For instance for the severity model we see that the space $\mathcal X$ is separated into four leaves where the estimate up until tree number 100 will be increased with a factor of $\exp(\hat f_k(X))$. To be specific we see that
+
+\begin{align*}
+\exp(\hat f_k(X))=\begin{cases}
+  1+1.39\cdot 10^{-3} & \text{if}\qquad  \text{LicAge}<438.5\\
+  1+184.12\cdot 10^{-3} & \text{if}\qquad  438.5\le \text{LicAge}<439.5\\
+  1-161.40\cdot 10^{-3} & \text{if}\qquad  \text{LicAge}\ge 439.5\text{ and MariStat\_Sev}=0\\
+  1-4.44\cdot 10^{-3} & \text{if}\qquad \text{LicAge}\ge 439.5\text{ and MariStat\_Sev}=1
+\end{cases}
+\end{align*}
+
+Likewise we see that the frequency model changes the estimates with a factor of
+
+\begin{align*}
+\exp(\hat g_k(X))=\begin{cases}
+  1-52.46\cdot 10^{-3} & \text{if}\qquad  \text{Exposure}<0.1215\\
+  1-46.67\cdot 10^{-3} & \text{if}\qquad 0.1215\le \text{Exposure}<0.4225\\
+  1-40.58\cdot 10^{-3} & \text{if}\qquad  0.4225\le \text{Exposure}<0.6875\\
+  1-34.10\cdot 10^{-3} & \text{if}\qquad  0.6875\le \text{Exposure}
+\end{cases}
+\end{align*}
+
+The reader will notice that exposure is the first variable used in improving the estimate indicating the the probability of an insurance event is highly correlated with the amount of exposure. This is consistent with the assumption that the number of claims is poisson distributed and claims arrives as a poisson count process.
+
+\begin{figure}[h]
+    \centering
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/sev_tree_converge.png} }}
+    \qquad
+    \subfloat[\centering]{{\includegraphics[width=0.45\textwidth]{figures/freq_tree_converge.png} }}
+    \caption{Convergence of estimator for the first 10 policies.}
+\end{figure}
+
+Running through every step we can plot how the model estimate approaches a value for each added tree. Above we see how the algorithm predicts the first 10 policies by applying the improvement $\exp(\hat f_k(X))$ for $k=1,...,K$ and $\exp(\hat g_l(X))$ for $l=1,...,L$ for the two estimator. This picture gives us an indication of how robust the estimates are, but if we want to decompose the final estimate into contributions from each covariates we will have to turn to another tool.
+
+## Breakdown of the severity estimator
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/sev_shap_breakdown.png}
+    \caption{Decomposition of the severity estimates for the policies 6254, 24123, 25010, 25188, 30495 and 30555. The intercept of the model is approximatly 2550. The prediction deviation gives the logarithm of the factor multiplier. That is the estimate for the policy 6254 is $2550\cdot \exp(-0.886)\approx 1050$ as seen in table 1.}
+\end{figure}
+
+## Breakdown of the frequency estimator
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/freq_shap_breakdown.png}
+    \caption{Decomposition of the frequency estimates for the policies 6254, 24123, 25010, 25188, 30495 and 30555. The prediction deviation gives the logarithm of the factor multiplier.}
+\end{figure}
 
 \newpage
 
@@ -975,7 +1077,6 @@ df_sev <- df_sev %>%
 ```{r,eval =FALSE}
 #Start a task
 task_sev <- df_sev %>%
-  mutate(ClaimAmount = ClaimAmount) %>%
   #Start tast with target ClaimAmount
   as_task_regr(.,
                target = "ClaimAmount",
@@ -996,7 +1097,7 @@ sev_xgb_learner_instance = tune(
   task = task_sev,
   learner = sev_xgb_learner,
   resampling = rsmp("cv", folds = 5), #### resampling method: 5-fold cross validation
-  measures = msr("regr.mse"), #### Root Mean Squared Log Error
+  measures = msr("regr.rmse"), #### Root Mean Squared Log Error
   terminator = trm("evals", n_evals = 1000) #### terminator
 )
 #Save the instance
@@ -1009,9 +1110,9 @@ tbl <- data.frame(
   `Search domain` = c("[0,0.5]","[75,3000]","[1,2]"),
   `regr.rmsle` = c(0.01085696,221,1),
   `regr.rmse` = c(0.2113299,2345,2),
-  `regr.mse` = c(0,0,0), #1
-  `regr.rmse` = c(0,0,0), #2
-  `regr.mse` = c(0,0,0) # 3
+  `regr.mse` = c(0.318963,2313,2), #1
+  `regr.rmse` = c(0.3076677,1574,2), #2
+  `regr.mse` = c(0.1096531,2996,2) # 3
 )
 colnames(tbl) <- c(
   "Hyperparameter",
@@ -1238,17 +1339,17 @@ df[,"pi_hat_new"] <- m_mu * m_p_2
 ```{r,eval=FALSE}
 #### Severity
 unified_xgb_regr <- xgboost.unify(xgb_regr,
-                                  data=regr_data$covariates)
+                                  data=sev_covariates)
 treeshap_xgb_regr <- treeshap(unified_xgb_regr,
-                              regr_data$covariates,
+                              sev_covariates,
                               verbose = 0)
 saveRDS(treeshap_xgb_regr, file = "rds/treeshap_xgb_regr.rds")
 #### Frequency
 unified_xgb_freq <- xgboost.unify(xgb_freq,
-                                  data=freq_data$covariates)
+                                  data=freq_covariates)
 
 treeshap_xgb_freq <- treeshap(unified_xgb_freq,
-                              freq_data$covariates,
+                              freq_covariates,
                               verbose = 0)
 saveRDS(treeshap_xgb_freq, file = "rds/treeshap_xgb_freq.rds")
 ```
