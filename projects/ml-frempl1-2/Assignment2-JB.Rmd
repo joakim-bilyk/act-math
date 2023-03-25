@@ -4,8 +4,8 @@ author:
   - name: "Joakim Bilyk, Sebastian Cramer and Teis Blem"
     affiliation: "University of Copenhagen"
 date: "`r Sys.Date()`"
-abstract: "This document provides a practical example of applications of machine learning algorithms to car insurance data using the `mlr3` package. A popular model used in pricing of non-life insurance policies is the frequency-severity model, where the price is decomposed into the product of the probability of a claim arrises and the expected claim size given a claim occurs. This model is fitted using machine learning algorithms such as penalized linear regression and random forests. This paper argues that the ranger model gives a particular well fit to both the frequency and severity model."
-keywords: "mlr3, machine learning, regression, non-life insurance, estimating technical price, XGBoost, Ranger, Bart, Elastic net regression, Generalized Additive Models"
+abstract: "This document provides a practical example of applications of machine learning algorithms to car insurance data using the `mlr3` package. A popular model used in pricing of non-life insurance policies is the frequency-severity model, where the price is decomposed into the product of the probability of a claim arrises and the expected claim size given a claim occurs. This paper argues that a treebased model gives a particular well fit to both the frequency and severity model. Furthermore, the estimate is interpreted using shapley values to give an insight into the risk factors of car insurance. Lastly, the price model is debiassed using a decomposition techique. The result is a pricing model that does not discriminate based on gender."
+keywords: "mlr3, machine learning, regression, non-life insurance, estimating technical price, XGBoost, debiassing, bias, SHAP-values, interpretation of ML models"
 header-includes:
   - \usepackage{subfig}
   - \usepackage{wrapfig}
@@ -118,6 +118,7 @@ library(patchwork)
 library(xgboost)
 library(glex) #remotes::install_github("PlantedML/glex")
 library(treeshap) #devtools::install_github('ModelOriented/treeshap')
+library(kableExtra)
 data("freMPL1")
 ```
 
@@ -282,11 +283,29 @@ freMPL1$ClaimInd <- ifelse(freMPL1$ClaimAmount>0,1,0)
 freMPL1 <- freMPL1 %>%
   filter(!(VehEngine %in% c("electric","GPL")))
 
-#5: Combining max speed levels
+#5: Combining price categories
+levels(freMPL1$VehPrice)[1:3] <- "A-C"
+n <- length(levels(freMPL1$VehPrice))
+levels(freMPL1$VehPrice)[(n-5):n] <- "U-Z"
+n <- length(levels(freMPL1$VehPrice))
+levels(freMPL1$VehPrice)[(n-3):(n-1)] <- "R-T"
+
+#6: Combining max speed levels
 levels(freMPL1$VehMaxSpeed)[1:2] <- "1-140 kmh"
 
-#6: Bus set to sedan
+#7: Bus set to sedan
 levels(freMPL1$VehBody)[levels(freMPL1$VehBody) == "bus"] <- "sedan"
+
+#8: SocioCateg change levels
+freMPL1 <- freMPL1 %>%
+  #Get numerical value of SocioCateg
+  mutate(helper = as.numeric(substr(SocioCateg,4,5))) %>%
+  #Overwrite SocioCateg 
+  mutate(SocioCateg = factor(ifelse(helper > 50, "C",
+                                    ifelse( helper < 50, "A",
+                                            "B")),
+                             levels = c("A","B","C"))) %>%
+  select(-helper)
 
 #Create df
 df <- freMPL1
@@ -346,14 +365,15 @@ df_freq <- df_freq %>%
 
 ##### Hyperparameters
 #Severity parameters
-sev_xgb_learner_instance <- readRDS("rds/sev_xgb_learner_instance.rds")
+#sev_xgb_learner_instance <- readRDS("rds/sev_xgb_learner_instance.rds")
 #Frequency parameters
-freq_xgb_learner_instance <- readRDS("rds/freq_xgb_learner_instance.rds")
+#freq_xgb_learner_instance <- readRDS("rds/freq_xgb_learner_instance.rds")
 
 ##### Training XGBoost
 ##### Severity
 #Partition for training
 indicies <- function(size,ratio){
+  set.seed(20230328) #We choose a seed
   train <- sort(sample(1:size,ceiling(size*ratio),replace = FALSE))
   test <- (1:size)[!(1:size %in% train)]
   return(list(train = train, test = test))
@@ -363,11 +383,11 @@ splits <- indicies(dim(df_sev)[1],0.85)
 #Split covariates and truth
 regr_data_train <- list(
   covariates = as.matrix(df_sev[splits$train,] %>% select(-ClaimAmount)),
-  truth = log(as.numeric(df_sev$ClaimAmount[splits$train]))
+  truth = as.numeric(df_sev$ClaimAmount[splits$train])
 )
 regr_data_test <- list(
   covariates = as.matrix(df_sev[splits$test,] %>% select(-ClaimAmount)),
-  truth = log(as.numeric(df_sev$ClaimAmount[splits$test]))
+  truth = as.numeric(df_sev$ClaimAmount[splits$test])
 )
 #Fit model using hyperparameters
 xgb_regr_train <- readRDS("rds/xgb_regr_train.rds")
@@ -375,7 +395,7 @@ xgb_regr_train <- readRDS("rds/xgb_regr_train.rds")
 #Split covariates and truth
 regr_data <- list(
   covariates = as.matrix(df_sev %>% select(-ClaimAmount)),
-  truth = log(as.numeric(df_sev$ClaimAmount))
+  truth = as.numeric(df_sev$ClaimAmount)
 )
 #Fit model using hyperparameters
 xgb_regr <- readRDS("rds/xgb_regr.rds")
@@ -405,8 +425,8 @@ freq_data <- list(
 xgb_freq <- readRDS("rds/xgb_freq.rds")
 
 ### Plot of test data truth vs predictions
-plotdf <- data.frame(truth = exp(regr_data_test$truth),
-                     prediction = exp(predict(xgb_regr_train, newdata = regr_data_test$covariates)))
+plotdf <- data.frame(truth = regr_data_test$truth,
+                     prediction = predict(xgb_regr_train, newdata = regr_data_test$covariates))
 p <- ggplot(plotdf) + geom_point(aes(x=prediction, y = truth)) +
   scale_x_continuous(trans = "log10",limits = c(0.5,200000),breaks = 10**(0:5)) +
   scale_y_continuous(trans = "log10",limits = c(0.5,200000),breaks = 10**(0:5)) + 
@@ -460,6 +480,22 @@ We will search for the most efficient estimators for both the severity and frequ
     \caption{(a): Predictions from the model with y being the actual value and x being the estimate. The red line represent the mapping $y=x$. (b): Distribution of the response and actual values. The red density function represents the empirical density of the test data set.}
 \end{figure}
 
+We fit a XGBoost estimator to the dataset where we only consider the non-zero claims. The distribution of the claim is rather heavy tailed as most claims are relative small but some claims have the potential of being large. If we fit a gamma distribution to the entire dataset, we see that the claim amount appear to be gamma distributed with shape 0.51 and scale 4681. As such it would be appropriate to use the log link function when fitting the parameters by setting `objective = "reg:gamma"`. This means that the estimator $m_\mu(X)$ takes the form
+
+$$
+\log(\mathbb E[Y\ \vert\ X,Y>0])=m_\mu(X).
+$$
+
+Since XGBoost is a tree based algorithm with estimator $\hat m_\mu(X) = \sum_{i=1}^k \hat f_k(X)$ we have the decomposition
+
+$$
+\mathbb E[Y\ \vert\ X,Y>0] \approx\exp\left(\sum_{i=1}^k \hat f_k(X)\right) =\prod_{i=1}^k\exp\left(\hat f_k(X)\right),
+$$
+
+where $k$ is the weak leaner (`nrounds`). By using the package `mlr3` and the root mean squared loss we can estimate the hyperparameters: leaning rate $\eta$, depth and number og trees $k$. This is done using 5-fold cross validation with 1000 evals. Using the hyperparameters the model is fitted to the dataset.
+
+In the figure above it can be seen how the model does on the training set using a model fitted to 85% randomly chosen datapoints. The model seem to predict well and we see a symmetry around $y=x$. I does however seem as though the estimates have less variance than the actual claim amounts (see the (b) figure).
+
 ## Frequency
 
 \begin{wrapfigure}{r}{0.50\textwidth}
@@ -469,6 +505,16 @@ We will search for the most efficient estimators for both the severity and frequ
   \caption{A combined boxplot and violin plot of the distribution of the predicted probability for respectively the non claim (left) and claim (right) policies.}
 \end{wrapfigure}
 
+The frequency is modeled using the `xgboost` packages. The claims is assumed to arrive poisson distributed given the covariates $X$ and so the XGBoost estimator is fitted with `objective = "count:poisson"`. This implements the log-link function and optimizes using the gradient of the poisson deviance.
+
+Like in the case of the severity model we have the same log link function and so for trees $1,...,l$ we will have the estimate
+
+$$
+\mathbb E[1_{Y>0}\ \vert\ X]\approx\prod_{i=1}^l\exp(g_i(X)).
+$$
+
+In the figure on the right, we see that the algorithm fit higher probabilities (frequencies) to policies that actually happened to raise a claim.
+
 ## Initial estimate of the technical premium
 
 The technical price is given by the product
@@ -477,10 +523,10 @@ $$
 \pi=\mu_X\cdot p_X.
 $$
 
-Notice that the length of the contract i.e. the exposure is used as a covariate in the frequency/severity model, and so the effect of longer contracts is already priced in. By default new contracts are sold with a yearly length, however in the case of estimating on the dataset we use the given `Exposure`. Since the risk is the less with the ranger algorithm we estimate $\pi$ by
+Notice that the length of the contract i.e. the exposure is used as a covariate in the frequency/severity model, and so the effect of longer contracts is already priced in. By default new contracts are sold with a yearly length, however in the case of estimating on the dataset we use the given `Exposure`. Up untill now we have used the protected feature gender in the estimate, so we start by fitting a biased estimate
 
 $$
-\hat \pi=\hat m_\mu^{(1)}(X)\cdot\hat m_p^{(1)}(X)\cdot e.
+\hat \pi^{(biased)}=\hat m_\mu^{(biased)}(X)\cdot\hat m_p^{(biased)}(X).
 $$
 
 We can apply the technical price onto the dataset `df` by running the following code:
@@ -490,46 +536,42 @@ We can apply the technical price onto the dataset `df` by running the following 
 sev_covariates <- df[,sev_columns] %>%
   select(-ClaimInd,-ID,-ClaimAmount,-Exposure)
 sev_covariates <-  as.matrix(sev_covariates)
-m_mu_ranger <- exp(predict(xgb_regr, newdata = sev_covariates))
+m_mu <- predict(xgb_regr, newdata = sev_covariates)
 # Estimating p
 freq_covariates <- df[,freq_columns] %>%
   select(-ClaimInd,-ID,-ClaimAmount)
 freq_covariates <- as.matrix(freq_covariates)
-m_p_ranger <- predict(xgb_freq_train, newdata = freq_covariates)
+m_p <- predict(xgb_freq_train, newdata = freq_covariates)
 freq_covariates[,"Exposure"] <- 1
-m_p_ranger_2 <- predict(xgb_freq_train, newdata = freq_covariates)
+m_p_2 <- predict(xgb_freq_train, newdata = freq_covariates)
 # Inserting estimates
-df[,"pi_hat"] <- m_mu_ranger * m_p_ranger
-df[,"mu_hat"] <- m_mu_ranger
-df[,"p_hat"] <- m_p_ranger
-df[,"pi_hat_new"] <- m_mu_ranger * m_p_ranger_2
+df[,"pi_hat"] <- m_mu * m_p
+df[,"mu_hat"] <- m_mu
+df[,"p_hat"] <- m_p
+df[,"p_hat_new"] <- m_p_2
+df[,"pi_hat_new"] <- m_mu * m_p_2
 ```
 
 We can summarize the models predictions on the policies below.
 
 ```{r,echo=FALSE}
 options(scipen = 999)
+tbl <- df %>% 
+  mutate(Exposure_2 = 1,mu_hat_2= mu_hat) %>%
+  select(ID,Gender,Exposure,p_hat,mu_hat,pi_hat,Exposure_2,p_hat_new,mu_hat_2,pi_hat_new) %>%
+  filter(ID %in% c(6254,24123,25010,25188,30495,30555)) %>%
+  mutate_if(is.numeric, format, digits=3,nsmall = 0) %>%
+  arrange(ID)
+colnames(tbl) <- c(
+  "Policy","Gender",
+  "Exposure","p(Y>0)","E(Y|Y>0)","Price",
+  "Exposure","p(Y>0)","E(Y|Y>0)","Price"
+)
+tbl %>%
+  kbl(., longtable = T, booktabs = T, caption = "Comparing premiums") %>%
+  add_header_above(c(" " = 2,"Actual" = 4, "Extrapolated" = 4)) %>%
+  kable_styling(latex_options = c("repeat_header","striped", "hold_position"))
 ```
-
-| Policy | Exposure | $\hat \mu_X$ | $\hat p_X$ | $\hat \pi$ |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| 6257 | `r round(df$Exposure[df$ID == 6257],2)` | `r round(df$mu_hat[df$ID == 6257],2)` | `r round(df$p_hat[df$ID == 6257],5)` | `r round(df$pi_hat[df$ID == 6257],2)` | 
-| 24131 | `r round(df$Exposure[df$ID == 24131],2)` | `r round(df$mu_hat[df$ID == 24131],2)` | `r round(df$p_hat[df$ID == 24131],5)` | `r round(df$pi_hat[df$ID == 24131],2)` | 
-| 25018 | `r round(df$Exposure[df$ID == 25018],2)` | `r round(df$mu_hat[df$ID == 25018],2)` | `r round(df$p_hat[df$ID == 25018],5)` | `r round(df$pi_hat[df$ID == 25018],2)` | 
-| 25196 | `r round(df$Exposure[df$ID == 25196],2)` | `r round(df$mu_hat[df$ID == 25196],2)` | `r round(df$p_hat[df$ID == 25196],5)` | `r round(df$pi_hat[df$ID == 25196],2)` | 
-| 30503 | `r round(df$Exposure[df$ID == 30503],2)` | `r round(df$mu_hat[df$ID == 30503],2)` | `r round(df$p_hat[df$ID == 30503],5)` | `r round(df$pi_hat[df$ID == 30503],2)` | 
-| 30563 | `r round(df$Exposure[df$ID == 30563],2)` | `r round(df$mu_hat[df$ID == 30563],2)` | `r round(df$p_hat[df$ID == 30563],5)` | `r round(df$pi_hat[df$ID == 30563],2)` |
-
-If we set the exposure to one we get new estimates and the technical price the insurance firm will give to new contracts.
-
-| Policy | Exposure | $\hat \mu_X$ | $\hat p_X$ | $\hat \pi$ |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| 6257 | 1 | `r round(m_mu_ranger[df$ID == 6257],2)` | `r round(m_p_ranger_2[df$ID == 6257],5)` | `r round(df$pi_hat_new[df$ID == 6257],2)` | 
-| 24131 | 1 | `r round(m_mu_ranger[df$ID == 24131],2)` | `r round(m_p_ranger_2[df$ID == 24131],5)` | `r round(df$pi_hat_new[df$ID == 24131],2)` | 
-| 25018 | 1 | `r round(m_mu_ranger[df$ID == 25018],2)` | `r round(m_p_ranger_2[df$ID == 25018],5)` | `r round(df$pi_hat_new[df$ID == 25018],2)` | 
-| 25196 | 1 | `r round(m_mu_ranger[df$ID == 25196],2)` | `r round(m_p_ranger_2[df$ID == 25196],5)` | `r round(df$pi_hat_new[df$ID == 25196],2)` | 
-| 30503 | 1 | `r round(m_mu_ranger[df$ID == 30503],2)` | `r round(m_p_ranger_2[df$ID == 30503],5)` | `r round(df$pi_hat_new[df$ID == 30503],2)` | 
-| 30563 | 1 | `r round(m_mu_ranger[df$ID == 30563],2)` | `r round(m_p_ranger_2[df$ID == 30563],5)` | `r round(df$pi_hat_new[df$ID == 30563],2)` | 
 
 In the table above we have altered the dataset with exposure set to 1 for all rows, to predict the price of a new contract i.e. with exposure of one year. One sees that the prices for the new contracts are larger than the technical price for the historical as the exposure is larger. Furthermore as expected we see that the estimate $\hat \mu_X$ does not depend on the exposure.
 
@@ -537,7 +579,184 @@ In the table above we have altered the dataset with exposure set to 1 for all ro
 
 # Decomposing the estimates
 
-# Diskrimination and debaissing of the model
+```{r,echo = FALSE}
+unified_xgb_regr <- xgboost.unify(xgb_regr,
+                                  data=regr_data$covariates)
+
+update_data <- FALSE
+if (update_data == TRUE) {
+  treeshap_xgb_regr <- treeshap(unified_xgb_regr,
+                                regr_data$covariates,
+                                verbose = 0)
+  saveRDS(treeshap_xgb_regr, file = "rds/treeshap_xgb_regr.rds")
+} else {
+  treeshap_xgb_regr <- readRDS("rds/treeshap_xgb_regr.rds")
+}
+#plot_contribution(treeshap_xgb_regr,obs= 2)
+plot_feature_importance(treeshap_xgb_regr, max_vars = 10) 
+plot_feature_dependence(treeshap_xgb_regr, "LicAge")
+plot_feature_dependence(treeshap_xgb_regr, "VehPrice_Sev")
+plot_feature_dependence(treeshap_xgb_regr, "DrivAge")
+
+unified_xgb_freq <- xgboost.unify(xgb_freq,
+                                  data=freq_data$covariates)
+
+if (update_data == TRUE) {
+  treeshap_xgb_freq <- treeshap(unified_xgb_freq,
+                                freq_data$covariates,
+                                verbose = 0)
+  saveRDS(treeshap_xgb_freq, file = "rds/treeshap_xgb_freq.rds")
+} else {
+  treeshap_xgb_freq <- readRDS("rds/treeshap_xgb_freq.rds")
+}
+
+#plot_contribution(treeshap_xgb_freq, obs = 6254)
+plot_feature_importance(treeshap_xgb_freq, max_vars = 10) 
+plot_feature_dependence(treeshap_xgb_freq, "Exposure")
+plot_feature_dependence(treeshap_xgb_freq, "LicAge")
+plot_feature_dependence(treeshap_xgb_freq, "BonusMalus")
+plot_feature_dependence(treeshap_xgb_freq, "DrivAge")
+```
+
+
+
+\newpage
+
+# Discrimination and debaissing of the model
+
+```{r,echo=FALSE}
+sev_covariates <- df[,sev_columns] %>%
+  select(-ClaimInd,-ID,-ClaimAmount,-Exposure) %>%
+  mutate_if(is.integer, as.numeric) %>%
+  as.matrix()
+if (update_data == TRUE) {
+  glex_sev <- glex(xgb_regr, sev_covariates)
+  saveRDS(glex_sev, file = "rds/glex_sev.rds")
+} else {
+  glex_sev <- readRDS("rds/glex_sev.rds")
+}
+
+# Recalibrating
+## Somehow log(prob) - glex = -1.19 for all predictions
+## We shift the intercept
+xgb_sev_pred <- predict(xgb_regr, newdata = sev_covariates)
+glex_sev_pred <- glex_sev$intercept + rowSums(glex_sev$m)
+shift <- mean(log(xgb_sev_pred) - glex_sev_pred)
+glex_sev$intercept <- glex_sev$intercept + shift
+
+theme_set(theme_minimal(base_size = 10))
+vi_xgb <- glex_vi(glex_sev)
+
+p_vi <- autoplot(vi_xgb, threshold = 200) + 
+  labs(title = NULL, tag = "XGBoost-explanation")
+
+p_vi+
+  plot_annotation(title = "Variable importance scores by term") & 
+  theme(plot.tag.position = "bottomleft")
+
+## Debiasing
+# Remove gender effects
+calibrated_sum <- sum(exp(glex_sev$intercept + rowSums(glex_sev$m)))
+
+glex_sev$m <- glex_sev$m %>%
+  select(-contains("Gender"))
+# Construct unbiased estimate of mu
+unbias_sev <- exp(glex_sev$intercept + rowSums(glex_sev$m))
+# Scale up estimates
+unbias_sev <- unbias_sev * calibrated_sum / sum(unbias_sev)
+df[,"mu_hat_debiased"] <- unbias_sev
+```
+
+```{r,echo = FALSE}
+freq_covariates <- df[,freq_columns] %>%
+  select(-ClaimInd,-ID,-ClaimAmount) %>%
+  mutate_if(is.integer, as.numeric) %>%
+  as.matrix()
+if (update_data == TRUE) {
+  glex_freq <- glex(xgb_freq, freq_covariates)
+  saveRDS(glex_freq, file = "rds/glex_freq.rds")
+  # Version with exposure 1
+  freq_covariates_2 <- freq_covariates
+  freq_covariates_2[,"Exposure"] <- 1
+  glex_freq_2 <- glex(xgb_freq, freq_covariates_2)
+  saveRDS(glex_freq_2, file = "rds/glex_freq_2.rds")
+} else {
+  freq_covariates_2 <- freq_covariates
+  freq_covariates_2[,"Exposure"] <- 1
+  glex_freq <- readRDS("rds/glex_freq.rds")
+  glex_freq_2 <- readRDS("rds/glex_freq_2.rds")
+}
+theme_set(theme_minimal(base_size = 13))
+vi_xgb <- glex_vi(glex_freq)
+
+p_vi <- autoplot(vi_xgb, threshold = 0.04) + 
+  labs(title = NULL, tag = "XGBoost-explanation")
+
+p_vi+
+  plot_annotation(title = "Variable importance scores by term") & 
+  theme(plot.tag.position = "bottomleft")
+
+# Recalibrating
+## Somehow log(prob) - glex = -1.19 for all predictions
+## We shift the intercept
+xgb_freq_pred <- predict(xgb_freq, newdata = freq_covariates)
+glex_freq_pred <- glex_freq$intercept + rowSums(glex_freq$m)
+shift <- mean(log(xgb_freq_pred) - glex_freq_pred)
+glex_freq$intercept <- glex_freq$intercept + shift
+xgb_freq_pred <- predict(xgb_freq, newdata = freq_covariates_2)
+glex_freq_pred <- glex_freq_2$intercept + rowSums(glex_freq_2$m)
+shift <- mean(log(xgb_freq_pred) - glex_freq_pred)
+glex_freq_2$intercept <- glex_freq_2$intercept + shift
+
+## Debiasing
+# Remove gender effects
+calibrated_sum <- sum(exp(glex_freq$intercept + rowSums(glex_freq$m)))
+calibrated_sum_2 <- sum(exp(glex_freq_2$intercept + rowSums(glex_freq_2$m)))
+glex_freq$m <- glex_freq$m %>%
+  select(-contains("Gender_Freq"))
+glex_freq_2$m <- glex_freq_2$m %>%
+  select(-contains("Gender_Freq"))
+
+# Construct unbiased estimate of mu
+unbias_freq <- exp(glex_freq$intercept + rowSums(glex_freq$m))
+unbias_freq_2 <- exp(glex_freq_2$intercept + rowSums(glex_freq_2$m))
+# Scale up estimates
+unbias_freq <- unbias_freq * calibrated_sum / sum(unbias_freq)
+unbias_freq_2 <- unbias_freq_2 * calibrated_sum_2 / sum(unbias_freq_2)
+df[,"p_hat_debiased"] <- unbias_freq
+
+unbias <- unbias_freq*unbias_sev
+df[,"pi_hat_debiased"] <- unbias
+df[,"pi_hat_new_debiased"] <- unbias_freq_2*unbias_sev
+```
+
+```{r,echo = FALSE}
+tbl <- df %>%
+  select(ID,Gender,p_hat,mu_hat,pi_hat,p_hat_debiased,mu_hat_debiased,pi_hat_debiased) %>%
+  filter(ID %in% c(6254,24123,25010,25188,30495,30555)) %>%
+  mutate_if(is.numeric, format, digits=3,nsmall = 0) %>%
+  arrange(ID)
+colnames(tbl) <- c(
+  "Policy","Gender",
+  "p(Y>0)","E(Y|Y>0)","Price",
+  "p(Y>0)","E(Y|Y>0)","Price"
+)
+tbl %>%
+  kbl(., longtable = T, booktabs = T, caption = "Comparing premiums") %>%
+  add_header_above(c(" " = 2,"Biased" = 3, "Debiased" = 3)) %>%
+  kable_styling(latex_options = c("repeat_header","striped", "hold_position"))
+```
+
+```{r,echo=FALSE,eval=FALSE}
+sum(df$pi_hat)
+sum(df$ClaimAmount)
+sum(df$pi_hat_debiased)
+sum(df$ClaimInd)
+sum(df$p_hat)
+sum(df$p_hat_debiased)
+```
+
+\newpage
 
 # Repreducing statement
 
@@ -606,8 +825,10 @@ The following changes has been made to the data `freMPL1`:
   2. The column `ID` is added to remember policynumbers.
   3. The negative `ClaimAmount` entries is overwritten with zeroes and the `ClaimIndicator` is changed accordingly.
   4. The observations `VehEngine` being equal to either `electric` or `GPL` is removed.
-  5. The lowest two `VehMaxSpeed` are combined.
-  6. The category `bus` is layed under `sedan` in the column `VehBody`.
+  5. The levels A-C, R-T and U-Z are combined in `VehPrice`.
+  6. The lowest two `VehMaxSpeed` are combined.
+  7. The category `bus` is layed under `sedan` in the column `VehBody`.
+  8. The column `SocioCateg` is combined into three layers: `A`, `B` and `C`.
 
 These changes may be read in the script below.
 
@@ -630,11 +851,29 @@ freMPL1$ClaimInd <- ifelse(freMPL1$ClaimAmount>0,1,0)
 freMPL1 <- freMPL1 %>%
   filter(!(VehEngine %in% c("electric","GPL")))
 
-#5: Combining max speed levels
+#5: Combining price categories
+levels(freMPL1$VehPrice)[1:3] <- "A-C"
+n <- length(levels(freMPL1$VehPrice))
+levels(freMPL1$VehPrice)[(n-5):n] <- "U-Z"
+n <- length(levels(freMPL1$VehPrice))
+levels(freMPL1$VehPrice)[(n-3):(n-1)] <- "R-T"
+
+#6: Combining max speed levels
 levels(freMPL1$VehMaxSpeed)[1:2] <- "1-140 kmh"
 
-#6: Bus set to sedan
+#7: Bus set to sedan
 levels(freMPL1$VehBody)[levels(freMPL1$VehBody) == "bus"] <- "sedan"
+
+#8: SocioCateg change levels
+freMPL1 <- freMPL1 %>%
+  #Get numerical value of SocioCateg
+  mutate(helper = as.numeric(substr(SocioCateg,4,5))) %>%
+  #Overwrite SocioCateg 
+  mutate(SocioCateg = factor(ifelse(helper > 50, "C",
+                                    ifelse( helper < 50, "A",
+                                            "B")),
+                             levels = c("A","B","C"))) %>%
+  select(-helper)
 ```
 
 ### Preparing the dataset
@@ -736,8 +975,8 @@ df_sev <- df_sev %>%
 ```{r,eval =FALSE}
 #Start a task
 task_sev <- df_sev %>%
-  mutate(ClaimAmount = log(ClaimAmount)) %>%
-  #Start tast with target ClaimAmound
+  mutate(ClaimAmount = ClaimAmount) %>%
+  #Start tast with target ClaimAmount
   as_task_regr(.,
                target = "ClaimAmount",
                id= "Severity")
@@ -745,8 +984,8 @@ task_sev <- df_sev %>%
 ### XGBoost
 sev_xgb_learner <- lrn("regr.xgboost",
                    eta = to_tune(0, 0.5),
-                   nrounds = to_tune(75, 5000),
-                   max_depth = to_tune(1, 3))
+                   nrounds = to_tune(75, 3000),
+                   max_depth = to_tune(1, 2))
 
 ### XGBoost
 set.seed(20230328) #We choose a seed
@@ -757,47 +996,66 @@ sev_xgb_learner_instance = tune(
   task = task_sev,
   learner = sev_xgb_learner,
   resampling = rsmp("cv", folds = 5), #### resampling method: 5-fold cross validation
-  measures = msr("regr.rmse"), #### Mean Squared Log Error
-  terminator = trm("evals", n_evals = 200) #### terminator
+  measures = msr("regr.mse"), #### Root Mean Squared Log Error
+  terminator = trm("evals", n_evals = 1000) #### terminator
 )
 #Save the instance
 saveRDS(sev_xgb_learner_instance, file = "rds/sev_xgb_learner_instance.rds")
 ```
 
-| **Hyperparamater** | **Search space** | **Estimate** |
-| :- | :- | :-: |
-| *XGBoost* | | |
-| `eta` | $[0,0.5]$ | `r round(sev_xgb_learner_instance$result_learner_param_vals$eta,digits = 6)` |
-| `nrounds` | $[75,5000]$ | `r sev_xgb_learner_instance$result_learner_param_vals$nrounds` |
-| `max_depth` | $[1,3]$ | `r sev_xgb_learner_instance$result_learner_param_vals$max_depth` |
+```{r,echo = FALSE}
+tbl <- data.frame(
+  Hyperparameter = c("eta","nrounds","max_depth"),
+  `Search domain` = c("[0,0.5]","[75,3000]","[1,2]"),
+  `regr.rmsle` = c(0.01085696,221,1),
+  `regr.rmse` = c(0.2113299,2345,2),
+  `regr.mse` = c(0,0,0), #1
+  `regr.rmse` = c(0,0,0), #2
+  `regr.mse` = c(0,0,0) # 3
+)
+colnames(tbl) <- c(
+  "Hyperparameter",
+  "Search domain",
+  "regr.rmsle",
+  "regr.rmse",
+  "regr.mse",
+  "regr.rmse",
+  "regr.mse"
+)
+tbl %>%
+  kbl(., longtable = T, booktabs = T, caption = "Hyperparameters") %>%
+  add_header_above(c(" " = 2,"Respone = Y" = 3, "Respone = log(Y)" =  2)) %>%
+  kable_styling(latex_options = c("repeat_header", "hold_position"))
+```
 
 #### Fitting the model
 
 ```{r,eval = FALSE}
 #Partition for training
 indicies <- function(size,ratio){
+  set.seed(20230328) #We choose a seed
   train <- sort(sample(1:size,ceiling(size*ratio),replace = FALSE))
   test <- (1:size)[!(1:size %in% train)]
   return(list(train = train, test = test))
 }
-set.seed(20230328) #We choose a seed
 splits <- indicies(dim(df_sev)[1],0.85)
 #Split covariates and truth
 regr_data_train <- list(
   covariates = as.matrix(df_sev[splits$train,] %>% select(-ClaimAmount)),
-  truth = log(as.numeric(df_sev$ClaimAmount[splits$train]))
+  truth = as.numeric(df_sev$ClaimAmount[splits$train])
 )
 regr_data_test <- list(
   covariates = as.matrix(df_sev[splits$test,] %>% select(-ClaimAmount)),
-  truth = log(as.numeric(df_sev$ClaimAmount[splits$test]))
+  truth = as.numeric(df_sev$ClaimAmount[splits$test])
 )
 #Fit model using hyperparameters
 xgb_regr_train <- xgboost(
   data = regr_data_train$covariates,
   label = regr_data_train$truth,
-  eta = sev_xgb_learner_instance$result_learner_param_vals$eta,
-  nrounds = sev_xgb_learner_instance$result_learner_param_vals$nrounds,
-  max_depth = sev_xgb_learner_instance$result_learner_param_vals$max_depth
+  eta = 0.2113299,
+  nrounds = 2345,
+  max_depth = 2,
+  objective = "reg:gamma"
 )
 #Save model
 saveRDS(xgb_regr_train, file = "rds/xgb_regr_train.rds")
@@ -806,27 +1064,30 @@ saveRDS(xgb_regr_train, file = "rds/xgb_regr_train.rds")
 #Predictions vs. truth
 pred <- predict(xgb_regr_train, newdata = regr_data_test$covariates)
 truth <- regr_data_test$truth
-mean(exp(pred))
-mean(exp(truth))
-#Mean Squared Log Error
-mean((pred - truth)^2)
-#Root MSE
-sqrt(mean((exp(pred) - exp(truth))^2))
+mean(pred)
+mean(truth)
+#Mean Squared Error
+MSE <- mean((pred - truth)^2)
+MSE
+sqrt(MSE)
 ```
 ```{r,eval = FALSE}
 #Split covariates and truth
 regr_data <- list(
   covariates = as.matrix(df_sev %>% select(-ClaimAmount)),
-  truth = log(as.numeric(df_sev$ClaimAmount))
+  truth = as.numeric(df_sev$ClaimAmount)
 )
 #Fit model using hyperparameters
 xgb_regr <- xgboost(
   data = regr_data$covariates,
   label = regr_data$truth,
-  eta = sev_xgb_learner_instance$result_learner_param_vals$eta,
-  nrounds = sev_xgb_learner_instance$result_learner_param_vals$nrounds,
-  max_depth = sev_xgb_learner_instance$result_learner_param_vals$max_depth
+  eta = 0.2113299,
+  nrounds = 2345,
+  max_depth = 2,
+  objective = "reg:gamma"
 )
+mean(regr_data$truth) #2388.372
+mean(predict(xgb_regr, newdata = regr_data$covariates)) #1889.226
 #Save model
 saveRDS(xgb_regr, file = "rds/xgb_regr.rds")
 ```
@@ -863,8 +1124,8 @@ task_freq <- df_freq %>%
 #XGB
 freq_xgb_learner <- lrn("classif.xgboost", 
                         eta = to_tune(0, 0.5),
-                        nrounds = to_tune(75, 5000),
-                        max_depth = to_tune(1, 3),
+                        nrounds = to_tune(3000, 10000),
+                        max_depth = to_tune(1, 2),
                         predict_type = "prob")
 freq_xgb_learner_instance = tune(
     #method = tnr("random_search"), ### tuning method
@@ -872,8 +1133,8 @@ freq_xgb_learner_instance = tune(
     task = task_freq,
     learner = freq_xgb_learner,
     resampling = rsmp("cv", folds = 5), #### resampling method: 5-fold cross validation
-    measures = msr("classif.logloss"), #### root mean squared error
-    terminator = trm("evals", n_evals = 200) #### terminator
+    measures = msr("classif.logloss"), #### log loss
+    terminator = trm("evals", n_evals = 500) #### terminator
   )
 saveRDS(freq_xgb_learner_instance, file = "rds/freq_xgb_learner_instance.rds")
 ```
@@ -881,9 +1142,9 @@ saveRDS(freq_xgb_learner_instance, file = "rds/freq_xgb_learner_instance.rds")
 | **Hyperparamater** | **Search space** | **Estimate** |
 | :- | :- | :-: |
 | *XGBoost* | | |
-| `eta` | $[0,0.5]$ | `r round(freq_xgb_learner_instance$result_learner_param_vals$eta,digits = 6)` |
-| `nrounds` | $[75,5000]$ | `r freq_xgb_learner_instance$result_learner_param_vals$nrounds` |
-| `max_depth` | $[1,3]$ | `r freq_xgb_learner_instance$result_learner_param_vals$max_depth` |
+| `eta` | $[0,0.5]$ | 0.1127201 |
+| `nrounds` | $[75,5000]$ | 4986 |
+| `max_depth` | $[1,2]$ | 2 |
 
 #### Fitting the model
 
@@ -904,9 +1165,9 @@ freq_data_test <- list(
 xgb_freq_train <- xgboost(
   data = freq_data_train$covariates,
   label = freq_data_train$truth,
-  eta = freq_xgb_learner_instance$result_learner_param_vals$eta,
-  nrounds = freq_xgb_learner_instance$result_learner_param_vals$nrounds,
-  max_depth = freq_xgb_learner_instance$result_learner_param_vals$max_depth,
+  eta = 0.1127201,
+  nrounds = 4986,
+  max_depth = 2,
   objective="count:poisson"
 )
 #Save model
@@ -938,11 +1199,13 @@ freq_data <- list(
 xgb_freq <- xgboost(
   data = freq_data$covariates,
   label = freq_data$truth,
-  eta = freq_xgb_learner_instance$result_learner_param_vals$eta,
-  nrounds = freq_xgb_learner_instance$result_learner_param_vals$nrounds,
-  max_depth = freq_xgb_learner_instance$result_learner_param_vals$max_depth,
+  eta = 0.1127201,
+  nrounds = 4986,
+  max_depth = 2,
   objective="count:poisson"
 )
+mean(freq_data$truth) # 0.106712
+mean(predict(xgb_freq, newdata = freq_data$covariates)) # 0.1067164
 #Save model
 saveRDS(xgb_freq, file = "rds/xgb_freq.rds")
 ```
@@ -954,17 +1217,156 @@ saveRDS(xgb_freq, file = "rds/xgb_freq.rds")
 sev_covariates <- df[,sev_columns] %>%
   select(-ClaimInd,-ID,-ClaimAmount,-Exposure)
 sev_covariates <-  as.matrix(sev_covariates)
-m_mu_ranger <- exp(predict(xgb_regr, newdata = sev_covariates))
+m_mu <- predict(xgb_regr, newdata = sev_covariates)
 # Estimating p
 freq_covariates <- df[,freq_columns] %>%
   select(-ClaimInd,-ID,-ClaimAmount)
 freq_covariates <- as.matrix(freq_covariates)
-m_p_ranger <- predict(xgb_freq_train, newdata = freq_covariates)
+m_p <- predict(xgb_freq_train, newdata = freq_covariates)
 freq_covariates[,"Exposure"] <- 1
-m_p_ranger_2 <- predict(xgb_freq_train, newdata = freq_covariates)
+m_p_2 <- predict(xgb_freq_train, newdata = freq_covariates)
 # Inserting estimates
-df[,"pi_hat"] <- m_mu_ranger * m_p_ranger
-df[,"mu_hat"] <- m_mu_ranger
-df[,"p_hat"] <- m_p_ranger
-df[,"pi_hat_new"] <- m_mu_ranger * m_p_ranger_2
+df[,"pi_hat"] <- m_mu * m_p
+df[,"mu_hat"] <- m_mu
+df[,"p_hat"] <- m_p
+df[,"p_hat_new"] <- m_p_2
+df[,"pi_hat_new"] <- m_mu * m_p_2
 ```
+
+## Extracting SHAP values
+
+```{r,eval=FALSE}
+#### Severity
+unified_xgb_regr <- xgboost.unify(xgb_regr,
+                                  data=regr_data$covariates)
+treeshap_xgb_regr <- treeshap(unified_xgb_regr,
+                              regr_data$covariates,
+                              verbose = 0)
+saveRDS(treeshap_xgb_regr, file = "rds/treeshap_xgb_regr.rds")
+#### Frequency
+unified_xgb_freq <- xgboost.unify(xgb_freq,
+                                  data=freq_data$covariates)
+
+treeshap_xgb_freq <- treeshap(unified_xgb_freq,
+                              freq_data$covariates,
+                              verbose = 0)
+saveRDS(treeshap_xgb_freq, file = "rds/treeshap_xgb_freq.rds")
+```
+
+## Debiassing the premium
+
+```{r,eval=FALSE}
+#### Severity
+sev_covariates <- df[,sev_columns] %>%
+  select(-ClaimInd,-ID,-ClaimAmount,-Exposure) %>%
+  mutate_if(is.integer, as.numeric) %>%
+  as.matrix()
+#Decomposing the effects from all interactions
+glex_sev <- glex(xgb_regr, sev_covariates)
+saveRDS(glex_sev, file = "rds/glex_sev.rds")
+
+# Recalibrating
+## Somehow log(prob) - glex = -1.19 for all predictions
+## We shift the intercept
+xgb_sev_pred <- predict(xgb_regr, newdata = sev_covariates)
+glex_sev_pred <- glex_sev$intercept + rowSums(glex_sev$m)
+shift <- mean(log(xgb_sev_pred) - glex_sev_pred)
+glex_sev$intercept <- glex_sev$intercept + shift
+
+## Debiasing
+# Remove gender effects
+calibrated_sum <- sum(exp(glex_sev$intercept + rowSums(glex_sev$m)))
+
+glex_sev$m <- glex_sev$m %>%
+  select(-contains("Gender_Sev"))
+# Construct unbiased estimate of mu
+unbias_sev <- exp(glex_sev$intercept + rowSums(glex_sev$m))
+# Scale up estimates
+unbias_sev <- unbias_sev * calibrated_sum / sum(unbias_sev)
+df[,"mu_hat_debiased"] <- unbias_sev
+
+#### Frequency
+freq_covariates <- df[,freq_columns] %>%
+  select(-ClaimInd,-ID,-ClaimAmount) %>%
+  mutate_if(is.integer, as.numeric) %>%
+  as.matrix()
+#Decomposing the effects from all interactions
+glex_freq <- glex(xgb_freq, freq_covariates)
+saveRDS(glex_freq, file = "rds/glex_freq.rds")
+# Version with exposure 1
+freq_covariates_2 <- freq_covariates
+freq_covariates_2[,"Exposure"] <- 1
+glex_freq_2 <- glex(xgb_freq, freq_covariates_2)
+saveRDS(glex_freq_2, file = "rds/glex_freq_2.rds")
+
+# Recalibrating
+## Somehow log(prob) - glex = -1.19 for all predictions
+## We shift the intercept
+xgb_freq_pred <- predict(xgb_freq, newdata = freq_covariates)
+glex_freq_pred <- glex_freq$intercept + rowSums(glex_freq$m)
+shift <- mean(log(xgb_freq_pred) - glex_freq_pred)
+glex_freq$intercept <- glex_freq$intercept + shift
+xgb_freq_pred <- predict(xgb_freq, newdata = freq_covariates_2)
+glex_freq_pred <- glex_freq_2$intercept + rowSums(glex_freq_2$m)
+shift <- mean(log(xgb_freq_pred) - glex_freq_pred)
+glex_freq_2$intercept <- glex_freq_2$intercept + shift
+
+## Debiasing
+# Remove gender effects
+calibrated_sum <- sum(exp(glex_freq$intercept + rowSums(glex_freq$m)))
+calibrated_sum_2 <- sum(exp(glex_freq_2$intercept + rowSums(glex_freq_2$m)))
+glex_freq$m <- glex_freq$m %>%
+  select(-contains("Gender_Freq"))
+glex_freq_2$m <- glex_freq_2$m %>%
+  select(-contains("Gender_Freq"))
+
+# Construct unbiased estimate of mu
+unbias_freq <- exp(glex_freq$intercept + rowSums(glex_freq$m))
+unbias_freq_2 <- exp(glex_freq_2$intercept + rowSums(glex_freq_2$m))
+# Scale up estimates
+unbias_freq <- unbias_freq * calibrated_sum / sum(unbias_freq)
+unbias_freq_2 <- unbias_freq_2 * calibrated_sum_2 / sum(unbias_freq_2)
+df[,"p_hat_debiased"] <- unbias_freq
+
+# Calculate premiums
+unbias <- unbias_freq*unbias_sev
+df[,"pi_hat_debiased"] <- unbias
+df[,"pi_hat_new_debiased"] <- unbias_freq_2*unbias_sev
+```
+
+\newpage
+
+# Appendicies
+
+## Distributions of severity
+
+```{r,echo= FALSE}
+X <- df_sev$ClaimAmount
+N <- length(X)
+shape <- (N*sum(X))/(N*sum(log(X)*X)-sum(X)*sum(log(X)))
+scale <- (N**(-2))*(N*sum(log(X)*X)-sum(X)*sum(log(X)))
+rate <- 1/scale
+p <- ggplot(data=df_sev,aes(x=ClaimAmount)) +
+  geom_histogram(aes(y=..density..), bins = 75) +
+  geom_line(aes(x=ClaimAmount, y=dgamma(ClaimAmount, rate = rate, shape = shape)), color="red", size = 1) +
+  theme_custom() + xlim(0,5000) + ylim(0,0.0015) +
+  labs(title = "Gamma distribution fitted to claim amount")
+ggsave("figures/sev_gamma.png",bg='transparent',plot = p, height = 1080*1.5,width = 1620*1.5, units="px")
+```
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/sev_gamma.png}
+\end{figure}
+
+One may fit samples $X_1,...,X_N$ of iid $\Gamma(\alpha,\beta)$ distributed variables using MLE methods. In this notation we have $\alpha>0$ being the shape parameter and $\beta > 0$ being the rate. One may calculate an estimate of $\alpha$ and $\beta$ using:
+
+$$
+\hat\alpha_N=\frac{N\sum_{i=1}^NX_i}{N\sum_{i=1}^N\log(X_i)X_i-\left(\sum_{i=1}^NX_i\right)\left(\sum_{i=1}^N\log(X_i)\right)}
+$$
+
+and 
+
+$$
+\frac{1}{\hat\beta_N}=\frac{1}{N^2}\left(N\sum_{i=1}^N\log(X_i)X_i-\left(\sum_{i=1}^NX_i\right)\left(\sum_{i=1}^N\log(X_i)\right)\right).
+$$

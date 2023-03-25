@@ -119,15 +119,15 @@
 \hypersetup{
   pdftitle={Comparing and Intereting Machine Learning Algorithms Estimating Technical Prices},
   pdfkeywords={mlr3, machine learning, regression, non-life insurance,
-estimating technical price, XGBoost, Ranger, Bart, Elastic net
-regression, Generalized Additive Models},
+estimating technical price, XGBoost, debiassing, bias, SHAP-values,
+interpretation of ML models},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Comparing and Intereting Machine Learning Algorithms Estimating
 Technical Prices}
 \author{true}
-\date{2023-03-23}
+\date{2023-03-25}
 
 \begin{document}
 
@@ -147,15 +147,17 @@ machine learning algorithms to car insurance data using the
 \texttt{mlr3} package. A popular model used in pricing of non-life
 insurance policies is the frequency-severity model, where the price is
 decomposed into the product of the probability of a claim arrises and
-the expected claim size given a claim occurs. This model is fitted using
-machine learning algorithms such as penalized linear regression and
-random forests. This paper argues that the ranger model gives a
-particular well fit to both the frequency and severity model.
+the expected claim size given a claim occurs. This paper argues that a
+treebased model gives a particular well fit to both the frequency and
+severity model. Furthermore, the estimate is interpreted using shapley
+values to give an insight into the risk factors of car insurance.
+Lastly, the price model is debiassed using a decomposition techique. The
+result is a pricing model that does not discriminate based on gender.
 
 
 \noindent \emph{Keywords}: mlr3, machine learning, regression, non-life
-insurance, estimating technical price, XGBoost, Ranger, Bart, Elastic
-net regression, Generalized Additive Models \par
+insurance, estimating technical price, XGBoost, debiassing, bias,
+SHAP-values, interpretation of ML models \par
 
  \hbox{\vrule height .2pt width 39.14pc}
 
@@ -353,6 +355,39 @@ with \(*\) denoting the model for \(j=\mu,p\).
     \caption{(a): Predictions from the model with y being the actual value and x being the estimate. The red line represent the mapping $y=x$. (b): Distribution of the response and actual values. The red density function represents the empirical density of the test data set.}
 \end{figure}
 
+We fit a XGBoost estimator to the dataset where we only consider the
+non-zero claims. The distribution of the claim is rather heavy tailed as
+most claims are relative small but some claims have the potential of
+being large. If we fit a gamma distribution to the entire dataset, we
+see that the claim amount appear to be gamma distributed with shape 0.51
+and scale 4681. As such it would be appropriate to use the log link
+function when fitting the parameters by setting
+\texttt{objective\ =\ "reg:gamma"}. This means that the estimator
+\(m_\mu(X)\) takes the form
+
+\[
+\log(\mathbb E[Y\ \vert\ X,Y>0])=m_\mu(X).
+\]
+
+Since XGBoost is a tree based algorithm with estimator
+\(\hat m_\mu(X) = \sum_{i=1}^k \hat f_k(X)\) we have the decomposition
+
+\[
+\mathbb E[Y\ \vert\ X,Y>0] \approx\exp\left(\sum_{i=1}^k \hat f_k(X)\right) =\prod_{i=1}^k\exp\left(\hat f_k(X)\right),
+\]
+
+where \(k\) is the weak leaner (\texttt{nrounds}). By using the package
+\texttt{mlr3} and the root mean squared loss we can estimate the
+hyperparameters: leaning rate \(\eta\), depth and number og trees \(k\).
+This is done using 5-fold cross validation with 1000 evals. Using the
+hyperparameters the model is fitted to the dataset.
+
+In the figure above it can be seen how the model does on the training
+set using a model fitted to 85\% randomly chosen datapoints. The model
+seem to predict well and we see a symmetry around \(y=x\). I does
+however seem as though the estimates have less variance than the actual
+claim amounts (see the (b) figure).
+
 \hypertarget{frequency}{%
 \subsection{Frequency}\label{frequency}}
 
@@ -362,6 +397,23 @@ with \(*\) denoting the model for \(j=\mu,p\).
   \end{center}
   \caption{A combined boxplot and violin plot of the distribution of the predicted probability for respectively the non claim (left) and claim (right) policies.}
 \end{wrapfigure}
+
+The frequency is modeled using the \texttt{xgboost} packages. The claims
+is assumed to arrive poisson distributed given the covariates \(X\) and
+so the XGBoost estimator is fitted with
+\texttt{objective\ =\ "count:poisson"}. This implements the log-link
+function and optimizes using the gradient of the poisson deviance.
+
+Like in the case of the severity model we have the same log link
+function and so for trees \(1,...,l\) we will have the estimate
+
+\[
+\mathbb E[1_{Y>0}\ \vert\ X]\approx\prod_{i=1}^l\exp(g_i(X)).
+\]
+
+In the figure on the right, we see that the algorithm fit higher
+probabilities (frequencies) to policies that actually happened to raise
+a claim.
 
 \hypertarget{initial-estimate-of-the-technical-premium}{%
 \subsection{Initial estimate of the technical
@@ -377,11 +429,11 @@ Notice that the length of the contract i.e.~the exposure is used as a
 covariate in the frequency/severity model, and so the effect of longer
 contracts is already priced in. By default new contracts are sold with a
 yearly length, however in the case of estimating on the dataset we use
-the given \texttt{Exposure}. Since the risk is the less with the ranger
-algorithm we estimate \(\pi\) by
+the given \texttt{Exposure}. Up untill now we have used the protected
+feature gender in the estimate, so we start by fitting a biased estimate
 
 \[
-\hat \pi=\hat m_\mu^{(1)}(X)\cdot\hat m_p^{(1)}(X)\cdot e.
+\hat \pi^{(biased)}=\hat m_\mu^{(biased)}(X)\cdot\hat m_p^{(biased)}(X).
 \]
 
 We can apply the technical price onto the dataset \texttt{df} by running
@@ -393,53 +445,51 @@ the following code:
 \NormalTok{sev\_covariates }\OtherTok{\textless{}{-}}\NormalTok{ df[,sev\_columns] }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimInd,}\SpecialCharTok{{-}}\NormalTok{ID,}\SpecialCharTok{{-}}\NormalTok{ClaimAmount,}\SpecialCharTok{{-}}\NormalTok{Exposure)}
 \NormalTok{sev\_covariates }\OtherTok{\textless{}{-}}  \FunctionTok{as.matrix}\NormalTok{(sev\_covariates)}
-\NormalTok{m\_mu\_ranger }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(}\FunctionTok{predict}\NormalTok{(xgb\_regr, }\AttributeTok{newdata =}\NormalTok{ sev\_covariates))}
+\NormalTok{m\_mu }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_regr, }\AttributeTok{newdata =}\NormalTok{ sev\_covariates)}
 \CommentTok{\# Estimating p}
 \NormalTok{freq\_covariates }\OtherTok{\textless{}{-}}\NormalTok{ df[,freq\_columns] }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimInd,}\SpecialCharTok{{-}}\NormalTok{ID,}\SpecialCharTok{{-}}\NormalTok{ClaimAmount)}
 \NormalTok{freq\_covariates }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(freq\_covariates)}
-\NormalTok{m\_p\_ranger }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
+\NormalTok{m\_p }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
 \NormalTok{freq\_covariates[,}\StringTok{"Exposure"}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
-\NormalTok{m\_p\_ranger\_2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
+\NormalTok{m\_p\_2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
 \CommentTok{\# Inserting estimates}
-\NormalTok{df[,}\StringTok{"pi\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu\_ranger }\SpecialCharTok{*}\NormalTok{ m\_p\_ranger}
-\NormalTok{df[,}\StringTok{"mu\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu\_ranger}
-\NormalTok{df[,}\StringTok{"p\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_p\_ranger}
-\NormalTok{df[,}\StringTok{"pi\_hat\_new"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu\_ranger }\SpecialCharTok{*}\NormalTok{ m\_p\_ranger\_2}
+\NormalTok{df[,}\StringTok{"pi\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu }\SpecialCharTok{*}\NormalTok{ m\_p}
+\NormalTok{df[,}\StringTok{"mu\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu}
+\NormalTok{df[,}\StringTok{"p\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_p}
+\NormalTok{df[,}\StringTok{"p\_hat\_new"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_p\_2}
+\NormalTok{df[,}\StringTok{"pi\_hat\_new"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu }\SpecialCharTok{*}\NormalTok{ m\_p\_2}
 \end{Highlighting}
 \end{Shaded}
 
 We can summarize the models predictions on the policies below.
 
-\begin{longtable}[]{@{}cccccc@{}}
-\toprule()
-Policy & Exposure & \(\hat \mu_X\) & \(\hat p_X\) & \(\hat \pi\) & \\
-\midrule()
+\begin{longtable}[t]{llllllllll}
+\caption{\label{tab:unnamed-chunk-7}Comparing premiums}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Actual} & \multicolumn{4}{c}{Extrapolated} \\
+\cmidrule(l{3pt}r{3pt}){3-6} \cmidrule(l{3pt}r{3pt}){7-10}
+Policy & Gender & Exposure & p(Y>0) & E(Y|Y>0) & Price & Exposure & p(Y>0) & E(Y|Y>0) & Price\\
+\midrule
+\endfirsthead
+\caption[]{Comparing premiums \textit{(continued)}}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Actual} & \multicolumn{4}{c}{Extrapolated} \\
+\cmidrule(l{3pt}r{3pt}){3-6} \cmidrule(l{3pt}r{3pt}){7-10}
+Policy & Gender & Exposure & p(Y>0) & E(Y|Y>0) & Price & Exposure & p(Y>0) & E(Y|Y>0) & Price\\
+\midrule
 \endhead
-6257 & 0.08 & 884.87 & 0.00804 & 7.11 & \\
-24131 & 0.2 & 3099.74 & 0.60195 & 1865.89 & \\
-25018 & 0.1 & 1205.1 & 0.0198 & 23.86 & \\
-25196 & 0.08 & 427.6 & 0.01551 & 6.63 & \\
-30503 & 0.05 & 6184.3 & 0.00014 & 0.86 & \\
-30563 & 0.41 & 1317.45 & 0.00398 & 5.24 & \\
-\bottomrule()
-\end{longtable}
 
-If we set the exposure to one we get new estimates and the technical
-price the insurance firm will give to new contracts.
-
-\begin{longtable}[]{@{}cccccc@{}}
-\toprule()
-Policy & Exposure & \(\hat \mu_X\) & \(\hat p_X\) & \(\hat \pi\) & \\
-\midrule()
-\endhead
-6257 & 1 & 884.87 & 0.24141 & 213.62 & \\
-24131 & 1 & 3099.74 & 0.15212 & 471.54 & \\
-25018 & 1 & 1205.1 & 0.22273 & 268.41 & \\
-25196 & 1 & 427.6 & 0.1326 & 56.7 & \\
-30503 & 1 & 6184.3 & 0.06735 & 416.5 & \\
-30563 & 1 & 1317.45 & 0.00131 & 1.73 & \\
-\bottomrule()
+\endfoot
+\bottomrule
+\endlastfoot
+\cellcolor{gray!6}{6254} & \cellcolor{gray!6}{Female} & \cellcolor{gray!6}{0.083} & \cellcolor{gray!6}{0.0465} & \cellcolor{gray!6}{1051} & \cellcolor{gray!6}{48.9} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0.154} & \cellcolor{gray!6}{1051} & \cellcolor{gray!6}{161.5}\\
+24123 & Male & 0.633 & 0.1677 & 917 & 153.7 & 1 & 0.191 & 917 & 175.1\\
+\cellcolor{gray!6}{25010} & \cellcolor{gray!6}{Female} & \cellcolor{gray!6}{0.208} & \cellcolor{gray!6}{0.1097} & \cellcolor{gray!6}{1226} & \cellcolor{gray!6}{134.4} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0.499} & \cellcolor{gray!6}{1226} & \cellcolor{gray!6}{611.8}\\
+25188 & Male & 0.095 & 0.0524 & 2468 & 129.4 & 1 & 0.223 & 2468 & 550.8\\
+\cellcolor{gray!6}{30495} & \cellcolor{gray!6}{Female} & \cellcolor{gray!6}{0.751} & \cellcolor{gray!6}{0.1034} & \cellcolor{gray!6}{755} & \cellcolor{gray!6}{78.1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0.113} & \cellcolor{gray!6}{755} & \cellcolor{gray!6}{85.5}\\
+\addlinespace
+30555 & Male & 0.163 & 0.0338 & 617 & 20.9 & 1 & 0.145 & 617 & 89.6\\*
 \end{longtable}
 
 In the table above we have altered the dataset with exposure set to 1
@@ -454,9 +504,41 @@ depend on the exposure.
 \hypertarget{decomposing-the-estimates}{%
 \section{Decomposing the estimates}\label{decomposing-the-estimates}}
 
-\hypertarget{diskrimination-and-debaissing-of-the-model}{%
-\section{Diskrimination and debaissing of the
-model}\label{diskrimination-and-debaissing-of-the-model}}
+\newpage
+
+\hypertarget{discrimination-and-debaissing-of-the-model}{%
+\section{Discrimination and debaissing of the
+model}\label{discrimination-and-debaissing-of-the-model}}
+
+\begin{longtable}[t]{llllllll}
+\caption{\label{tab:unnamed-chunk-11}Comparing premiums}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{3}{c}{Biased} & \multicolumn{3}{c}{Debiased} \\
+\cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-8}
+Policy & Gender & p(Y>0) & E(Y|Y>0) & Price & p(Y>0) & E(Y|Y>0) & Price\\
+\midrule
+\endfirsthead
+\caption[]{Comparing premiums \textit{(continued)}}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{3}{c}{Biased} & \multicolumn{3}{c}{Debiased} \\
+\cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-8}
+Policy & Gender & p(Y>0) & E(Y|Y>0) & Price & p(Y>0) & E(Y|Y>0) & Price\\
+\midrule
+\endhead
+
+\endfoot
+\bottomrule
+\endlastfoot
+\cellcolor{gray!6}{6254} & \cellcolor{gray!6}{Female} & \cellcolor{gray!6}{0.0465} & \cellcolor{gray!6}{1051} & \cellcolor{gray!6}{48.9} & \cellcolor{gray!6}{0.0550} & \cellcolor{gray!6}{1007} & \cellcolor{gray!6}{55.4}\\
+24123 & Male & 0.1677 & 917 & 153.7 & 0.1469 & 932 & 136.9\\
+\cellcolor{gray!6}{25010} & \cellcolor{gray!6}{Female} & \cellcolor{gray!6}{0.1097} & \cellcolor{gray!6}{1226} & \cellcolor{gray!6}{134.4} & \cellcolor{gray!6}{0.1074} & \cellcolor{gray!6}{1189} & \cellcolor{gray!6}{127.7}\\
+25188 & Male & 0.0524 & 2468 & 129.4 & 0.0502 & 2518 & 126.4\\
+\cellcolor{gray!6}{30495} & \cellcolor{gray!6}{Female} & \cellcolor{gray!6}{0.1034} & \cellcolor{gray!6}{755} & \cellcolor{gray!6}{78.1} & \cellcolor{gray!6}{0.0976} & \cellcolor{gray!6}{804} & \cellcolor{gray!6}{78.4}\\
+\addlinespace
+30555 & Male & 0.0338 & 617 & 20.9 & 0.0296 & 618 & 18.3\\*
+\end{longtable}
+
+\newpage
 
 \hypertarget{repreducing-statement}{%
 \section{Repreducing statement}\label{repreducing-statement}}
@@ -576,10 +658,15 @@ The following changes has been made to the data \texttt{freMPL1}:
   The observations \texttt{VehEngine} being equal to either
   \texttt{electric} or \texttt{GPL} is removed.
 \item
+  The levels A-C, R-T and U-Z are combined in \texttt{VehPrice}.
+\item
   The lowest two \texttt{VehMaxSpeed} are combined.
 \item
   The category \texttt{bus} is layed under \texttt{sedan} in the column
   \texttt{VehBody}.
+\item
+  The column \texttt{SocioCateg} is combined into three layers:
+  \texttt{A}, \texttt{B} and \texttt{C}.
 \end{enumerate}
 
 These changes may be read in the script below.
@@ -604,11 +691,29 @@ These changes may be read in the script below.
 \NormalTok{freMPL1 }\OtherTok{\textless{}{-}}\NormalTok{ freMPL1 }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{(VehEngine }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"electric"}\NormalTok{,}\StringTok{"GPL"}\NormalTok{)))}
 
-\CommentTok{\#5: Combining max speed levels}
+\CommentTok{\#5: Combining price categories}
+\FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehPrice)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"A{-}C"}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehPrice))}
+\FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehPrice)[(n}\DecValTok{{-}5}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n] }\OtherTok{\textless{}{-}} \StringTok{"U{-}Z"}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehPrice))}
+\FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehPrice)[(n}\DecValTok{{-}3}\NormalTok{)}\SpecialCharTok{:}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)] }\OtherTok{\textless{}{-}} \StringTok{"R{-}T"}
+
+\CommentTok{\#6: Combining max speed levels}
 \FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehMaxSpeed)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"1{-}140 kmh"}
 
-\CommentTok{\#6: Bus set to sedan}
+\CommentTok{\#7: Bus set to sedan}
 \FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehBody)[}\FunctionTok{levels}\NormalTok{(freMPL1}\SpecialCharTok{$}\NormalTok{VehBody) }\SpecialCharTok{==} \StringTok{"bus"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"sedan"}
+
+\CommentTok{\#8: SocioCateg change levels}
+\NormalTok{freMPL1 }\OtherTok{\textless{}{-}}\NormalTok{ freMPL1 }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#Get numerical value of SocioCateg}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{helper =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{substr}\NormalTok{(SocioCateg,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#Overwrite SocioCateg }
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{SocioCateg =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{ifelse}\NormalTok{(helper }\SpecialCharTok{\textgreater{}} \DecValTok{50}\NormalTok{, }\StringTok{"C"}\NormalTok{,}
+                                    \FunctionTok{ifelse}\NormalTok{( helper }\SpecialCharTok{\textless{}} \DecValTok{50}\NormalTok{, }\StringTok{"A"}\NormalTok{,}
+                                            \StringTok{"B"}\NormalTok{)),}
+                             \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{,}\StringTok{"B"}\NormalTok{,}\StringTok{"C"}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{helper)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -622,7 +727,7 @@ ordering on both severity and frequency. For instance the
 \texttt{RiskVar} column are translated via the table:
 
 \begin{longtable}[t]{lllll}
-\caption{\label{tab:unnamed-chunk-10}RiskVar transformation}\\
+\caption{\label{tab:unnamed-chunk-15}RiskVar transformation}\\
 \toprule
 \multicolumn{1}{c}{Before} & \multicolumn{2}{c}{Metrics} & \multicolumn{2}{c}{After} \\
 \cmidrule(l{3pt}r{3pt}){1-1} \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
@@ -738,8 +843,8 @@ hyperparameters}\label{estimating-hyperparameters}}
 \begin{Highlighting}[]
 \CommentTok{\#Start a task}
 \NormalTok{task\_sev }\OtherTok{\textless{}{-}}\NormalTok{ df\_sev }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ClaimAmount =} \FunctionTok{log}\NormalTok{(ClaimAmount)) }\SpecialCharTok{\%\textgreater{}\%}
-  \CommentTok{\#Start tast with target ClaimAmound}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ClaimAmount =}\NormalTok{ ClaimAmount) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#Start tast with target ClaimAmount}
   \FunctionTok{as\_task\_regr}\NormalTok{(.,}
                \AttributeTok{target =} \StringTok{"ClaimAmount"}\NormalTok{,}
                \AttributeTok{id=} \StringTok{"Severity"}\NormalTok{)}
@@ -747,8 +852,8 @@ hyperparameters}\label{estimating-hyperparameters}}
 \DocumentationTok{\#\#\# XGBoost}
 \NormalTok{sev\_xgb\_learner }\OtherTok{\textless{}{-}} \FunctionTok{lrn}\NormalTok{(}\StringTok{"regr.xgboost"}\NormalTok{,}
                    \AttributeTok{eta =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{),}
-                   \AttributeTok{nrounds =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{75}\NormalTok{, }\DecValTok{5000}\NormalTok{),}
-                   \AttributeTok{max\_depth =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
+                   \AttributeTok{nrounds =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{75}\NormalTok{, }\DecValTok{3000}\NormalTok{),}
+                   \AttributeTok{max\_depth =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
 
 \DocumentationTok{\#\#\# XGBoost}
 \FunctionTok{set.seed}\NormalTok{(}\DecValTok{20230328}\NormalTok{) }\CommentTok{\#We choose a seed}
@@ -759,24 +864,36 @@ hyperparameters}\label{estimating-hyperparameters}}
   \AttributeTok{task =}\NormalTok{ task\_sev,}
   \AttributeTok{learner =}\NormalTok{ sev\_xgb\_learner,}
   \AttributeTok{resampling =} \FunctionTok{rsmp}\NormalTok{(}\StringTok{"cv"}\NormalTok{, }\AttributeTok{folds =} \DecValTok{5}\NormalTok{), }\DocumentationTok{\#\#\#\# resampling method: 5{-}fold cross validation}
-  \AttributeTok{measures =} \FunctionTok{msr}\NormalTok{(}\StringTok{"regr.rmse"}\NormalTok{), }\DocumentationTok{\#\#\#\# Mean Squared Log Error}
-  \AttributeTok{terminator =} \FunctionTok{trm}\NormalTok{(}\StringTok{"evals"}\NormalTok{, }\AttributeTok{n\_evals =} \DecValTok{200}\NormalTok{) }\DocumentationTok{\#\#\#\# terminator}
+  \AttributeTok{measures =} \FunctionTok{msr}\NormalTok{(}\StringTok{"regr.mse"}\NormalTok{), }\DocumentationTok{\#\#\#\# Root Mean Squared Log Error}
+  \AttributeTok{terminator =} \FunctionTok{trm}\NormalTok{(}\StringTok{"evals"}\NormalTok{, }\AttributeTok{n\_evals =} \DecValTok{1000}\NormalTok{) }\DocumentationTok{\#\#\#\# terminator}
 \NormalTok{)}
 \CommentTok{\#Save the instance}
 \FunctionTok{saveRDS}\NormalTok{(sev\_xgb\_learner\_instance, }\AttributeTok{file =} \StringTok{"rds/sev\_xgb\_learner\_instance.rds"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{longtable}[]{@{}llc@{}}
-\toprule()
-\textbf{Hyperparamater} & \textbf{Search space} & \textbf{Estimate} \\
-\midrule()
+\begin{longtable}[t]{llrrrrr}
+\caption{\label{tab:unnamed-chunk-20}Hyperparameters}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{3}{c}{Respone = Y} & \multicolumn{2}{c}{Respone = log(Y)} \\
+\cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-7}
+Hyperparameter & Search domain & regr.rmsle & regr.rmse & regr.mse & regr.rmse & regr.mse\\
+\midrule
+\endfirsthead
+\caption[]{Hyperparameters \textit{(continued)}}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{3}{c}{Respone = Y} & \multicolumn{2}{c}{Respone = log(Y)} \\
+\cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-7}
+Hyperparameter & Search domain & regr.rmsle & regr.rmse & regr.mse & regr.rmse & regr.mse\\
+\midrule
 \endhead
-\emph{XGBoost} & & \\
-\texttt{eta} & \([0,0.5]\) & 0.089492 \\
-\texttt{nrounds} & \([75,5000]\) & 4925 \\
-\texttt{max\_depth} & \([1,3]\) & 3 \\
-\bottomrule()
+
+\endfoot
+\bottomrule
+\endlastfoot
+eta & {}[0,0.5] & 0.010857 & 0.2113299 & 0 & 0 & 0\\
+nrounds & {}[75,3000] & 221.000000 & 2345.0000000 & 0 & 0 & 0\\
+max\_depth & {}[1,2] & 1.000000 & 2.0000000 & 0 & 0 & 0\\*
 \end{longtable}
 
 \hypertarget{fitting-the-model}{%
@@ -786,28 +903,29 @@ hyperparameters}\label{estimating-hyperparameters}}
 \begin{Highlighting}[]
 \CommentTok{\#Partition for training}
 \NormalTok{indicies }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(size,ratio)\{}
+  \FunctionTok{set.seed}\NormalTok{(}\DecValTok{20230328}\NormalTok{) }\CommentTok{\#We choose a seed}
 \NormalTok{  train }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{size,}\FunctionTok{ceiling}\NormalTok{(size}\SpecialCharTok{*}\NormalTok{ratio),}\AttributeTok{replace =} \ConstantTok{FALSE}\NormalTok{))}
 \NormalTok{  test }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{:}\NormalTok{size)[}\SpecialCharTok{!}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{size }\SpecialCharTok{\%in\%}\NormalTok{ train)]}
   \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{train =}\NormalTok{ train, }\AttributeTok{test =}\NormalTok{ test))}
 \NormalTok{\}}
-\FunctionTok{set.seed}\NormalTok{(}\DecValTok{20230328}\NormalTok{) }\CommentTok{\#We choose a seed}
 \NormalTok{splits }\OtherTok{\textless{}{-}} \FunctionTok{indicies}\NormalTok{(}\FunctionTok{dim}\NormalTok{(df\_sev)[}\DecValTok{1}\NormalTok{],}\FloatTok{0.85}\NormalTok{)}
 \CommentTok{\#Split covariates and truth}
 \NormalTok{regr\_data\_train }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
   \AttributeTok{covariates =} \FunctionTok{as.matrix}\NormalTok{(df\_sev[splits}\SpecialCharTok{$}\NormalTok{train,] }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimAmount)),}
-  \AttributeTok{truth =} \FunctionTok{log}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(df\_sev}\SpecialCharTok{$}\NormalTok{ClaimAmount[splits}\SpecialCharTok{$}\NormalTok{train]))}
+  \AttributeTok{truth =} \FunctionTok{as.numeric}\NormalTok{(df\_sev}\SpecialCharTok{$}\NormalTok{ClaimAmount[splits}\SpecialCharTok{$}\NormalTok{train])}
 \NormalTok{)}
 \NormalTok{regr\_data\_test }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
   \AttributeTok{covariates =} \FunctionTok{as.matrix}\NormalTok{(df\_sev[splits}\SpecialCharTok{$}\NormalTok{test,] }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimAmount)),}
-  \AttributeTok{truth =} \FunctionTok{log}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(df\_sev}\SpecialCharTok{$}\NormalTok{ClaimAmount[splits}\SpecialCharTok{$}\NormalTok{test]))}
+  \AttributeTok{truth =} \FunctionTok{as.numeric}\NormalTok{(df\_sev}\SpecialCharTok{$}\NormalTok{ClaimAmount[splits}\SpecialCharTok{$}\NormalTok{test])}
 \NormalTok{)}
 \CommentTok{\#Fit model using hyperparameters}
 \NormalTok{xgb\_regr\_train }\OtherTok{\textless{}{-}} \FunctionTok{xgboost}\NormalTok{(}
   \AttributeTok{data =}\NormalTok{ regr\_data\_train}\SpecialCharTok{$}\NormalTok{covariates,}
   \AttributeTok{label =}\NormalTok{ regr\_data\_train}\SpecialCharTok{$}\NormalTok{truth,}
-  \AttributeTok{eta =}\NormalTok{ sev\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{eta,}
-  \AttributeTok{nrounds =}\NormalTok{ sev\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{nrounds,}
-  \AttributeTok{max\_depth =}\NormalTok{ sev\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{max\_depth}
+  \AttributeTok{eta =} \FloatTok{0.2113299}\NormalTok{,}
+  \AttributeTok{nrounds =} \DecValTok{2345}\NormalTok{,}
+  \AttributeTok{max\_depth =} \DecValTok{2}\NormalTok{,}
+  \AttributeTok{objective =} \StringTok{"reg:gamma"}
 \NormalTok{)}
 \CommentTok{\#Save model}
 \FunctionTok{saveRDS}\NormalTok{(xgb\_regr\_train, }\AttributeTok{file =} \StringTok{"rds/xgb\_regr\_train.rds"}\NormalTok{)}
@@ -819,44 +937,44 @@ hyperparameters}\label{estimating-hyperparameters}}
 \CommentTok{\#Predictions vs. truth}
 \NormalTok{pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_regr\_train, }\AttributeTok{newdata =}\NormalTok{ regr\_data\_test}\SpecialCharTok{$}\NormalTok{covariates)}
 \NormalTok{truth }\OtherTok{\textless{}{-}}\NormalTok{ regr\_data\_test}\SpecialCharTok{$}\NormalTok{truth}
-\FunctionTok{mean}\NormalTok{(}\FunctionTok{exp}\NormalTok{(pred))}
+\FunctionTok{mean}\NormalTok{(pred)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 2015.188
+## [1] 1855.073
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{mean}\NormalTok{(}\FunctionTok{exp}\NormalTok{(truth))}
+\FunctionTok{mean}\NormalTok{(truth)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 2438.129
+## [1] 2899.917
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Mean Squared Log Error}
-\FunctionTok{mean}\NormalTok{((pred }\SpecialCharTok{{-}}\NormalTok{ truth)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\CommentTok{\#Mean Squared Error}
+\NormalTok{MSE }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{((pred }\SpecialCharTok{{-}}\NormalTok{ truth)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{MSE}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1.362892
+## [1] 62934280
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Root MSE}
-\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((}\FunctionTok{exp}\NormalTok{(pred) }\SpecialCharTok{{-}} \FunctionTok{exp}\NormalTok{(truth))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\FunctionTok{sqrt}\NormalTok{(MSE)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3065.317
+## [1] 7933.113
 \end{verbatim}
 
 \begin{Shaded}
@@ -864,16 +982,19 @@ hyperparameters}\label{estimating-hyperparameters}}
 \CommentTok{\#Split covariates and truth}
 \NormalTok{regr\_data }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}
   \AttributeTok{covariates =} \FunctionTok{as.matrix}\NormalTok{(df\_sev }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimAmount)),}
-  \AttributeTok{truth =} \FunctionTok{log}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(df\_sev}\SpecialCharTok{$}\NormalTok{ClaimAmount))}
+  \AttributeTok{truth =} \FunctionTok{as.numeric}\NormalTok{(df\_sev}\SpecialCharTok{$}\NormalTok{ClaimAmount)}
 \NormalTok{)}
 \CommentTok{\#Fit model using hyperparameters}
 \NormalTok{xgb\_regr }\OtherTok{\textless{}{-}} \FunctionTok{xgboost}\NormalTok{(}
   \AttributeTok{data =}\NormalTok{ regr\_data}\SpecialCharTok{$}\NormalTok{covariates,}
   \AttributeTok{label =}\NormalTok{ regr\_data}\SpecialCharTok{$}\NormalTok{truth,}
-  \AttributeTok{eta =}\NormalTok{ sev\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{eta,}
-  \AttributeTok{nrounds =}\NormalTok{ sev\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{nrounds,}
-  \AttributeTok{max\_depth =}\NormalTok{ sev\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{max\_depth}
+  \AttributeTok{eta =} \FloatTok{0.2113299}\NormalTok{,}
+  \AttributeTok{nrounds =} \DecValTok{2345}\NormalTok{,}
+  \AttributeTok{max\_depth =} \DecValTok{2}\NormalTok{,}
+  \AttributeTok{objective =} \StringTok{"reg:gamma"}
 \NormalTok{)}
+\FunctionTok{mean}\NormalTok{(regr\_data}\SpecialCharTok{$}\NormalTok{truth) }\CommentTok{\#2388.372}
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{predict}\NormalTok{(xgb\_regr, }\AttributeTok{newdata =}\NormalTok{ regr\_data}\SpecialCharTok{$}\NormalTok{covariates)) }\CommentTok{\#1889.226}
 \CommentTok{\#Save model}
 \FunctionTok{saveRDS}\NormalTok{(xgb\_regr, }\AttributeTok{file =} \StringTok{"rds/xgb\_regr.rds"}\NormalTok{)}
 \end{Highlighting}
@@ -918,8 +1039,8 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \CommentTok{\#XGB}
 \NormalTok{freq\_xgb\_learner }\OtherTok{\textless{}{-}} \FunctionTok{lrn}\NormalTok{(}\StringTok{"classif.xgboost"}\NormalTok{, }
                         \AttributeTok{eta =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{),}
-                        \AttributeTok{nrounds =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{75}\NormalTok{, }\DecValTok{5000}\NormalTok{),}
-                        \AttributeTok{max\_depth =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{),}
+                        \AttributeTok{nrounds =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{3000}\NormalTok{, }\DecValTok{10000}\NormalTok{),}
+                        \AttributeTok{max\_depth =} \FunctionTok{to\_tune}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{),}
                         \AttributeTok{predict\_type =} \StringTok{"prob"}\NormalTok{)}
 \NormalTok{freq\_xgb\_learner\_instance }\OtherTok{=} \FunctionTok{tune}\NormalTok{(}
     \CommentTok{\#method = tnr("random\_search"), }\AlertTok{\#\#\#}\CommentTok{ tuning method}
@@ -927,8 +1048,8 @@ hyperparameters}\label{estimating-hyperparameters-1}}
     \AttributeTok{task =}\NormalTok{ task\_freq,}
     \AttributeTok{learner =}\NormalTok{ freq\_xgb\_learner,}
     \AttributeTok{resampling =} \FunctionTok{rsmp}\NormalTok{(}\StringTok{"cv"}\NormalTok{, }\AttributeTok{folds =} \DecValTok{5}\NormalTok{), }\DocumentationTok{\#\#\#\# resampling method: 5{-}fold cross validation}
-    \AttributeTok{measures =} \FunctionTok{msr}\NormalTok{(}\StringTok{"classif.logloss"}\NormalTok{), }\DocumentationTok{\#\#\#\# root mean squared error}
-    \AttributeTok{terminator =} \FunctionTok{trm}\NormalTok{(}\StringTok{"evals"}\NormalTok{, }\AttributeTok{n\_evals =} \DecValTok{200}\NormalTok{) }\DocumentationTok{\#\#\#\# terminator}
+    \AttributeTok{measures =} \FunctionTok{msr}\NormalTok{(}\StringTok{"classif.logloss"}\NormalTok{), }\DocumentationTok{\#\#\#\# log loss}
+    \AttributeTok{terminator =} \FunctionTok{trm}\NormalTok{(}\StringTok{"evals"}\NormalTok{, }\AttributeTok{n\_evals =} \DecValTok{500}\NormalTok{) }\DocumentationTok{\#\#\#\# terminator}
 \NormalTok{  )}
 \FunctionTok{saveRDS}\NormalTok{(freq\_xgb\_learner\_instance, }\AttributeTok{file =} \StringTok{"rds/freq\_xgb\_learner\_instance.rds"}\NormalTok{)}
 \end{Highlighting}
@@ -940,9 +1061,9 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \midrule()
 \endhead
 \emph{XGBoost} & & \\
-\texttt{eta} & \([0,0.5]\) & 0.172823 \\
-\texttt{nrounds} & \([75,5000]\) & 2085 \\
-\texttt{max\_depth} & \([1,3]\) & 3 \\
+\texttt{eta} & \([0,0.5]\) & 0.1127201 \\
+\texttt{nrounds} & \([75,5000]\) & 4986 \\
+\texttt{max\_depth} & \([1,2]\) & 2 \\
 \bottomrule()
 \end{longtable}
 
@@ -967,9 +1088,9 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \NormalTok{xgb\_freq\_train }\OtherTok{\textless{}{-}} \FunctionTok{xgboost}\NormalTok{(}
   \AttributeTok{data =}\NormalTok{ freq\_data\_train}\SpecialCharTok{$}\NormalTok{covariates,}
   \AttributeTok{label =}\NormalTok{ freq\_data\_train}\SpecialCharTok{$}\NormalTok{truth,}
-  \AttributeTok{eta =}\NormalTok{ freq\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{eta,}
-  \AttributeTok{nrounds =}\NormalTok{ freq\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{nrounds,}
-  \AttributeTok{max\_depth =}\NormalTok{ freq\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{max\_depth,}
+  \AttributeTok{eta =} \FloatTok{0.1127201}\NormalTok{,}
+  \AttributeTok{nrounds =} \DecValTok{4986}\NormalTok{,}
+  \AttributeTok{max\_depth =} \DecValTok{2}\NormalTok{,}
   \AttributeTok{objective=}\StringTok{"count:poisson"}
 \NormalTok{)}
 \CommentTok{\#Save model}
@@ -987,7 +1108,7 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1054211
+## [1] 0.1040023
 \end{verbatim}
 
 \begin{Shaded}
@@ -997,7 +1118,7 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1017873
+## [1] 0.1096338
 \end{verbatim}
 
 \begin{Shaded}
@@ -1015,7 +1136,7 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2779527
+## [1] 0.3083776
 \end{verbatim}
 
 \begin{Shaded}
@@ -1029,11 +1150,13 @@ hyperparameters}\label{estimating-hyperparameters-1}}
 \NormalTok{xgb\_freq }\OtherTok{\textless{}{-}} \FunctionTok{xgboost}\NormalTok{(}
   \AttributeTok{data =}\NormalTok{ freq\_data}\SpecialCharTok{$}\NormalTok{covariates,}
   \AttributeTok{label =}\NormalTok{ freq\_data}\SpecialCharTok{$}\NormalTok{truth,}
-  \AttributeTok{eta =}\NormalTok{ freq\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{eta,}
-  \AttributeTok{nrounds =}\NormalTok{ freq\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{nrounds,}
-  \AttributeTok{max\_depth =}\NormalTok{ freq\_xgb\_learner\_instance}\SpecialCharTok{$}\NormalTok{result\_learner\_param\_vals}\SpecialCharTok{$}\NormalTok{max\_depth,}
+  \AttributeTok{eta =} \FloatTok{0.1127201}\NormalTok{,}
+  \AttributeTok{nrounds =} \DecValTok{4986}\NormalTok{,}
+  \AttributeTok{max\_depth =} \DecValTok{2}\NormalTok{,}
   \AttributeTok{objective=}\StringTok{"count:poisson"}
 \NormalTok{)}
+\FunctionTok{mean}\NormalTok{(freq\_data}\SpecialCharTok{$}\NormalTok{truth) }\CommentTok{\# 0.106712}
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{predict}\NormalTok{(xgb\_freq, }\AttributeTok{newdata =}\NormalTok{ freq\_data}\SpecialCharTok{$}\NormalTok{covariates)) }\CommentTok{\# 0.1067164}
 \CommentTok{\#Save model}
 \FunctionTok{saveRDS}\NormalTok{(xgb\_freq, }\AttributeTok{file =} \StringTok{"rds/xgb\_freq.rds"}\NormalTok{)}
 \end{Highlighting}
@@ -1049,21 +1172,156 @@ premium}\label{estimating-the-biased-technical-premium}}
 \NormalTok{sev\_covariates }\OtherTok{\textless{}{-}}\NormalTok{ df[,sev\_columns] }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimInd,}\SpecialCharTok{{-}}\NormalTok{ID,}\SpecialCharTok{{-}}\NormalTok{ClaimAmount,}\SpecialCharTok{{-}}\NormalTok{Exposure)}
 \NormalTok{sev\_covariates }\OtherTok{\textless{}{-}}  \FunctionTok{as.matrix}\NormalTok{(sev\_covariates)}
-\NormalTok{m\_mu\_ranger }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(}\FunctionTok{predict}\NormalTok{(xgb\_regr, }\AttributeTok{newdata =}\NormalTok{ sev\_covariates))}
+\NormalTok{m\_mu }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_regr, }\AttributeTok{newdata =}\NormalTok{ sev\_covariates)}
 \CommentTok{\# Estimating p}
 \NormalTok{freq\_covariates }\OtherTok{\textless{}{-}}\NormalTok{ df[,freq\_columns] }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimInd,}\SpecialCharTok{{-}}\NormalTok{ID,}\SpecialCharTok{{-}}\NormalTok{ClaimAmount)}
 \NormalTok{freq\_covariates }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(freq\_covariates)}
-\NormalTok{m\_p\_ranger }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
+\NormalTok{m\_p }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
 \NormalTok{freq\_covariates[,}\StringTok{"Exposure"}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
-\NormalTok{m\_p\_ranger\_2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
+\NormalTok{m\_p\_2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq\_train, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
 \CommentTok{\# Inserting estimates}
-\NormalTok{df[,}\StringTok{"pi\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu\_ranger }\SpecialCharTok{*}\NormalTok{ m\_p\_ranger}
-\NormalTok{df[,}\StringTok{"mu\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu\_ranger}
-\NormalTok{df[,}\StringTok{"p\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_p\_ranger}
-\NormalTok{df[,}\StringTok{"pi\_hat\_new"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu\_ranger }\SpecialCharTok{*}\NormalTok{ m\_p\_ranger\_2}
+\NormalTok{df[,}\StringTok{"pi\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu }\SpecialCharTok{*}\NormalTok{ m\_p}
+\NormalTok{df[,}\StringTok{"mu\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu}
+\NormalTok{df[,}\StringTok{"p\_hat"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_p}
+\NormalTok{df[,}\StringTok{"p\_hat\_new"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_p\_2}
+\NormalTok{df[,}\StringTok{"pi\_hat\_new"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ m\_mu }\SpecialCharTok{*}\NormalTok{ m\_p\_2}
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{extracting-shap-values}{%
+\subsection{Extracting SHAP values}\label{extracting-shap-values}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Severity}
+\NormalTok{unified\_xgb\_regr }\OtherTok{\textless{}{-}} \FunctionTok{xgboost.unify}\NormalTok{(xgb\_regr,}
+                                  \AttributeTok{data=}\NormalTok{regr\_data}\SpecialCharTok{$}\NormalTok{covariates)}
+\NormalTok{treeshap\_xgb\_regr }\OtherTok{\textless{}{-}} \FunctionTok{treeshap}\NormalTok{(unified\_xgb\_regr,}
+\NormalTok{                              regr\_data}\SpecialCharTok{$}\NormalTok{covariates,}
+                              \AttributeTok{verbose =} \DecValTok{0}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(treeshap\_xgb\_regr, }\AttributeTok{file =} \StringTok{"rds/treeshap\_xgb\_regr.rds"}\NormalTok{)}
+\DocumentationTok{\#\#\#\# Frequency}
+\NormalTok{unified\_xgb\_freq }\OtherTok{\textless{}{-}} \FunctionTok{xgboost.unify}\NormalTok{(xgb\_freq,}
+                                  \AttributeTok{data=}\NormalTok{freq\_data}\SpecialCharTok{$}\NormalTok{covariates)}
+
+\NormalTok{treeshap\_xgb\_freq }\OtherTok{\textless{}{-}} \FunctionTok{treeshap}\NormalTok{(unified\_xgb\_freq,}
+\NormalTok{                              freq\_data}\SpecialCharTok{$}\NormalTok{covariates,}
+                              \AttributeTok{verbose =} \DecValTok{0}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(treeshap\_xgb\_freq, }\AttributeTok{file =} \StringTok{"rds/treeshap\_xgb\_freq.rds"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{debiassing-the-premium}{%
+\subsection{Debiassing the premium}\label{debiassing-the-premium}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\#\# Severity}
+\NormalTok{sev\_covariates }\OtherTok{\textless{}{-}}\NormalTok{ df[,sev\_columns] }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimInd,}\SpecialCharTok{{-}}\NormalTok{ID,}\SpecialCharTok{{-}}\NormalTok{ClaimAmount,}\SpecialCharTok{{-}}\NormalTok{Exposure) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate\_if}\NormalTok{(is.integer, as.numeric) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as.matrix}\NormalTok{()}
+\CommentTok{\#Decomposing the effects from all interactions}
+\NormalTok{glex\_sev }\OtherTok{\textless{}{-}} \FunctionTok{glex}\NormalTok{(xgb\_regr, sev\_covariates)}
+\FunctionTok{saveRDS}\NormalTok{(glex\_sev, }\AttributeTok{file =} \StringTok{"rds/glex\_sev.rds"}\NormalTok{)}
+
+\CommentTok{\# Recalibrating}
+\DocumentationTok{\#\# Somehow log(prob) {-} glex = {-}1.19 for all predictions}
+\DocumentationTok{\#\# We shift the intercept}
+\NormalTok{xgb\_sev\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_regr, }\AttributeTok{newdata =}\NormalTok{ sev\_covariates)}
+\NormalTok{glex\_sev\_pred }\OtherTok{\textless{}{-}}\NormalTok{ glex\_sev}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_sev}\SpecialCharTok{$}\NormalTok{m)}
+\NormalTok{shift }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{log}\NormalTok{(xgb\_sev\_pred) }\SpecialCharTok{{-}}\NormalTok{ glex\_sev\_pred)}
+\NormalTok{glex\_sev}\SpecialCharTok{$}\NormalTok{intercept }\OtherTok{\textless{}{-}}\NormalTok{ glex\_sev}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+}\NormalTok{ shift}
+
+\DocumentationTok{\#\# Debiasing}
+\CommentTok{\# Remove gender effects}
+\NormalTok{calibrated\_sum }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{exp}\NormalTok{(glex\_sev}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_sev}\SpecialCharTok{$}\NormalTok{m)))}
+
+\NormalTok{glex\_sev}\SpecialCharTok{$}\NormalTok{m }\OtherTok{\textless{}{-}}\NormalTok{ glex\_sev}\SpecialCharTok{$}\NormalTok{m }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{contains}\NormalTok{(}\StringTok{"Gender\_Sev"}\NormalTok{))}
+\CommentTok{\# Construct unbiased estimate of mu}
+\NormalTok{unbias\_sev }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(glex\_sev}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_sev}\SpecialCharTok{$}\NormalTok{m))}
+\CommentTok{\# Scale up estimates}
+\NormalTok{unbias\_sev }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_sev }\SpecialCharTok{*}\NormalTok{ calibrated\_sum }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(unbias\_sev)}
+\NormalTok{df[,}\StringTok{"mu\_hat\_debiased"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_sev}
+
+\DocumentationTok{\#\#\#\# Frequency}
+\NormalTok{freq\_covariates }\OtherTok{\textless{}{-}}\NormalTok{ df[,freq\_columns] }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{ClaimInd,}\SpecialCharTok{{-}}\NormalTok{ID,}\SpecialCharTok{{-}}\NormalTok{ClaimAmount) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate\_if}\NormalTok{(is.integer, as.numeric) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{as.matrix}\NormalTok{()}
+\CommentTok{\#Decomposing the effects from all interactions}
+\NormalTok{glex\_freq }\OtherTok{\textless{}{-}} \FunctionTok{glex}\NormalTok{(xgb\_freq, freq\_covariates)}
+\FunctionTok{saveRDS}\NormalTok{(glex\_freq, }\AttributeTok{file =} \StringTok{"rds/glex\_freq.rds"}\NormalTok{)}
+\CommentTok{\# Version with exposure 1}
+\NormalTok{freq\_covariates\_2 }\OtherTok{\textless{}{-}}\NormalTok{ freq\_covariates}
+\NormalTok{freq\_covariates\_2[,}\StringTok{"Exposure"}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{glex\_freq\_2 }\OtherTok{\textless{}{-}} \FunctionTok{glex}\NormalTok{(xgb\_freq, freq\_covariates\_2)}
+\FunctionTok{saveRDS}\NormalTok{(glex\_freq\_2, }\AttributeTok{file =} \StringTok{"rds/glex\_freq\_2.rds"}\NormalTok{)}
+
+\CommentTok{\# Recalibrating}
+\DocumentationTok{\#\# Somehow log(prob) {-} glex = {-}1.19 for all predictions}
+\DocumentationTok{\#\# We shift the intercept}
+\NormalTok{xgb\_freq\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates)}
+\NormalTok{glex\_freq\_pred }\OtherTok{\textless{}{-}}\NormalTok{ glex\_freq}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_freq}\SpecialCharTok{$}\NormalTok{m)}
+\NormalTok{shift }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{log}\NormalTok{(xgb\_freq\_pred) }\SpecialCharTok{{-}}\NormalTok{ glex\_freq\_pred)}
+\NormalTok{glex\_freq}\SpecialCharTok{$}\NormalTok{intercept }\OtherTok{\textless{}{-}}\NormalTok{ glex\_freq}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+}\NormalTok{ shift}
+\NormalTok{xgb\_freq\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(xgb\_freq, }\AttributeTok{newdata =}\NormalTok{ freq\_covariates\_2)}
+\NormalTok{glex\_freq\_pred }\OtherTok{\textless{}{-}}\NormalTok{ glex\_freq\_2}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_freq\_2}\SpecialCharTok{$}\NormalTok{m)}
+\NormalTok{shift }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{log}\NormalTok{(xgb\_freq\_pred) }\SpecialCharTok{{-}}\NormalTok{ glex\_freq\_pred)}
+\NormalTok{glex\_freq\_2}\SpecialCharTok{$}\NormalTok{intercept }\OtherTok{\textless{}{-}}\NormalTok{ glex\_freq\_2}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+}\NormalTok{ shift}
+
+\DocumentationTok{\#\# Debiasing}
+\CommentTok{\# Remove gender effects}
+\NormalTok{calibrated\_sum }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{exp}\NormalTok{(glex\_freq}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_freq}\SpecialCharTok{$}\NormalTok{m)))}
+\NormalTok{calibrated\_sum\_2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{exp}\NormalTok{(glex\_freq\_2}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_freq\_2}\SpecialCharTok{$}\NormalTok{m)))}
+\NormalTok{glex\_freq}\SpecialCharTok{$}\NormalTok{m }\OtherTok{\textless{}{-}}\NormalTok{ glex\_freq}\SpecialCharTok{$}\NormalTok{m }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{contains}\NormalTok{(}\StringTok{"Gender\_Freq"}\NormalTok{))}
+\NormalTok{glex\_freq\_2}\SpecialCharTok{$}\NormalTok{m }\OtherTok{\textless{}{-}}\NormalTok{ glex\_freq\_2}\SpecialCharTok{$}\NormalTok{m }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{contains}\NormalTok{(}\StringTok{"Gender\_Freq"}\NormalTok{))}
+
+\CommentTok{\# Construct unbiased estimate of mu}
+\NormalTok{unbias\_freq }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(glex\_freq}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_freq}\SpecialCharTok{$}\NormalTok{m))}
+\NormalTok{unbias\_freq\_2 }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(glex\_freq\_2}\SpecialCharTok{$}\NormalTok{intercept }\SpecialCharTok{+} \FunctionTok{rowSums}\NormalTok{(glex\_freq\_2}\SpecialCharTok{$}\NormalTok{m))}
+\CommentTok{\# Scale up estimates}
+\NormalTok{unbias\_freq }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_freq }\SpecialCharTok{*}\NormalTok{ calibrated\_sum }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(unbias\_freq)}
+\NormalTok{unbias\_freq\_2 }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_freq\_2 }\SpecialCharTok{*}\NormalTok{ calibrated\_sum\_2 }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(unbias\_freq\_2)}
+\NormalTok{df[,}\StringTok{"p\_hat\_debiased"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_freq}
+
+\CommentTok{\# Calculate premiums}
+\NormalTok{unbias }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_freq}\SpecialCharTok{*}\NormalTok{unbias\_sev}
+\NormalTok{df[,}\StringTok{"pi\_hat\_debiased"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ unbias}
+\NormalTok{df[,}\StringTok{"pi\_hat\_new\_debiased"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ unbias\_freq\_2}\SpecialCharTok{*}\NormalTok{unbias\_sev}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{appendicies}{%
+\section{Appendicies}\label{appendicies}}
+
+\hypertarget{distributions-of-severity}{%
+\subsection{Distributions of severity}\label{distributions-of-severity}}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/sev_gamma.png}
+\end{figure}
+
+One may fit samples \(X_1,...,X_N\) of iid \(\Gamma(\alpha,\beta)\)
+distributed variables using MLE methods. In this notation we have
+\(\alpha>0\) being the shape parameter and \(\beta > 0\) being the rate.
+One may calculate an estimate of \(\alpha\) and \(\beta\) using:
+
+\[
+\hat\alpha_N=\frac{N\sum_{i=1}^NX_i}{N\sum_{i=1}^N\log(X_i)X_i-\left(\sum_{i=1}^NX_i\right)\left(\sum_{i=1}^N\log(X_i)\right)}
+\]
+
+and
+
+\[
+\frac{1}{\hat\beta_N}=\frac{1}{N^2}\left(N\sum_{i=1}^N\log(X_i)X_i-\left(\sum_{i=1}^NX_i\right)\left(\sum_{i=1}^N\log(X_i)\right)\right).
+\]
 
 \end{document}
