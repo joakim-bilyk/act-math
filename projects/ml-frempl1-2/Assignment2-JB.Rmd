@@ -4,7 +4,7 @@ author:
   - name: "Joakim Bilyk, Sebastian Cramer and Teis Blem"
     affiliation: "University of Copenhagen"
 date: "`r Sys.Date()`"
-abstract: "This document provides a practical example of applications of machine learning algorithms to car insurance data using the `mlr3` package. A popular model used in pricing of non-life insurance policies is the frequency-severity model, where the price is decomposed into the product of the probability of a claim arrises and the expected claim size given a claim occurs. This paper argues that a treebased model gives a particular well fit to both the frequency and severity model. Furthermore, the estimate is interpreted using shapley values to give an insight into the risk factors of car insurance. Lastly, the price model is debiassed using a decomposition techique. The result is a pricing model that does not discriminate based on gender."
+abstract: "This document provides a practical example of the application of supervised machine learning algorithms to car insurance data using the mlr3 package. In non-life insurance pricing, a popular model is the frequency-severity model, which decomposes the price into the product of the probability of a claim arising and the expected claim size given a claim occurs. This paper argues that a tree-based model is well-suited to the frequency-severity model, as it can capture complex nonlinear relationships between risk factors and claims. To interpret the model's estimates, we used shapley values to gain insights into the relative importance of each risk factor. Finally, we used a decomposition technique to debias the price model and ensure it does not discriminate based on gender. Overall, our approach demonstrates the potential of machine learning to create more accurate and equitable pricing models in the insurance industry."
 keywords: "mlr3, machine learning, regression, non-life insurance, estimating technical price, XGBoost, debiassing, bias, SHAP-values, interpretation of ML models"
 header-includes:
   - \usepackage{subfig}
@@ -570,7 +570,7 @@ colnames(tbl) <- c(
 tbl %>%
   kbl(., longtable = T, booktabs = T, caption = "Comparing premiums") %>%
   add_header_above(c(" " = 2,"Actual" = 4, "Extrapolated" = 4)) %>%
-  kable_styling(latex_options = c("repeat_header","striped", "hold_position"))
+  kable_styling(latex_options = c("repeat_header", "hold_position"))
 ```
 
 In the table above we have altered the dataset with exposure set to 1 for all rows, to predict the price of a new contract i.e. with exposure of one year. One sees that the prices for the new contracts are larger than the technical price for the historical as the exposure is larger. Furthermore as expected we see that the estimate $\hat \mu_X$ does not depend on the exposure.
@@ -580,6 +580,7 @@ In the table above we have altered the dataset with exposure set to 1 for all ro
 # Decomposing the estimates
 
 ```{r,echo = FALSE}
+### Severity
 unified_xgb_regr <- xgboost.unify(xgb_regr,
                                   data=sev_covariates)
 
@@ -602,11 +603,58 @@ plots <- lapply(pols, function(pol) {
 })
 p <- ggpubr::ggarrange(plotlist = plots, ncol= 3,nrow = 2)
 ggsave("figures/sev_shap_breakdown.png",bg='transparent',plot = p, height = 1980*2*3/4,width = 1980*3, units="px")
-plot_feature_importance(treeshap_xgb_regr, max_vars = 10) 
-plot_feature_dependence(treeshap_xgb_regr, "LicAge")
-plot_feature_dependence(treeshap_xgb_regr, "VehPrice_Sev")
-plot_feature_dependence(treeshap_xgb_regr, "DrivAge")
+plotdf <- treeshap_xgb_regr$shaps
+colnames(plotdf) <- paste0(colnames(plotdf),"_shap")
+colnames(plotdf) <- gsub("_Sev","",colnames(plotdf))
+fac_cols <- colnames(treeshap_xgb_regr$observations,plotdf)[grepl("_Sev",colnames(treeshap_xgb_regr$observations,plotdf))]
+num_cols <- colnames(treeshap_xgb_regr$observations,plotdf)[!(colnames(treeshap_xgb_regr$observations,plotdf) %in% fac_cols)]
+fac_cols <- gsub("_Sev","",fac_cols)
+plotdf <- cbind(plotdf, df[,c(fac_cols,num_cols)])
+plots <- lapply(fac_cols, function(col) {
+  tmp <- plotdf
+  tmp[,"x"] <- factor(tmp[,col])
+  tmp[,"y"] <- tmp[,paste0(col,"_shap")]
+  p <- ggplot(tmp,aes(x=x,y=y)) + geom_violin() +
+    geom_boxplot(width=0.1)+ theme_custom()+
+    labs(x = col, y = "SHAP",
+         title = paste0("SHAP breakdown of ",col)) +
+    theme(axis.text.x = element_text(angle = 45))
+  return(p)
+})
+p <- ggpubr::ggarrange(plotlist = plots, ncol= 3,nrow = 5)
+ggsave("figures/sev_shap_fac_breakdown.png",bg='transparent',plot = p, height = 1980*4,width = 1980*3.5, units="px")
+plots <- lapply(num_cols, function(col) {
+  tmp <- plotdf
+  tmp[,"x"] <- tmp[,col]
+  tmp[,"y"] <- tmp[,paste0(col,"_shap")]
+  p <- ggplot(tmp,aes(x=x,y=y,col = Gender)) + geom_point() + geom_smooth() + theme_custom()+
+    labs(x = col, y = "SHAP",
+         title = paste0("SHAP breakdown of ",col)) 
+  return(p)
+})
+p <- ggpubr::ggarrange(plotlist = plots, ncol= 1,nrow = 3)
+ggsave("figures/sev_shap_num_breakdown.png",bg='transparent',plot = p, height = 1980*4*3/5,width = 1980*3.5*1/2, units="px")
+tmp <- data.frame(
+  Variable = c(fac_cols,num_cols),
+  Importance = sapply(c(fac_cols,num_cols), function(col) { mean(abs(plotdf[,paste0(col,"_shap")])) }),
+  Importance_up = sapply(c(fac_cols,num_cols), function(col) { mean(pmax(0,plotdf[,paste0(col,"_shap")])) }),
+  Importance_down = sapply(c(fac_cols,num_cols), function(col) { mean(pmax(0,-plotdf[,paste0(col,"_shap")]))}),
+  Col = ifelse(c(fac_cols,num_cols) == "Gender","Gender","Others")
+) %>% arrange(Importance) %>%
+  mutate(Variable = factor(Variable, levels = Variable))
+tmp2 <- tmp %>% select(-Importance,-Col) %>%
+  reshape2::melt(.,id.vars = "Variable") %>%
+  mutate(Col = ifelse(Variable == "Gender","Gender","Others"))
+#p <- ggplot(tmp,aes(x=Importance,y=Variable,fill = Col)) +
+#  geom_col() + scale_fill_manual(values = c("darkblue","lightgray")) +
+#  theme_custom() + theme(legend.position = "none",axis.title.y = element_blank())
+p <- ggplot(tmp2,aes(x= value, y= Variable, fill = paste0(variable,Col))) + geom_col() +
+  scale_fill_manual(values = c("darkred","pink","darkgreen","lightgreen"))  +
+  theme_custom() + theme(legend.position = "none",axis.title.y = element_blank()) +
+  labs(x = "Importance")
+ggsave("figures/sev_shap_importance.png",bg='transparent',plot = p, height = 1980*3/5,width = 1980*3/4, units="px")
 
+### Frequency
 unified_xgb_freq <- xgboost.unify(xgb_freq,
                                   data=freq_covariates)
 
@@ -629,11 +677,57 @@ plots <- lapply(pols, function(pol) {
 })
 p <- ggpubr::ggarrange(plotlist = plots, ncol= 3,nrow = 2)
 ggsave("figures/freq_shap_breakdown.png",bg='transparent',plot = p, height = 1980*2*3/4,width = 1980*3, units="px")
-plot_feature_importance(treeshap_xgb_freq, max_vars = 10) 
-plot_feature_dependence(treeshap_xgb_freq, "Exposure")
-plot_feature_dependence(treeshap_xgb_freq, "LicAge")
-plot_feature_dependence(treeshap_xgb_freq, "BonusMalus")
-plot_feature_dependence(treeshap_xgb_freq, "DrivAge")
+plotdf <- treeshap_xgb_freq$shaps
+colnames(plotdf) <- paste0(colnames(plotdf),"_shap")
+colnames(plotdf) <- gsub("_Freq","",colnames(plotdf))
+fac_cols <- colnames(treeshap_xgb_freq$observations,plotdf)[grepl("_Freq",colnames(treeshap_xgb_freq$observations,plotdf))]
+num_cols <- colnames(treeshap_xgb_freq$observations,plotdf)[!(colnames(treeshap_xgb_freq$observations,plotdf) %in% fac_cols)]
+fac_cols <- gsub("_Freq","",fac_cols)
+plotdf <- cbind(plotdf, df[,c(fac_cols,num_cols)])
+plots <- lapply(fac_cols, function(col) {
+  tmp <- plotdf
+  tmp[,"x"] <- factor(tmp[,col])
+  tmp[,"y"] <- tmp[,paste0(col,"_shap")]
+  p <- ggplot(tmp,aes(x=x,y=y)) + geom_violin() +
+    geom_boxplot(width=0.1)+ theme_custom()+
+    labs(x = col, y = "SHAP",
+         title = paste0("SHAP breakdown of ",col)) +
+    theme(axis.text.x = element_text(angle = 45))
+  return(p)
+})
+p <- ggpubr::ggarrange(plotlist = plots, ncol= 3,nrow = 5)
+ggsave("figures/freq_shap_fac_breakdown.png",bg='transparent',plot = p, height = 1980*4,width = 1980*3.5, units="px")
+plots <- lapply(num_cols, function(col) {
+  tmp <- plotdf
+  tmp[,"x"] <- tmp[,col]
+  tmp[,"y"] <- tmp[,paste0(col,"_shap")]
+  p <- ggplot(tmp,aes(x=x,y=y,col = Gender)) + geom_point() + geom_smooth() + theme_custom()+
+    labs(x = col, y = "SHAP",
+         title = paste0("SHAP breakdown of ",col)) 
+  return(p)
+})
+p <- ggpubr::ggarrange(plotlist = plots, ncol= 2,nrow = 2)
+ggsave("figures/freq_shap_num_breakdown.png",bg='transparent',plot = p, height = 1980*4*3/5,width = 1980*3.5*1/2, units="px")
+tmp <- data.frame(
+  Variable = c(fac_cols,num_cols),
+  Importance = sapply(c(fac_cols,num_cols), function(col) { mean(abs(plotdf[,paste0(col,"_shap")])) }),
+  Importance_up = sapply(c(fac_cols,num_cols), function(col) { mean(pmax(0,plotdf[,paste0(col,"_shap")])) }),
+  Importance_down = sapply(c(fac_cols,num_cols), function(col) { mean(pmax(0,-plotdf[,paste0(col,"_shap")]))}),
+  Col = ifelse(c(fac_cols,num_cols) == "Gender","Gender","Others")
+) %>% arrange(Importance) %>%
+  mutate(Variable = factor(Variable, levels = Variable))
+tmp2 <- tmp %>% select(-Importance,-Col) %>%
+  reshape2::melt(.,id.vars = "Variable") %>%
+  mutate(Col = ifelse(Variable == "Gender","Gender","Others"))
+#p <- ggplot(tmp,aes(x=Importance,y=Variable,fill = Col)) +
+#  geom_col() + scale_fill_manual(values = c("darkblue","lightgray")) +
+#  theme_custom() + theme(legend.position = "none",axis.title.y = element_blank())
+p <- ggplot(tmp2,aes(x= value, y= Variable, fill = paste0(variable,Col))) + geom_col() +
+  scale_fill_manual(values = c("darkred","pink","darkgreen","lightgreen"))  +
+  theme_custom() + theme(legend.position = "none",axis.title.y = element_blank()) +
+  labs(x = "Importance")
+ggsave("figures/freq_shap_importance.png",bg='transparent',plot = p, height = 1980*3/5,width = 1980*3/4, units="px")
+
 # plot a tree
 #https://www.r-bloggers.com/2021/04/how-to-plot-xgboost-trees-in-r/
 #xgb.plot.tree(model = xgb_regr, trees = 100)
@@ -708,11 +802,44 @@ Running through every step we can plot how the model estimate approaches a value
 
 ## Breakdown of the severity estimator
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/sev_shap_breakdown.png}
     \caption{Decomposition of the severity estimates for the policies 6254, 24123, 25010, 25188, 30495 and 30555. The intercept of the model is approximatly 2550. The prediction deviation gives the logarithm of the factor multiplier. That is the estimate for the policy 6254 is $2550\cdot \exp(-0.886)\approx 1050$ as seen in table 1.}
 \end{figure}
+
+Machine learning models can be incredibly powerful tools for solving complex problems, but they can also be difficult to interpret. This is because many machine learning algorithms, such as XGBoost, are designed to learn complex patterns and relationships within data, often involving numerous input features. While these models can achieve high levels of accuracy, understanding exactly how they arrive at their predictions can be challenging. This is why one often turns to decomposing the estimator into contributions from each feature.
+
+Shapley values provide a method for interpreting the contribution of each feature or variable in a machine learning algorithm to the final prediction made by the model. This is particularly useful for complex models such as XGBoost, which involve many interacting features and non-linear relationships. By using Shapley values, one can gain a better understanding of the relative importance of each feature and how they contribute to the overall prediction. Specifically, the Shapley values gives a constant for each feauture that represent how the contribution $X_i=x_i$ have on the $i$th observation.
+
+In the table above, we see how the policies 6254, 24123, 25010, 25188, 30495 and 30555 may be decomposed into contributions from each feature. Even though this gives an insight into the specifics of how one arrives at the estimator the result cannot be extrapolated as a smooth function. Taking a look at the figures above, we may read the green boxes as the feature is increasing the risk and red boxes as reducing the risk, that is in terms of the severity of a possible claim. This gives the insurance company the following information regarding policy 6254: The short period of license increases the likelihood that the severity, if a claim arises from policy 6254. However 
+this effect is cancelled out by the age of the policy holder and the value of bonus malus. Lastly, the values the remaining features has lessen the risk giving the policy 6254 an overall reduction in premium against the intercept premium. 
+
+\begin{wrapfigure}{r}{0.50\textwidth}
+  \begin{center}
+    \includegraphics[width=0.45\textwidth]{figures/sev_shap_importance.png}
+  \end{center}
+  \caption{Variable importance. The figures list the mean of the absolut shap value (green from positive shaps, red from negative shaps).}
+\end{wrapfigure}
+
+We can take the entire dataset and calculate for each feature the quantity
+
+$$
+\frac{1}{N}\sum_{i=1}^N\vert\phi_k(X_i)\vert,
+$$
+
+being the mean absolute contribution of the $k$th feature and $\phi_k(X_i)$ being the Shapley contribution of the $k$th feauture in observation $i$. This value gives in general the importance of the $k$th feature in the model predictions. Of cause it may be that on a large scale the $k$th feature has an effect close to zero ($\frac{1}{N}\sum_{i=1}^N\phi_k(X_i)\approx 0$), but that would only mean that the feature on a portfolio level is not a significant risk factor as it *cancels out*. By calculating the mean of the absolute value we get how each feature affects the risk on an individual level.
+
+In the figure un the right we have decomposed the mean of the absolute value into mean of the absolut value from positive and negative shaps, such that one can see the magnitude of negative and positive impacts of each feature. In general these are largely symmetric, but features such as driver age and bonus malus more often lower the risk than increasing it. We can furthermore see that the severity is largely dependent on the features license age, the drivers age, bonus malus and the value of the RiskVar. However combining the contributions of the vehicle specific features we see that the estimate is largely determined by the nature of the car itself. This is particularly nice, since one would assume that severity risk is mostly a function of the fundamentals of the car i.e. price, cost of new parts and so forth. We could classify this as inherent risk factors. Beside the inherent risk factors we would assume that the severity risk secondly is determined by the person holding the policy in the sense that some may drive more reckless than others. The figure on the right confirms these assumptions.
+
+In the figure B.1 and B.2 in the figure appendix the categorical effects are shown using violin/boxplots and the continuous effects are shown by scatterplots. Some noteworthy observations include, but are not limitid t:
+
+  * Gender does not have a large effect on the risk. This is also seen by the conditional shap value of the continuous features.
+  * A MariStat of alone decreases the risk,
+  * SocioCateg of A increases risk and C decreases risk,
+  * Professional run decreases the risk,
+  * Ages below around 30 decreases risk while ages above 80 increases risk (be aware of the low amount of data points),
+  * License age decreases risk.
 
 ## Breakdown of the frequency estimator
 
@@ -721,6 +848,24 @@ Running through every step we can plot how the model estimate approaches a value
     \includegraphics[width=0.9\textwidth]{figures/freq_shap_breakdown.png}
     \caption{Decomposition of the frequency estimates for the policies 6254, 24123, 25010, 25188, 30495 and 30555. The prediction deviation gives the logarithm of the factor multiplier.}
 \end{figure}
+
+We can like in the severity model decompose the estimates of the frequency model into an intercept and contributions from each feature for all observations in the data set. Consider the figure above. We see that exposure plays a key role in the probability that a claim is risen. In particular, if one has low exposure (below 0.1) the estimate is largely lowered by factors around $\exp(-1.5)\approx 0.22$. This is clearly seen in figure C.2 in the appendix.
+
+\begin{wrapfigure}{r}{0.50\textwidth}
+  \begin{center}
+    \includegraphics[width=0.45\textwidth]{figures/freq_shap_importance.png}
+  \end{center}
+  \caption{Variable importance. The figures list the mean of the absolut shap value (green from positive shaps, red from negative shaps).}
+\end{wrapfigure}
+
+The importance of exposure is likewise clearly seen in the figure on the right. This figures gives the mean absolute shapley value for each feature decomposed into positive and negative contributions. We can see that exposure is by far the most important risk factor. Other than exposure we can see that the person driving the car is also very important as the age of the driver and the age of he/her license heavely impacts the probability of an insurance event. Other interesting conclusion one may derive is:
+
+  * Gender is not significantly impacting the estimate although the males more often get large discounts on their probability. This means that the model somewhat discriminates women as males get an *unfair* low probability,
+  * A maristat of alone significantly lowers the risk,
+  * Professional run contracts and private + trip to office raises the risk,
+  * Contracts with distance restrictions largely lowers risk. The median shapely value is around -0.15 i.e. a lower probability of a factor $\exp(-0.15)=0.861$.
+  * Enginetype and energy does impact probabilities with carburation lowering risk and diesel increasing risk and
+  * Vehicles in private garages lowers risk noteworthy.
 
 \newpage
 
@@ -746,26 +891,16 @@ glex_sev_pred <- glex_sev$intercept + rowSums(glex_sev$m)
 shift <- mean(log(xgb_sev_pred) - glex_sev_pred)
 glex_sev$intercept <- glex_sev$intercept + shift
 
-theme_set(theme_minimal(base_size = 10))
-vi_xgb <- glex_vi(glex_sev)
-
-p_vi <- autoplot(vi_xgb, threshold = 200) + 
-  labs(title = NULL, tag = "XGBoost-explanation")
-
-p_vi+
-  plot_annotation(title = "Variable importance scores by term") & 
-  theme(plot.tag.position = "bottomleft")
-
 ## Debiasing
 # Remove gender effects
-calibrated_sum <- sum(exp(glex_sev$intercept + rowSums(glex_sev$m)))
+calibrated_sum_regr <- sum(exp(glex_sev$intercept + rowSums(glex_sev$m)))
 
 glex_sev$m <- glex_sev$m %>%
   select(-contains("Gender"))
 # Construct unbiased estimate of mu
 unbias_sev <- exp(glex_sev$intercept + rowSums(glex_sev$m))
+uncalibrated_sum_regr <- sum(unbias_sev)
 # Scale up estimates
-unbias_sev <- unbias_sev * calibrated_sum / sum(unbias_sev)
 df[,"mu_hat_debiased"] <- unbias_sev
 ```
 
@@ -788,15 +923,6 @@ if (update_data == TRUE) {
   glex_freq <- readRDS("rds/glex_freq.rds")
   glex_freq_2 <- readRDS("rds/glex_freq_2.rds")
 }
-theme_set(theme_minimal(base_size = 13))
-vi_xgb <- glex_vi(glex_freq)
-
-p_vi <- autoplot(vi_xgb, threshold = 0.04) + 
-  labs(title = NULL, tag = "XGBoost-explanation")
-
-p_vi+
-  plot_annotation(title = "Variable importance scores by term") & 
-  theme(plot.tag.position = "bottomleft")
 
 # Recalibrating
 ## Somehow log(prob) - glex = -1.19 for all predictions
@@ -812,8 +938,8 @@ glex_freq_2$intercept <- glex_freq_2$intercept + shift
 
 ## Debiasing
 # Remove gender effects
-calibrated_sum <- sum(exp(glex_freq$intercept + rowSums(glex_freq$m)))
-calibrated_sum_2 <- sum(exp(glex_freq_2$intercept + rowSums(glex_freq_2$m)))
+calibrated_sum_freq <- sum(exp(glex_freq$intercept + rowSums(glex_freq$m)))
+calibrated_sum_freq_2 <- sum(exp(glex_freq_2$intercept + rowSums(glex_freq_2$m)))
 glex_freq$m <- glex_freq$m %>%
   select(-contains("Gender_Freq"))
 glex_freq_2$m <- glex_freq_2$m %>%
@@ -822,41 +948,167 @@ glex_freq_2$m <- glex_freq_2$m %>%
 # Construct unbiased estimate of mu
 unbias_freq <- exp(glex_freq$intercept + rowSums(glex_freq$m))
 unbias_freq_2 <- exp(glex_freq_2$intercept + rowSums(glex_freq_2$m))
-# Scale up estimates
-unbias_freq <- unbias_freq * calibrated_sum / sum(unbias_freq)
-unbias_freq_2 <- unbias_freq_2 * calibrated_sum_2 / sum(unbias_freq_2)
-df[,"p_hat_debiased"] <- unbias_freq
+uncalibrated_sum_freq <- sum(unbias_freq)
+uncalibrated_sum_freq_2 <- sum(unbias_freq_2)
 
-unbias <- unbias_freq*unbias_sev
-df[,"pi_hat_debiased"] <- unbias
-df[,"pi_hat_new_debiased"] <- unbias_freq_2*unbias_sev
+# Scale up estimates
+df[,"p_hat_debiased"] <- unbias_freq
+df[,"pi_hat_debiased"] <- unbias_freq*unbias_sev
+c <- sum(df$pi_hat)/sum(unbias_freq*unbias_sev) # 0.99048
+e <- c*uncalibrated_sum_regr*uncalibrated_sum_freq/(calibrated_sum_regr*calibrated_sum_freq) # 0.9920408
+c_mu <- calibrated_sum_regr/uncalibrated_sum_regr*sqrt(e) # 0.9943802
+c_p <- calibrated_sum_freq/uncalibrated_sum_freq*sqrt(e) # 0.9960801
+#c_mu*c_p # 0.9904823
+#c # 0.9904823
+p_star <- unbias_freq * c_p
+mu_star <- unbias_sev * c_mu
+unbias <- p_star*mu_star
+df[,"mu_star"] <- unbias_sev
+df[,"p_star"] <- unbias_freq
+df[,"pi_star"] <- unbias
 ```
 
+```{r,echo=FALSE}
+p <- ggplot(df) + geom_point(aes(x=pi_hat,y=pi_star, col = Gender)) +
+  scale_x_continuous(trans = "log10") +
+  scale_y_continuous(trans = "log10") +
+  theme_custom() +
+  labs(title = "Change of the technical premium",
+       subtitle = "A plot of the pair (debiased premium,biased premium)",
+       x = "Biassed estimate", y = "Debiassed estimate")
+ggsave("figures/pi_debiassed.png",bg='transparent',plot = p, height = 1980*3/4,width = 1980, units="px")
+```
+
+\begin{wrapfigure}{r}{0.50\textwidth}
+  \begin{center}
+    \includegraphics[width=0.45\textwidth]{figures/pi_debiassed.png}
+  \end{center}
+  \caption{Debiased premium versus biassed premium.}
+\end{wrapfigure}
+
+The estimate up until now have included the protected feature `Gender` and does some discriminating although the shap decomposition indicates that gender does not affect the premium. In fact, we saw that gender was either the least important or second lest important feature in the biased price model. Even though the effect might be small we want to give a solution to this discriminating pricing.
+
+The problem with simply removing gender from the model training is that gender is correlated with the non-protected features $U\subset X$. and so the gender effect will migrate to the features with high gender correlation. That is we have the supposed structural causal model:
+
+  * Let $\texttt{Gender}=U$ be given,
+  * We assume that the unprotected features $U=f_U(V,N_U)$ for some noise variable $N_U$ and $f_U$ being measurable.
+  * We assume furthermore that the claim amount $Y=f_Y(V,U,N_Y)$ for some noise variable $N_Y$ and measurable function $f_Y$.
+
+Notice that $Y$ simply is the total claim i.e. being non-zero with probability $p>0$. It is well-known that we may eliminate the causal effect of $U$ by intervening on $U$ and conditioning on $\text{do}(U=u)$. This is also known as counter factual fairness and a counter factual fair estimate therefore arises from the object
+
+$$
+\hat \pi^{(debiased)}(X) = \mathbb E[\hat \pi^{(biased)}(X)\ \vert\ \text{do}(U=u)].
+$$
+This is difficult to compute and is obviously unknown, we can however under marginal identification establish the decomposition
+
+$$
+\hat \pi^{(biased)}(X)=\hat \pi^{(biased)}_0+\sum_{i=1}^d\hat \pi^{(biased)}_i(X_i)+\sum_{i,j=1}^d\hat \pi^{(biased)}_{ij}(X_i,X_j),
+$$
+
+assuming at most two interactions. The above is constructed unique under the condition
+
+$$
+\forall S\subseteq\{1,...,d\}\ :\ \sum_{T\subseteq \{1,...,d\} : T\cap S\ne \emptyset}\int \hat \pi^{(biased)}_T(x_T)p(x_S)\ dx_S=0.
+$$
+
+In pratice we estimate using $\hat p$ since $p$ is unknown. We can using this decomposition give an estimator that is debiased in the sense that
+
+$$
+\hat \pi^{(debiased)}(X)=\mathbb E[\hat \pi^{(debiased)}(X)\ \vert\ \text{do}(U=u)],
+$$
+
+although not calibrated. To be specific we simply set
+
+$$
+\hat \pi^{(debiased)}(X) = \hat \pi^{(biased)}_0+\sum_{i=1}^{d-1}\hat \pi^{(biased)}_i(X_i)+\sum_{i,j=1}^{d-1}\hat \pi^{(biased)}_{ij}(X_i,X_j),
+$$
+
+assuming that gender is the $d$th feature. The library `glex` gives a decompose where one simply may set the gender contributions, including interactions with gender, to zero and obtain a non-biased estimate. Recall that $\pi=p\mu$ hence if the biased model is calibrated we should have
+
+$$
+\sum_{i=1}^N\hat \pi^{(biased)}(x_i)=\sum_{i=1}^N\hat m_p^{(biased)}(x_i)\hat m_\mu^{(biased)}(x_i)=\sum_{i=1}^N\mathbb E[Y\ \vert\ X=x_i].
+$$
+
+Hence we need calibrate the model by pricing according to
+
+$$
+\hat \pi^{*}(x_i)=c\cdot \hat \pi^{(debiased)}(x_i)\quad s.t.\quad\sum_{i=1}^N\hat \pi^{*}(x_i)=\sum_{i=1}^N\hat \pi^{(biased)}(x_i)
+$$
+
+giving that the scaler $c$ is on the form:
+
+$$
+c=\frac{\sum_{i=1}^N\hat \pi^{(biased)}(x_i)}{\sum_{i=1}^N\hat \pi^{(debiased)}(x_i)}.
+$$
+
+Could we translate $c$ into $c_\mu$ and $c_p$ such that $\hat \pi^{*}(x_i)=\left(c_\mu \hat{m}_{\mu}^{(debiased)}(x_i)\right)\left(c_p \hat{m}_{p}^{(debiased)}(x_i)\right)$? The answer is obviously yes but we obviously have for fixed $c$: $c_\mu=c/c_p$ and $c_p=c/c_\mu$ and therefore infinite ways of doing this. We may choose a version of the set $\{c/k,k\}$ for $k\in\mathbb R$ such that we can construct a reasonable calibrated version of $\hat{m}_{\mu}^{(debiased)}$ and $\hat{m}_{p}^{(debiased)}$. In particular we could decompose $c$ into:
+
+$$
+c=\frac{\sum_{i=1}^N\hat \pi^{(biased)}(x_i)}{\sum_{i=1}^N\hat \pi^{(debiased)}(x_i)}=\underbrace{\left(\frac{\sum_{i=1}^N\hat{m}_{\mu}^{(biased)}(x_i)}{\sum_{i=1}^N\hat{m}_{\mu}^{(debiased)}(x_i)}\right)}_{:=c_\mu/\sqrt{e}}\underbrace{\left(\frac{\sum_{i=1}^N\hat{m}_{p}^{(biased)}(x_i)}{\sum_{i=1}^N\hat{m}_{p}^{(debiased)}(x_i)}\right)}_{:=c_p/\sqrt{e}}\cdot e
+$$
+
+with
+
+$$
+e=\frac{\left(\sum_{i=1}^N\hat \pi^{(biased)}(x_i)\right)\left(\sum_{i=1}^N\hat{m}_{\mu}^{(debiased)}(x_i)\right)\left(\sum_{i=1}^N\hat{m}_{p}^{(debiased)}(x_i)\right)}{\left(\sum_{i=1}^N\hat \pi^{(debiased)}(x_i)\right)\left(\sum_{i=1}^N\hat{m}_{\mu}^{(biased)}(x_i)\right)\left(\sum_{i=1}^N\hat{m}_{p}^{(biased)}(x_i)\right)}
+$$
+
+although this might be a bit excessive in the name of separating the estimates. We apply this debiassing algorithm and estimate a unbiased price model for the policies 6254,24123,25010,25188,30495 and 30555.
+
 ```{r,echo = FALSE}
+#Predictions from model without gender
+xgb_regr_no_gender <- readRDS("rds/xgb_regr_no_gender.rds")
+xgb_freq_no_gender <- readRDS("rds/xgb_freq_no_gender.rds")
+sev_covariates_no_gender <- df[,sev_columns] %>%
+  select(-ClaimInd,-ID,-ClaimAmount,-Exposure,-Gender_Sev) %>%
+  mutate_if(is.integer, as.numeric) %>%
+  as.matrix()
+freq_covariates_no_gender <- df[,freq_columns] %>%
+  select(-ClaimInd,-ID,-ClaimAmount,-Gender_Freq) %>%
+  mutate_if(is.integer, as.numeric) %>%
+  as.matrix()
+mu_hat_no_gender <- predict(xgb_regr_no_gender, sev_covariates_no_gender)
+p_hat_no_gender <- predict(xgb_freq_no_gender, freq_covariates_no_gender)
+df[,"mu_hat_no_gender"] <- mu_hat_no_gender
+df[,"p_hat_no_gender"] <- p_hat_no_gender
+df[,"pi_hat_no_gender"] <- p_hat_no_gender*mu_hat_no_gender
+
 tbl <- df %>%
-  select(ID,Gender,p_hat,mu_hat,pi_hat,p_hat_debiased,mu_hat_debiased,pi_hat_debiased) %>%
+  mutate(chg = 100*(as.numeric(pi_star)-as.numeric(pi_hat))/as.numeric(pi_hat),
+         chg = ifelse(chg > 0, paste0("+ ",round(chg,digits=2)),
+                      paste0("- ",round(-chg,digits=2)))) %>%
+  select(ID,Gender,p_hat,mu_hat,pi_hat,p_star,mu_star,pi_star,chg,p_hat_no_gender,mu_hat_no_gender,pi_hat_no_gender) %>%
   filter(ID %in% c(6254,24123,25010,25188,30495,30555)) %>%
   mutate_if(is.numeric, format, digits=3,nsmall = 0) %>%
   arrange(ID)
 colnames(tbl) <- c(
   "Policy","Gender",
   "p(Y>0)","E(Y|Y>0)","Price",
+  "p(Y>0)","E(Y|Y>0)","Price",
+  "Change, %",
   "p(Y>0)","E(Y|Y>0)","Price"
 )
 tbl %>%
   kbl(., longtable = T, booktabs = T, caption = "Comparing premiums") %>%
-  add_header_above(c(" " = 2,"Biased" = 3, "Debiased" = 3)) %>%
-  kable_styling(latex_options = c("repeat_header","striped", "hold_position"))
+  add_header_above(c(" " = 2,"Biased" = 3, "Debiased" = 3," "= 1, "Without gender" = 3)) %>%
+  kable_styling(latex_options = c("repeat_header", "hold_position"),font_size = 7) %>%
+  footnote(general = paste0("Corrections parameters: $c=",round(c,digits = 4),"$, $c_\\\\mu=",
+                            round(c_mu,digits = 4),"$ and $c_p=",round(c_p,digits = 4),"$."),escape = F) 
 ```
 
 ```{r,echo=FALSE,eval=FALSE}
 sum(df$pi_hat)
 sum(df$ClaimAmount)
-sum(df$pi_hat_debiased)
+sum(df$pi_star)
 sum(df$ClaimInd)
 sum(df$p_hat)
-sum(df$p_hat_debiased)
+sum(df$p_star)
 ```
+
+
+As it can be read in the table how the premiums change with up to 15 percent (plus or minus). It can furthermore be seen in the figure above how the biased premiums are shifted. We included model estimates from a model that is fitted without any use of the gender feature.
+
+In conclusion, the project successfully developed a pricing model for car insurance using xgboost. The incorporation of gender in the initial model allowed for later debiasing, which was achieved using marginal identification. The model's debiasing allows for fairer pricing and could potentially improve customer satisfaction. Overall, the project demonstrates the potential for machine learning to be used in the insurance industry to create more equitable pricing models.
 
 \newpage
 
@@ -885,6 +1137,8 @@ library(xgboost)
 library(glex)
 library(treeshap)
 ```
+
+\newpage
 
 ## Statistical data
 
@@ -918,6 +1172,8 @@ A detailed description of the variables may be read in the below table.
 | *RiskVar* | Unkonw risk variable between 1 and 20, possibly ordered. |
 | *Garage* | The garage, if any, among "Collective garage", "None", "Private garage". |
 | *ClaimInd* | Claim indicator of the guarantee. (this is not the claim number) |
+
+\newpage
 
 ### Feature formatting
 
@@ -977,6 +1233,8 @@ freMPL1 <- freMPL1 %>%
                              levels = c("A","B","C"))) %>%
   select(-helper)
 ```
+
+\newpage
 
 ### Preparing the dataset
 
@@ -1072,7 +1330,11 @@ df_sev <- df_sev %>%
   mutate_if(is.integer, as.numeric)
 ```
 
+\newpage
+
 #### Estimating hyperparameters
+
+The hyperparameter is estimated using `mlr3`.
 
 ```{r,eval =FALSE}
 #Start a task
@@ -1108,11 +1370,11 @@ saveRDS(sev_xgb_learner_instance, file = "rds/sev_xgb_learner_instance.rds")
 tbl <- data.frame(
   Hyperparameter = c("eta","nrounds","max_depth"),
   `Search domain` = c("[0,0.5]","[75,3000]","[1,2]"),
-  `regr.rmsle` = c(0.01085696,221,1),
-  `regr.rmse` = c(0.2113299,2345,2),
-  `regr.mse` = c(0.318963,2313,2), #1
-  `regr.rmse` = c(0.3076677,1574,2), #2
-  `regr.mse` = c(0.1096531,2996,2) # 3
+  `regr.rmsle` = c("0.01085696","221","1"),
+  `regr.rmse` = c("0.2113299","2345","2"),
+  `regr.mse` = c("0.318963","2313","2"), #1
+  `regr.rmse` = c("0.3076677","1574","2"), #2
+  `regr.mse` = c("0.1096531","2996","2") # 3
 )
 colnames(tbl) <- c(
   "Hyperparameter",
@@ -1129,7 +1391,11 @@ tbl %>%
   kable_styling(latex_options = c("repeat_header", "hold_position"))
 ```
 
+\newpage
+
 #### Fitting the model
+
+The model is fitted using `xgboost`.
 
 ```{r,eval = FALSE}
 #Partition for training
@@ -1191,6 +1457,22 @@ mean(regr_data$truth) #2388.372
 mean(predict(xgb_regr, newdata = regr_data$covariates)) #1889.226
 #Save model
 saveRDS(xgb_regr, file = "rds/xgb_regr.rds")
+#Model without gender
+regr_data_no_gender <- list(
+  covariates = as.matrix(df_sev %>% select(-ClaimAmount,-Gender_Sev)),
+  truth = as.numeric(df_sev$ClaimAmount)
+)
+xgb_regr_no_gender <- xgboost(
+  data = regr_data_no_gender$covariates,
+  label = regr_data$truth,
+  eta = 0.2113299,
+  nrounds = 2345,
+  max_depth = 2,
+  objective = "reg:gamma"
+)
+mean(predict(xgb_regr_no_gender, newdata = regr_data_no_gender$covariates))
+#1893.192
+saveRDS(xgb_regr_no_gender, file = "rds/xgb_regr_no_gender.rds")
 ```
 
 \newpage
@@ -1213,7 +1495,11 @@ df_freq <- df_freq %>%
   mutate_if(is.integer, as.numeric)
 ```
 
+\newpage
+
 #### Estimating hyperparameters
+
+The hyperparameter is estimated using `mlr3`.
 
 ```{r,eval = FALSE}
 #Start a task
@@ -1240,14 +1526,32 @@ freq_xgb_learner_instance = tune(
 saveRDS(freq_xgb_learner_instance, file = "rds/freq_xgb_learner_instance.rds")
 ```
 
-| **Hyperparamater** | **Search space** | **Estimate** |
-| :- | :- | :-: |
-| *XGBoost* | | |
-| `eta` | $[0,0.5]$ | 0.1127201 |
-| `nrounds` | $[75,5000]$ | 4986 |
-| `max_depth` | $[1,2]$ | 2 |
+```{r,echo = FALSE}
+tbl <- data.frame(
+  Hyperparameter = c("eta","nrounds","max_depth"),
+  `Search domain` = c("[0,0.5]","[75,5000]","[1,2]"),
+  `Estimate` = c("0.1127201","4986","2"),
+  `Search domain` = c("[0,0.5]","[3000,10000]","[1,2]"),
+  `Estimate` = c("0.3078314","3014","2")
+)
+colnames(tbl) <- c(
+  "Hyperparameter",
+  "Search domain",
+  "Estimate",
+  "Search domain",
+  "Estimate"
+)
+tbl %>%
+  kbl(., longtable = T, booktabs = T, caption = "Hyperparameters") %>%
+  add_header_above(c(" " = 1,"First run" = 2, "Second run" =  2)) %>%
+  kable_styling(latex_options = c("repeat_header", "hold_position"))
+```
+
+\newpage
 
 #### Fitting the model
+
+The model is fitted using `xgboost`.
 
 ```{r,eval=FALSE}
 #Partition for training
@@ -1309,9 +1613,29 @@ mean(freq_data$truth) # 0.106712
 mean(predict(xgb_freq, newdata = freq_data$covariates)) # 0.1067164
 #Save model
 saveRDS(xgb_freq, file = "rds/xgb_freq.rds")
+#Model without gender
+freq_data_no_gender <- list(
+  covariates = as.matrix(df_freq %>% select(-ClaimInd,-Gender_Freq)),
+  truth = as.numeric(as.character(df_freq$ClaimInd))
+)
+xgb_freq_no_gender <- xgboost(
+  data = freq_data_no_gender$covariates,
+  label = freq_data_no_gender$truth,
+  eta = 0.1127201,
+  nrounds = 4986,
+  max_depth = 2,
+  objective="count:poisson"
+)
+mean(predict(xgb_freq_no_gender, newdata = freq_data_no_gender$covariates))
+# 0.1067151
+saveRDS(xgb_freq_no_gender, file = "rds/xgb_freq_no_gender.rds")
 ```
 
+\newpage
+
 ## Estimating the biased technical premium
+
+We calculate the technical premium by predicting from the xgboost algorithm.
 
 ```{r,eval=FALSE}
 # Estimating mu
@@ -1334,7 +1658,11 @@ df[,"p_hat_new"] <- m_p_2
 df[,"pi_hat_new"] <- m_mu * m_p_2
 ```
 
+\newpage
+
 ## Extracting SHAP values
+
+Shap values are gathered using `treeshap`. 
 
 ```{r,eval=FALSE}
 #### Severity
@@ -1354,7 +1682,11 @@ treeshap_xgb_freq <- treeshap(unified_xgb_freq,
 saveRDS(treeshap_xgb_freq, file = "rds/treeshap_xgb_freq.rds")
 ```
 
+\newpage
+
 ## Debiassing the premium
+
+Using `glex` we calculate a decomposition under marginal identification. Afterwards the model is calibrated according to the biassed aggregated premium.
 
 ```{r,eval=FALSE}
 #### Severity
@@ -1362,7 +1694,7 @@ sev_covariates <- df[,sev_columns] %>%
   select(-ClaimInd,-ID,-ClaimAmount,-Exposure) %>%
   mutate_if(is.integer, as.numeric) %>%
   as.matrix()
-#Decomposing the effects from all interactions
+
 glex_sev <- glex(xgb_regr, sev_covariates)
 saveRDS(glex_sev, file = "rds/glex_sev.rds")
 
@@ -1376,14 +1708,14 @@ glex_sev$intercept <- glex_sev$intercept + shift
 
 ## Debiasing
 # Remove gender effects
-calibrated_sum <- sum(exp(glex_sev$intercept + rowSums(glex_sev$m)))
+calibrated_sum_regr <- sum(exp(glex_sev$intercept + rowSums(glex_sev$m)))
 
 glex_sev$m <- glex_sev$m %>%
-  select(-contains("Gender_Sev"))
+  select(-contains("Gender"))
 # Construct unbiased estimate of mu
 unbias_sev <- exp(glex_sev$intercept + rowSums(glex_sev$m))
+uncalibrated_sum_regr <- sum(unbias_sev)
 # Scale up estimates
-unbias_sev <- unbias_sev * calibrated_sum / sum(unbias_sev)
 df[,"mu_hat_debiased"] <- unbias_sev
 
 #### Frequency
@@ -1391,7 +1723,7 @@ freq_covariates <- df[,freq_columns] %>%
   select(-ClaimInd,-ID,-ClaimAmount) %>%
   mutate_if(is.integer, as.numeric) %>%
   as.matrix()
-#Decomposing the effects from all interactions
+
 glex_freq <- glex(xgb_freq, freq_covariates)
 saveRDS(glex_freq, file = "rds/glex_freq.rds")
 # Version with exposure 1
@@ -1414,8 +1746,8 @@ glex_freq_2$intercept <- glex_freq_2$intercept + shift
 
 ## Debiasing
 # Remove gender effects
-calibrated_sum <- sum(exp(glex_freq$intercept + rowSums(glex_freq$m)))
-calibrated_sum_2 <- sum(exp(glex_freq_2$intercept + rowSums(glex_freq_2$m)))
+calibrated_sum_freq <- sum(exp(glex_freq$intercept + rowSums(glex_freq$m)))
+calibrated_sum_freq_2 <- sum(exp(glex_freq_2$intercept + rowSums(glex_freq_2$m)))
 glex_freq$m <- glex_freq$m %>%
   select(-contains("Gender_Freq"))
 glex_freq_2$m <- glex_freq_2$m %>%
@@ -1424,22 +1756,31 @@ glex_freq_2$m <- glex_freq_2$m %>%
 # Construct unbiased estimate of mu
 unbias_freq <- exp(glex_freq$intercept + rowSums(glex_freq$m))
 unbias_freq_2 <- exp(glex_freq_2$intercept + rowSums(glex_freq_2$m))
-# Scale up estimates
-unbias_freq <- unbias_freq * calibrated_sum / sum(unbias_freq)
-unbias_freq_2 <- unbias_freq_2 * calibrated_sum_2 / sum(unbias_freq_2)
-df[,"p_hat_debiased"] <- unbias_freq
+uncalibrated_sum_freq <- sum(unbias_freq)
+uncalibrated_sum_freq_2 <- sum(unbias_freq_2)
 
-# Calculate premiums
-unbias <- unbias_freq*unbias_sev
-df[,"pi_hat_debiased"] <- unbias
-df[,"pi_hat_new_debiased"] <- unbias_freq_2*unbias_sev
+# Scale up estimates
+df[,"p_hat_debiased"] <- unbias_freq
+df[,"pi_hat_debiased"] <- unbias_freq*unbias_sev
+c <- sum(df$pi_hat)/sum(unbias_freq*unbias_sev) # 0.99048
+e <- c*uncalibrated_sum_regr*uncalibrated_sum_freq/(calibrated_sum_regr*calibrated_sum_freq) # 0.9920408
+c_mu <- calibrated_sum_regr/uncalibrated_sum_regr*sqrt(e) # 0.9943802
+c_p <- calibrated_sum_freq/uncalibrated_sum_freq*sqrt(e) # 0.9960801
+#c_mu*c_p # 0.9904823
+#c # 0.9904823
+p_star <- unbias_freq * c_p
+mu_star <- unbias_sev * c_mu
+unbias <- p_star*mu_star
+df[,"mu_star"] <- unbias_sev
+df[,"p_star"] <- unbias_freq
+df[,"pi_star"] <- unbias
 ```
 
 \newpage
 
-# Appendicies
+# Figure Appendix
 
-## Distributions of severity
+## Figure A: Distributions of severity
 
 ```{r,echo= FALSE}
 X <- df_sev$ClaimAmount
@@ -1471,3 +1812,40 @@ and
 $$
 \frac{1}{\hat\beta_N}=\frac{1}{N^2}\left(N\sum_{i=1}^N\log(X_i)X_i-\left(\sum_{i=1}^NX_i\right)\left(\sum_{i=1}^N\log(X_i)\right)\right).
 $$
+
+\newpage
+
+## Figure B.1: Shapley breakdown, severity, factor variables
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/sev_shap_fac_breakdown.png}
+\end{figure}
+
+\newpage
+
+## Figure B.2: Shapley breakdown, severity, numerical variables
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/sev_shap_num_breakdown.png}
+\end{figure}
+
+\newpage
+
+## Figure C.1: Shapley breakdown, frequency, factor variables
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/freq_shap_fac_breakdown.png}
+\end{figure}
+
+\newpage
+
+## Figure C.2: Shapley breakdown, frequency, numerical variables
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/freq_shap_num_breakdown.png}
+\end{figure}
+
