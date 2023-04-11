@@ -9,7 +9,7 @@ output:
     toc_depth: 2
 ---
 
-```{r, include = FALSE,eval = TRUE}
+```{r, include = FALSE,eval = FALSE}
 #Hent pandoc skabelon: system("pandoc -D latex")
 files <- list.files(path = "pdf/render",include.dirs = F, full.names = T)
 files <- files[!grepl("logo_ku.png",files)]

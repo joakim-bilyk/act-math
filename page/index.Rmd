@@ -8,22 +8,22 @@ Compiled at: **`r Sys.time()`**.
 
 <a href="books/theory/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
 
-<a href="pdf/render/theory.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+<a href="static/theory.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
 
-<iframe src="pdf/render/theory.pdf"></iframe>
+<iframe src="static/theory.pdf"></iframe>
 
 # Exercises on all courses
 
 <a href="books/exercises/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
 
-<a href="pdf/render/exercises.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+<a href="static/exercises.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
 
-<iframe src="pdf/render/exercises.pdf"></iframe>
+<iframe src="static/exercises.pdf"></iframe>
 
 # Exam prep
 
 <a href="books/exam/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
 
-<a href="pdf/render/exam.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+<a href="static/exam.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
 
-<iframe src="pdf/render/exam.pdf"></iframe>
+<iframe src="static/exam.pdf"></iframe>
