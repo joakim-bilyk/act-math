@@ -1,0 +1,696 @@
+
+# Measure theory
+
+## Axioms of Probability
+
+Som udgangspunkt betragtes rummet $(\Omega,\mathcal{A})$ udstyret med en brolægning $\mathcal{A}\subseteq 2^\Omega$, hvor $2^\Omega=\mathcal{P}(\Omega)$ er mængden af alle delmængder af $\Omega$. Typisk anvendes brolægningerne 1) en algebra eller 2) en $\sigma$-algebra.
+
+<blockquote class = "def">
+
+**Definition 2.1. (Protter)** **(Algebra)** _En brolægning $\mathcal{A}\subseteq 2^\Omega$ kaldes en algebra, hvis_
+
+  1. $\Omega\subseteq\mathcal{A}$,
+  2. $\forall A\in\mathcal{A} \Rightarrow A^c=\Omega\setminus A\in\mathcal{A}$ _(lukket under komplementer),_
+  3. $A_1,A_2,...,A_n\in\mathcal{A}\Rightarrow \cup_{i=1}^n A_i\in\mathcal{A}$ _(lukket under endelige foreninger)._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 2.2. (Protter)** **($\mathit{\sigma}$-algebra)** _En brolægning $\mathcal{A}\subseteq 2^\Omega$ kaldes en $\sigma$-algebra, hvis_
+
+  1. $\Omega\subseteq\mathcal{A}$,
+  2. $\forall A\in\mathcal{A} \Rightarrow A^c\in\mathcal{A}$ _(lukket under komplementer),_
+  3. $(A_n)_{n\in\mathbb{N}}\subset\mathcal{A}\Rightarrow \cup_{i\in\mathbb{N}} A_i\in\mathcal{A}$ _(lukket under tællelige foreninger)._
+
+</blockquote>
+
+*Egenskaber for en $\sigma$-algebra*: 1) $\emptyset\in\mathcal{A}$, 2) $A,B\in\mathcal{A}\Rightarrow A \cup B\in\mathcal{A}$, og 3) $(A_i)_{i\in\mathbb{N}}\subseteq\mathcal{A}\Rightarrow\cap_{i\in\mathbb{A}}A_i\in\mathcal{A}$.
+
+*Eksempel:* Borel-sigma-algebraen $\mathcal{B}(\mathbb{R}^n)=\sigma(\mathcal{C})$, hvor $\mathcal{C}$ kan være en af følgende frembrigersystem. ($\sigma(\mathcal{C})$ benævner den mindste $\sigma$-algebra på $\Omega$, hvor $\mathcal{C}\in\mathcal{A}$).
+
+  i. De åbne mængder dvs. $\mathcal{C}=\mathcal{O}^n$
+  ii. De lukkede mængder dvs. $\mathcal{C}=\{A^c : A\in\mathcal{O}^n\}$
+  iii. Halvåbne mængder/bokse
+  iv. Uendelige intervaller som $\mathcal{C}=\{(-\infty,a] : a\in\mathbb{R}\}$
+
+<blockquote class = "def">
+
+**Definition 2.2. (Protter)** **(Sandsynlighedsmål)** _Lad $\mathcal{A}\subseteq2^\Omega$ være en $\sigma$-algebra. $P : \mathcal{A}\to[0,1]$ kaldes et sandsynlighedsmål hvis_
+
+  1. $P(\Omega)=1$,
+  2. _For $(A_n)_{n\in\mathbb{N}}$ af parvist disjunkte delmængder af $\Omega$ gælder $P\left(\bigcup_{n\in\mathbb{N}}A_n\right)=\sum_{n\in\mathbb{N}}P(A_n)$._
+
+</blockquote>
+
+*Bemærkning:* Husk et mål $\mu : \mathcal{A}\to [0,\infty)$ på $\mathcal{A}$ opfylder at 1) $\mu(\emptyset)=0$ og 2) for en parvis disjunkt familie $(A_n)_{n\in\mathbb{N}}$ gælder $\mu\left(\mathop{\dot{\bigcup}}_{n\in\mathbb{N}}A_n\right)=\sum_{n\in\mathbb{N}}\mu(A_n)$.
+
+*Konsekvenser:* Umildbare konsekvenser ved definition 2.3 er følgende
+
+  i. $\sum_{i=1}^n P(A_i)=P\left(\bigcup_{i=1}^nA_i\right)$, hvis alle $A_i$ er pavist disjunkte
+  ii. $0\le P(A)\le 1$, for alle $A\in\mathcal{A}$
+  iii. $P(A^c)=1-P(A)$, for alle $A\in\mathcal{A}$
+  iv. $P(A)\le P(B)$ hvis $A\subseteq B$
+
+<blockquote class = "thm">
+
+**Theorem 2.3. (Protter)** **(Opad- og nedadkontinuitet)** _Lad $P : \mathcal{A}\to[0,1]$ være et ssh. mål på $(\Omega,\mathcal{A})$. Da gælder_
+
+  iii. _$P(A_n)\uparrow P(A)$ hvis $A_n\uparrow A$,_
+  v. _$P(A_n)\downarrow P(A)$ hvis $A_n\downarrow A$_
+
+</blockquote>
+
+## Conditional Probability and Independence
+
+<blockquote class = "def">
+
+**Definition 3.1. (Protter)** **(Uafhængighed)** _Lad $(\Omega,\mathcal{A},P)$ være et ssh. rum._
+
+  a. _Lad $A,B\in\mathcal{A}$ være to hændelser. $A$ og $B$ kaldes uafhængige hvis $P(A\cap B)=P(A)P(B)$._
+  b. _Lad $A_i\in\mathcal{A}$ for en indeksmængde $i\in I$ (ikke et krav om endelighed eller tællelig). Hændelserne $A_i$ kaldes uafhængige hvis $P(\cap_{i\in J}A_i)=\prod P(A_i)$ for et $J\subseteq I$ med $\# J< +\infty$._
+
+</blockquote>
+
+*Bemærkning.* Der gælder at 1) $\emptyset$ og $\Omega$ er uafhængige af alle $A\in\mathcal{A}$ samt $A\in\mathcal{A}$ er uafhængig med sig selv hvis og kun hvis $P(A)=\{0,1\}$.
+
+<blockquote class = "thm">
+
+**Theorem 3.1. (Protter)** _Lad $(\Omega,\mathcal{A},P)$ være et ssh. rum. Antag $A,B\in\mathcal{A}$ være uafhængige, så er følgende par uafhængige: $(A^c,B),(A,B^c)$ og $(A^c,B^c)$._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 3.2. (Protter)** **(Betinget sandsynlighed)** _Lad $A,B\in\mathcal{A}$ være hændelser og $P(B)>0$. Den betingede sandsynlighed $A$ givet $B$ er $P(A\vert B)=P(A\cap B)/P(B)$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 3.2. (Protter)** _Lad $A,B\in\mathcal{A}$ være hændelser og $P(B)>0$._
+
+  a. _$A$ og $B$ er uafhængige hvis og kun hvis $P(A\vert B)=P(A)$._
+  b. _Funktionen $P(\cdot \vert B) : \mathcal{A} \to [0,1]$ definerer et nyt ssh. mål på $\mathcal{A}$, kaldet **den betingede sandsynlighed givet $B$**._
+
+</blockquote>
+
+Andet kan tilføjes f.eks. Bayes'.
+
+## Probabilities on a Finite or Countable Space
+
+Lad $\Omega$ være et endelig eller tællelig mængde og lad $\sigma$-algebraen $\mathcal{A}=2^\Omega$.
+
+<blockquote class = "thm">
+
+**Theorem 4.1. (Protter)** **(Punktsandsynligheder)** _Lad $A,B\in\mathcal{A}$ være hændelser og $P(B)>0$._
+
+  a. _En sandsynlighed på en tællelig eller endelig mængde $\Omega$ er givet ved sandsynlighederne for hvert atom $p_\omega=P(\{\omega\})$, $\omega\in\Omega$._
+  b. _Hvis en følge af reelle tal $(p_\omega)_{\omega\in\Omega}$ indiceret over elementerne i $\Omega$ opfylder at $p_\omega\ge0$ og $\sum_{k\in\Omega}p_k=1$, så eksisterer et unikt sandsynlighedsmål $P$ givet ved $P(\{\omega\})=p_\omega$._
+
+</blockquote>
+
+**Bemærkning.** Alle sandsynlighedsmål på endelige eller tællelige mængder $\Omega$ kan således karakteriseres ved punktsandsynlighederne $p_\omega$. Dvs. et sandsynligedsmål $P : 2^\Omega \to [0,1]$ er givet ved summen af punktsandsynligheder
+
+$$
+P(A)=\sum_{k\in A}p_k,\ A\subseteq\Omega
+$$
+
+<blockquote class = "def">
+
+**Definition 4.1. (Protter)** _En ssh. $P$ på en endelig mængde $\Omega$ er uniform hvis $p_\omega$ afhænger af $\omega$._
+
+</blockquote>
+
+**Eksempler:**
+
+*(Den uniforme fordeling.)* Det følger direkte af definition 4.1, at den uniforme fordeling er givet ved
+
+$$
+P(A)=\frac{\#A}{\#\Omega}
+$$
+
+*(Binomialfordelingen)* Lad $\Omega=\{0,1,2,...,n\}$ og $\mathcal{A}=2^\Omega$. Givet et $q\in[0,1]$ defineres binomialfordelingen ved
+
+$$
+p_k={n\choose k}q^k(1-q)^{n-k},\ k\in\Omega
+$$
+
+*(Geometriske fordeling)* Lad $\Omega=\mathbb{N}_0=\{0,1,2,...\}$ og $\mathcal{A}=2^{\mathbb{N}_0}$. Givet et $q\in[0,1]$ er den geometriske fordeling givet ved
+
+$$
+p_k=(1-q)^kq,\ k\in\Omega
+$$
+
+*(Hypergeometrisk fordeling)* Lad $N,M\in\mathbb{N}$ være givet.
+
+*(Poisson fordelingen)* Lad $\Omega=\mathbb{N}_0$ og $\mathcal{A}=2^{\mathbb{N}_0}$. Givet et parameter $\lambda>0$ er poissonfordelingen gived ved
+
+$$
+p_n=e^{-\lambda}\frac{\lambda^n}{n!},\ n\in\Omega
+$$
+
+Desuden er $K(n,k)={n\choose k}$ givet ved
+
+$$
+{n\choose k}=\frac{n!}{k!(n-k)!}.
+$$
+
+## Construction of a Probability Measure on $\mathbb R$
+
+**Sandsynlighedsmålet** kan indledelsesvis indføres på følgende vis: Lad $(\Omega, \mathcal{A},\mu)$ være et målrum og lad $f : (\Omega,\mathcal{A}) \to [0,\infty]$ være $\mathcal{A}/\mathcal{B}$-målelig. Definer nu målet $\nu : \mathcal{A} \to [0,\infty]$ ved
+
+$$
+V(A)=\int_A f d\mu=\int 1_A fd\mu=\int 1_A(x)f(x)d\mu(x)=\int1_A(x)f(x)\mu(dx),\ A\in\mathcal{A}
+$$
+
+I situationen hvor $V(\Omega)=1$ er $\nu$ et ssh. mål. Især er vi interesseret i målrummet $(\mathbb{R}^n,\mathcal{B}_n)$. Notationen $\nu =f\cdot \mu$ bruges og betyder "$\nu$ har tæthed $f$ mht. $\mu$".
+
+**Eksempler.** *(Lebesguemålet)* Lad $(\Omega,\mathcal{A},\mu)=(\mathbb{R},\mathcal{B},m)$ været et målrum, hvor $m$ er lebesgue-målet. Lad $f : \mathbb{R}\to (0,1/\sqrt{2\pi}]$ være givet ved
+
+$$
+f(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2},\ x\in\mathbb{R},
+$$
+
+da er $f$ målelig, da $f$ er kontinuer for alle $x\in\mathbb{R}$. Da er $\nu : \mathcal{B} \to [0,1]$, også kaldet *normalfordelingen*, et ssh. mål givet ved
+
+$$
+\nu(A)=\int_A f(x) dm(x),\hspace{20pt} \nu(\mathbb{R})=\int_{\mathbb{R}}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}dm(x)=1
+$$
+
+*(Tællemålet)* Lad $(\mathbb{N}_0,2^{\mathbb{N}_0},\mu)$ været et målrum og lad $\mu$ være tællemålet. Lad $f : \mathbb{N}_0 \to [0,\infty]$ være en vilkårlig målelig funktion. Da er $\nu$ givet ved
+
+$$
+\nu(A)=\int_A fd\mu=\sum_{x\in A}f(x)
+$$
+
+hvis $\nu(\mathbb{N}_0)=\sum_{x\in\mathbb{N}_0}f(x)=1$ er $\nu$ et ssh. mål på $(\mathbb{N}_0,2^{\mathbb{N}_0})$.
+
+<blockquote class = "def">
+
+**Definition 7.1. (Protter)** **(Fordelingsfunktionen/distribution function)** _Lad $P$ være et ssh. mål på $(\mathbb{R},\mathcal{B})$, da er fordelingsfunktionen $F : \mathbb{R}\to [0,1]$ defineret ved._
+
+$$
+F(x)=P((-\infty,x]).
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 7.1. (Protter)** **(Entydighed)** _Fordelingsfunktionen $F$ karakteriserer $P$ og er unik._
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Corollary 7.1. (Protter)** _Lad $F$ være en fordelingsfunktion for $P$ på $\mathbb{R}$. Definer da $F(x-):=\lim_{u\uparrow x}F(u)$. For vilkårlige $x,y\in\mathbb{R}$ gælder_
+
+  i. $P((x,y])=F(y)-F(x)$
+  ii. $P([x,y])=F(y)-F(x-)$
+  iii. $P(\{x\})=F(x)-F(x-)$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 7.2. (Protter)** **(Egenskaber for fordelingsfunktionen)** _$F : \mathbb{R} \to [0,1]$ er en fordelingsfunktion for et unikt sandsynlighedsmål $P$ på $(\mathbb{R},\mathcal{B})$, hvis_
+
+  i. _$F$ er ikke-aftagende dvs. $F(x)\le F(y)$, for $x\le y$_
+  ii. _$F$ er højre kontinuer dvs. $F(u)\downarrow F(x)$ for $u\downarrow x$._
+  iii. _$F(x)\to 1$ når $x\to \infty$, $F(x)\to 0$ når $x\to -\infty$._
+
+</blockquote>
+
+*Bemærkning.* Teorem 7.2 kan fungere som et værktøj til konstruktion af et sandsynligedsmål givet en fordelingsfunktion.
+
+## Random Variables
+
+Indledelsesvis genopfriskes målbare rum. For to rum $(E,\mathcal{E})$ og $(F,\mathcal{F})$, hvor $\mathcal{E}$ og $\mathcal{F}$ er $\sigma$-algebraer på de respektive rum. Da kaldes en en afbildning $X : (E,\mathcal{E})\to(F,\mathcal{F})$ for en målelig afbildning, hvis og kun hvis for alle delmængder $A\in\mathcal{F}$ er $X^{-1}(A)\in\mathcal{E}$. Med andre ord for enhver billedmængde, kan vi måle urbilledet, hvorfra funktionsværdierne på billedmængden kunne være kommet fra.
+
+<blockquote class = "def">
+
+**Definition.** **(Stokastisk variabel)** _En målelig afbildning udstyret med et sandsynlighed mål på domænet dvs. $X : (\Omega,\mathcal{A},P) \to (F,\mathcal{F})$, kaldes en stokastisk variabel (stochastic/random variable)._
+
+</blockquote>
+
+**Bemærkning.** Oftest betragtes $F=\mathbb{R}^n$ og $\mathcal{F}=\mathcal{B}_n$ især når $n=1$.
+
+<blockquote class = "prop">
+
+**Corollary 8.1. (Protter)** **(Urbilleder)** _Lad $X$ være en stokastisk variabel er $X^{-1}(A):=\{\omega\in\Omega \vert X(\omega)\in A\}:=\{X\in A\}$. Hertil gælde specielt for eksempelvis $A=(-\infty,x]$ og $A=(x,\infty)$ følgende urbilleder $X^{-1}(A)=\{X\le x\}$ og $X^{-1}(A)=\{X> x\}$._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition.** **(Billedmål)** _For en målbar funktion $X : (\Omega,\mathcal{A},\mu) \to (F,\mathcal{F})$, hvor $\mu$ er et mål på $\mathcal{A}$ defineres $\mu^X(A)=\mu(X^{-1}(A))$ som billedmålet af $A$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 8.5. (Protter)** **(Billedmål for stokastiske variable)** _Lad $X : (\Omega,\mathcal{A},P) \to (F,\mathcal{F})$ være en stokastisk variabel, så gælder for alle $A\in\mathcal{F}$ at $P^X(A)=X(P)(A)=P(X^{-1}(A))=P(X\in A)$, hvor $P^X$ kaldes fordelingen af $X$ (distribution of $X$). **Specielt er $P^X$ et sandsynlighedsmål**.._
+
+</blockquote>
+
+**Bemærkning.** Fordelingsfunktionen $F_X: \mathbb{R}\to [0,1]$ for $X$ er givet ved $F_X(x)=P^X((-\infty,x])=P(X\in (-\infty,x])=P(X\le x)$.
+
+<blockquote class = "def">
+
+**Definition.** **(Næsten sikker)** _For en stokasitsk variabel $X:(\Omega,\mathcal{A},P) \to (F,\mathcal{F})$ og en delmængde $A\in \mathcal{F}$ siges at_
+
+$$
+X\in A\hspace{10pt} P\text{-n.s}\hspace{10pt}\Leftrightarrow\hspace{10pt} X\in A\hspace{10pt} P\text{-a.s}\hspace{10pt}\Leftrightarrow\hspace{10pt} X\in A\hspace{10pt} P\text{-a.e}
+$$
+
+_gælde hvis $P(X\in A)=1$ dvs. ækvivalent $P(X\in A^c)=P(X\in F\setminus A)=0$._
+
+</blockquote>
+
+Ovenstående udtales n.s (næsten sikker), a.s (almost surely) og a.e (almost everywhere).
+
+## Integration with Respect to a Probability Measure
+
+<blockquote class = "def">
+
+**Definition 9.1.** **(Forventet værdi)** _Lad $X : (\Omega, \mathcal{A}, P) \to (F,\mathcal{F})$ være en stokastisk variabel. Da defineres forventningen af $X$ som følgende integrale, når dette er veldefineret._
+
+$$
+E(X)=E\{X\}=\int X dP=\int_\Omega X dP=\int_\Omega X(\omega)dP(\omega)=\int_\Omega X(\omega)P(d\omega).
+$$
+
+</blockquote>
+
+**Bemærkning.** Integralet ovenfor er veldefineret hvis 1) $X\ge 0$ P-n.s dvs $P(X\ge 0)=1$ eller, hvis 2) *(definition 9.2)* $X=X^+-X^-$ er $E(X)=E(X^+)-E(X^-)$, hvis blot $E(X^+),E(X^-)<+\infty$ (kun en nødvendig).
+
+**Eksempler.** Hvis $\Omega$ er tællelig, er $P$ en simpel funktion, givet ved singelton mængder. Derved bestemmes $E(X)$ ved
+
+$$
+E(X)=\sum_{\omega\in\Omega} X(\omega)P(\{\omega\})
+$$
+
+
+<blockquote class = "thm">
+
+**Theorem 9.1. (Protter)** **(Sætninger fra An2)** _Husk $\mathcal{L}^p$ defineres som mængden af $\mathcal{A}/\mathcal{B}$ målelige funktioner $f$, hvor $\vert f\vert ^p$ er integrabel. Det vil sige i konteksten af forventet værdi arbejder vi med mængden_
+
+$$
+\mathcal{L}^p=\{X : (\Omega,\mathcal{A},P)\to(\mathbb{R},\mathcal{B})\ \vert\ E\vert X\vert^p< +\infty\}.
+$$
+
+  a. _$\mathcal{L}^p$ er et lineært vektorrum dvs. for $X\in \mathcal{L}^p\Rightarrow aX\in\mathcal{L}^p$, $a\in\mathbb{R}$ og for $X,Y\in\mathcal{L}^p\Rightarrow X+Y\in\mathcal{L}^p$. Desuden for $0\le X\le Y$ og $Y\in\mathcal{L}^1$, så er $X\in\mathcal{L}^1$ og $E(X)\le E(Y)$._
+  b. _For $X\in\mathcal{L}^p$ er $E(X)\le E\vert X\vert$._
+  c. _Hvis $X=Y$ $P-n.s$ og $X\in\mathcal{L}^p$, så er $Y\in\mathcal{L}^p$ og $E(X)=E(Y)$ samt $E\vert X-Y\vert^p=0$._
+  d. **(Monotom konvergens teorem)** _Hvis $X_n\uparrow X$ og $X_n$ gælder $\lim_{n\to \infty} E(X_n)=E(X)$._
+  e. **(Fatou's lemma)** _Hvis $X_n\ge Y$ $P-n.s.$ ($Y\in\mathcal{L}^p$) eller $X_n\ge 0$ $P-n.s.$ for alle $n$, så er $E(\liminf_{n\to\infty}X_n)\le \liminf_{n\to \infty} E(X_n)$._
+  f. **(Lebesgue's domineret konvergens teorem)** _Hvis $X_n\uparrow X$ $P-n.s.$ og hvis $\vert X_n\vert \le Y\in\mathcal{L}^1$ $P-n.s.$, så er $X_n,X\in\mathcal{L}^1$ og $E(X_n)\to E(X)$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 9.2. (Protter)** _Lad $X_n : (\Omega,\mathcal{A},P)\to(F,\mathcal{F})$ være en følge af stokastiske variable._
+
+  a. _Hvis $X_n\ge0$, så gælder $E\left(\sum_{n=1}^\infty X_n\right)=\sum_{n=1}^\infty E(X_n)$ (begge enten uendelige eller endelige)_
+  b. _Hvis $\sum_{n=1}^\infty E\vert X_n\vert <+\infty$, så konvergerer $\sum_{n=1}^\infty X_n$ $P-n.s.$ og er integrabel. Desuden holder ovenstående lighed._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 9.3. (Protter)** **(Cauchy-Schwarz ulighed)** _Lad $L^p=\{X : (\Omega,\mathcal{A},P)\to(\mathbb{R},\mathcal{B})\ \vert\ E(X^p)< +\infty\}$ dvs. mængden af $p$-potens integrable stokastiske variable._
+
+  a. _Hvis $X,Y\in L^2$, så er $XY\in L^1$ og følgende ulighed gælder_
+  $$
+  \vert E(XY)\vert \le \sqrt{E(X^2)E(Y^2)}.
+  $$
+  b. _Der gælder $L^2\subset L^1$ og hvis $X\in L^2$, så $E(X)^2\le E(X^2)$._
+  c. _Rummmet $L^2$ er et lineært vektor rum._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 9.4. (Protter)** **(Chebyshev’s/Markov's/Bienaymé-Chebyshev's ulighed)** _For en stokastisk variabel $X$ gælder_
+
+$$
+P(\vert X\vert \ge a)\le \frac{E(X^2)}{a^2},\frac{E\vert X\vert}{a} \hspace{20pt} P\{\vert X-E\{X\}\vert\ge a\}\le \frac{\sigma^2 E\{X^2\}}{a^2}
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 9.5. (Protter)** **(Forventnings reglen)** _Lad $X\in \mathbb{R}$ være en stokastisk variabel, så $X : (\Omega, \mathcal{A}, P)\to (E,\mathcal{E})$ og med fordeling $P^X$. Lad $h : (E,\mathcal{E})\to(\mathbb{R},\mathcal{B})$ være en målelig funktion._
+
+  a. _Der gælder $h(X)\in\mathcal{L}^1(\Omega, \mathcal{A}, P)\iff h\in\mathcal{L}^1(E, \mathcal{E}, P^X)$_
+  b. _Hvis (a) er opfyldt eller $h\ge 0$, så er_
+  $$
+  E(H(X))=\int h(x)P^X(dx)=\int h(x)dP^X(x)
+  $$
+
+</blockquote>
+
+## Independent Random Variables
+
+<blockquote class = "def">
+
+**Definition 10.1. (Protter)** **(Uafhængige Stokastiske Variable)**
+
+  a. _Brolægninger $(\mathcal{A}_i)_{i\in I}\subseteq \mathcal{A}$ kaldes uafhængige hvis for alle endelige $J\subseteq I$ og alle $A_i\in\mathcal{A}_i$ er_
+  $$
+  P(\cap_{i\in J} A_i)=\prod_{i\in J}P(A_i)
+  $$
+  _dvs. for alle brolægning er alle hændelser uafhængige._
+  b. _tokastiske Variable $(X_i)_{i\in I}$, hvor $X_i : (\Omega, \mathcal{A})\to (E_i,\mathcal{E}_i)$, kaldes uafhængige, hvis brolægningerne i familien givet ved $\sigma(X_i^{-1}(\mathcal{E}_i))\subseteq \mathcal{A}$ er uafhængige._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 10.1. (Protter)** **(Ækvivalensudsagn)** _For to stokastiske variable $X : (\Omega, \mathcal{A})\to (E,\mathcal{E})$ og $Y : (\Omega, \mathcal{A})\to (F,\mathcal{F})$ er følgende udsagn ækvivalente._
+
+  o. _$X$ og $Y$ er uafhængige._
+  a. _$P(X\in A, Y\in B)=P(X\in A)P(Y\in B)$ for alle $A\in \mathcal{E}$ og $B\in\mathcal{F}$._
+  b. _$P(X\in A, Y\in B)=P(X\in A)P(Y\in B)$ for alle $A\in \mathcal{C}$ og $B\in\mathcal{D}$. Hvor $\mathcal{C}$ og $\mathcal{D}$ er fællesmængdestabile mængdesystemer (brolægning) der frembringer hhv. $\mathcal{E}$ og $\mathcal{F}$._
+  c. _$f(X)$ og $g(Y)$ er uafhængige for alle par $(f,g)$ målbare funktioner._
+  d. _$E(f(X)g(Y))=E(f(X))E(g(Y))$ for alle par $(f,g)$ begrænsede og målbar eller positive og målbare funktioner._
+  e. _Hvis $E$ og $F$ er metriske rum med respektive Borel $\sigma$-algebraer $\mathcal{E}$ og $\mathcal{F}$. $E(f(X)g(Y))=E(f(X))E(g(Y))$ for alle par $(f,g)$ begrænsede og kontinuere funktioner. _
+
+</blockquote>
+
+**Notation.** Ofte ønskes at betragte funktioner af flere variable, hvor domænerummet ønskes konstrueret fra to rum hvorpå $x$ og $y$ lever hhv. $(E,\mathcal{E},P)$ og $(F,\mathcal{F},Q)$. Vi kan da konstruere et målrum givet ved $(E\times F, \sigma(\mathcal{E}\times\mathcal{F}))$, hvor vi lader $\mathcal{E}\otimes \mathcal{F}=\sigma(\mathcal{E}\times\mathcal{F})$. Tilsvarende kan vi konstruere produktmålet $P\otimes Q(A)=P(A)Q(A)$ på $(E\times F, \mathcal{E}\otimes \mathcal{F},P\otimes Q)$.
+
+<blockquote class = "thm">
+
+**Theorem 10.2. (Protter)**  _Lad $f : (E \times F, \mathcal{E} \otimes \mathcal{F}) \to (\mathbb{R}, \mathcal{R})$ være målbar. For hvert $x \in E$ og $y \in F$, er de respektive "sektionerne" $y \to f(x,y)$ og $x \to f(x,y)$ henholdsvis $\mathcal{F}$- og $\mathcal{E}$ målbare funktioner._
+
+</blockquote>
+
+**Notation.** Det kan ønskes at betragte mål med faste $x,y$ og hvordan disse opfører sig. Teoremet fortæller, at man kan vælge tilfældige $x \in E$ og $y \in F$ således, at man kan betragte henholdsvis $\mathcal{F}$- og $\mathcal{E}$ målbare funktioner i én variable (enten $x$ eller $y$) for sig selv.
+
+<blockquote class = "thm">
+
+**Theorem 10.3. (Protter)** **(Tonelli-Fubini)**  _Lad $(E,\mathcal{E},P)$ og $(F,\mathcal{F},Q)$ være sandsynlighedsrum._
+
+  a. _Lad $P\otimes Q(A\times B)=P(A)Q(B)$. Dette er et unikt ssh mål, som udvider til sandsynlighedsrummet $(E\times F,\mathcal{E}\otimes \mathcal{F},P\otimes Q)$._
+  b. _Lad $f : (E\times F,\mathcal{E}\otimes \mathcal{F},P\otimes Q) \to (\mathbb{R}, \mathcal{R})$ være en målbar, positiv eller integrabel mht. $P\otimes Q$. Da er $x\mapsto \int f(x,y)Q(dy)$ en $\mathcal{E}$-målelig funktion og $y\mapsto \int f(x,y)P(dy)$ en $\mathcal{F}$-målelig funktion. Specielt er_
+  $$
+  \int f d P\otimes Q=\int\left\{\int f(x,y) Q(dy)\right\}P(dx)=\int\left\{\int f(x,y) P(dx)\right\}Q(dy)
+  $$
+
+</blockquote>
+
+## Probability Distributions on $\mathbb R$
+
+Dette kapitel undersøger egenskaberne ved sandsynlighedsmål $P$ på $(\mathbb{R},\mathcal{B})$, hvor fordelingsfunktionen er karakteriseret ved $F(x)=P((-\infty,x])$.
+
+<blockquote class = "def">
+
+**Definition 11.1. (Protter)** _Lebesguemålet er mængdefunktion $m: \mathcal{B} \to[0,\infty0]$, der opfylder:_
+
+  i. _For $A_1,A_2,A_3,...\in\mathcal{B}$ parvist disjunkte mængder gælder $m(\cup_{i=1}^\infty A_i)=\sum_{i=1}^\infty m(A_i)$,_
+  ii. _hvis $a<b$ og $a,b\in\mathbb{R}$, så $m((a,b])=b-a$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 11.1. (Protter)**  _Lebesguemålet er unikt._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 11.2. (Protter)**  _Lebesguemålet eksisterer._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 11.2. (Protter)** _Tætheden af et sandsynlighedsmål $P$ på $(\mathbb{R},\mathcal{B})$ er en positiv Borel målelig funktion $f$ der opfylder for alle $x\in\mathbb{R}$:_
+
+$$
+F(x)=P((-\infty,x])=\int_{-\infty}^x f(y)dy=\int f(y)1_{(-\infty,x]}(y)dm(y)
+$$
+
+_I tilfældet $P=P^X$ (husk thm 8.5. $P^X(A)=P(X\in A)$), dvs $P$ er fordelingsmålet af en s.v. $X$, så siger vi at $f$ er tætheden af $X$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 11.3. (Protter)** _Lad $f\in \mathcal{M}_{\mathbb{R}}^+$. Da gælder ($f$ karakteriseret fuldkomment tætheden for et sandsynlighedsmål $P$ på $(\mathbb{R},\mathcal{B})$) $\Longleftrightarrow$ ($\int f dm(x)=1$). Desuden gælder hvis $f'$ opfylder $m(f\ne f')=0$ ($f=f'$ $m$-$n.o.$), så er $f'$ og en tæthed for samme sandsynlighedsmål. Omvendt bestemmer et sandsynlighedsmål også den tæthed, når denne eksisterer._
+
+</blockquote>
+
+**Remark 11.1.** $F$ er differentiabel $m$-$n.o.$ uafhængig af $f$ og med $f=0$ ellers.
+
+<blockquote class = "prop">
+
+**Corollary 11.1. (Protter)**  **(Forventningsreglen)** _Lad $X$ være en $\mathbb{R}$-værdi stokastisk variabel med tæthed $f$. Lad $g\in\mathcal{M}_{\mathbb{R}}$. Så er $g$ integrabel mht. $P^X$, hvis og kun hvis $fg$ er integrabel mht. $m$. Hvis da er_
+
+$$
+E[g(X)]=\int g(x)P^X(dx)=\int g(x)f(x) dm(x)
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 11.4. (Protter)**  _Lad $X$ have tæthed $f_X$ og lad $g\in\mathcal{M}_{\mathbb{R}}$. Lad $Y=g(X)$. Så er_
+
+$$
+F_Y(y)=P(Y\le y)=P(G(X)\le y)=\int_{A_y} f_X(u)dm(u),
+$$
+
+_hvor $A_y=\{u : g(u)\le y\}$._
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Corollary 11.2. (Protter)**  _Lad $X$ have en kontinuer tæthed $f_X$. Lad $g: \mathbb{R}\to \mathbb{R}$ være $C^1$ og strengt monotom. Lad $h(y)=g^{-1}(y)$ være $g$ inverse også $C^1$. Så har $Y=g(X)$ tæthed_
+
+$$
+f_Y(y)=f_X(h(y))|h'(y)|.
+$$
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Corollary 11.3. (Protter)**  _Lad $X$ have en kontinuer tæthed $f_X$. Lad $g: \mathbb{R}\to \mathbb{R}$ være stykkevis $C^1$ og strengt monotom på intervallerne $I_1,I_2,...,I_n$ med $\cup_{i\in I}I_i=\mathbb{R}$ ($g$ skal kun være $C^1$ og strengt monotom på det indre af $I_i$). Lad $h_i(y)=g^{-1}(y)$ for $g: I_i\to \mathbb{R}$. Så har $Y=g(X)$ tæthed_
+
+$$
+f_Y(y)=\sum_{i=1}^n f_X(h_i(y))|h_i'(y)| 1_{g(I_i)}(y).
+$$
+</blockquote>
+
+## Probability Distributions on $\mathbb R^n$
+
+Dette kapitel undersøger fordelinger for stokatiske variable på $(\mathbb{R}^n,\mathcal{B}^n)$ for $n=2,3,...$. Særligt vil vi have interesse for særtilfældet $n=2$. Mange sætninger i dette kapitler har en analog i kapitel 11.
+
+<blockquote class = "def">
+
+**Definition 12.1. (Protter)** _Lebesgue målet på $(\mathbb{R}^n,\mathcal{B}^n)$ er defineret for det kartesiske produkt $A_1\times A_2\times ...\times A_n$ ved $m_n(\prod_{i=1}^n A_i)=\prod_{i=1}^n m(A_i)$. Dermed også $m_n(\prod_{i=1}^n (a_i,b_i])=\prod_{i=1}^n m((a_i,b_i])$._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 12.2. (Protter)** _Et sandsynlighedsmål $P$ på $(\mathbb{R}^n,\mathcal{B}^n)$ har tæthed $f$ hvis $f$ er en ikke negativ Borelmålelig funktion på $\mathbb{R}^n$, der opfylder_
+
+$$
+P(A)=\int_A f(x)dm_n(x)=\int f(x_1,x_2,...,x_n)1_A(x_1,x_2,...,x_n)dm_n(x_1,x_2,...,x_n),\hspace{10pt} \forall A\in\mathcal{B}^n.
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.1. (Protter)**  _En $f\in\mathcal{M}_{R^n}^+$ er en tæthed for et sandsynlighedsmål $P$ på $(\mathbb{R}^n,\mathcal{B}^n)$ hvis og kun hvis $\int f(x)dm_n(x)=1$. I det tilfælde karakterer $f$ fuldkomment målet $P$ og for alle $f'\in\mathcal{M}_{R^n}^+$ med $m_n(f\ne f')=0$ er denne også tæthed for målet $P$. Omvendt bestemmer målet $P$ også en tæthed $f$ op til enhver ikke Lebesgue nulmængde._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.2. (Protter)**  _Antag $X=(Y,Z)$ har tæthed $f=f_X=f_{Y,Z}$ på $\mathbb{R}^2$. Så gælder_
+
+  a. _Begge $Y$ og $Z$ har tætheder på $(\mathbb{R},\mathcal{B})$ givet ved_
+  $$
+  f_Y(y)=\int_{\mathbb{R}}f(y,z)dm(z),\hspace{15pt}f_Z(z)=\int_{\mathbb{R}}f(y,z)dm(y)
+  $$
+  b. _$Y$ og $Z$ er uafhængige hvis og kun hvis $f(y,z)=f_Y(y)f_Z(z)$ $m_2$-n.s. dvs. $m_2(f(y,z)\ne f_Y(y)f_Z(z)=0$._
+  c. _Følgende bestemmer en fjerde tæthed på $\mathbb{R}$ for alle $y\in\mathbb{R}$ sådan at $f_Y(y)\ne 0$: $f_{Y=y}(z)=\frac{f(y,z)}{f_Y(y)}$._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 12.3. (Protter)** _Lad $X,Y$ være to reelle stokastiske variable begge med endelig varians. Covariansen af $X,Y$ er defineret ved $\text{Cov}(X,Y)=E[(X-E(X))(Y-E(Y))]=E[XY]-E[X]E[Y]$. Varians er dermed også givet ved  $\text{Cov}(X,X)=Var(X)=\sigma ^2(X)$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.3. (Protter)**  _Hvis $X$ og $Y$ er uafhængige så er $\text{Cov}(X,Y)=0$._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 12.4. (Protter)** _Lad $X$ og $Y$ være stokastiske variable begge med endelig varians. Korrelationskoefficienten af $X$ og $Y$ er tallet $\rho_{X,Y}=\text{Cov}(X,Y)/(\sigma(X)\sigma(Y))$._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition 12.5. (Protter)** _Lad $X=(X_1,...,X_n)$ være en $\mathbb{R}^n$ stokastisk variabel. Covariansmatricen for $X$ er en $n\times n$ matrice med indgange $c_{ij}=\text{Cov}(X_i,X_j)$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.4. (Protter)**  _En covarians matrice er positiv semidefinit dvs. den er symmetrisk ($c_{ij}=c_{ji}$) og $\sum a_ia_jc_{ij}>0$ for alle $\mathbf{a}\in\mathbb{R}^n$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.5. (Protter)**  _Lad $X$ være en $\mathbb{R}^n$ stokastisk variabel med covarians matrice $C$. Lad $A$ være en $m\times n$ matrice og set $Y=AX$. Så er $Y$ en $\mathbb{R}^m$ stokastisk variabel med covarians matrice $C'=ACA^*$, hvor $A^*$ er den transponerede matrice til $A$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.6. (Protter)** **(Jacobi's transformations formel)** _Lad $G\subseteq \mathbb{R}^n$ være åben og lad $g : G \to \mathbb{R}^n$ være kontinuer og differentiabel. Antag $g$ er injektiv på $G$ og $J_g(x)\ne0$ for alle $x\in G$. For en funktion $f\in\mathcal{M}$ med $f1_{g(G)}$ positiv eller integrabel mht. Lebesguemålet gælder: $\int_{g(G)}f(y)dm_n(y)=\int_G f(g(x))\vert \det(J_g(x))\vert dm_n(x)$, hvor $g(G)$ er mængden $\{y\in\mathbb{R}^n : \exists x\in G, g(x)=y\}$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 12.7. (Protter)** _Lad $X=(X_1,...,X_n)$ have simultan tæthed $f$ og lad $g : \mathbb{R}^n\to\mathbb{R}^n$ være en kontinuer, diffenrentiabel, injektiv funktion med $J_g(x)\ne 0$. Så har $Y=g(X)$ tæthed_
+
+$$
+f_Y(y)=f_X(g^{-1}(y))\vert \det J_{g^{-1}}(y)\vert 1_{g(\mathbb{R}^n)}(y)
+$$
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Corollary 12.1. (Protter)**  _Lad $S\in\mathcal{B}^n$ være inddelt af et endeligt indeks $I=\{0,1,...,m\}$, så $\cup_{i=0}^m S_i=S$, $S_i$ parvist disjunkte, og med $m_n(S_0)=0$ og funktionen $g : S_i \to\mathbb{R}^n$ være kontinuer, differentiabel, injektiv og $J_{g_i^{-1}}(x)\ne 0$ for alle $i\in I$. Lad $X$ være giver som i teorem 12.7. Da har den stokastiske variabel $Y=g(X)$ tæthed_
+
+$$
+f_Y(y)=\sum_{i=1}^m f_X(g_i^{-1}(y))\vert\det J_{g_i^{-1}}(y)\vert1_{g_i(S_i)}(y).
+$$
+
+</blockquote>
+
+## Equivalent Probability Measures
+
+### The Radon-Nikodym Theorem
+
+<blockquote class = "def">
+
+**Definition A.50. (Bjork)** _Consider a measurable space $(X,\mathcal{F})$ on which there are defined two seperate measures $\mu$ and $\nu$:_
+
+  * _If, for all $A\in \mathcal{F}$, it holds that_
+  $$
+  \mu(A)=0\ \Rightarrow\ \nu(A)=0,\tag{A.7}
+  $$
+  t_hen $\nu$ is said to be **absolutely continuous**\index{absolutely continuous} with respect to $\mu$ on $\mathcal{F}$ and we write this as $\nu < < \mu$._
+  * _If we have both $\mu << \nu$ and $\nu << \mu$, then $\mu$ and $\nu$ said to be **equivalent**\index{equivalent measures} and we write $\mu\sim \nu$._
+  * _If there exists two events, $A$ and $B$ such that:_
+    
+    * $A\cup B=X$,
+    * $A\cap B=\emptyset$,
+    * $\mu(B)=0$, and $\nu(A)=0$,
+    
+    _then $\nu$ and $\mu$ are said to be mutually **singular**\index{singular}, and we write $\mu\ \bot\ \nu$._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem A.52. (Bjork)** **(The Radon-Nikodym Theorem)**\index{Radon-Nikodym Theorem} _Consider the measure space $(X,\mathcal{F},\mu)$, where we assume that $\mu$ is finite, i.e. that $\mu(X)<\infty$. Let $\nu$ be a measure on $(X,\mathcal{F})$ such that $\nu <<\mu$ on $\mathcal{F}$. Then there exists a non-negative function $f : X\to \mathbb{R}$ such that:_
+\begin{align*}
+&f\ \text{is}\ \mathcal{F}\text{-measurable}\tag{A.9}\\
+&\int_X f(x)\ d\mu(x)<\infty,\tag{A.10}\\
+&\nu(A)=\int_Af(x)\ d\mu(x),\ \text{for all}\ A\in \mathcal{F}.\tag{A.11}
+\end{align*}
+_The function $f$ is called the **Radon-Nikodym derivative**\index{Radon-Nikodym derivative} of $\nu$ w.r.t. $\mu$. It is uniquely determined $\mu$-a.e. and we write_
+
+$$
+f(x)=\frac{d\nu(x)}{d\mu(x)},\tag{A.12}
+$$
+
+_or alternatively_
+
+$$
+d\nu(x)=f(x)\ d\mu(x).\tag{A.13}
+$$
+
+</blockquote>
+
+### Equivalent Probability Measures
+
+<blockquote class = "lem">
+
+**Lemma B.38. (Bjork)** _For two probability measures $P$ and $Q$, the relation $P\sim Q$ on $\mathcal{F}$ holds if and only if $P(A)=1$ if and only if $Q(A)=1$ for all $A\in\mathcal{F}$._
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition B.39. (Bjork)** _Assume that $Q << P$ on $\mathcal{F}$ and that $\mathcal{G}\subseteq \mathcal{F}$. Then the Radon-Nikodym derivatives $L^{\mathcal{F}}$ and $L^{\mathcal{G}}$ are related by_
+
+$$
+L^{\mathcal{G}}=E^P[L^{\mathcal{F}}\ \vert\ \mathcal{G}].\tag{B.17}
+$$
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition B.41. (Bjork)** **(Bayes' Theorem)**\index{Bayes' Theorem} _Assume that $X$ is a random variable on $(\Omega, \mathcal{F},P)$, and let $Q$ be another probability measure on $(\Omega,\mathcal{F})$ the Radon-Nikodym derivative_
+
+$$
+L=\frac{d Q}{dP}
+$$
+
+_on $\mathcal{F}$. Assume that $X\in L^1(\Omega,\mathcal{F},Q)$ and $\mathcal{G}$ is a sigma-algebra with $\mathcal{G}\subseteq \mathcal{F}$.\index{equivalent probability measures} Then_
+
+$$
+E^Q[X\ \vert\ \mathcal{G}]=\frac{E^P[L\cdot X\ \vert\ \mathcal{G}]}{E^P[L\ \vert\ \mathcal{G}]},\ Q-a.s.\tag{B.18}
+$$
+
+</blockquote>
+
+### Likelihood processes
+
+<blockquote class = "prop">
+
+**Proposition C.12. (Bjork)** _Consider a filtered probability space $(\Omega, \mathcal{F},P,\mathcal{F}_t)$ on a compact interval $[0,T]$. Suppose $L_T$ is some non-negative integrable random variable in $\mathcal{F}_T$. We can then define a new measure $Q$ on $\mathcal{F}_T$ by setting_
+
+$$
+dQ=L_T\ dP
+$$
+
+_on $\mathcal{F}_T$ and if $E^P[L_T]=1$ the measure $Q$ will also be a probability measure. The likelihood process\index{likelihood process} $L$, defined by_
+
+$$
+L_t=\frac{dQ}{dP},\ on\ \mathcal{F}_t,\tag{C.8}
+$$
+
+_is a $(P,\mathcal{F}_t)$-martingale._
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition C.13. (Bjork)** _A process $M$ is a $Q$-martingale if and only if the process $L\cdot M$ is a $P$-martingale._
+
+</blockquote>

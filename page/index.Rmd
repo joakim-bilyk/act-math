@@ -1,0 +1,29 @@
+---
+title: "My Website"
+---
+
+Compiled at: **`r Sys.time()`**.
+
+# Complete theory on all courses
+
+<a href="books/theory/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
+
+<a href="pdf/render/theory.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+
+<iframe src="pdf/render/theory.pdf"></iframe>
+
+# Exercises on all courses
+
+<a href="books/exercises/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
+
+<a href="pdf/render/exercises.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+
+<iframe src="pdf/render/exercises.pdf"></iframe>
+
+# Exam prep
+
+<a href="books/exam/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
+
+<a href="pdf/render/exam.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+
+<iframe src="pdf/render/exam.pdf"></iframe>

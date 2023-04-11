@@ -1,0 +1,22 @@
+bookdown::gitbook:
+  include:
+    in_header: header.html
+  css: style.css
+  toc_depth: 3
+  split_by: "section"
+  config:
+    toc:
+      before: |
+        <li><a href="./">Exercises</a></li>
+      after: |
+        <li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+    download: ["pdf"]
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+  template: my-template.tex
+  toc_depth: 4
+bookdown::epub_book: default

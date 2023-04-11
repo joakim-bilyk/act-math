@@ -1,0 +1,217 @@
+# Probabilistic Machine Learning
+
+## Part one
+
+In the first part of the exam one draws a topic. The student must breifly explain the topics and at least include one proof.
+
+### Question 1: Linear models with penalization
+
+  * Define model framework:
+    - Squared loss $L(y_1,y_2)=(y_1-y_2)^2$
+    - Regression $Y\in \mathbb R$
+    - Assume linear model i.e. $m^*(X)=\mathbb E[Y\ \vert\ X]=X^\top \beta^*$
+  * Show that the excess risk is
+  \begin{align*}
+  R(\hat m)-r(m^*)=\Vert \Sigma^{1/2}(\hat\beta - \beta^*)\Vert_2^2
+  \end{align*}
+  * Use this to show the excess risk of the least square estimator
+
+### Question 2: Nonparametrics
+
+  * Define model framework:
+    - Squared loss $L(y_1,y_2)=(y_1-y_2)^2$
+    - Regression $Y\in \mathbb R$
+    - Assume continuous Bayes rule i.e. $m^*(X)=\mathbb E[Y\ \vert\ X]=X^\top \beta^*$
+    \begin{align*}
+    m^\ast(x)\in \mathcal G_L = \{m: \mathbb R^p \mapsto \mathbb R\ |\ m \ \text{is L-Lipschitz continuous}\}
+    \end{align*}
+    Define what $L$-Lipschitz contnuous functions are.
+  * Define linear smoothers
+  \begin{align*}
+  m(x)=\sum_{i=1}^nw_i(x) Y_i
+  \end{align*}
+    - Consider the KNN estimator with $w_i(x)=\frac{1}{k}1_{\{[0,\Vert x-X_i\Vert_k\}}(\Vert x-X_i\Vert)$ explain subscript
+    - Derive an upper bound for the excess risk of KNN
+
+### Question 3: Additive models
+
+  * Additive models assume
+  \begin{align*}
+  m(x)=m_1(x_1)+...+m_p(x_p)
+  \end{align*}
+  so the effects are independent.
+    - Hence the parameters grow linearly where they grow exponentially in interactive models.
+  * Define splines
+  * Transform $X$ and show that
+  \begin{align*}
+  \hat\beta = (\mathbf G^\top \mathbf G)^{-1}\mathbf G^\top \mathbf Y
+  \end{align*}
+  * Show that in the penalized case the solution is a special case of ridge regression
+
+### Question 4: Model explanation and fairness
+
+## Part two
+
+In the second part of the exam one draws an algorithm. The student must explain the algorithm and be prepared to defend why it works and in which circumstances it is prefered.
+
+### Question 1: Backfitting
+
+  * A method of fitting an additive model
+  \begin{align*}
+  Y=\alpha +\sum_{i=1}^pm^*_i(X_i)+\varepsilon
+  \end{align*}
+
+The algorithm:
+  
+  * Initialize with
+  \begin{align*}
+  \hat \alpha = \frac{1}{n}\sum_{i=1}^n Y_i,\qquad\forall j=1,...,p\ :\ \hat m_j\equiv 0
+  \end{align*}
+  * For $j=1,...,p$ do
+    (a) Calculate
+    \begin{align*}
+    \tilde Y_j=Y-\alpha-\sum_{k:k\ne j}\hat m_k(X_{k})
+    \end{align*}
+    (b) Smooth an estimator
+    \begin{align*}
+    \hat m_j(x_j)=\text{Smooth}(X_j,\tilde Y_j)
+    \end{align*}
+    (c) Center smoother
+    \begin{align*}
+    \hat m_j(x_j)=\hat m_j(x_j)-\frac{1}{n}\sum_{i=1}^n \hat m_j(X_{ij})
+    \end{align*}
+  * The estimator is
+  \begin{align*}
+  \hat m(x)=\hat\alpha + \sum_{j=1}^p\hat m_j(x_j)
+  \end{align*}
+
+### Question 2: CART algorithm
+
+  * A method of constructing a binary classification or regression tree $T$.
+
+The algorithm:
+
+  * Choose loss function $Q$ and a threshold $q$.
+  * Initialize tree as $T=\{\mathcal X\}$.
+  * For a node $R$ define
+  \begin{align*}
+  Q_n(R)=\sum_{i : X_{i\cdot} \in R}\left( Y_i - \frac{1}{\vert R\vert}\sum_{k : X_{k\cdot}\in R} Y_k\right)^2
+  \end{align*}
+  * Define $\mathcal R_q=\{R\in T : C(R)>c\}$ for some criteria function $C : \mathbb X\to\mathbb R_+$ and $c>0$. While $\mathcal R_q\ne \emptyset$ choose some $R\in \mathcal R_q$ and do:
+    - For all predictors $j=1,...,p$ do:
+      (a) Define
+      \begin{align*}
+      R(j)=\{x_j\ \vert\ \exists (x_1,...,x_{j-1},x_{j+1},...,x_p)\ s.t.\ (x_1,...,x_{j-1},x_j,x_{j+1},...,x_p)\in R \}
+      \end{align*}
+      (b) Define for each $s_j\in R(j)$
+      \begin{align*}
+      R^+(j,s_j)=\{x\in R\ \vert\ x_j> s_j\},\qquad R^-(j,s_j)=\{x\in R\ \vert\ x_j\le s_j\}
+      \end{align*}
+      (c) Define the set $\overline R=\{(j,s_j)\ \vert\ s_j\in R(j)\}$.
+      (d) Split the node $R$ into $R^+(j^*,s^*)$ and $R^-(j^*,s^*)$ for
+      \begin{align*}
+      (j^*,s^*)=\underset{s_j\in \overline R}{\text{arg min}}\left\{ Q_n(R^+(j,s_j))+Q_n(R^-(j,s_j))\right\}
+      \end{align*}
+      (e) Update tree $T=(T\setminus \{R\})\cup \{R^+(j^*,s^*),R^-(j^*,s^*)\}$.
+
+
+### Question 3: Alpha-pruning
+
+  * Growing a tree $T_{\max}$ may lead to overfit. Solution: pruning branches.
+  * Context: We have a objective risk measure $R$ based on $Q_n$ which favors smaller nodes/branches. Where
+  \begin{align*}
+  R(T_t)=\sum_{t'\in \tilde T_t}Q_n(t')
+  \end{align*}
+  with $T_t$ being the branch with root $t$ and $\tilde T_t$ is the terminal nodes in $T_t$. We penalizes the size of branch by
+  \begin{align*}
+  \widetilde R_\alpha(T_t)=R(T_t)+\alpha \vert T_t\vert
+  \end{align*}
+  where $\vert T_t\vert$ is the number of terminal leaves in $T_t$ (a tree can be a single leaf $\tilde T_t=\{R\}$).
+    - For any note $t$ and a branch $T_t$ we have $\widetilde R_\alpha(T_t)<\widetilde R_\alpha(t)$ for $\alpha$ small and $\frac{\partial}{\partial \alpha}\widetilde R_\alpha(T)=\vert T\vert$ hence grows faster for the branch.
+    - For some $\alpha$ we have $\widetilde R_\alpha(T_t)=\widetilde R_\alpha(t)$
+    - We can gather a sequence $0=\alpha_0<\alpha_1<...<\alpha_{\max}$ with $T_0\supset T_1\supset ... \supset T_{\max}$ and define the mapping $\alpha \mapsto T_{n,\alpha}$ via the sequence.
+
+The algorithm
+
+  * Set $k=0$. Initiate by pruning all terminal leaf pairs with
+  \begin{align*}
+  R(t)=R(t_L)+R(t_R)
+  \end{align*}
+  The first pair $(\alpha_0,T_0)=(0,T_n-t')$ where $t'$ is the terminal nodes satisfying the above.
+  * While $\vert T_k\vert >1$ do:
+    (a) For all $t\in T_k$ we can find the smallest $\alpha$ such that $R_\alpha(t)=R_\alpha(T_t)$ and define
+    \begin{align*}
+    g(t)=\frac{R(t)-R(T_t)}{\vert T_t\vert -1}
+    \end{align*}
+    (b) The next $\alpha_{k+1}$ is then
+    \begin{align*}
+    \alpha_{k+1}=\underset{t\in T_k}{\text{arg min}}(g(t)).
+    \end{align*}
+    (c) Prune all terminal notes in $T_t$ where $g(t)=\alpha_{k+1}$.
+    (d) Collect the pruned tree and the $\alpha$ in $(\alpha_{k+1},T_{k+1})$.
+    (d) Set $k=k+1$.
+
+### Question 4: Gradient Boosting Machine
+
+We construct an estimator by improving on the previous for an amount of iterations.
+
+  * Initialize with
+  \begin{align*}
+  m^{(0)}(x)=\underset{m\in \mathcal G}{\text{arg min}}\sum_{i=1}^n L(Y_i,m(X_i)).
+  \end{align*}
+  * For $b= 1,..., B$ do
+    (a) Calculate the derivative
+    \begin{align*}
+    g_{ib}=-\left.\frac{\partial L(Y_i,y)}{\partial y}\right\vert_{y=m^{(b-1)}(X_i)}
+    \end{align*}
+    (b) Train $\gamma_b$ on $\{X,g_b\}$
+    (c) Search for optimal learning rate
+    \begin{align*}
+    \alpha_b=\underset{\alpha}{\text{arg min}}\sum_{i=1}^n L(Y_i,m^{(b-1)}(X_i) +\alpha\gamma_b(X_i)).
+    \end{align*}
+    (d) Update
+    \begin{align*}
+    m^{(b)}(x)=m^{(b)}(x) + \alpha_b\gamma_b(x)
+    \end{align*}
+
+### Question 5: Neural Network
+
+Neural networks are defined by the amount of layers and the activation functions $\{g_k\}_{k=0,...,l}$ where $l$ is the number of hidden layers.
+
+The estimator is
+
+$$
+\hat m(x)=g^{(l)}\left(\beta^{(l)}_0+\beta^{(l)\top}g^{(l-1)}\left(\beta^{(l-2)}_0+\beta^{(l-2)\top}g^{(l-2)}\left(...\right)\right) \right)
+$$
+
+or
+
+$$
+\hat m (x)=\left(g^{(l)}\circ \beta^{(l)}\circ g^{(l-1)}\circ \cdots \circ g^{(0)} \circ\beta^{(0)}\right)(x)
+$$
+
+Backpropogation and Gradient decent:
+
+  * Assume $l=1$.
+  * We initialize $\beta^{(k)}=(1,...,1)^\top$ for $k=0,1$.
+  * We set $b=0$ and
+  \begin{align*}
+  \hat m^{(b)}(\beta^{(0),b},\beta^{(1),b};x)=g^{(1)}\left(\beta^{(1),b}_0 + \sum_{k=1}^{K}\beta_k^{(1),b}g^{(0)}\left(\beta^{(0),b}_0+\sum_{i=1}^n\beta^{(0),b}_ix_i\right)\right)
+  \end{align*}
+  * For $b=1,...,B$ do
+    (a) Calculate for $k=0,1$
+    \begin{align*}
+    \rho_{ib}^{(k)}=-\left.\frac{\partial L(Y_i,y)}{\partial \beta^{(k)}}\right\vert_{y=\hat m^{(b-1)}(X_i)}
+    \end{align*}
+    and define
+    $\rho_{b}^{(k)}=\frac{1}{n}\sum_{i=1}^n\rho_{ib}^{(k)}$.
+    (b) Optional: Calculate optimal decent for $k=0,1$:
+    \begin{align*}
+    \gamma_{b}=\underset{\gamma \in (0,\infty)^{l+1}}{\text{arg min}}\sum_{i=1}^n L(Y_i,m(\beta^{(0),b-1}+\gamma_0\rho_b^{(0)},\beta^{(1),b-1}+\gamma_1\rho_b^{(1)},X_i)).
+    \end{align*}
+    else simply define learning rate $\gamma_b^{(k)}=\gamma$ always.
+    (c) Update estimator with $\beta^{(k),b}=\beta^{(k),b-1}+\gamma_{b}^{(k)}\rho_b^{(k)}$.
+  * Return $\hat m(x)=\hat m^{(B)}(x)$.
+    
+### Question 6: Tree SHAP
+

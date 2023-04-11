@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.1 Week 1 | Exercises</title>
+  <meta name="description" content="2.1 Week 1 | Exercises" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.1 Week 1 | Exercises" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.1 Week 1 | Exercises" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="continuous-time-finance.html"/>
+<link rel="next" href="week-2.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Exercises</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-work.html"><a href="to-do-work.html"><i class="fa fa-check"></i><b>1.2</b> To-do work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>2</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>2.1</b> Week 1</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2.2</b> Week 2</a></li>
+<li class="chapter" data-level="2.3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>2.3</b> Week 3</a></li>
+<li class="chapter" data-level="2.4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>2.4</b> Week 4</a></li>
+<li class="chapter" data-level="2.5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>2.5</b> Week 5</a></li>
+<li class="chapter" data-level="2.6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>2.6</b> Week 6</a></li>
+<li class="chapter" data-level="2.7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>2.7</b> Week 7</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>3</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="week-1-1.html"><a href="week-1-1.html"><i class="fa fa-check"></i><b>3.1</b> Week 1</a></li>
+<li class="chapter" data-level="3.2" data-path="week-2-1.html"><a href="week-2-1.html"><i class="fa fa-check"></i><b>3.2</b> Week 2</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3-1.html"><a href="week-3-1.html"><i class="fa fa-check"></i><b>3.3</b> Week 3</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance.html"><a href="topics-in-life-insurance.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="computing-moments-of-reserve-in-timehomogeneous-case.html"><a href="computing-moments-of-reserve-in-timehomogeneous-case.html"><i class="fa fa-check"></i><b>4.1</b> Computing moments of reserve in timehomogeneous case</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exercises</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="week-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Week 1<a href="week-1.html#week-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Probability exercises</strong></p>
+<p>Let <span class="math inline">\((W(t))_{t\ge}\)</span> be a Brownian motion (Bjork, Definition 4.1).</p>
+<p><strong>Exercise 1.</strong> Show that the following processes also are Brownian motions.</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math inline">\((-W(t))_{t\ge 0}\)</span> (symmetry)</li>
+<li>For any <span class="math inline">\(s\ge 0\)</span>, <span class="math inline">\((W(t+s)-W(s))_{t\ge 0}\)</span> (time-homogeneity).</li>
+<li>For every <span class="math inline">\(c&gt;0\)</span>, <span class="math inline">\((cW(t/c^2))_{t\ge 0}\)</span> (scaling).</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (i).</strong>
+</summary>
+<p>By assumption <span class="math inline">\(W\)</span> is a Brownian motion and so it follows that</p>
+<p><span class="math display">\[
+-W_0=-1\cdot0=0
+\]</span></p>
+<p>Furthermore, for <span class="math inline">\(r&lt;s\le t&lt; u\)</span> it holds that <span class="math inline">\(W_u-W_t\)</span> and <span class="math inline">\(W_s-W_r\)</span> is independent. By seperate transformations the independence property is preserved and <span class="math inline">\(-(W_u-W_t)\)</span> and <span class="math inline">\(-(W_s-W_r)\)</span> is independent. Next, for a normal distributed random variable <span class="math inline">\(N\sim\mathcal{N}(\mu,\sigma^2)\)</span> it holds, that for a scaler <span class="math inline">\(c\in\mathbb{R}\)</span> we have <span class="math inline">\(c N\sim\mathcal{N}(c\mu,c^2\sigma ^2)\)</span>. Then obviously;</p>
+<p><span class="math display">\[
+-(W_t)=(-1)W_t\stackrel{d}{=}\mathcal{N}((-1)\cdot0,(-1)^2(t-s))\stackrel{d}{=}\mathcal{N}( 0,t-s).
+\]</span></p>
+<p>Lastly, let <span class="math inline">\(\omega \in \Omega\)</span> and consider the sample path <span class="math inline">\(s\mapsto (-W_s)(\omega)\)</span>. Clearly for two continuous functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> it holds that <span class="math inline">\((g\circ f)\)</span> is continuous. Then with <span class="math inline">\(g(f)=-f\)</span> and <span class="math inline">\(f(t)=W_t(\omega)&quot;/&gt;\)</span> it follows that <span class="math inline">\((-W_t)=(g\circ W)(t)\)</span> is also continuous.</p>
+</details>
+<details>
+<summary>
+<strong>Solution (ii).</strong>
+</summary>
+<p>Much like the previous exercise we define a new process and show the properties hold. Let <span class="math inline">\(s\ge 0\)</span> be chosen arbitrary. Now define <span class="math inline">\(X_t=W(t+s)-W(s)\)</span>.</p>
+<p>First, we let <span class="math inline">\(t=0\)</span> and see</p>
+<p><span class="math display">\[
+X_0=W(0+s)-W(s)=W(s)-W(s)=0.
+\]</span></p>
+<p>Secondly, we have that for <span class="math inline">\(r&lt;u\)</span>:</p>
+<p><span class="math display">\[
+X_u-X_r=W(u+s)-W(s)-(W(r+s)-W(s))=W(u+s)-W(r+s)\sim \mathcal{N}(0,u+s-(r+s))=\mathcal{N}(0,u-r).
+\]</span></p>
+<p>and since for <span class="math inline">\(r&lt;u\le k&lt;l\)</span> the translation <span class="math inline">\(r+s&lt;u+s\le k+s&lt;l+s\)</span> still holds and <span class="math inline">\(X_l-X_k=W(l+s)-W(k+s)\)</span> and <span class="math inline">\(X_u-X_r=W(u+s)-W(k+s)\)</span> are independent. Finally since <span class="math inline">\(W_t(\omega)\)</span> is continuous in <span class="math inline">\(t\)</span> hence the translation <span class="math inline">\(W_{t+s}\)</span> is continouos. Adding a constant yields a function that is also continuous, hence <span class="math inline">\(X_t\)</span> is continuous.</p>
+</details>
+<details>
+<summary>
+<strong>Solution (iii).</strong>
+</summary>
+<p>Let <span class="math inline">\(c&gt;0\)</span> be given. We show that</p>
+<p><span class="math display">\[
+X_t=cW\left(\frac{t}{c^2}\right)
+\]</span></p>
+<p>is a Brownian motion. We simply show the four properties. Let <span class="math inline">\(t=0\)</span> and notice</p>
+<p><span class="math display">\[
+X_0=cW\left(\frac{0}{c^2}\right)=cW(0)=0.
+\]</span></p>
+<p>The second property follows from seperate transformation and that for <span class="math inline">\(r&lt;u\le s&lt;t\)</span> we consider</p>
+<p><span class="math display">\[
+X_u-X_r=c\left(W\left(\frac{u}{c^2}\right)-W\left(\frac{r}{c^2}\right)\right)\hspace{20pt}\text{and}\hspace{20pt}X_t-X_s=c\left(W\left(\frac{t}{c^2}\right)-W\left(\frac{s}{c^2}\right)\right)
+\]</span></p>
+<p>and since <span class="math inline">\(c,r,u,t,s&gt;0\)</span> we have the same order for the scaled version of <span class="math inline">\(r,u,t,s\)</span> and hence we have two independent RV scaled by <span class="math inline">\(c\)</span>. Then by seperate transformations the variables is still independent. Next for the third property:</p>
+<p><span class="math display">\[
+X_t-X_s=c\left(W\left(\frac{t}{c^2}\right)-W\left(\frac{s}{c^2}\right)\right)\sim\mathcal{N}\left(c\cdot 0,c^2\left(\frac{t}{c^2}-\frac{s}{c^2}\right)\right)=\mathcal{N}(0,t-s).
+\]</span></p>
+<p>Where we use the properties of scaling a normal distributed random variable i.e. for <span class="math inline">\(c&gt;0\)</span> and <span class="math inline">\(N\sim\mathcal{N}(\mu,\sigma ^2)\)</span> it follows that <span class="math inline">\(c N\sim\mathcal{N}(c\mu,c^2\sigma ^2)\)</span>. Finally, the forth property follows since <span class="math inline">\(g(f)=cf\)</span> is continuous and <span class="math inline">\(h(t)=t/c^2\)</span> is continuous, then for any continuous function <span class="math inline">\(f(s)\)</span> it follows that <span class="math inline">\((g \circ f\circ h)=g(f(h(t)))\)</span> is continuous.</p>
+</details>
+<p> </p>
+<blockquote class="prop">
+<strong>Proposition B.37.</strong> Let <span class="math inline">\((\Omega,\mathcal{F},P)\)</span> be a given probability space, let <span class="math inline">\(\mathcal{G}\)</span> be a sub-sigma-algebra of <span class="math inline">\(\mathcal{F}\)</span>, and let <span class="math inline">\(X\)</span> be a square integrable random variable.
+Consider the problem of minimizing
+<span class="math display">\[E\left[(X-Z)^2\right]\]</span>
+where <span class="math inline">\(Z\)</span> is allowed to vary over the class of all square integrable <span class="math inline">\(\mathcal{G}\)</span> measurable random variables. The optimal solution <span class="math inline">\(\hat{Z}\)</span> is then given by.
+<span class="math display">\[\hat{Z}=E[X\vert\mathcal{G}].\]</span>
+</blockquote>
+<p><strong>Exercise 2.</strong> <em>(Bjork, exercise B.11.)</em> Prove proposition B.37 by going along the following lines.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Prove that the “estimation error” <span class="math inline">\(X-E[X\vert\mathcal{G}]\)</span> is orthogonal to <span class="math inline">\(L^2(\Omega,\mathcal{G},P)\)</span> in the sence that for any <span class="math inline">\(Z\in L^2(\Omega,\mathcal{G},P)\)</span> we have
+<span class="math display">\[E[Z\cdot(X-E[X\vert\mathcal{G}])]=0\]</span></li>
+<li>Now prove the proposition by writing
+<span class="math display">\[X-Z=(X-E[X\vert\mathcal{G}])+(E[X\vert\mathcal{G}]-Z)\]</span>
+and use the result just proved.</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (a).</strong>
+</summary>
+<p>Let <span class="math inline">\(X\in L^2(\Omega,\mathcal{F},P)\)</span> be a random variable. Now consider an arbitrary <span class="math inline">\(Z\in L^2(\Omega,\mathcal{G},P)\)</span>. Recall that <span class="math inline">\(\mathcal{G}\subset \mathcal{F}\)</span> and so <span class="math inline">\(X\)</span> is also in <span class="math inline">\(Z\in L^2(\Omega,\mathcal{G},P)\)</span>, as it is bothe square integrable and <span class="math inline">\(\mathcal{G}\)</span>-measurable. Then</p>
+<p><span class="math display">\[
+E\left[Z\cdot(X-E[X\vert\mathcal{G}])\right]=E\left[Z\cdot X\right]-E\left[Z\cdot E[X\vert\mathcal{G}]\right].
+\]</span></p>
+<p>Then by using the law of total expectation and secondly that <span class="math inline">\(Z\)</span> is <span class="math inline">\(\mathcal{G}\)</span>-measurable we have that</p>
+<p><span class="math display">\[
+E\left[Z\cdot X\right]=E\left[E[Z\cdot X\vert\mathcal{G}]\right]=E\left[Z\cdot E[ X\vert\mathcal{G}]\right].
+\]</span></p>
+<p>Combining the two equations gives the desired result.</p>
+</details>
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p>Obviously, we have that</p>
+<p><span class="math display">\[
+X-Z=X-Z+E[X\vert\mathcal{G}]-E[X\vert\mathcal{G}]=(X-E[X\vert\mathcal{G}])+(E[X\vert\mathcal{G}]-Z).
+\]</span></p>
+<p>Then squaring the terms gives</p>
+<p><span class="math display">\[
+(X-Z)^2=(X-E[X\vert\mathcal{G}])^2+(E[X\vert\mathcal{G}]-Z)^2+2(X-E[X\vert\mathcal{G}])(E[X\vert\mathcal{G}]-Z)
+\]</span></p>
+<p>Taking expectation on each side and using linearity of the expectation we have that</p>
+<p><span class="math display">\[
+E[(X-Z)^2]=E\left[(X-E[X\vert\mathcal{G}])^2\right]+E\left[(E[X\vert\mathcal{G}]-Z)^2\right]+2E\left[(X-E[X\vert\mathcal{G}])(E[X\vert\mathcal{G}]-Z)\right].
+\]</span></p>
+<p>We can now use that <span class="math inline">\(E[X\vert\mathcal{G}]-Z\)</span> is <span class="math inline">\(\mathcal{G}\)</span>-measurable with the above result on the last term.</p>
+<p><span class="math display">\[
+E[(X-Z)^2]=E\left[(X-E[X\vert\mathcal{G}])^2\right]+E\left[(E[X\vert\mathcal{G}]-Z)^2\right].
+\]</span></p>
+<p>Now since <span class="math inline">\(X\)</span> is given the term <span class="math inline">\(E\left[(X-E[X\vert\mathcal{G}])^2\right]\)</span> is simply a constant not depending on the choice og <span class="math inline">\(Z\)</span>. The optimal choice of <span class="math inline">\(Z\)</span> is then <span class="math inline">\(E[X\vert\mathcal{G}]\)</span> since this minimizes the second term. The statement is then proved.</p>
+</details>
+<p> </p>
+<p><strong>Exercise 3.</strong> Discuss the following theory/results of Moment generating functions (Laplace transform).</p>
+<p>Let <span class="math inline">\(X\)</span> be a random variable with distribution function <span class="math inline">\(F(x)=P(X\le x)\)</span> and <span class="math inline">\(Y\)</span> be a random variable with distribution function <span class="math inline">\(G(y)=P(Y\le y)\)</span>.</p>
+<blockquote class="def">
+<p><strong>Definition.</strong> The moment generating function or Laplace transform of <span class="math inline">\(X\)</span> is</p>
+<p><span class="math display">\[
+\psi_X(\lambda)=E\left[e^{\lambda X}\right]=\int_{-\infty}^\infty e^{\lambda x}dF(x)
+\]</span></p>
+provided the expectation is finite for <span class="math inline">\(\vert\lambda\vert&lt;h\)</span> for some <span class="math inline">\(h&gt;0\)</span>.
+</blockquote>
+<p>The MGF uniquely determine the distribution of a random variable, due to the following result.</p>
+<blockquote class="thm">
+<strong>Theorem 1.</strong> <em>(Uniqueness)</em> If <span class="math inline">\(\psi_X(\lambda)=\psi_Y(\lambda)\)</span> when <span class="math inline">\(\vert\lambda\vert&lt;h\)</span> for some <span class="math inline">\(h&gt;0\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> has the same distribution, that is, <span class="math inline">\(F=G\)</span>.
+</blockquote>
+<p>There is also the following result of independence for Moment generating functions.</p>
+<blockquote class="thm">
+<p><strong>Theorem 1.</strong> <em>(Independence)</em> If</p>
+<p><span class="math display">\[
+E\left[e^{\lambda_1X+\lambda_2Y}\right]=\psi_X(\lambda_1)\psi_Y(\lambda_2)
+\]</span></p>
+for <span class="math inline">\(\vert\lambda_i\vert&lt;h\)</span> for <span class="math inline">\(i=1,2\)</span> for some <span class="math inline">\(h&gt;0\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent random variables.
+</blockquote>
+<p><strong>Example.</strong> Recall that the Moment generating function of a normal (Gaussian) distribution is given by</p>
+<p><span class="math display">\[
+\psi_X(\lambda)=E\left[e^{\lambda X}\right]=\exp\left(\lambda \mu + \frac{\lambda^2}{2}\sigma^2\right)
+\]</span></p>
+<p>where <span class="math inline">\(X\)</span> is normally distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\lambda\in\mathbb{R}\)</span> is a constant. Since a Brownian motion <span class="math inline">\(W(t)\)</span> is normally distributed with zero mean and variance <span class="math inline">\(t\)</span>, we have that</p>
+<p><span class="math display">\[
+E[\exp(\lambda W(t))]=\exp\left(\frac{\lambda^2}{2}t\right).
+\]</span></p>
+<p><strong>Exercise 4.</strong> <em>(Bjork, exercise C.8.(a-c))</em> Let <span class="math inline">\(W\)</span> be a Brownian motion. Notice that for the natural filtration <span class="math inline">\(\mathcal{F}_s=\sigma(W_t\vert t\le s)\)</span> <span class="math inline">\(W_t-W_s\)</span> is independent of <span class="math inline">\(\mathcal{F}_s\)</span></p>
+<ol style="list-style-type: lower-alpha">
+<li>Show that <span class="math inline">\(W_t\)</span> is a martingale.</li>
+<li>Show that <span class="math inline">\(W^2_t-t\)</span> is a martingale.</li>
+<li>Show that <span class="math inline">\(\exp(\lambda W_t-\frac{\lambda^2}{2}t)\)</span> is a martingale.</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (a).</strong>
+</summary>
+<p>We show that for the natural filtration that <span class="math inline">\(W_t\)</span> is a martingale. This include showing integrability and the martingale property. For the first we note that for a normal distributed random variable with mean 0 we have</p>
+<p><span class="math display">\[
+E[\vert N\vert]=\int_{-\infty}^\infty \vert x\vert dF_N(x)=2\int_{0}^\infty xdF_N(x)
+\]</span></p>
+<p>since the distribution is symmetric. Substituting the distribution function <span class="math inline">\(\Phi(x)=P(N\le x)\)</span> in we see that</p>
+<p><span class="math display">\[
+E[\vert N\vert]=2\int_{0}^\infty xd\Phi(x)=2\int_{0}^\infty x\frac{1}{\sqrt{2\pi\sigma^2}}e^{-x^2/(2\sigma^2)}dx=(*)
+\]</span></p>
+<p>by substituting <span class="math inline">\(u=x^2/(2\sigma^2)\)</span> (<span class="math inline">\(x=\sqrt{2\sigma^2u}\)</span>) we have that</p>
+<p><span class="math display">\[
+\frac{dx}{du}=\frac{1}{2}\sqrt{2\sigma^2u}2\sigma^2=(\sigma^2)^{3/2}\sqrt{2}u\iff dx=(\sigma^2)^{3/2}\sqrt{2}u\ du
+\]</span></p>
+<p>hence</p>
+<p><span class="math display">\[
+(*)=\frac{2}{\sqrt{2\pi\sigma^2}}\int_0^{\infty}\sqrt{2\sigma^2u}e^{-u}(\sigma^2)^{3/2}\sqrt{2}u\ du=\frac{2\sqrt{2\sigma^2}(\sigma^2)^{3/2}\sqrt{2}}{\sqrt{2\pi\sigma^2}}\int_0^{\infty}\sqrt{u}e^{-u}u\ du.
+\]</span></p>
+<p>This then simplify to</p>
+<p><span class="math display">\[
+(*)=\frac{(2\sigma^2)^{3/2}}{\sqrt{\pi}}\int_0^{\infty}u^{3/2}e^{-u}\ du=(2\sigma^2)^{1/2}\sqrt{\frac{2\sigma^2}{\pi}}\int_0^{\infty}u^{3/2}e^{-u}\ du=\sqrt{\frac{2\sigma^2}{\pi}}&lt;\infty.
+\]</span></p>
+<p>(Obviously the above is not derived correctly, but the end expression is valid, source: <a href="https://arxiv.org/pdf/1402.3559.pdf">link</a>) However since</p>
+<p><span class="math display">\[
+W_t=W_t-0=W_t-W_0\sim\mathcal{N}(0,t)
+\]</span></p>
+<p>we have that <span class="math inline">\(E\vert W_t\vert&lt;\infty\)</span> as desired.</p>
+<p>Next, we have that</p>
+<p><span class="math display">\[
+E[W_t\vert \mathcal{F}_s]=E[W_t-W_s\vert\mathcal{F}_s]+W_s=0+W_s=W_s.
+\]</span></p>
+<p>In the above we used that <span class="math inline">\(W_t-W_s\)</span> is <span class="math inline">\(\mathcal{F}_s\)</span>-measurable with mean 0. Then it follows that <span class="math inline">\(W_t\)</span> is a martingale.</p>
+</details>
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p>Let <span class="math inline">\(M_t=W_t^2-t\)</span>. First, we observe that two measurable functions composed is still a measurable function. Hence we know that <span class="math inline">\(M_t\)</span> is measurable wrt. the filtration since <span class="math inline">\(W_t\)</span> is measurable and <span class="math inline">\(w\mapsto w^2+t\)</span> is measurable. Secondly, we have that</p>
+<p><span class="math display">\[
+E[\vert W_t^2-t\vert]\le E\vert W_t^2\vert +E\vert t\vert=t+t=2t&lt;\infty
+\]</span></p>
+<p>where we use the triangle inequality. Thirdly, for the martingale property we have that for <span class="math inline">\(t&gt;s\)</span>:</p>
+<p><span class="math display">\[
+E[M_t\vert \mathcal{F}_s]=E[W_t^2-t\vert \mathcal{F}_s]=E[W_t^2+W_s^2-2W_tW_s-W_s^2+2W_tW_s-t\vert \mathcal{F}_s]
+\]</span></p>
+<p>which by linearity and independence of increments to the filtration gives</p>
+<p><span class="math display">\[
+E[M_t\vert \mathcal{F}_s]=E[(W_t-W_s)^2-W_s^2+2W_tW_s-t\vert \mathcal{F}_s]=t-s-t+E[2W_tW_s-W_s^2\vert \mathcal{F}_s]
+\]</span></p>
+<p>However since <span class="math inline">\(W_s\)</span> is measurable wrt. the filtration at time <span class="math inline">\(s\)</span> the above is</p>
+<p><span class="math display">\[
+E[M_t\vert \mathcal{F}_s]=2W_sE[W_t\vert \mathcal{F}_s]-W_s^2-s=2W_s^2-W_s^2-s=W_s^2-s=M_s.
+\]</span></p>
+<p>Since from (a) we know that <span class="math inline">\(W_t\)</span> is a martingale. Then we arrive at the desired result.</p>
+</details>
+<details>
+<summary>
+<strong>Solution (c).</strong>
+</summary>
+<p>Let <span class="math inline">\(M_t=\exp\left(\lambda W_t-\frac{\lambda^2}{2}t\right)\)</span>. First, by composition of measurable functions <span class="math inline">\(M_t\)</span> is <span class="math inline">\(\mathcal{F}_t\)</span>-measurable. Secondly, we have using the MGF for a normal distributed random variable:</p>
+<p><span class="math display">\[
+E\vert M_t=E\left(\exp\left(\lambda W_t-\frac{\lambda^2}{2}t\right)\right)\le E\left(\exp\left(\lambda W_t\right)\right)=\exp\left(\frac{\lambda^2}{2}t\right)&lt;\infty.
+\]</span></p>
+<p>Thirdly, we consider</p>
+<p><span class="math display">\[
+E[M_t\vert\mathcal{F}_s]=E\left.\left[\left(\exp\left(\lambda W_t-\frac{\lambda^2}{2}t\right)\right)\right\vert\mathcal{F}_s\right]=\exp\left(-\frac{\lambda^2}{2}t\right)E\left.\left[\left(\exp\left(\lambda W_t\right)\right)\right\vert\mathcal{F}_s\right].
+\]</span></p>
+<p>By adding and subtracting <span class="math inline">\(W_s\)</span> in the exponent we get
+<span class="math display">\[\begin{align*}
+E[M_t\vert\mathcal{F}_s]&amp;=\exp\left(-\frac{\lambda^2}{2}t\right)E\left.\left[\left(\exp\left(\lambda (W_t-W_s)+\lambda W_s\right)\right)\right\vert\mathcal{F}_s\right]\\
+&amp;=\exp\left(-\frac{\lambda^2}{2}t\right)\exp\left(\frac{\lambda^2}{2}(t-s)\right)E\left.\left[\left(\exp\left(\lambda W_s\right)\right)\right\vert\mathcal{F}_s\right].
+\end{align*}\]</span>
+Using that <span class="math inline">\(E\left.\left[\left(\exp\left(\lambda W_s\right)\right)\right\vert\mathcal{F}_s\right]=\exp\left(\lambda W_s\right)\)</span> and combining the exponents gives the desired:</p>
+<p><span class="math display">\[
+E[M_t\vert\mathcal{F}_s]=\exp\left(\lambda W_s-\frac{\lambda^2}{2}s\right)=M_s.
+\]</span></p>
+</details>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="continuous-time-finance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="week-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["exercises.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

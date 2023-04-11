@@ -1,0 +1,97 @@
+# Topics in Life Insurance Mathematics
+
+## Question 1: Interest and mortality rate models
+
+  * Introduce the spot short rate $\{r(t)\}_{t\ge 0}$ and the accumulator
+  \begin{align*}
+  B_t=e^{\int_0^tr(v)\ dv}
+  \end{align*}
+  * Define the Zero-coupon bond $B(t,T)$ via the $\mathbb Q$-martingale $B(t,T)/B_t$.
+  * Derive the dynamics of $m(t)=B(t,T)/B_t$ via $p(t,r(t))=B(t,T)$
+  * Establish the Term structure equation
+  * Consider the affine model family
+  \begin{align*}
+  p(t,r)=e^{f(t)r+g(t)}
+  \end{align*}
+    - Derive the derivatives of $f$ and $g$ and boundary condition
+    - Give an example with the Vasicek model
+    \begin{align*}
+    \alpha(t,r)=(a-br),\qquad \sigma(t,r)=\sigma^2
+    \end{align*}
+    - Solve for $r$.
+
+\newpage
+
+## Question 2: Matrix-approach to life insurance models
+
+  * Define markov process $Z(t)$ for both markov jump interest rates and policy markov process
+    - Arrange states in $Z(t)=(Z_b(t),Z_r(t))$ in grid via $k\mapsto k(i,j) = (i-1)p_r+j$
+  * Define payments in terms of $\mathbf B$ and $\Delta (\mathbf b(t))$ in $Z$ terms.
+  * Define transition rates $\mathbf \Lambda(t)=\mathbf \Lambda_1(t)+\mathbf \Lambda_2(t)$.
+  * Define rewards $\mathbf R(t)=\mathbf \Lambda_1(t)\bullet \mathbf B(t)+\Delta(\mathbf b(t))$.
+  * Define statewise reserves $\mathbf V$
+  * Show the theorem
+  \begin{align*}
+  \mathbf V(s,t)=\int_s^t \mathbf D(s,u)\mathbf R(u)\mathbf P(u,t)\ du
+  \end{align*}
+  by showing it holds for all $i,j$.
+  * If time write Thiele's differential equations.
+
+\newpage
+
+## Question 3: Unit-linked life insurance models
+
+  * Briefly say that the setting is the Black Scholes model. With $S$ and $Z$ as independent stochastic processes.
+  * Define the payment process $A$ given by
+  \begin{align*}
+  dA(t)&=a^{Z(t)}(t)\ dt+\Delta A^{Z(t)}(t)+\sum_{k:k\ne Z(t-)}a^{Z(t-)k}(t)dN^k
+  \end{align*}
+  * Define the capital process $X$ as the 
+  \begin{align*}
+  dX(t)&=rX(t)\ dt+\sigma \pi(t,X(t))X(t)\ dW^{\mathbb Q}(t)\\
+  &-dA^{Z(t)}(t,X(t-))\\
+  &-\sum_{k:k\ne Z(t-)}\lambda_{Z(t-)k}\Big(\chi^k(t,X(t-)+a^{Z(t-)k}(t,X(t-))-X(t-)\Big)\ dt\\
+  &-\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\ dN^k(t)
+  \end{align*}
+  * $A$ governs the capital allocation and $B$ is the actual payments between both parties. Perhaps define $B$ or say it is define just like $A$.
+  * I will establish a PDE that the reserve satisfies $V$ is based on $B$ and $\mathbb P\otimes \mathbb Q$.
+    - Start by constructing the martingale $m$
+    - Explain the structure of the proof: 1) Set $dt=0$ and 2) identify gluing.
+    - Derive dynamics of $m$
+    - Insert $X(t)=\chi^k(t,X(t-))$ on $Z(t)=k$ and $Z(t-)\ne k$.
+    - Use compensators to get all $dt$-terms
+    - Rearrange
+    - Remember payments $\Delta A$ and $\Delta B$ in the jumps (glueing)
+
+**Notes.** Remember that $W$ has $\mathbb Q$ dynamics
+\begin{align*}
+dW(t)=dW^\mathbb Q(t)+\frac{r-\mu}{\sigma}\ dt
+\end{align*}
+hence
+\begin{align*}
+dX(t)&=((\mu-r)\pi(t,X(t))+r)X(t)\ dt+\pi(t,X(t))\sigma X(t)\ dW(t)+...\\
+&=(\color{red}{(\mu-r)\pi(t,X(t))}+r)X(t)\ dt+\pi(t,X(t))\sigma X(t)\ dW^\mathbb Q+\color{red}{(r-\mu)\pi(t,X(t))}X(t)\ dt+...\\
+&=rX(t)\ dt+\pi(t,X(t))\sigma X(t)\ dW^\mathbb Q+...
+\end{align*}
+
+\newpage
+
+## Question 4: With-profit life insurance models
+
+  * Briefly, explains the setup with first order basis and where there are equivalence.
+  * Define $B$ and $D$ and explain the role of $D$.
+  * Decompose the balance with assets $Y_0$ and $V^*$ evolving with
+  \begin{align*}
+  Y_0(t)=\int_0^t\frac{G(t)}{G(s)}d(-(B+D)(s))
+  \end{align*}
+  * Derive the dynamics of the surplus $Y(t)=Y_0(t)-V^*(t)$.
+    - Choose that $q$ amount of the surplus is invested in $S$.
+    \begin{align*}
+    q(t)=\pi(t,Y(t))Y(t)/Y_0(t)
+    \end{align*}
+    - Derive $dY_0$ and $dV^*$.
+    - Combine and obtain $dY$
+    - Identify $R$ and $C$.
+  * Find a unit-link type PDE
+    - Assume only rate contributions and dividends (and lump sum at the end)
+    - Compare $dY$ to $dX$ in unit-link and see that $A=D-C$

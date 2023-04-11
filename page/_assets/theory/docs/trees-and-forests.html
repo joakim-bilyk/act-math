@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9.5 Trees and forests | Complete Theory</title>
+  <meta name="description" content="9.5 Trees and forests | Complete Theory" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9.5 Trees and forests | Complete Theory" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9.5 Trees and forests | Complete Theory" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="nonparametric-regression.html"/>
+<link rel="next" href="boosting-and-additive-trees.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.9/grViz.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Comlete theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-reading.html"><a href="to-do-reading.html"><i class="fa fa-check"></i><b>1.2</b> To-do reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-life-insurance-mathematics.html"><a href="basic-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>2</b> Basic Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-processes-in-life-insurance-mathematics.html"><a href="stochastic-processes-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>3</b> Stochastic Processes in Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance-mathematics.html"><a href="topics-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance Mathematics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="markov-jump-processes.html"><a href="markov-jump-processes.html"><i class="fa fa-check"></i><b>4.1</b> Markov Jump Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="phase-type-distributions.html"><a href="phase-type-distributions.html"><i class="fa fa-check"></i><b>4.2</b> Phase-type distributions</a></li>
+<li class="chapter" data-level="4.3" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>4.3</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="interest-rates.html"><a href="interest-rates.html#basic-definitions-and-properties"><i class="fa fa-check"></i><b>4.3.1</b> Basic definitions and properties</a></li>
+<li class="chapter" data-level="4.3.2" data-path="interest-rates.html"><a href="interest-rates.html#phase-type-representation-of-bond-prices"><i class="fa fa-check"></i><b>4.3.2</b> Phase-type representation of bond prices</a></li>
+<li class="chapter" data-level="4.3.3" data-path="interest-rates.html"><a href="interest-rates.html#term-structure-models"><i class="fa fa-check"></i><b>4.3.3</b> Term structure models</a></li>
+<li class="chapter" data-level="4.3.4" data-path="interest-rates.html"><a href="interest-rates.html#estimation-of-ph-bond-models"><i class="fa fa-check"></i><b>4.3.4</b> Estimation of PH bond models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html"><i class="fa fa-check"></i><b>4.4</b> Survival and mortality rates</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#survival-probabilities-and-forward-mortality-rates"><i class="fa fa-check"></i><b>4.4.1</b> Survival probabilities and forward mortality rates</a></li>
+<li class="chapter" data-level="4.4.2" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#forward-transistion-rates"><i class="fa fa-check"></i><b>4.4.2</b> Forward transistion rates</a></li>
+<li class="chapter" data-level="4.4.3" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#reserves-revisited"><i class="fa fa-check"></i><b>4.4.3</b> Reserves revisited</a></li>
+<li class="chapter" data-level="4.4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#stochastic-mortality-rates"><i class="fa fa-check"></i><b>4.4.4</b> Stochastic mortality rates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html"><i class="fa fa-check"></i><b>4.5</b> Matrix methods in life insurance</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#basic-setup"><i class="fa fa-check"></i><b>4.5.1</b> Basic setup</a></li>
+<li class="chapter" data-level="4.5.2" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#interest-rate-free-analysis"><i class="fa fa-check"></i><b>4.5.2</b> Interest rate free analysis</a></li>
+<li class="chapter" data-level="4.5.3" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#transform-of-rewards-and-higher-order-moments"><i class="fa fa-check"></i><b>4.5.3</b> Transform of rewards and higher order moments</a></li>
+<li class="chapter" data-level="4.5.4" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#markovian-interest-rates"><i class="fa fa-check"></i><b>4.5.4</b> Markovian interest rates</a></li>
+<li class="chapter" data-level="4.5.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#reserves"><i class="fa fa-check"></i><b>4.5.5</b> Reserves</a></li>
+<li class="chapter" data-level="4.5.6" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#higher-order-moments"><i class="fa fa-check"></i><b>4.5.6</b> Higher order moments</a></li>
+<li class="chapter" data-level="4.5.7" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#equivalence-premium"><i class="fa fa-check"></i><b>4.5.7</b> Equivalence premium</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html"><i class="fa fa-check"></i><b>4.6</b> Financial Mathematics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#background-and-simple-claims"><i class="fa fa-check"></i><b>4.6.1</b> Background and Simple Claims</a></li>
+<li class="chapter" data-level="4.6.2" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#payment-streams"><i class="fa fa-check"></i><b>4.6.2</b> Payment Streams</a></li>
+<li class="chapter" data-level="4.6.3" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#unit-link-insurance"><i class="fa fa-check"></i><b>4.6.3</b> Unit-Link Insurance</a></li>
+<li class="chapter" data-level="4.6.4" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#with-profit-insurance-and-the-dynamics-of-the-surplus"><i class="fa fa-check"></i><b>4.6.4</b> With-Profit Insurance and the Dynamics of the Surplus</a></li>
+<li class="chapter" data-level="4.6.5" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#cash-dividends-and-market-reserve"><i class="fa fa-check"></i><b>4.6.5</b> Cash Dividends and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-cash-dividends"><i class="fa fa-check"></i><b>4.6.6</b> The Pure Case of Cash Dividends</a></li>
+<li class="chapter" data-level="4.6.7" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#bonus-payments-and-market-reserve"><i class="fa fa-check"></i><b>4.6.7</b> Bonus Payments and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.8" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-bonus-payments"><i class="fa fa-check"></i><b>4.6.8</b> The Pure Case of Bonus Payments</a></li>
+<li class="chapter" data-level="4.6.9" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#incidental-policy-holder-behavior"><i class="fa fa-check"></i><b>4.6.9</b> Incidental Policy Holder Behavior</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>5</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html"><i class="fa fa-check"></i><b>5.1</b> Discrete time models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html#one-period-time-models"><i class="fa fa-check"></i><b>5.1.1</b> One-period time models</a></li>
+<li class="chapter" data-level="5.1.2" data-path="discrete-time-models.html"><a href="discrete-time-models.html#multi-period-model"><i class="fa fa-check"></i><b>5.1.2</b> Multi-period model</a></li>
+<li class="chapter" data-level="5.1.3" data-path="discrete-time-models.html"><a href="discrete-time-models.html#generelised-one-period-model"><i class="fa fa-check"></i><b>5.1.3</b> Generelised one-period model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html"><i class="fa fa-check"></i><b>5.2</b> Self-financing portfolios</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#discrete-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.1</b> Discrete time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#continuous-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.2</b> Continuous time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.3" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#portfolio-weights"><i class="fa fa-check"></i><b>5.2.3</b> Portfolio weights</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html"><i class="fa fa-check"></i><b>5.3</b> Black-Scholes PDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#contingent-claims-and-arbitrage"><i class="fa fa-check"></i><b>5.3.1</b> Contingent Claims and Arbitrage</a></li>
+<li class="chapter" data-level="5.3.2" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#risk-neutral-valuation-1"><i class="fa fa-check"></i><b>5.3.2</b> Risk Neutral Valuation</a></li>
+<li class="chapter" data-level="5.3.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#black-scholes-formula"><i class="fa fa-check"></i><b>5.3.3</b> Black-Scholes formula</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html"><i class="fa fa-check"></i><b>5.4</b> Completeness and Hedging</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#completeness-in-black-scholes"><i class="fa fa-check"></i><b>5.4.1</b> Completeness in Black-Scholes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#absence-of-arbitrage-1"><i class="fa fa-check"></i><b>5.4.2</b> Absence of Arbitrage</a></li>
+<li class="chapter" data-level="5.4.3" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#incomplete-markets"><i class="fa fa-check"></i><b>5.4.3</b> Incomplete Markets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="parity-relations.html"><a href="parity-relations.html"><i class="fa fa-check"></i><b>5.5</b> Parity relations</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="parity-relations.html"><a href="parity-relations.html#put-call-parity"><i class="fa fa-check"></i><b>5.5.1</b> Put-call Parity</a></li>
+<li class="chapter" data-level="5.5.2" data-path="parity-relations.html"><a href="parity-relations.html#the-greeks"><i class="fa fa-check"></i><b>5.5.2</b> The Greeks</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html"><i class="fa fa-check"></i><b>5.6</b> Fundamental pricing theorem I and II</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#completeness-1"><i class="fa fa-check"></i><b>5.6.1</b> Completeness</a></li>
+<li class="chapter" data-level="5.6.2" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#risk-neutral-valuation-formula"><i class="fa fa-check"></i><b>5.6.2</b> Risk Neutral Valuation Formula</a></li>
+<li class="chapter" data-level="5.6.3" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#stochastic-discount-factors-1"><i class="fa fa-check"></i><b>5.6.3</b> Stochastic Discount Factors</a></li>
+<li class="chapter" data-level="5.6.4" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#summary"><i class="fa fa-check"></i><b>5.6.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html"><i class="fa fa-check"></i><b>5.7</b> Mathematics of the martingale approach</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#martingale-representation-theorem"><i class="fa fa-check"></i><b>5.7.1</b> Martingale representation theorem</a></li>
+<li class="chapter" data-level="5.7.2" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#girsanov-theorem"><i class="fa fa-check"></i><b>5.7.2</b> Girsanov theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="black-scholes-model---martingale-approach.html"><a href="black-scholes-model---martingale-approach.html"><i class="fa fa-check"></i><b>5.8</b> Black-Scholes model - martingale approach</a></li>
+<li class="chapter" data-level="5.9" data-path="multidimensional-models.html"><a href="multidimensional-models.html"><i class="fa fa-check"></i><b>5.9</b> Multidimensional models</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="basic-non-life-insurance-mathematics.html"><a href="basic-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>6</b> Basic Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="7" data-path="stochastic-processes-in-non-life-insurance-mathematics.html"><a href="stochastic-processes-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>7</b> Stochastic Processes in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>9.1</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-is-a-good-estimator"><i class="fa fa-check"></i><b>9.1.1</b> What is a good estimator?</a></li>
+<li class="chapter" data-level="9.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#excess-risk"><i class="fa fa-check"></i><b>9.1.2</b> Excess risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html"><i class="fa fa-check"></i><b>9.2</b> Training, Validating and Testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html#estimating-risk"><i class="fa fa-check"></i><b>9.2.1</b> Estimating risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>9.3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="linear-models.html"><a href="linear-models.html#least-squares-estimator"><i class="fa fa-check"></i><b>9.3.1</b> Least Squares Estimator</a></li>
+<li class="chapter" data-level="9.3.2" data-path="linear-models.html"><a href="linear-models.html#ridge-regression"><i class="fa fa-check"></i><b>9.3.2</b> Ridge Regression</a></li>
+<li class="chapter" data-level="9.3.3" data-path="linear-models.html"><a href="linear-models.html#lasso-regression"><i class="fa fa-check"></i><b>9.3.3</b> Lasso Regression</a></li>
+<li class="chapter" data-level="9.3.4" data-path="linear-models.html"><a href="linear-models.html#conclusion"><i class="fa fa-check"></i><b>9.3.4</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html"><i class="fa fa-check"></i><b>9.4</b> Nonparametric Regression</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-smoothers"><i class="fa fa-check"></i><b>9.4.1</b> Linear Smoothers</a></li>
+<li class="chapter" data-level="9.4.2" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#curse-of-dimensionality"><i class="fa fa-check"></i><b>9.4.2</b> Curse of dimensionality</a></li>
+<li class="chapter" data-level="9.4.3" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#splines"><i class="fa fa-check"></i><b>9.4.3</b> Splines</a></li>
+<li class="chapter" data-level="9.4.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-regression-with-splines."><i class="fa fa-check"></i><b>9.4.4</b> Linear regression with splines.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="trees-and-forests.html"><a href="trees-and-forests.html"><i class="fa fa-check"></i><b>9.5</b> Trees and forests</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="trees-and-forests.html"><a href="trees-and-forests.html#cart"><i class="fa fa-check"></i><b>9.5.1</b> CART</a></li>
+<li class="chapter" data-level="9.5.2" data-path="trees-and-forests.html"><a href="trees-and-forests.html#pruning"><i class="fa fa-check"></i><b>9.5.2</b> Pruning</a></li>
+<li class="chapter" data-level="9.5.3" data-path="trees-and-forests.html"><a href="trees-and-forests.html#bagging"><i class="fa fa-check"></i><b>9.5.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.5.4" data-path="trees-and-forests.html"><a href="trees-and-forests.html#random-forests"><i class="fa fa-check"></i><b>9.5.4</b> Random Forests</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html"><i class="fa fa-check"></i><b>9.6</b> Boosting and additive trees</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#gradient-boosting-machines"><i class="fa fa-check"></i><b>9.6.1</b> Gradient Boosting Machines</a></li>
+<li class="chapter" data-level="9.6.2" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#bayesian-additive-regression-trees"><i class="fa fa-check"></i><b>9.6.2</b> Bayesian additive regression trees</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="some-practical-considerations.html"><a href="some-practical-considerations.html"><i class="fa fa-check"></i><b>9.7</b> Some practical considerations</a></li>
+<li class="chapter" data-level="9.8" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>9.8</b> Neural Networks</a></li>
+<li class="chapter" data-level="9.9" data-path="local-explanations.html"><a href="local-explanations.html"><i class="fa fa-check"></i><b>9.9</b> Local explanations</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="local-explanations.html"><a href="local-explanations.html#interpretability"><i class="fa fa-check"></i><b>9.9.1</b> Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="causality.html"><a href="causality.html"><i class="fa fa-check"></i><b>9.10</b> Causality</a></li>
+<li class="chapter" data-level="9.11" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html"><i class="fa fa-check"></i><b>9.11</b> Local and Global Explanations</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#interpretability-1"><i class="fa fa-check"></i><b>9.11.1</b> Interpretability</a></li>
+<li class="chapter" data-level="9.11.2" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#partial-dependence-plots"><i class="fa fa-check"></i><b>9.11.2</b> Partial dependence plots</a></li>
+<li class="chapter" data-level="9.11.3" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#a-functional-decomposition"><i class="fa fa-check"></i><b>9.11.3</b> A functional decomposition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="quantative-risk-management.html"><a href="quantative-risk-management.html"><i class="fa fa-check"></i><b>10</b> Quantative Risk Management</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html"><i class="fa fa-check"></i><b>10.1</b> The Loss Variable</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html#risk-measures"><i class="fa fa-check"></i><b>10.1.1</b> Risk measures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="measure-theory.html"><a href="measure-theory.html"><i class="fa fa-check"></i><b>11</b> Measure theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="axioms-of-probability.html"><a href="axioms-of-probability.html"><i class="fa fa-check"></i><b>11.1</b> Axioms of Probability</a></li>
+<li class="chapter" data-level="11.2" data-path="conditional-probability-and-independence.html"><a href="conditional-probability-and-independence.html"><i class="fa fa-check"></i><b>11.2</b> Conditional Probability and Independence</a></li>
+<li class="chapter" data-level="11.3" data-path="probabilities-on-a-finite-or-countable-space.html"><a href="probabilities-on-a-finite-or-countable-space.html"><i class="fa fa-check"></i><b>11.3</b> Probabilities on a Finite or Countable Space</a></li>
+<li class="chapter" data-level="11.4" data-path="construction-of-a-probability-measure-on-mathbb-r.html"><a href="construction-of-a-probability-measure-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.4</b> Construction of a Probability Measure on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.5" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>11.5</b> Random Variables</a></li>
+<li class="chapter" data-level="11.6" data-path="integration-with-respect-to-a-probability-measure.html"><a href="integration-with-respect-to-a-probability-measure.html"><i class="fa fa-check"></i><b>11.6</b> Integration with Respect to a Probability Measure</a></li>
+<li class="chapter" data-level="11.7" data-path="independent-random-variables.html"><a href="independent-random-variables.html"><i class="fa fa-check"></i><b>11.7</b> Independent Random Variables</a></li>
+<li class="chapter" data-level="11.8" data-path="probability-distributions-on-mathbb-r.html"><a href="probability-distributions-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.8</b> Probability Distributions on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.9" data-path="probability-distributions-on-mathbb-rn.html"><a href="probability-distributions-on-mathbb-rn.html"><i class="fa fa-check"></i><b>11.9</b> Probability Distributions on <span class="math inline">\(\mathbb R^n\)</span></a></li>
+<li class="chapter" data-level="11.10" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html"><i class="fa fa-check"></i><b>11.10</b> Equivalent Probability Measures</a>
+<ul>
+<li class="chapter" data-level="11.10.1" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#the-radon-nikodym-theorem"><i class="fa fa-check"></i><b>11.10.1</b> The Radon-Nikodym Theorem</a></li>
+<li class="chapter" data-level="11.10.2" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#equivalent-probability-measures-1"><i class="fa fa-check"></i><b>11.10.2</b> Equivalent Probability Measures</a></li>
+<li class="chapter" data-level="11.10.3" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#likelihood-processes"><i class="fa fa-check"></i><b>11.10.3</b> Likelihood processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="random-variables-1.html"><a href="random-variables-1.html"><i class="fa fa-check"></i><b>12</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>12.2</b> Conditional expectation</a></li>
+<li class="chapter" data-level="12.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>12.3</b> Independence</a></li>
+<li class="chapter" data-level="12.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>12.4</b> Moment generating function</a></li>
+<li class="chapter" data-level="12.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>12.5</b> Standard distributions</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>12.5.1</b> Normal disribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>13</b> Discrete Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html"><i class="fa fa-check"></i><b>13.1</b> Convergence concepts</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html#sums-and-average-processes"><i class="fa fa-check"></i><b>13.1.1</b> Sums and average processes</a></li>
+<li class="chapter" data-level="13.1.2" data-path="convergence-concepts.html"><a href="convergence-concepts.html#ergodic-theory"><i class="fa fa-check"></i><b>13.1.2</b> Ergodic Theory</a></li>
+<li class="chapter" data-level="13.1.3" data-path="convergence-concepts.html"><a href="convergence-concepts.html#weak-convergence"><i class="fa fa-check"></i><b>13.1.3</b> Weak Convergence</a></li>
+<li class="chapter" data-level="13.1.4" data-path="convergence-concepts.html"><a href="convergence-concepts.html#central-limit-theorems"><i class="fa fa-check"></i><b>13.1.4</b> Central Limit Theorems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>14</b> Markov Chains</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="definition-of-a-markov-chain.html"><a href="definition-of-a-markov-chain.html"><i class="fa fa-check"></i><b>14.1</b> Definition of a Markov Chain</a></li>
+<li class="chapter" data-level="14.2" data-path="classification-of-states.html"><a href="classification-of-states.html"><i class="fa fa-check"></i><b>14.2</b> Classification of states</a></li>
+<li class="chapter" data-level="14.3" data-path="limit-results-and-invariant-probabilities.html"><a href="limit-results-and-invariant-probabilities.html"><i class="fa fa-check"></i><b>14.3</b> Limit results and invariant probabilities</a></li>
+<li class="chapter" data-level="14.4" data-path="absorbing-probabilities.html"><a href="absorbing-probabilities.html"><i class="fa fa-check"></i><b>14.4</b> Absorbing probabilities</a></li>
+<li class="chapter" data-level="14.5" data-path="markov-chains-in-continuous-times.html"><a href="markov-chains-in-continuous-times.html"><i class="fa fa-check"></i><b>14.5</b> Markov Chains in Continuous Times</a></li>
+<li class="chapter" data-level="14.6" data-path="properties-of-transitionsprobabilities.html"><a href="properties-of-transitionsprobabilities.html"><i class="fa fa-check"></i><b>14.6</b> Properties of transitionsprobabilities</a></li>
+<li class="chapter" data-level="14.7" data-path="invariant-probabilies-and-absorption.html"><a href="invariant-probabilies-and-absorption.html"><i class="fa fa-check"></i><b>14.7</b> Invariant probabilies and absorption</a></li>
+<li class="chapter" data-level="14.8" data-path="birth-death-processes.html"><a href="birth-death-processes.html"><i class="fa fa-check"></i><b>14.8</b> Birth-death processes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="continuous-time-stochastic-processes.html"><a href="continuous-time-stochastic-processes.html"><i class="fa fa-check"></i><b>15</b> Continuous Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="brownian-motion.html"><a href="brownian-motion.html"><i class="fa fa-check"></i><b>15.1</b> Brownian Motion</a></li>
+<li class="chapter" data-level="15.2" data-path="filtration.html"><a href="filtration.html"><i class="fa fa-check"></i><b>15.2</b> Filtration</a></li>
+<li class="chapter" data-level="15.3" data-path="martingale.html"><a href="martingale.html"><i class="fa fa-check"></i><b>15.3</b> Martingale</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stochastic-calculus.html"><a href="stochastic-calculus.html"><i class="fa fa-check"></i><b>16</b> Stochastic calculus</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html"><i class="fa fa-check"></i><b>16.1</b> Stochastic Integrals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#information"><i class="fa fa-check"></i><b>16.1.1</b> Information</a></li>
+<li class="chapter" data-level="16.1.2" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-integrals-1"><i class="fa fa-check"></i><b>16.1.2</b> Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.1.3" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#martingales"><i class="fa fa-check"></i><b>16.1.3</b> Martingales</a></li>
+<li class="chapter" data-level="16.1.4" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-calculus-and-the-ito-formula"><i class="fa fa-check"></i><b>16.1.4</b> Stochastic Calculus and the Ito Formula</a></li>
+<li class="chapter" data-level="16.1.5" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula"><i class="fa fa-check"></i><b>16.1.5</b> The multidimensional Ito Formula</a></li>
+<li class="chapter" data-level="16.1.6" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula-with-states"><i class="fa fa-check"></i><b>16.1.6</b> The multidimensional Ito Formula with states</a></li>
+<li class="chapter" data-level="16.1.7" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#correlated-brownian-motions"><i class="fa fa-check"></i><b>16.1.7</b> Correlated Brownian motions</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="discrete-stochastic-integrals.html"><a href="discrete-stochastic-integrals.html"><i class="fa fa-check"></i><b>16.2</b> Discrete Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.3" data-path="stochastic-differential-equations.html"><a href="stochastic-differential-equations.html"><i class="fa fa-check"></i><b>16.3</b> Stochastic Differential Equations</a></li>
+<li class="chapter" data-level="16.4" data-path="partial-differential-equations.html"><a href="partial-differential-equations.html"><i class="fa fa-check"></i><b>16.4</b> Partial differential equations</a></li>
+<li class="chapter" data-level="16.5" data-path="the-product-integral.html"><a href="the-product-integral.html"><i class="fa fa-check"></i><b>16.5</b> The Product Integral</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="the-product-integral.html"><a href="the-product-integral.html#properties-of-the-product-integral"><i class="fa fa-check"></i><b>16.5.1</b> Properties of the Product Integral</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="linear-algebra.html"><a href="linear-algebra.html"><i class="fa fa-check"></i><b>17</b> Linear Algebra</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="invertible-matrices.html"><a href="invertible-matrices.html"><i class="fa fa-check"></i><b>17.1</b> Invertible matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="coding.html"><a href="coding.html"><i class="fa fa-check"></i><b>18</b> Coding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="r-packages.html"><a href="r-packages.html"><i class="fa fa-check"></i><b>18.1</b> R-Packages</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="r-packages.html"><a href="r-packages.html#mlr3"><i class="fa fa-check"></i><b>18.1.1</b> mlr3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Complete Theory</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="trees-and-forests" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Trees and forests<a href="trees-and-forests.html#trees-and-forests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this chapter we will look at the nonparametric regression problem with squared loss <span class="math inline">\(L(y_1,y_2)=(y_1-y_2)^2\)</span> and also the classification problem with Binary loss function <span class="math inline">\(L(y_1,y_2)= 1(y_1\neq y_2)\)</span> or squared loss.</p>
+<p>We already know that the Bayes-rule is</p>
+<p><span class="math display">\[
+m^\ast(x)=\mathbb E[Y|X=x]
+\]</span></p>
+<p>for the squared loss and</p>
+<p><span class="math display">\[
+m^\ast(x)=\underset{k=1,\dots,K}{\operatorname{argmax}}\ \mathbb P(Y=k|X=x)
+\]</span></p>
+<p>for the binary loss.</p>
+<blockquote class="def">
+<p><strong>Definition. (Decision trees)</strong> <em>A decision tree is an estimator, that partition the feature space <span class="math inline">\(\mathcal X\)</span> into sections <span class="math inline">\(T=\{R_1,R_2,...,R_k\}\)</span> such that <span class="math inline">\(R_i\cap R_j=\emptyset\)</span> (pairwise disjoint) for all <span class="math inline">\(i\ne j\)</span> with <span class="math inline">\(1\le i,j\le k\)</span> and</em></p>
+<p><span class="math display">\[
+\bigcup_{i=1}^kR_i=\mathcal X
+\]</span></p>
+<p><em>The algorithm associated with the decision tree is then</em></p>
+<p><span class="math display">\[
+m(T)(x)=\sum_{i=1}^k m_i 1_{R_i}(x).
+\]</span></p>
+</blockquote>
+<p>From the above we notice that the tree estimate is a piecewise constant function. We call the constant areas of the tree estimate <em>leaves</em> or <em>terminal nodes</em>. The leaves partition the feature space <span class="math inline">\(\mathcal X\)</span>.</p>
+<p>Given the data <span class="math inline">\(\mathcal D_n\)</span> the value within a leave is given by averaging the responses (regression with <span class="math inline">\(L_2\)</span> loss) or majority vote (classification with binary loss). In particular we have</p>
+<p><span class="math display">\[
+m_i=\left(\sum_{j=1}^n1_{R_i}(X_j)\right)^{-1}\left(\sum_{j=1}^n1_{R_i}(X_j)X_j\right),\qquad (\text{continuous case})
+\]</span></p>
+<p>i.e. the simple estimated conditional mean <span class="math inline">\(\mathbb {\hat E}[Y\ \vert\ X\in R_i]\)</span> and</p>
+<p><span class="math display">\[
+m_i=\underset{y\in \mathcal Y}{\operatorname{argmax}}\left\{\sum_{j=1}^n1_{R_i}(X_j)1_{y}(Y_j)\right\}.\qquad (\text{discrete case})
+\]</span></p>
+<p>i.e. the mode.</p>
+<p>Decision trees are popular because the decision making (estimate) is nicely visualizable/interpretable if not too deep. One can easily draw out the subsetting tree starting with the entire feature space <span class="math inline">\(\mathcal X\)</span> and then spitting in two all the way down to the terminal notes. The interior edges on this representation are called nodes and can also be interpreted as subset of <span class="math inline">\(\mathcal X\)</span>.</p>
+<p>Decision trees can be quite efficient in classification tasks where we are interested in 0-1 (binary) decisions. This is the case in many application but is often not the case in insurance since it is impossible and frankly not usefull having a 0/1 estimate of whether a claim may arrive. Instead the insurance company is interested in the probability that a claim may arrive during a timespan.</p>
+<div id="cart" class="section level3 hasAnchor" number="9.5.1">
+<h3><span class="header-section-number">9.5.1</span> CART<a href="trees-and-forests.html#cart" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A decision tree is uniquely defined by its leaves. Given a tree <span class="math inline">\(T\)</span>, we write <span class="math inline">\(m(T)\)</span> for the corresponding regression or classification function. The naive approach of looking for leaves <span class="math inline">\(R_1,\dots, R_l\)</span> that minimize a certain loss is practically not feasible because of the computational cost. Instead: top-down greedy approach, called CART (classification and regression trees). We now describe how to construct nodes via the CART algorithm.</p>
+<blockquote class="def">
+<p><strong>Definition. (CART)</strong> <em>Start with <span class="math inline">\(\mathcal X\)</span> as initial node for splitting. Follow the process below for all subnotes made from splitting.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>Let <span class="math inline">\(R\subseteq \mathcal X\)</span> be the input note. (In initial run <span class="math inline">\(R=\mathcal X\)</span>)</em></li>
+<li><em>For every dimension <span class="math inline">\(j=1,\dots,p\)</span> and every point <span class="math inline">\(s_j\in R(j)\)</span> where</em>
+<span class="math display">\[R(j)= \{x_j\ |\     \exists\ x_1,\dots,x_{j-1},x_{j+1},\dots,x_p\ \text{with}\ (x_1,\dots,x_p)\in R\}\]</span>
+<em>i.e. the support of <span class="math inline">\(x_j\)</span> under the node <span class="math inline">\(R\)</span>. We define the following:</em>
+<span class="math display">\[R_1(j,s_j)=\{(x_1,\dots,x_p)\in R| \ x_j \leq s_j\}, \quad R_2(j,s_j)=\{(x_1,\dots,x_p)\in R| \ x_j &gt; s_j\}.\]</span>
+<em>being a subdivision of <span class="math inline">\(R=R_1(j,s_j)\cup R_2(j,s_j)\)</span> since <span class="math inline">\(R_1(j,s_j)\cap R_2(j,s_j)=\emptyset\)</span>. Notice that one intepret <span class="math inline">\(R_1(j,s_j)\)</span> is the lower section of <span class="math inline">\(R\)</span> through the splitter <span class="math inline">\(s_j\)</span> in dimension <span class="math inline">\(j\)</span> and <span class="math inline">\(R_2(j,s_j)\)</span> being the upper section of the note.</em></li>
+<li><em>We pick the following minimizer</em>
+<span class="math display">\[(j^\ast,s^\ast)= \arg\min_{j,s} Q_n(R_1(j,s_j)) + Q_n(R_2(j,s_j))\]</span>
+<em>and split the note <span class="math inline">\(R\)</span> into <span class="math inline">\(R_1(j^*,s^*)\)</span> and <span class="math inline">\(R_1(j^*,s^*)\)</span>.</em></li>
+<li><em>If either of <span class="math inline">\(R_1(j^*,s^*)\)</span> and <span class="math inline">\(R_1(j^*,s^*)\)</span> satisfy some predertermined stopping criterion the note is no longer splittet. If not it is further split as long as stopping criterion does not apply.</em></li>
+</ol>
+</blockquote>
+<blockquote class="def">
+<p><strong>Definition. (CART loss)</strong> <em>For regression the most common loss function is the squared loss:</em></p>
+<p><span class="math display">\[
+Q_n(R_l)= \sum_{i: X_i \in R_l} (Y_i - \overline Y_i(R_l))^2
+\]</span></p>
+<p><em>with</em></p>
+<p><span class="math display">\[
+\overline Y_i(R_l)= \frac 1 {|R_l|}\sum_{i: X_i \in R_l}Y_i\ \text{and}\ |R_j|=\#\{i: X_i\in R_j\}
+\]</span></p>
+<p><em>In the classification case, define</em></p>
+<p><span class="math display">\[
+\hat p_{lk}= \frac 1 {|R_l|} \sum_{i: X_i \in R_l}   1(Y_i=k)
+\]</span></p>
+<p><em>i.e. the proportion of class <span class="math inline">\(k\)</span> observation in <span class="math inline">\(R_l\)</span>.</em></p>
+</blockquote>
+<p>Other commom loss functions include:</p>
+<ul>
+<li>Brier score: <span class="math inline">\(Q_n(R_l)= \sum_{i: X_i \in R_l} (Y_i - \overline Y_i(R_l))^2\)</span> (=squared loss)</li>
+<li>Misclassification error: <span class="math inline">\(Q_n(R_l)= 1 - \max_{k}\hat p_{lk}\)</span></li>
+<li>Gini index: <span class="math inline">\(Q_n(R_l)= \sum_{k=1}^K \hat p_{lk}(1-\hat p_{lk})\)</span></li>
+<li>Entropy : <span class="math inline">\(Q_n(R_l)=-\sum_{k=1}^K \hat p_{lk}\log\hat p_{lk}\)</span></li>
+</ul>
+<p>Note: In classification, even if binary loss is the ultimate goal, Gini index and entropy might be the better choices for splitting.</p>
+<p>The most common stopping criterion is specifying a min-node size, i.e. stop if <span class="math inline">\(|R_j|&lt;c\)</span>. A common choice is <span class="math inline">\(c=5\)</span>. An alternative stopping criteria is the depth of <span class="math inline">\(R_j\)</span>, i.e., the number of parent nodes of <span class="math inline">\(R_j\)</span>.</p>
+<p>The process described so far will probably lead to an overfit. One may think that one way out is to stop growing the tree early enough.n This is not advisable because stopping the growing early because the current split does not lead to great improvement in the loss does not mean that a split afterwards might not turn very effective.</p>
+</div>
+<div id="pruning" class="section level3 hasAnchor" number="9.5.2">
+<h3><span class="header-section-number">9.5.2</span> Pruning<a href="trees-and-forests.html#pruning" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The idea of pruning is to let a tree grow very deep first (= small min node size) and then select a subtree (pruning) as final fit. Idea: We can compare different subtrees via a penalized loss.</p>
+<blockquote class="def">
+<p><strong>Definition. (Subtree)</strong> <em>We call <span class="math inline">\(T&#39;\)</span> a subtree of <span class="math inline">\(T\)</span> if the nodes of <span class="math inline">\(T&#39;\)</span> is a subset of the nodes of <span class="math inline">\(T\)</span>. <span class="math inline">\(T&#39;\)</span> and <span class="math inline">\(T\)</span> have the same root. If <span class="math inline">\(T&#39;\)</span> is a subtree of <span class="math inline">\(T\)</span>, we also write <span class="math inline">\(T&#39;\subseteq T\)</span>.</em></p>
+</blockquote>
+<p>We can derive a subtree, by pruning a tree at any non-terminal node (i.e. by deleting all descendants of that node)</p>
+<blockquote class="def">
+<p><strong>Definition. (<span class="math inline">\(\alpha\)</span>-pruned tree)</strong> <em>Consider a tree <span class="math inline">\(\hat T_n\)</span> with corresponding estimator <span class="math inline">\(\hat m_n(\hat T_n)\)</span>. Given a parameter <span class="math inline">\(\alpha&gt;0\)</span>, the <span class="math inline">\(\alpha\)</span>-pruned tree is</em></p>
+<p><span class="math display">\[
+\hat T_{n,\alpha} := \arg \min_{T\subseteq \hat T_n}\{\hat R_n(\hat m_n) + \alpha |T|\},
+\]</span></p>
+<p><em>where <span class="math inline">\(|T|\)</span> is the number of leaves of <span class="math inline">\(T\)</span>.</em></p>
+</blockquote>
+<p>How do we find an optimal <span class="math inline">\(\alpha\)</span> (and also the optimal subtree for a fixed <span class="math inline">\(\alpha\)</span>)? Brute force cross-validation will be too computationally intensive even if we know the answer to the second question. The answer to both questions is the weakest link algorithm.</p>
+<blockquote class="prop">
+<p><strong>Proposition (weakest link)</strong> <em>The <span class="math inline">\(\alpha\)</span>-pruned tree <span class="math inline">\(\hat T_{n,\alpha}\)</span> is unique. Furthermore, there exist (unique) trees <span class="math inline">\(T_0\supset \cdots\supset T_l\)</span> with <span class="math inline">\(\{T_0,\dots, T_l\}=\{\hat T_{n,\alpha} : \alpha&gt;0\}:=\hat{ \mathbb T}_n\)</span>; in particular the set <span class="math inline">\(\{\hat T_{n,\alpha} : \alpha&gt;0\}\)</span> is finite.</em></p>
+<p><em>(Weakest link algorith): Let <span class="math inline">\(\widetilde Q_n\)</span> be the loss function corresponding to <span class="math inline">\(\hat R_n\)</span>. The trees <span class="math inline">\(T_0,\dots, T_l\)</span> can be found with the following algorithm</em></p>
+<ol style="list-style-type: decimal">
+<li><em>Let <span class="math inline">\(t_L,t_R\)</span> be any two terminal nodes in <span class="math inline">\(\hat T_n\)</span> resulting from a split of the immediate ancestor node t. If <span class="math inline">\(\widetilde Q_n(t) = \widetilde Q_n(t_L)+\widetilde Q_n(t_R)\)</span>, prune off <span class="math inline">\(t_L\)</span> and <span class="math inline">\(t_R\)</span>. Continue this process until no more pruning is possible. The resulting tree is <span class="math inline">\(T_0\)</span>.</em></li>
+<li><span class="math inline">\(k=0\)</span></li>
+<li><em>Go through all non-terminal nodes <span class="math inline">\(t\)</span> of <span class="math inline">\(T_k\)</span> and calculate </em>
+<span class="math display">\[g(t)=\frac{\widetilde Q_n(t)-\widetilde Q_n(T_t)}{|T_t|-1},\]</span>
+<em>where <span class="math inline">\(T_t\)</span> is the tree (branch) with root <span class="math inline">\(t\)</span> and nodes consisting of <span class="math inline">\(t\)</span> and the descendants of <span class="math inline">\(t\)</span> in <span class="math inline">\(T_k\)</span>. Furthermore <span class="math inline">\(\widetilde Q_n(T_t)=\sum_{t \ \text{leaf of}\  T_t} \widetilde Q_n(t)\)</span>.</em></li>
+<li><span class="math inline">\(\alpha= \min_{t \ \text{ non-terminal node of} \ T_k}g(t)\)</span>.</li>
+<li><em>From top to bottom in <span class="math inline">\(T_k\)</span> prune all non-terminal nodes with <span class="math inline">\(g(t)=\alpha\)</span> and call the resulting tree <span class="math inline">\(T_{k+1}\)</span>.</em></li>
+<li><em>If <span class="math inline">\(T_{k+1}\)</span> has more than one node, set <span class="math inline">\(k \leftarrow k+1\)</span> and go to step 3.</em></li>
+</ol>
+</blockquote>
+<p>The above proposition gives a surprising result, that for all <span class="math inline">\(\alpha\in \mathbb R_+\)</span> the mapping <span class="math inline">\(\alpha \mapsto\hat T_{n,\alpha}\in\hat{ \mathbb T}_n\)</span> is well defined and the set <span class="math inline">\(\hat{ \mathbb T}_n\)</span> is finite. Intuitively one can come to this conclusion by pre-assuming that the mapping before is unique and considering that the mapping <span class="math inline">\(f : \alpha \mapsto \vert \hat T_{n,\alpha}\vert\)</span> is monotonic and that <span class="math inline">\(f(\alpha)\to \vert \hat T_n\vert\)</span> for <span class="math inline">\(\alpha \to 0_+\)</span> and <span class="math inline">\(f(\alpha)\to 1\)</span> for <span class="math inline">\(\alpha \to \infty\)</span>. In particular, the tree is pruned more and more harshly for larger <span class="math inline">\(\alpha\)</span> and for sufficiently large <span class="math inline">\(\alpha\)</span> the tree <span class="math inline">\(\hat T_{n,\alpha}\to\mathcal X\)</span> for <span class="math inline">\(\alpha \to \infty\)</span>.</p>
+<p>Given <span class="math inline">\(l\)</span> trees <span class="math inline">\(\{T_0,\dots, T_l\}=\{\hat T_{n,\alpha} : \alpha&gt;0\}\)</span>, we can pick the optimal tree via cross validation.</p>
+<p><strong>Problem with decision trees.</strong> There are (at least) two major problems with decision trees</p>
+<ul>
+<li>Instability: Small variations in the data can lead to a very different tree</li>
+<li>Performance: The performance (measured via test error) is usually much weaker compared to other learning algorithms</li>
+</ul>
+</div>
+<div id="bagging" class="section level3 hasAnchor" number="9.5.3">
+<h3><span class="header-section-number">9.5.3</span> Bagging<a href="trees-and-forests.html#bagging" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Bagging stands for Bootstrap aggregation. Idea: Generate artificial data via bootstrap, build a decision tree for each data-set and average. Hope: It reduces the variance of decision trees. In the following recall that Bootstrap sampling involves drawing <span class="math inline">\(m\)</span> samples <span class="math inline">\((\tilde X_i,\tilde Y_i)\)</span> from the original dataset with replacement. This gives a new dataset <span class="math inline">\(\tilde {\mathcal D}_m\)</span> of new data which may be analised. The process of drawing alot of dataset will reduce the variance by simply averaging over all boostrap samples <span class="math inline">\(\tilde {\mathcal D}_m^{(1)},...,\tilde {\mathcal D}_m^{(B)}\)</span>.</p>
+<blockquote class="def">
+<p><strong>Definition.</strong> <em>(Bagging)</em> <em>Given data <span class="math inline">\({(X_1,Y_1),\dots, (X_n,Y_n)}\)</span>, draw <span class="math inline">\(B\)</span> bootstrap samples <span class="math inline">\(\tilde {\mathcal D}^{(b)}_n={(\tilde X^{(b)}_1,\tilde Y^{(b)}_1),\dots, (\tilde X^{(b)}_n,\tilde Y^{(b)}_n)}\)</span>, for <span class="math inline">\(b=1,\dots, B\)</span>, i.e., <span class="math inline">\(\tilde {\mathcal D}^{(b)}_n\)</span> arises from <span class="math inline">\(\mathcal D_n\)</span> by drawing <span class="math inline">\(n\)</span> times with replacement. The bagging estimator is defined as the following. In the squared loss case (average):</em></p>
+<p><span class="math display">\[
+\hat m^{bagg}_n=\frac 1 B \sum_{b=1}^B \hat m_n(\tilde {\mathcal D}^{(b)}_n)
+\]</span></p>
+<p><em>and in the binary loss case (majority vote):</em></p>
+<p><span class="math display">\[
+\hat m^{bagg}_n(x)=\arg \max_{k\in {1,\dots K}} \#\{b: m_n(\tilde {\mathcal D}^{(b)}_n) (x)=k\}
+\]</span></p>
+</blockquote>
+<p>Note that <span class="math inline">\(\hat m^{bagg}_n\)</span> is a stochastic estimator, even given <span class="math inline">\(\mathcal D_n\)</span>. Note: Usually, bagging is applied on non-pruned trees. (See it as an alternative way to reduce variance)</p>
+<p>While bagging improves performance of decision trees, interpretability is worsened. If interpretability is not a concern, then bagging is still inferior compared to other learning techniques. Random forests are a modification on bagging estimators.</p>
+</div>
+<div id="random-forests" class="section level3 hasAnchor" number="9.5.4">
+<h3><span class="header-section-number">9.5.4</span> Random Forests<a href="trees-and-forests.html#random-forests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p> As bagging random forest are an ensemble of decision trees. They add the following modification to bagging:
+- <span class="math inline">\(\texttt{mtry}\)</span>: Each time a node is split it is only done on a subset of size <span class="math inline">\(\texttt{mtry}\)</span> of viable variables. I.e., each time you want to split a node, turn on a random generator and draw <span class="math inline">\(1\leq\texttt{mtry}&lt;p\)</span> viable variables from <span class="math inline">\(\{1,\dots,p\}\)</span>. Only those variables drawn are allowed to be considered for the next split.
+- We denote the random forest estimator by <span class="math inline">\(\hat m^{rf}_n\)</span>. Note that <span class="math inline">\(\hat m^{rf}_n\)</span>, as <span class="math inline">\(\hat m^{bagg}_n\)</span>, is a stochastic estimator, even given <span class="math inline">\(\mathcal D_n\)</span>.</p>
+<p>Why is <span class="math inline">\(\texttt{mtry}\)</span> so useful? Assume that we are given <span class="math inline">\(l\)</span> estimators <span class="math inline">\(m_n(\mathcal D_n, U_1), \dots m_n(\mathcal D_n, U_l)\)</span>. Here, <span class="math inline">\(U_1,\dots, U_l\)</span> are iid variables inducing the additional stochasticity of the estimators (e.g. through random forest or bagging). Assume that <span class="math inline">\(\hat m_n(\mathcal D_n, U_1), \dots \hat m_n(\mathcal D_n, U_l)\)</span> have pairwise correlation <span class="math inline">\(\rho\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. We get
+<span class="math display">\[\begin{align*}
+\textrm{Var}\left (\frac 1 l \sum_{j=1}^l \hat m_n(\mathcal D_n, U_j)\right)&amp;= \frac 1 {l^2} \sum_{jk} \textrm{Cov}(m_n(\mathcal D_n, U_j),m_n(\mathcal D_n, U_k))\\&amp;=\frac 1 {l^2} \left( l\sigma^2+ (l^2-l)\rho\sigma^2\right)\\&amp;= \rho \sigma^2 + \frac{1-\rho}{l}\sigma^2
+\end{align*}\]</span>
+Meaning: Variance of an ensemble of trees is small the smaller the correlation between the trees. The <span class="math inline">\(\texttt{mtry}\)</span> parameter aims to make trees less alike and hence more uncorrelated.</p>
+<p>Random forest are competitive to many state of the art learners. While not having “best performance” in terms off accuracy they are not too far behind. Advantages of random forests are</p>
+<ul>
+<li>Default hyperparameters already lead to very strong results (i.e. without tuning hyperparameter)
+<ul>
+<li><span class="math inline">\(\texttt {mtry}=\lfloor \sqrt{p}\rfloor\)</span></li>
+<li>min node size= 1 for classification, 5 for regression</li>
+</ul></li>
+<li>Can be implemented (and is implemented) very fast</li>
+</ul>
+<p>Random forest (and also trees) don’t perform well for additive functions</p>
+<p>Decision trees are not good with additive functions (example). Consider <span class="math inline">\(m^\ast(x) = \sum_j^p 1(x_j \leq 0)\)</span> for large <span class="math inline">\(p\)</span>. For a perfect fit, a tree algorithm would have to grow a tree with depth <span class="math inline">\(p\)</span>,
+where each leaf is the result of splitting once with respect to each covariate. Hence, we end up with <span class="math inline">\(2^p\)</span> leaves, which on average contain <span class="math inline">\(n/(2^p)\)</span> data points. Even if all splits are optimal for <span class="math inline">\(2^p&gt;n\)</span>, the tree will not be able to lead to a perfect decision rule.</p>
+<p>While predictions of random forests are relatively smooth, they are not monotonic. e.g. in car insurance, if everything else is the same, more mileage should lead to higher insurance price. Random forests deal well with sparsity, i.e., when the number of features <span class="math inline">\(p\)</span> is large, but the number of relevant features is rather small: <span class="math inline">\(s&lt;&lt;p\)</span>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="nonparametric-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="boosting-and-additive-trees.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["theory.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

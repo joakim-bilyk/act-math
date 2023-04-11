@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>16.1 Stochastic Integrals | Complete Theory</title>
+  <meta name="description" content="16.1 Stochastic Integrals | Complete Theory" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="16.1 Stochastic Integrals | Complete Theory" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="16.1 Stochastic Integrals | Complete Theory" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="stochastic-calculus.html"/>
+<link rel="next" href="discrete-stochastic-integrals.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.9/grViz.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Comlete theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-reading.html"><a href="to-do-reading.html"><i class="fa fa-check"></i><b>1.2</b> To-do reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-life-insurance-mathematics.html"><a href="basic-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>2</b> Basic Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-processes-in-life-insurance-mathematics.html"><a href="stochastic-processes-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>3</b> Stochastic Processes in Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance-mathematics.html"><a href="topics-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance Mathematics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="markov-jump-processes.html"><a href="markov-jump-processes.html"><i class="fa fa-check"></i><b>4.1</b> Markov Jump Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="phase-type-distributions.html"><a href="phase-type-distributions.html"><i class="fa fa-check"></i><b>4.2</b> Phase-type distributions</a></li>
+<li class="chapter" data-level="4.3" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>4.3</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="interest-rates.html"><a href="interest-rates.html#basic-definitions-and-properties"><i class="fa fa-check"></i><b>4.3.1</b> Basic definitions and properties</a></li>
+<li class="chapter" data-level="4.3.2" data-path="interest-rates.html"><a href="interest-rates.html#phase-type-representation-of-bond-prices"><i class="fa fa-check"></i><b>4.3.2</b> Phase-type representation of bond prices</a></li>
+<li class="chapter" data-level="4.3.3" data-path="interest-rates.html"><a href="interest-rates.html#term-structure-models"><i class="fa fa-check"></i><b>4.3.3</b> Term structure models</a></li>
+<li class="chapter" data-level="4.3.4" data-path="interest-rates.html"><a href="interest-rates.html#estimation-of-ph-bond-models"><i class="fa fa-check"></i><b>4.3.4</b> Estimation of PH bond models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html"><i class="fa fa-check"></i><b>4.4</b> Survival and mortality rates</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#survival-probabilities-and-forward-mortality-rates"><i class="fa fa-check"></i><b>4.4.1</b> Survival probabilities and forward mortality rates</a></li>
+<li class="chapter" data-level="4.4.2" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#forward-transistion-rates"><i class="fa fa-check"></i><b>4.4.2</b> Forward transistion rates</a></li>
+<li class="chapter" data-level="4.4.3" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#reserves-revisited"><i class="fa fa-check"></i><b>4.4.3</b> Reserves revisited</a></li>
+<li class="chapter" data-level="4.4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#stochastic-mortality-rates"><i class="fa fa-check"></i><b>4.4.4</b> Stochastic mortality rates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html"><i class="fa fa-check"></i><b>4.5</b> Matrix methods in life insurance</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#basic-setup"><i class="fa fa-check"></i><b>4.5.1</b> Basic setup</a></li>
+<li class="chapter" data-level="4.5.2" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#interest-rate-free-analysis"><i class="fa fa-check"></i><b>4.5.2</b> Interest rate free analysis</a></li>
+<li class="chapter" data-level="4.5.3" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#transform-of-rewards-and-higher-order-moments"><i class="fa fa-check"></i><b>4.5.3</b> Transform of rewards and higher order moments</a></li>
+<li class="chapter" data-level="4.5.4" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#markovian-interest-rates"><i class="fa fa-check"></i><b>4.5.4</b> Markovian interest rates</a></li>
+<li class="chapter" data-level="4.5.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#reserves"><i class="fa fa-check"></i><b>4.5.5</b> Reserves</a></li>
+<li class="chapter" data-level="4.5.6" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#higher-order-moments"><i class="fa fa-check"></i><b>4.5.6</b> Higher order moments</a></li>
+<li class="chapter" data-level="4.5.7" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#equivalence-premium"><i class="fa fa-check"></i><b>4.5.7</b> Equivalence premium</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html"><i class="fa fa-check"></i><b>4.6</b> Financial Mathematics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#background-and-simple-claims"><i class="fa fa-check"></i><b>4.6.1</b> Background and Simple Claims</a></li>
+<li class="chapter" data-level="4.6.2" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#payment-streams"><i class="fa fa-check"></i><b>4.6.2</b> Payment Streams</a></li>
+<li class="chapter" data-level="4.6.3" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#unit-link-insurance"><i class="fa fa-check"></i><b>4.6.3</b> Unit-Link Insurance</a></li>
+<li class="chapter" data-level="4.6.4" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#with-profit-insurance-and-the-dynamics-of-the-surplus"><i class="fa fa-check"></i><b>4.6.4</b> With-Profit Insurance and the Dynamics of the Surplus</a></li>
+<li class="chapter" data-level="4.6.5" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#cash-dividends-and-market-reserve"><i class="fa fa-check"></i><b>4.6.5</b> Cash Dividends and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-cash-dividends"><i class="fa fa-check"></i><b>4.6.6</b> The Pure Case of Cash Dividends</a></li>
+<li class="chapter" data-level="4.6.7" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#bonus-payments-and-market-reserve"><i class="fa fa-check"></i><b>4.6.7</b> Bonus Payments and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.8" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-bonus-payments"><i class="fa fa-check"></i><b>4.6.8</b> The Pure Case of Bonus Payments</a></li>
+<li class="chapter" data-level="4.6.9" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#incidental-policy-holder-behavior"><i class="fa fa-check"></i><b>4.6.9</b> Incidental Policy Holder Behavior</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>5</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html"><i class="fa fa-check"></i><b>5.1</b> Discrete time models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html#one-period-time-models"><i class="fa fa-check"></i><b>5.1.1</b> One-period time models</a></li>
+<li class="chapter" data-level="5.1.2" data-path="discrete-time-models.html"><a href="discrete-time-models.html#multi-period-model"><i class="fa fa-check"></i><b>5.1.2</b> Multi-period model</a></li>
+<li class="chapter" data-level="5.1.3" data-path="discrete-time-models.html"><a href="discrete-time-models.html#generelised-one-period-model"><i class="fa fa-check"></i><b>5.1.3</b> Generelised one-period model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html"><i class="fa fa-check"></i><b>5.2</b> Self-financing portfolios</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#discrete-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.1</b> Discrete time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#continuous-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.2</b> Continuous time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.3" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#portfolio-weights"><i class="fa fa-check"></i><b>5.2.3</b> Portfolio weights</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html"><i class="fa fa-check"></i><b>5.3</b> Black-Scholes PDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#contingent-claims-and-arbitrage"><i class="fa fa-check"></i><b>5.3.1</b> Contingent Claims and Arbitrage</a></li>
+<li class="chapter" data-level="5.3.2" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#risk-neutral-valuation-1"><i class="fa fa-check"></i><b>5.3.2</b> Risk Neutral Valuation</a></li>
+<li class="chapter" data-level="5.3.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#black-scholes-formula"><i class="fa fa-check"></i><b>5.3.3</b> Black-Scholes formula</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html"><i class="fa fa-check"></i><b>5.4</b> Completeness and Hedging</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#completeness-in-black-scholes"><i class="fa fa-check"></i><b>5.4.1</b> Completeness in Black-Scholes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#absence-of-arbitrage-1"><i class="fa fa-check"></i><b>5.4.2</b> Absence of Arbitrage</a></li>
+<li class="chapter" data-level="5.4.3" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#incomplete-markets"><i class="fa fa-check"></i><b>5.4.3</b> Incomplete Markets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="parity-relations.html"><a href="parity-relations.html"><i class="fa fa-check"></i><b>5.5</b> Parity relations</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="parity-relations.html"><a href="parity-relations.html#put-call-parity"><i class="fa fa-check"></i><b>5.5.1</b> Put-call Parity</a></li>
+<li class="chapter" data-level="5.5.2" data-path="parity-relations.html"><a href="parity-relations.html#the-greeks"><i class="fa fa-check"></i><b>5.5.2</b> The Greeks</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html"><i class="fa fa-check"></i><b>5.6</b> Fundamental pricing theorem I and II</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#completeness-1"><i class="fa fa-check"></i><b>5.6.1</b> Completeness</a></li>
+<li class="chapter" data-level="5.6.2" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#risk-neutral-valuation-formula"><i class="fa fa-check"></i><b>5.6.2</b> Risk Neutral Valuation Formula</a></li>
+<li class="chapter" data-level="5.6.3" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#stochastic-discount-factors-1"><i class="fa fa-check"></i><b>5.6.3</b> Stochastic Discount Factors</a></li>
+<li class="chapter" data-level="5.6.4" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#summary"><i class="fa fa-check"></i><b>5.6.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html"><i class="fa fa-check"></i><b>5.7</b> Mathematics of the martingale approach</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#martingale-representation-theorem"><i class="fa fa-check"></i><b>5.7.1</b> Martingale representation theorem</a></li>
+<li class="chapter" data-level="5.7.2" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#girsanov-theorem"><i class="fa fa-check"></i><b>5.7.2</b> Girsanov theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="black-scholes-model---martingale-approach.html"><a href="black-scholes-model---martingale-approach.html"><i class="fa fa-check"></i><b>5.8</b> Black-Scholes model - martingale approach</a></li>
+<li class="chapter" data-level="5.9" data-path="multidimensional-models.html"><a href="multidimensional-models.html"><i class="fa fa-check"></i><b>5.9</b> Multidimensional models</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="basic-non-life-insurance-mathematics.html"><a href="basic-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>6</b> Basic Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="7" data-path="stochastic-processes-in-non-life-insurance-mathematics.html"><a href="stochastic-processes-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>7</b> Stochastic Processes in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>9.1</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-is-a-good-estimator"><i class="fa fa-check"></i><b>9.1.1</b> What is a good estimator?</a></li>
+<li class="chapter" data-level="9.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#excess-risk"><i class="fa fa-check"></i><b>9.1.2</b> Excess risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html"><i class="fa fa-check"></i><b>9.2</b> Training, Validating and Testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html#estimating-risk"><i class="fa fa-check"></i><b>9.2.1</b> Estimating risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>9.3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="linear-models.html"><a href="linear-models.html#least-squares-estimator"><i class="fa fa-check"></i><b>9.3.1</b> Least Squares Estimator</a></li>
+<li class="chapter" data-level="9.3.2" data-path="linear-models.html"><a href="linear-models.html#ridge-regression"><i class="fa fa-check"></i><b>9.3.2</b> Ridge Regression</a></li>
+<li class="chapter" data-level="9.3.3" data-path="linear-models.html"><a href="linear-models.html#lasso-regression"><i class="fa fa-check"></i><b>9.3.3</b> Lasso Regression</a></li>
+<li class="chapter" data-level="9.3.4" data-path="linear-models.html"><a href="linear-models.html#conclusion"><i class="fa fa-check"></i><b>9.3.4</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html"><i class="fa fa-check"></i><b>9.4</b> Nonparametric Regression</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-smoothers"><i class="fa fa-check"></i><b>9.4.1</b> Linear Smoothers</a></li>
+<li class="chapter" data-level="9.4.2" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#curse-of-dimensionality"><i class="fa fa-check"></i><b>9.4.2</b> Curse of dimensionality</a></li>
+<li class="chapter" data-level="9.4.3" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#splines"><i class="fa fa-check"></i><b>9.4.3</b> Splines</a></li>
+<li class="chapter" data-level="9.4.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-regression-with-splines."><i class="fa fa-check"></i><b>9.4.4</b> Linear regression with splines.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="trees-and-forests.html"><a href="trees-and-forests.html"><i class="fa fa-check"></i><b>9.5</b> Trees and forests</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="trees-and-forests.html"><a href="trees-and-forests.html#cart"><i class="fa fa-check"></i><b>9.5.1</b> CART</a></li>
+<li class="chapter" data-level="9.5.2" data-path="trees-and-forests.html"><a href="trees-and-forests.html#pruning"><i class="fa fa-check"></i><b>9.5.2</b> Pruning</a></li>
+<li class="chapter" data-level="9.5.3" data-path="trees-and-forests.html"><a href="trees-and-forests.html#bagging"><i class="fa fa-check"></i><b>9.5.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.5.4" data-path="trees-and-forests.html"><a href="trees-and-forests.html#random-forests"><i class="fa fa-check"></i><b>9.5.4</b> Random Forests</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html"><i class="fa fa-check"></i><b>9.6</b> Boosting and additive trees</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#gradient-boosting-machines"><i class="fa fa-check"></i><b>9.6.1</b> Gradient Boosting Machines</a></li>
+<li class="chapter" data-level="9.6.2" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#bayesian-additive-regression-trees"><i class="fa fa-check"></i><b>9.6.2</b> Bayesian additive regression trees</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="some-practical-considerations.html"><a href="some-practical-considerations.html"><i class="fa fa-check"></i><b>9.7</b> Some practical considerations</a></li>
+<li class="chapter" data-level="9.8" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>9.8</b> Neural Networks</a></li>
+<li class="chapter" data-level="9.9" data-path="local-explanations.html"><a href="local-explanations.html"><i class="fa fa-check"></i><b>9.9</b> Local explanations</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="local-explanations.html"><a href="local-explanations.html#interpretability"><i class="fa fa-check"></i><b>9.9.1</b> Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="causality.html"><a href="causality.html"><i class="fa fa-check"></i><b>9.10</b> Causality</a></li>
+<li class="chapter" data-level="9.11" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html"><i class="fa fa-check"></i><b>9.11</b> Local and Global Explanations</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#interpretability-1"><i class="fa fa-check"></i><b>9.11.1</b> Interpretability</a></li>
+<li class="chapter" data-level="9.11.2" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#partial-dependence-plots"><i class="fa fa-check"></i><b>9.11.2</b> Partial dependence plots</a></li>
+<li class="chapter" data-level="9.11.3" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#a-functional-decomposition"><i class="fa fa-check"></i><b>9.11.3</b> A functional decomposition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="quantative-risk-management.html"><a href="quantative-risk-management.html"><i class="fa fa-check"></i><b>10</b> Quantative Risk Management</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html"><i class="fa fa-check"></i><b>10.1</b> The Loss Variable</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html#risk-measures"><i class="fa fa-check"></i><b>10.1.1</b> Risk measures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="measure-theory.html"><a href="measure-theory.html"><i class="fa fa-check"></i><b>11</b> Measure theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="axioms-of-probability.html"><a href="axioms-of-probability.html"><i class="fa fa-check"></i><b>11.1</b> Axioms of Probability</a></li>
+<li class="chapter" data-level="11.2" data-path="conditional-probability-and-independence.html"><a href="conditional-probability-and-independence.html"><i class="fa fa-check"></i><b>11.2</b> Conditional Probability and Independence</a></li>
+<li class="chapter" data-level="11.3" data-path="probabilities-on-a-finite-or-countable-space.html"><a href="probabilities-on-a-finite-or-countable-space.html"><i class="fa fa-check"></i><b>11.3</b> Probabilities on a Finite or Countable Space</a></li>
+<li class="chapter" data-level="11.4" data-path="construction-of-a-probability-measure-on-mathbb-r.html"><a href="construction-of-a-probability-measure-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.4</b> Construction of a Probability Measure on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.5" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>11.5</b> Random Variables</a></li>
+<li class="chapter" data-level="11.6" data-path="integration-with-respect-to-a-probability-measure.html"><a href="integration-with-respect-to-a-probability-measure.html"><i class="fa fa-check"></i><b>11.6</b> Integration with Respect to a Probability Measure</a></li>
+<li class="chapter" data-level="11.7" data-path="independent-random-variables.html"><a href="independent-random-variables.html"><i class="fa fa-check"></i><b>11.7</b> Independent Random Variables</a></li>
+<li class="chapter" data-level="11.8" data-path="probability-distributions-on-mathbb-r.html"><a href="probability-distributions-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.8</b> Probability Distributions on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.9" data-path="probability-distributions-on-mathbb-rn.html"><a href="probability-distributions-on-mathbb-rn.html"><i class="fa fa-check"></i><b>11.9</b> Probability Distributions on <span class="math inline">\(\mathbb R^n\)</span></a></li>
+<li class="chapter" data-level="11.10" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html"><i class="fa fa-check"></i><b>11.10</b> Equivalent Probability Measures</a>
+<ul>
+<li class="chapter" data-level="11.10.1" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#the-radon-nikodym-theorem"><i class="fa fa-check"></i><b>11.10.1</b> The Radon-Nikodym Theorem</a></li>
+<li class="chapter" data-level="11.10.2" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#equivalent-probability-measures-1"><i class="fa fa-check"></i><b>11.10.2</b> Equivalent Probability Measures</a></li>
+<li class="chapter" data-level="11.10.3" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#likelihood-processes"><i class="fa fa-check"></i><b>11.10.3</b> Likelihood processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="random-variables-1.html"><a href="random-variables-1.html"><i class="fa fa-check"></i><b>12</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>12.2</b> Conditional expectation</a></li>
+<li class="chapter" data-level="12.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>12.3</b> Independence</a></li>
+<li class="chapter" data-level="12.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>12.4</b> Moment generating function</a></li>
+<li class="chapter" data-level="12.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>12.5</b> Standard distributions</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>12.5.1</b> Normal disribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>13</b> Discrete Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html"><i class="fa fa-check"></i><b>13.1</b> Convergence concepts</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html#sums-and-average-processes"><i class="fa fa-check"></i><b>13.1.1</b> Sums and average processes</a></li>
+<li class="chapter" data-level="13.1.2" data-path="convergence-concepts.html"><a href="convergence-concepts.html#ergodic-theory"><i class="fa fa-check"></i><b>13.1.2</b> Ergodic Theory</a></li>
+<li class="chapter" data-level="13.1.3" data-path="convergence-concepts.html"><a href="convergence-concepts.html#weak-convergence"><i class="fa fa-check"></i><b>13.1.3</b> Weak Convergence</a></li>
+<li class="chapter" data-level="13.1.4" data-path="convergence-concepts.html"><a href="convergence-concepts.html#central-limit-theorems"><i class="fa fa-check"></i><b>13.1.4</b> Central Limit Theorems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>14</b> Markov Chains</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="definition-of-a-markov-chain.html"><a href="definition-of-a-markov-chain.html"><i class="fa fa-check"></i><b>14.1</b> Definition of a Markov Chain</a></li>
+<li class="chapter" data-level="14.2" data-path="classification-of-states.html"><a href="classification-of-states.html"><i class="fa fa-check"></i><b>14.2</b> Classification of states</a></li>
+<li class="chapter" data-level="14.3" data-path="limit-results-and-invariant-probabilities.html"><a href="limit-results-and-invariant-probabilities.html"><i class="fa fa-check"></i><b>14.3</b> Limit results and invariant probabilities</a></li>
+<li class="chapter" data-level="14.4" data-path="absorbing-probabilities.html"><a href="absorbing-probabilities.html"><i class="fa fa-check"></i><b>14.4</b> Absorbing probabilities</a></li>
+<li class="chapter" data-level="14.5" data-path="markov-chains-in-continuous-times.html"><a href="markov-chains-in-continuous-times.html"><i class="fa fa-check"></i><b>14.5</b> Markov Chains in Continuous Times</a></li>
+<li class="chapter" data-level="14.6" data-path="properties-of-transitionsprobabilities.html"><a href="properties-of-transitionsprobabilities.html"><i class="fa fa-check"></i><b>14.6</b> Properties of transitionsprobabilities</a></li>
+<li class="chapter" data-level="14.7" data-path="invariant-probabilies-and-absorption.html"><a href="invariant-probabilies-and-absorption.html"><i class="fa fa-check"></i><b>14.7</b> Invariant probabilies and absorption</a></li>
+<li class="chapter" data-level="14.8" data-path="birth-death-processes.html"><a href="birth-death-processes.html"><i class="fa fa-check"></i><b>14.8</b> Birth-death processes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="continuous-time-stochastic-processes.html"><a href="continuous-time-stochastic-processes.html"><i class="fa fa-check"></i><b>15</b> Continuous Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="brownian-motion.html"><a href="brownian-motion.html"><i class="fa fa-check"></i><b>15.1</b> Brownian Motion</a></li>
+<li class="chapter" data-level="15.2" data-path="filtration.html"><a href="filtration.html"><i class="fa fa-check"></i><b>15.2</b> Filtration</a></li>
+<li class="chapter" data-level="15.3" data-path="martingale.html"><a href="martingale.html"><i class="fa fa-check"></i><b>15.3</b> Martingale</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stochastic-calculus.html"><a href="stochastic-calculus.html"><i class="fa fa-check"></i><b>16</b> Stochastic calculus</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html"><i class="fa fa-check"></i><b>16.1</b> Stochastic Integrals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#information"><i class="fa fa-check"></i><b>16.1.1</b> Information</a></li>
+<li class="chapter" data-level="16.1.2" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-integrals-1"><i class="fa fa-check"></i><b>16.1.2</b> Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.1.3" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#martingales"><i class="fa fa-check"></i><b>16.1.3</b> Martingales</a></li>
+<li class="chapter" data-level="16.1.4" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-calculus-and-the-ito-formula"><i class="fa fa-check"></i><b>16.1.4</b> Stochastic Calculus and the Ito Formula</a></li>
+<li class="chapter" data-level="16.1.5" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula"><i class="fa fa-check"></i><b>16.1.5</b> The multidimensional Ito Formula</a></li>
+<li class="chapter" data-level="16.1.6" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula-with-states"><i class="fa fa-check"></i><b>16.1.6</b> The multidimensional Ito Formula with states</a></li>
+<li class="chapter" data-level="16.1.7" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#correlated-brownian-motions"><i class="fa fa-check"></i><b>16.1.7</b> Correlated Brownian motions</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="discrete-stochastic-integrals.html"><a href="discrete-stochastic-integrals.html"><i class="fa fa-check"></i><b>16.2</b> Discrete Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.3" data-path="stochastic-differential-equations.html"><a href="stochastic-differential-equations.html"><i class="fa fa-check"></i><b>16.3</b> Stochastic Differential Equations</a></li>
+<li class="chapter" data-level="16.4" data-path="partial-differential-equations.html"><a href="partial-differential-equations.html"><i class="fa fa-check"></i><b>16.4</b> Partial differential equations</a></li>
+<li class="chapter" data-level="16.5" data-path="the-product-integral.html"><a href="the-product-integral.html"><i class="fa fa-check"></i><b>16.5</b> The Product Integral</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="the-product-integral.html"><a href="the-product-integral.html#properties-of-the-product-integral"><i class="fa fa-check"></i><b>16.5.1</b> Properties of the Product Integral</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="linear-algebra.html"><a href="linear-algebra.html"><i class="fa fa-check"></i><b>17</b> Linear Algebra</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="invertible-matrices.html"><a href="invertible-matrices.html"><i class="fa fa-check"></i><b>17.1</b> Invertible matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="coding.html"><a href="coding.html"><i class="fa fa-check"></i><b>18</b> Coding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="r-packages.html"><a href="r-packages.html"><i class="fa fa-check"></i><b>18.1</b> R-Packages</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="r-packages.html"><a href="r-packages.html#mlr3"><i class="fa fa-check"></i><b>18.1.1</b> mlr3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Complete Theory</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="stochastic-integrals" class="section level2 hasAnchor" number="16.1">
+<h2><span class="header-section-number">16.1</span> Stochastic Integrals<a href="stochastic-integrals.html#stochastic-integrals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We want to formulate financial markets in continuous time and the most elegant theory is obtained from processes that can be defined in terms of <strong>stochastic differential equations</strong> or in other words by their dynamics. We may call them <strong>diffusion processes</strong>, as they may be approximated by a stochastic difference equation:</p>
+<p><span class="math display">\[
+X_{t+\Delta t}-X_t=\mu(t,X_t)\Delta t+\sigma(t,X_t)Z_t.\tag{4.1}
+\]</span></p>
+<p>Above <span class="math inline">\(Z_t\)</span> is a normally distributed random variable (a disturbance). In this formulation we say that <span class="math inline">\(S_t\)</span> is driven by two forces: on one hand a locally deterministic velocity or drift <span class="math inline">\(\mu(t,X_t)\)</span> and on the other hand a Gaussian term amplified by the deterministic factor <span class="math inline">\(\sigma(t,X_t)\)</span>.</p>
+<div id="information" class="section level3 hasAnchor" number="16.1.1">
+<h3><span class="header-section-number">16.1.1</span> Information<a href="stochastic-integrals.html#information" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We consider a primary process <span class="math inline">\(X_t\)</span> and we introduce the notion of information generated by <span class="math inline">\(X_t\)</span> in terms of the natural filtration. The idea can be summed up in the following definition.</p>
+<blockquote class="def">
+<p><strong>Definition 4.3. (Bjork)</strong> <em>The symbol <span class="math inline">\(\mathcal{F}^X_t\subseteq\mathcal{F}\)</span> denotes “the information generated by <span class="math inline">\(X_t\)</span> on the interval <span class="math inline">\([0,t]\)</span>”, or alternatively “what has happened to <span class="math inline">\(X_t\)</span> over ther interval <span class="math inline">\([0,t]\)</span>”.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>If, based upon observations of the trajectory <span class="math inline">\(\{X_s;\ 0\le s\le t\}\)</span>, it is possible to decide whether a given event <span class="math inline">\(A\)</span> has occurred or not, then we write this as</em>
+<span class="math display">\[
+  A\in\mathcal{F}^X_t
+  \]</span>
+<em>or say that “<span class="math inline">\(A\)</span> is <span class="math inline">\(\mathcal{F}^X_t\)</span>-measurable”.</em></li>
+<li><em>If the value of a given random variable <span class="math inline">\(Z\)</span> can be completely determined given observations of the tragectory <span class="math inline">\(\{X_s;\ 0\le s\le t\}\)</span>, then we also write</em>
+<span class="math display">\[
+  Z\in\mathcal{F}^X_t.\ \text{(}Z\text{ is }\mathcal{F}^X_t\text{-measurable)}
+  \]</span>
+3._ If <span class="math inline">\(Y\)</span> is a stochastic process such that we have_
+<span class="math display">\[
+  Y_t\in\mathcal{F}^X_t
+  \]</span>
+<em>for all <span class="math inline">\(t\ge0\)</span> then we say that <span class="math inline">\(Y_t\)</span> is <strong>adapted</strong> to the <strong>filtration</strong> <span class="math inline">\(\{\mathcal{F}^X_t\}_{t\ge 0}\)</span>. For brevity of notation, we will sometimes write the filtration as <span class="math inline">\(\{\mathcal{F}^X_t\}_{t\ge 0}=\mathbf{F}\)</span>.</em></li>
+</ol>
+</blockquote>
+</div>
+<div id="stochastic-integrals-1" class="section level3 hasAnchor" number="16.1.2">
+<h3><span class="header-section-number">16.1.2</span> Stochastic Integrals<a href="stochastic-integrals.html#stochastic-integrals-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will now formulate the theory of stochastic integrals, that is, processes written in terms of stochastic processes with stochastic integrator and/or stochastic integrant. We will consider some given standard Brownian motion <span class="math inline">\(W_t\)</span> and another stochastic process <span class="math inline">\(X_t\)</span>. We need som integrability condition on <span class="math inline">\(X_t\)</span> in order to do the calculations. We therefore determine a selection of suitable stochastic processes <span class="math inline">\(X\)</span> must be contained in.</p>
+<blockquote class="def">
+<p><strong>Definition 4.4. (Bjork)</strong> <em>Let <span class="math inline">\(X_t\)</span> be a stochastic process, then</em></p>
+<ol style="list-style-type: lower-roman">
+<li><em>We say that <span class="math inline">\(X_t\)</span> belongs to the class <span class="math inline">\(\mathcal{L}^2[a,b]\)</span> if <span class="math inline">\(X_t\)</span> is adapted to the filtration <span class="math inline">\(\mathcal{F}^X_t\)</span> and the following holds</em>
+<span class="math display">\[\int_a^bE[X_s^2]\ ds&lt;\infty\]</span></li>
+<li><em>We say that <span class="math inline">\(X_t\)</span> belongs to the class <span class="math inline">\(\mathcal{L}^2\)</span> if</em> <span class="math inline">\(X_t\in\mathcal{L}^2[0,t]\)</span> for all <span class="math inline">\(t&gt;0\)</span>.</li>
+</ol>
+</blockquote>
+<p>We now want to define what we mean by</p>
+<p><span class="math display">\[
+\int_a^bX_t\ dW_s
+\]</span></p>
+<p>for some process <span class="math inline">\(X_t\in\mathcal{L}^2\)</span>. We see that a way to go about this problem is to start by defining the concept for a simple stochastic process <span class="math inline">\(X_t\)</span>. By <em>simple</em> we mean a process <span class="math inline">\(X_t\)</span> that is constant on between some deterministic points in time <span class="math inline">\(a=t_0&lt;t_1&lt;\cdots&lt;t_n=b\)</span>. In that case we may define the integral as</p>
+<p><span class="math display">\[
+\int_a^bX_s\ dW_s = \sum_{k=0}^{n-1}X_{t_k}[W_{t_{k+1}}-W_{t_k}].\tag{4.8}
+\]</span></p>
+<p>In the more general setting we may follow the following approach:</p>
+<ol style="list-style-type: decimal">
+<li>Approximate <span class="math inline">\(X\)</span> with a sequence <span class="math inline">\(\{X^n\}_{n\in\mathbb{N}}\)</span> of simple processes such that the following convergence criteria hold
+<span class="math display">\[
+  \int_a^bE[(X_s^n-X_s)^2]\ ds\to 0,\ n\to\infty
+  \]</span></li>
+<li>For each <span class="math inline">\(n\)</span> the integral <span class="math inline">\(\int_a^b X_s^n\ dW_s:=Z^n\)</span> is well defined and it is possible to prove, using DCT, that a variable <span class="math inline">\(Z\)</span> exists such that <span class="math inline">\(Z^n\to Z\)</span> that is in <span class="math inline">\(L^2\)</span>.</li>
+<li>We now define the stochastic integral by the limit
+<span class="math display">\[
+  \int_a^b X_s\ dW_s=\lim_{n\to \infty}\int_a^b X_s^n\ dW_s.\tag{4.9}
+  \]</span></li>
+</ol>
+<p>Obviously the hardest step is finding the processes <span class="math inline">\(X^n\)</span>. This stochastic har some properties we will use.</p>
+<blockquote class="prop">
+<strong>Proposition 4.5. (Bjork)</strong> <em>Let <span class="math inline">\(X_t\in\mathcal{L}^2\)</span>, then</em>
+<span class="math display">\[\begin{align*}
+&amp;E\left[\int_a^b X_s\ dW_s\right]=0.\tag{4.12}\\
+&amp;E\left[\left(\int_a^b X_s\ dW_s\right)^2\right]=\int_a^b E[ X_s^2]\ dW_s.\tag{4.13}\\
+&amp;\int_a^b X_s\ dW_s\ \text{ is }\mathcal{F}_b^W\text{-measurable.}\tag{4.14}
+\end{align*}\]</span>
+</blockquote>
+</div>
+<div id="martingales" class="section level3 hasAnchor" number="16.1.3">
+<h3><span class="header-section-number">16.1.3</span> Martingales<a href="stochastic-integrals.html#martingales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="def">
+<p><strong>Definition 4.7. (Bjork)</strong> <em>Let <span class="math inline">\(M_t\)</span> be a stochastic process defined on a background space <span class="math inline">\((\Omega,\mathcal{F},P)\)</span>. Let <span class="math inline">\((\mathcal{F}_t)_{t\ge 0}\)</span> be a filtration. If <span class="math inline">\(M_t\)</span> is adapted to the filtration <span class="math inline">\(\mathcal{F}_t\)</span>, <span class="math inline">\(E\vert M_t\vert &lt;\infty\)</span> and</em></p>
+<p><span class="math display">\[E[M_t\vert \mathcal{F}_s]=M_s,\hspace{20pt}P-\text{a.s.}\]</span></p>
+<p><em>holds for any <span class="math inline">\(t&gt;s\)</span> we say that <span class="math inline">\(M_t\)</span> is a martingale (<span class="math inline">\(\mathbf{F}\)</span>-martingale). If the above has <span class="math inline">\(\ge\)</span> or <span class="math inline">\(\le\)</span> we say that <span class="math inline">\(M_t\)</span> is either a <strong>submartingale</strong> or <strong>supermartingale</strong> respectively.</em></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 4.8. (Bjork)</strong> <em>For any process <span class="math inline">\(X_t\in\mathcal{L}^2[s,t]\)</span> the following hold:</em></p>
+<p><span class="math display">\[
+E\left[\left.\int_s^t X_s\ dW_s\right\vert\mathcal{F}_s^W\right]=0
+\]</span></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Corollary 4.9. (Bjork)</strong> <em>For any process <span class="math inline">\(X_t\in\mathcal{L}^2\)</span> the process</em></p>
+<p><span class="math display">\[
+M_t=\int_s^t X_s\ dW_s,
+\]</span></p>
+<p><em>is an <span class="math inline">\((\mathcal{F}_t^W)\)</span>-martingale. In other words, modulo an integrability condition, <strong>every stochastic integral is a martingale</strong>.</em></p>
+</blockquote>
+<blockquote class="lem">
+<p><strong>Lemma 4.10. (Bjork)</strong> <em>Let <span class="math inline">\(M_t\)</span> be a stochastic process with stochastic differential, then <span class="math inline">\(M_t\)</span> is a martingale if and only if the stochastic differential has the form <span class="math inline">\(dM_t=X_t\ dW_t\)</span> i.e. <span class="math inline">\(M_t\)</span> as no <span class="math inline">\(dt\)</span>-term.</em></p>
+</blockquote>
+</div>
+<div id="stochastic-calculus-and-the-ito-formula" class="section level3 hasAnchor" number="16.1.4">
+<h3><span class="header-section-number">16.1.4</span> Stochastic Calculus and the Ito Formula<a href="stochastic-integrals.html#stochastic-calculus-and-the-ito-formula" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Given this breif introduction to stochastic integrals we may formulate som simple calculus revolving around Ito’s formula. We consider the stochastic process <span class="math inline">\(X_t\)</span> and we suppose that there exist a real number <span class="math inline">\(X_0\)</span> and adapted processes <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> wrt. <span class="math inline">\(\mathcal{F}_t^W\)</span> such that for all <span class="math inline">\(t\ge0\)</span> we have</p>
+<p><span class="math display">\[
+X_t=X_0+\int_0^t\mu_s\ ds+\int_0^t\sigma_s\ dW_s,\tag{4.16}
+\]</span></p>
+<p>where <span class="math inline">\(W_t\)</span> is a standard Brownian motion. We know from earlier courses that the above may be written in terms of the dynamics (pure notation):</p>
+<p><span class="math display">\[
+\left\{\begin{matrix}dX_t=\mu_t\ dt+\sigma_t\ dW_t,\tag{4.17/18}\\ X_0=X_0.\end{matrix}\right.
+\]</span></p>
+<p>Here we intepret the above as <span class="math inline">\(X_t\)</span> has boundary condition <span class="math inline">\(X_0\)</span> and evolves with a drift <span class="math inline">\(\mu_t\ dt\)</span> amplified and distorted by the drift <span class="math inline">\(\sigma_t\ dW_t\)</span>. We say that <span class="math inline">\(X_t\)</span> has <strong>stochastic differential</strong> <span class="math inline">\(dX_t\)</span> and initial condition <span class="math inline">\(X_0\)</span>.</p>
+<p>We want to understand how transformation of such an integral behaves and therefore we introduce some calculus which will tell how for instance <span class="math inline">\(f(t,X_t)\)</span> (for some <span class="math inline">\(C^{1,2}\)</span>-function) behaves. This insight is given by the important Ito’s formula.</p>
+<blockquote class="thm">
+<p><strong>Thoerem 4.11. (Bjork)</strong> <strong>(Ito’s formula, one-dimensional)</strong> <em>Assume that the process <span class="math inline">\(X\)</span> has a stochastic differential form given by</em></p>
+<p><span class="math display">\[
+dX_t=\mu_t\ dt + \sigma_t\ dW_t,\tag{4.28}
+\]</span></p>
+<p><em>where <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are adapted processes, and let <span class="math inline">\(f:\mathbb{R}_+\times\mathbb{R}\to\mathbb{R}\)</span> be a <span class="math inline">\(C^{1,2}\)</span>-function. Define the process <span class="math inline">\(Z\)</span> by <span class="math inline">\(Z_t=f(t,X_t)\)</span>. Then <span class="math inline">\(Z\)</span> has stochastic differential given by</em></p>
+<p><span class="math display">\[
+df(t,X_t)=\left(\frac{\partial f}{\partial t}(t,X_t) + \mu_t\frac{\partial f}{\partial x}(t,X_t) + \frac{1}{2}\sigma^2_t\frac{\partial^2 f}{\partial x^2}(t,X_t)\right)\ dt+\sigma_t\frac{\partial f}{\partial x}(t,X_t)\ dW_t.\tag{4.29}
+\]</span></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 4.12. (Bjork)</strong> <strong>(Ito’s formula, one-dimensional)</strong> <em>With assumptions as in theorem 4.11, <span class="math inline">\(df\)</span> is given by</em></p>
+<p><span class="math display">\[
+df=\frac{\partial f}{\partial t}\ dt + \frac{\partial f}{\partial x}\ dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}\ (dX_t)^2,\tag{4.31}
+\]</span></p>
+<p><em>where we use the following table</em></p>
+<p><span class="math display">\[
+\left\{\begin{matrix}(dt)^2=0,\\ dt\cdot dW_t=0,\\ (dW_t)^2=dt.\end{matrix}\right.
+\]</span></p>
+</blockquote>
+<blockquote class="lem">
+<p><strong>Lemma 4.18. (Bjork)</strong> <em>Let <span class="math inline">\(\sigma(t)\)</span> be deterministic function of time and define the process <span class="math inline">\(X\)</span> by</em></p>
+<p><span class="math display">\[
+X_t=\int_0^t \sigma(s)\ dW_s.\tag{4.37}
+\]</span></p>
+<p><em>Then</em></p>
+<p><span class="math display">\[
+X_t\sim\mathcal{N}\left(0,\int_0^t\sigma^2(s)\ ds\right).
+\]</span></p>
+</blockquote>
+</div>
+<div id="the-multidimensional-ito-formula" class="section level3 hasAnchor" number="16.1.5">
+<h3><span class="header-section-number">16.1.5</span> The multidimensional Ito Formula<a href="stochastic-integrals.html#the-multidimensional-ito-formula" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider a vector process <span class="math inline">\(X=(X^1,...,X^n)^\top\)</span> where each component <span class="math inline">\(X^i\)</span> has stochastic differential</p>
+<p><span class="math display">\[
+d X_t^i=\mu_t^i\ dt+\sum_{j=1}^d\sigma^{ij}_t\ dW_t^j
+\]</span></p>
+<p>where <span class="math inline">\(W^1,...,W^d\)</span> is independent Brownian motions. Then we have respectively the drift vector process <span class="math inline">\(\mu_t\)</span> in <span class="math inline">\(n\)</span> dimensions, the vector Brownian motion in <span class="math inline">\(d\)</span> dimensions and a <span class="math inline">\(n\times d\)</span>-dimensional <strong>diffusion matrix</strong> <span class="math inline">\(\sigma_t\)</span> given as below</p>
+<p><span class="math display">\[
+\mu_t=\begin{bmatrix}\mu^1_t\\ \vdots\\ \mu^n_t\end{bmatrix},\hspace{10pt}W_t=\begin{bmatrix}W^1_t\\ \vdots\\ W^d_t\end{bmatrix},\hspace{10pt}\sigma_t=\begin{bmatrix}\sigma^{11}_t &amp; \cdots &amp; \sigma^{1d}_t \\ \vdots &amp; \ddots &amp; \vdots\\ \sigma^{n1}_t &amp;\cdots&amp; \sigma^{nd}_t\end{bmatrix}.
+\]</span></p>
+<p>Given this we may write the dynamics of <span class="math inline">\(X\)</span> as</p>
+<p><span class="math display">\[
+d X_t=\mu_t\ dt+\sigma_t\ dW_t\in\mathbb{R}^n.
+\]</span></p>
+<p>Consider now a function <span class="math inline">\(f:\mathbb{R}_+\times \mathbb{R}^n\to\mathbb{R}\)</span> which is a <span class="math inline">\(C^{1,2}\)</span>-mapping. We want to study the dynamics of the process</p>
+<p><span class="math display">\[
+Z_t=f(t,X_t).
+\]</span></p>
+<p>The dynamics is given in the multidimensional version of Ito’s formula.</p>
+<blockquote class="thm">
+<p><strong>Thoerem 4.19. (Bjork)</strong> <strong>(Ito’s formula, multi-dimensional)</strong> <em>Let <span class="math inline">\(X\)</span> be given as above. Then the following holds:</em></p>
+<ul>
+<li><em>The process <span class="math inline">\(f(t,X_t)\)</span> has the stochastisc differential given by</em>
+<span class="math display">\[
+  df(t,X_t)=\left(\frac{\partial f}{\partial t}(t,X_t) + \sum_{i=1}^n\mu^i_t\frac{\partial f}{\partial x^i}(t,X_t) + \frac{1}{2}\sum_{i,j=1}^nC_t^{ij}\frac{\partial^2 f}{\partial x^i\partial x^j}(t,X_t)\right)\ dt+\sum_{i=1}^n\sigma^i_t\frac{\partial f}{\partial x^i}(t,X_t)\ dW_t.
+  \]</span>
+<em>Here the row vector <span class="math inline">\(\sigma^i_t\)</span> is the <span class="math inline">\(i\)</span>’th row of the matrix <span class="math inline">\(\sigma_t\)</span> and the matrix <span class="math inline">\(C\)</span> is defined by <span class="math inline">\(C=\sigma\sigma^\top\)</span>.</em></li>
+<li><em>Alternatively, the differential is given by the formula</em>
+<span class="math display">\[
+  df(t,X_t)=\frac{\partial f}{\partial t}(t,X_t)\ dt + \sum_{i=1}^n\frac{\partial f}{\partial x^i}(t,X_t)\ dX^i_t + \frac{1}{2}\sum_{i,j=1}^n\frac{\partial^2 f}{\partial x^i\partial x^j}(t,X_t)\ dX^i_tdX^j_t,
+  \]</span>
+<em>with the formal multiplication table</em>
+<span class="math display">\[
+  \left\{\begin{matrix}(dt)^2=0,\\  dt\cdot dW_t^i=0, &amp; i = 1,...,d,\\ (dW_t^i)^2=dt, &amp; i=1,...,d, \\ dW_t^i\cdot dW_t^i =0, &amp; i\ne j.\end{matrix}\right.
+  \]</span></li>
+</ul>
+</blockquote>
+<p>Obviously, one can write the differential in Ito’s formula in many other ways including a matrix-wise version using the Hessian matrix <span class="math inline">\(H_{ij}=\frac{\partial^2 f}{\partial x^i\partial x^j}\)</span>.</p>
+</div>
+<div id="the-multidimensional-ito-formula-with-states" class="section level3 hasAnchor" number="16.1.6">
+<h3><span class="header-section-number">16.1.6</span> The multidimensional Ito Formula with states<a href="stochastic-integrals.html#the-multidimensional-ito-formula-with-states" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="def">
+<p><strong>Definition. (<span class="math inline">\(n\)</span>-dimensional Markov-jump process)</strong> <em>Let <span class="math inline">\(Z(t)\)</span> be a Markov-jump process on a at most countable state space <span class="math inline">\(E\)</span>. Let <span class="math inline">\(\mathbf X(t)=(X_1(t),X_2(t),...,X_n(t))\in\mathcal X\)</span> be a <span class="math inline">\(n\)</span>-dimensional stochastic process. Let <span class="math inline">\(f : \mathcal X\to \mathbb R\)</span> be a twice differential function. We call the process</em></p>
+<p><span class="math display">\[
+f^{Z(t)}(\mathbf X(t))=f^{Z(t)}(X_1(t),...,X_n(t))
+\]</span></p>
+<p><em>a <span class="math inline">\(n\)</span>-dimensional Markov-jump process on <span class="math inline">\(E\)</span>.</em></p>
+</blockquote>
+<p>One could for instance have the 2 dimensional process <span class="math inline">\(f^{Z(t)}(t,X(t))\)</span> where <span class="math inline">\(X\)</span> has dynamics</p>
+<p><span class="math display">\[
+dX(t)=rX(t)\ dt + \sigma X(t)\ dW^\mathbb Q(t)
+\]</span></p>
+<p>i.e. a geometric brownian motion. For such af process <span class="math inline">\(f\)</span> we have the change of variables formula</p>
+<blockquote class="thm">
+<p><strong>Theorem. (Ito’s formula for <span class="math inline">\(n\)</span>-dimensional Markov-jump process)</strong> <em>Let <span class="math inline">\(f^{Z(t)}(\mathbf X(t))\)</span> be a <span class="math inline">\(n\)</span>-dimensional Markov-jump process on <span class="math inline">\(E\)</span>. The dynamics of <span class="math inline">\(f\)</span> is given by</em>
+<span class="math display">\[\begin{align*}
+d \Big(f^{Z(t)}(\mathbf X(t))\Big)&amp;=\sum_{i=1}^n f_{x_i}^{Z(t)}(\mathbf X(t))\ dX_i^c(t)\\
+&amp;+\frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n f_{x_ix_j}^{Z(t)}(\mathbf X(t))\ d(X_iX_j)^c(t)\\
+&amp;+\Big(f^{Z(t)}(\mathbf X(t))-f^{Z(t-)}(\mathbf X(t-))\Big)dN^Z(t)\\
+&amp;+\Big(f^{Z(t)}(\mathbf X(t))-f^{Z(t)}(\mathbf X(t-))\Big)dN^\mathbf X(t)
+\end{align*}\]</span>
+<em>where <span class="math inline">\(f^{Z(t)}_{x_i}\)</span> denotes the derivative <span class="math inline">\(\frac{\partial f^{Z(t)}}{\partial x_i}\)</span> and <span class="math inline">\(f^{Z(t)}_{x_ix_j}\)</span> denotes the second derivative <span class="math inline">\(\frac{\partial^2 f^{Z(t)}}{\partial x_i\partial x_j}\)</span>. In the above <span class="math inline">\(dX^c(t)\)</span> refers to the continuous part of the differential form of <span class="math inline">\(X(t)\)</span>. Furthermore, the quadratic variation is given on differential form</em></p>
+<p><span class="math display">\[
+d(XY)(t)=X(t-)dY(t)+Y(t-)dX(t)+dX(t)dY(t)
+\]</span></p>
+<p><em>where</em></p>
+<p><span class="math display">\[
+d(XY)^c(t)=dX^c(t)dY^c(t).
+\]</span></p>
+<p><em>The processes <span class="math inline">\(N^Z\)</span> and <span class="math inline">\(N^\mathbf X\)</span> is defined as</em>
+<span class="math display">\[\begin{align*}
+N^Z(t)&amp;=\#\left\{ 0\le s\le t: Z(s)\ne Z(s-) \right\},\\
+N^\mathbf X(t)&amp;=\#\left\{ 0\le s\le t: \mathbf X(s)\ne \mathbf X(s-) \right\}.
+\end{align*}\]</span></p>
+</blockquote>
+<p>Take the example <span class="math inline">\(X_1(t)=t\)</span> and <span class="math inline">\(X_2=X\)</span> is a geometric brownian motions with jumps according to <span class="math inline">\(Z\)</span> and deterministic jumps given <span class="math inline">\(Z\)</span> i.e.
+<span class="math display">\[\begin{align*}
+dX(t)&amp;=rX(t)\ dt+\sigma X(t)\ dW^\mathbb Q(t)+\Delta X^{Z(t)}(t)\\
+&amp;+\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)dN^{k}(t)
+\end{align*}\]</span>
+Then we know that
+<span class="math display">\[\begin{align*}
+dX^c(t)&amp;=rX(t)\ dt+\sigma X(t)\ dW^\mathbb Q(t)\\
+&amp;+\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt
+\end{align*}\]</span>
+Using that <span class="math inline">\(dN^k(t)=dM^k(t)+\lambda_k(t)\ dt\)</span> for some martingale process <span class="math inline">\(M^k\)</span> and the predictable compensator. Furthermore, we see that the only non-zero quadratic term is <span class="math inline">\(dW^\mathbb Q(t)dW^\mathbb Q(t)=dt\)</span> hence</p>
+<p><span class="math display">\[
+\frac{1}{2}\sum_{i,j=1}^2d(X_iX_j)(t)=\frac{1}{2}\sigma^2X^2(t)\ dt.
+\]</span></p>
+<p>Combining this with</p>
+<p><span class="math display">\[
+\Big(f^{Z(t)}(\mathbf X(t))-f^{Z(t)}(\mathbf X(t-))\Big)dN^\mathbf X(t)=\Delta X^{Z(t)}(t)
+\]</span></p>
+<p>we obtain the differential form
+<span class="math display">\[\begin{align*}
+d \Big(f^{Z(t)}(t,X(t))\Big)&amp;=f_t^{Z(t)}(t,X(t))\ dt+f_x^{Z(t)}(t,X(t))\ dX^c(t)\\
+&amp;+\frac{1}{2}f^{Z(t)}_{xx}(t,X(t))\sigma^2X^2(t)\ dt\\
+&amp;+\sum_{k:k\ne Z(t-)}\Big(f^{Z(t)}(t,X(t))-f^{Z(t-)}(t,X(t-))\Big)\ dN^k(t)\\
+&amp;+\Delta X^{Z(t)}(t)\\
+&amp;=f_t^{Z(t)}(t,X(t))\ dt+\frac{1}{2}f^{Z(t)}_{xx}(t,X(t))\sigma^2X^2(t)\ dt\\
+&amp;+f_x^{Z(t)}(t,X(t))rX(t)\ dt+f_x^{Z(t)}(t,X(t))\sigma X(t)\ dW^\mathbb Q(t)\\
+&amp;+f_x^{Z(t)}(t,X(t))\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt\\
+&amp;+\sum_{k:k\ne Z(t-)}\Big(f^{Z(t)}(t,\chi^k(t,X(t-)))-f^{Z(t-)}(t,X(t-))\Big)\ dN^k(t)\\
+&amp;+\Delta X^{Z(t)}(t)
+\end{align*}\]</span>
+Notice we use that on the event <span class="math inline">\(Z(t)=k\)</span> and <span class="math inline">\(Z(t-)\ne k\)</span> the variable <span class="math inline">\(X\)</span> jumps to the value <span class="math inline">\(\chi^k(t,X(t-))\)</span>. If we choose <span class="math inline">\(f^j(t,x)=x\)</span> for all <span class="math inline">\(j\in E\)</span> we see that the above simplifies to
+<span class="math display">\[\begin{align*}
+d \Big(f^{Z(t)}(t,X(t))\Big)&amp;=rX(t)\ dt+\sigma X(t)\ dW^\mathbb Q(t)\\
+&amp;+\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt\\
+&amp;+\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-))\ dN^k(t)\\
+&amp;+\Delta X^{Z(t)}(t)\ne dX(t)
+\end{align*}\]</span>
+And so we are left with an extra term <span class="math inline">\(\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt\)</span>, where we should simply have had <span class="math inline">\(dX(t)\)</span> that is without the term <span class="math inline">\(\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt\)</span>.
+</p>
+</div>
+<div id="correlated-brownian-motions" class="section level3 hasAnchor" number="16.1.7">
+<h3><span class="header-section-number">16.1.7</span> Correlated Brownian motions<a href="stochastic-integrals.html#correlated-brownian-motions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the previous section the <span class="math inline">\(d\)</span>-dimensional Brownian was assumed to have independent Brownian motions. However we may instead consider a variation where we have some dependence between the Brownian motions.</p>
+<p>This section has not been finished.
+</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="stochastic-calculus.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="discrete-stochastic-integrals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["theory.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

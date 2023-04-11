@@ -1,0 +1,28 @@
+name: "candidate-cources-actuarial-math"
+output_dir: joakim-bilyk.github.io/docs
+exclude: ["*.tex","logo_ku.png","*.Rmd","*.Rproj","pdf/render/logo_ku.png","joakim-bilyk.github.io"]
+navbar:
+  title: "Candidate Cources"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Theory"
+      href: books/theory/index.html
+    - text: "Exercises"
+      href: books/exercises/index.html
+    - text: "Examprep"
+      href: books/exam/index.html
+    - text: "Repository"
+      href: https://github.com/joakim-bilyk/act-math
+  right:
+    - text: "Archive"
+      href: archive.html
+output:
+  html_document:
+    code_download: true
+    theme: cosmo
+    highlight: breezedark
+    css: style.css
+    include:
+      in_header: header.html
+      after_body: footer.html

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.1 Exam 2017/18 | Exam preparation</title>
+  <meta name="description" content="2.1 Exam 2017/18 | Exam preparation" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.1 Exam 2017/18 | Exam preparation" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.1 Exam 2017/18 | Exam preparation" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="continuous-time-finance.html"/>
+<link rel="next" href="exam-201819.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Exam preparation</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-work.html"><a href="to-do-work.html"><i class="fa fa-check"></i><b>1.2</b> To-do work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>2</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="exam-201718.html"><a href="exam-201718.html"><i class="fa fa-check"></i><b>2.1</b> Exam 2017/18</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="exam-201718.html"><a href="exam-201718.html#problem-1"><i class="fa fa-check"></i><b>2.1.1</b> Problem 1</a></li>
+<li class="chapter" data-level="2.1.2" data-path="exam-201718.html"><a href="exam-201718.html#problem-2"><i class="fa fa-check"></i><b>2.1.2</b> Problem 2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="exam-201718.html"><a href="exam-201718.html#problem-3"><i class="fa fa-check"></i><b>2.1.3</b> Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="exam-201819.html"><a href="exam-201819.html"><i class="fa fa-check"></i><b>2.2</b> Exam 2018/19</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="exam-201819.html"><a href="exam-201819.html#problem-1-1"><i class="fa fa-check"></i><b>2.2.1</b> Problem 1</a></li>
+<li class="chapter" data-level="2.2.2" data-path="exam-201819.html"><a href="exam-201819.html#problem-2-1"><i class="fa fa-check"></i><b>2.2.2</b> Problem 2</a></li>
+<li class="chapter" data-level="2.2.3" data-path="exam-201819.html"><a href="exam-201819.html#problem-3-1"><i class="fa fa-check"></i><b>2.2.3</b> Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="exam-201920.html"><a href="exam-201920.html"><i class="fa fa-check"></i><b>2.3</b> Exam 2019/20</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="exam-201920.html"><a href="exam-201920.html#problem-1-2"><i class="fa fa-check"></i><b>2.3.1</b> Problem 1</a></li>
+<li class="chapter" data-level="2.3.2" data-path="exam-201920.html"><a href="exam-201920.html#problem-2-2"><i class="fa fa-check"></i><b>2.3.2</b> Problem 2</a></li>
+<li class="chapter" data-level="2.3.3" data-path="exam-201920.html"><a href="exam-201920.html#problem-3-2"><i class="fa fa-check"></i><b>2.3.3</b> Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="exam-202021.html"><a href="exam-202021.html"><i class="fa fa-check"></i><b>2.4</b> Exam 2020/21</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="exam-202021.html"><a href="exam-202021.html#problem-1-3"><i class="fa fa-check"></i><b>2.4.1</b> Problem 1</a></li>
+<li class="chapter" data-level="2.4.2" data-path="exam-202021.html"><a href="exam-202021.html#problem-3-3"><i class="fa fa-check"></i><b>2.4.2</b> Problem 3</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="exam-202122.html"><a href="exam-202122.html"><i class="fa fa-check"></i><b>2.5</b> Exam 2021/22</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="exam-202122.html"><a href="exam-202122.html#problem-1-4"><i class="fa fa-check"></i><b>2.5.1</b> Problem 1</a></li>
+<li class="chapter" data-level="2.5.2" data-path="exam-202122.html"><a href="exam-202122.html#problem-2-3"><i class="fa fa-check"></i><b>2.5.2</b> Problem 2</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="exam-202223.html"><a href="exam-202223.html"><i class="fa fa-check"></i><b>2.6</b> Exam 2022/23</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="topics-in-life-insurance-mathematics.html"><a href="topics-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>3</b> Topics in Life Insurance Mathematics</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="question-1-interest-and-mortality-rate-models.html"><a href="question-1-interest-and-mortality-rate-models.html"><i class="fa fa-check"></i><b>3.1</b> Question 1: Interest and mortality rate models</a></li>
+<li class="chapter" data-level="3.2" data-path="question-2-matrix-approach-to-life-insurance-models.html"><a href="question-2-matrix-approach-to-life-insurance-models.html"><i class="fa fa-check"></i><b>3.2</b> Question 2: Matrix-approach to life insurance models</a></li>
+<li class="chapter" data-level="3.3" data-path="question-3-unit-linked-life-insurance-models.html"><a href="question-3-unit-linked-life-insurance-models.html"><i class="fa fa-check"></i><b>3.3</b> Question 3: Unit-linked life insurance models</a></li>
+<li class="chapter" data-level="3.4" data-path="question-4-with-profit-life-insurance-models.html"><a href="question-4-with-profit-life-insurance-models.html"><i class="fa fa-check"></i><b>3.4</b> Question 4: With-profit life insurance models</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quantative-risk-management.html"><a href="quantative-risk-management.html"><i class="fa fa-check"></i><b>4</b> Quantative Risk Management</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="emne-1-risk-measures.html"><a href="emne-1-risk-measures.html"><i class="fa fa-check"></i><b>4.1</b> Emne 1: Risk measures</a></li>
+<li class="chapter" data-level="4.2" data-path="emne-2-var-and-es.html"><a href="emne-2-var-and-es.html"><i class="fa fa-check"></i><b>4.2</b> Emne 2: VaR and ES</a></li>
+<li class="chapter" data-level="4.3" data-path="emne-3-evt.html"><a href="emne-3-evt.html"><i class="fa fa-check"></i><b>4.3</b> Emne 3: EVT</a></li>
+<li class="chapter" data-level="4.4" data-path="emne-4-elliptical-distributions.html"><a href="emne-4-elliptical-distributions.html"><i class="fa fa-check"></i><b>4.4</b> Emne 4: Elliptical distributions}</a></li>
+<li class="chapter" data-level="4.5" data-path="emne-5-copulas-i.html"><a href="emne-5-copulas-i.html"><i class="fa fa-check"></i><b>4.5</b> Emne 5: Copulas I</a></li>
+<li class="chapter" data-level="4.6" data-path="emne-6-copulas-ii.html"><a href="emne-6-copulas-ii.html"><i class="fa fa-check"></i><b>4.6</b> Emne 6: Copulas II</a></li>
+<li class="chapter" data-level="4.7" data-path="emne-7-credit-risk-i.html"><a href="emne-7-credit-risk-i.html"><i class="fa fa-check"></i><b>4.7</b> Emne 7: Credit Risk I</a></li>
+<li class="chapter" data-level="4.8" data-path="emne-8-credit-risk-ii.html"><a href="emne-8-credit-risk-ii.html"><i class="fa fa-check"></i><b>4.8</b> Emne 8: Credit Risk II</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>5</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="part-one.html"><a href="part-one.html"><i class="fa fa-check"></i><b>5.1</b> Part one</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="part-one.html"><a href="part-one.html#question-1-linear-models-with-penalization"><i class="fa fa-check"></i><b>5.1.1</b> Question 1: Linear models with penalization</a></li>
+<li class="chapter" data-level="5.1.2" data-path="part-one.html"><a href="part-one.html#question-2-nonparametrics"><i class="fa fa-check"></i><b>5.1.2</b> Question 2: Nonparametrics</a></li>
+<li class="chapter" data-level="5.1.3" data-path="part-one.html"><a href="part-one.html#question-3-additive-models"><i class="fa fa-check"></i><b>5.1.3</b> Question 3: Additive models</a></li>
+<li class="chapter" data-level="5.1.4" data-path="part-one.html"><a href="part-one.html#question-4-model-explanation-and-fairness"><i class="fa fa-check"></i><b>5.1.4</b> Question 4: Model explanation and fairness</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="part-two.html"><a href="part-two.html"><i class="fa fa-check"></i><b>5.2</b> Part two</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="part-two.html"><a href="part-two.html#question-1-backfitting"><i class="fa fa-check"></i><b>5.2.1</b> Question 1: Backfitting</a></li>
+<li class="chapter" data-level="5.2.2" data-path="part-two.html"><a href="part-two.html#question-2-cart-algorithm"><i class="fa fa-check"></i><b>5.2.2</b> Question 2: CART algorithm</a></li>
+<li class="chapter" data-level="5.2.3" data-path="part-two.html"><a href="part-two.html#question-3-alpha-pruning"><i class="fa fa-check"></i><b>5.2.3</b> Question 3: Alpha-pruning</a></li>
+<li class="chapter" data-level="5.2.4" data-path="part-two.html"><a href="part-two.html#question-4-gradient-boosting-machine"><i class="fa fa-check"></i><b>5.2.4</b> Question 4: Gradient Boosting Machine</a></li>
+<li class="chapter" data-level="5.2.5" data-path="part-two.html"><a href="part-two.html#question-5-neural-network"><i class="fa fa-check"></i><b>5.2.5</b> Question 5: Neural Network</a></li>
+<li class="chapter" data-level="5.2.6" data-path="part-two.html"><a href="part-two.html#question-6-tree-shap"><i class="fa fa-check"></i><b>5.2.6</b> Question 6: Tree SHAP</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exam preparation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exam-201718" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Exam 2017/18<a href="exam-201718.html#exam-201718" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="problem-1" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Problem 1<a href="exam-201718.html#problem-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let <span class="math inline">\(W_t\)</span> denote a Brownian motion and let</p>
+<p><span class="math display">\[
+\mathcal{F}_t=\mathcal{F}_t^W=\sigma(\{W_s\ \vert\ 0\le s\le t\}).
+\]</span></p>
+<p>Let <span class="math inline">\(T&gt;0\)</span> be a given and fixed time.</p>
+<p>Let <span class="math inline">\(f(t)\)</span> be a bounded deterministic continuous function. Define the two processes</p>
+<p><span class="math display">\[
+\begin{cases}
+X_t=\int_0^tf(u)\ dW_u,\\
+M^{(\lambda)}_t=\exp\left\{\lambda X_t-\frac{\lambda^2}{2}\int_0^t f^2(u)\ du\right\},
+\end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(\lambda\in\mathbb{R}\)</span> is a constant.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Show that <span class="math inline">\(M^{(\lambda)}\)</span> is a martingale with <span class="math inline">\(E[M_t^{(\lambda)}]=1\)</span>.</li>
+</ol>
+<p>Let <span class="math inline">\(0&lt;s&lt;t\)</span> and <span class="math inline">\(\lambda_1,\lambda_2\in \mathbb{R}\)</span> be given and fixed.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><ol style="list-style-type: lower-roman">
+<li>Show that
+<span class="math display">\[\begin{align*}
+M^{(\lambda_1)}_s&amp;=E\left[\left.\frac{M^{(\lambda_1)}_sM^{(\lambda_2)}_t}{M^{(\lambda_2)}_s} \ \right\vert\ \mathcal{F}_s\right]\\
+&amp;=E\left[\left.\exp\left\{\lambda_1X_s+\lambda_2(X_t-X_s)-\frac{1}{2}\lambda_1^2\int_0^sf^2(u)\ du- \frac{1}{2}\lambda_2^2\int_s^tf^2(u)\ du\right\} \ \right\vert\ \mathcal{F}_s\right]
+\end{align*}\]</span></li>
+<li>Show that <span class="math inline">\(X_s\)</span> and <span class="math inline">\(X_t-X_s\)</span> are normally distributed and independent.</li>
+</ol></li>
+<li>Compute the mean value of <span class="math inline">\(M^{(\lambda)}_T\log(M^{(\lambda)}_T)\)</span>.</li>
+</ol>
+<p></p>
+<details>
+<summary>
+<strong>Solution (a).</strong>
+</summary>
+<p>First, we see that since <span class="math inline">\(X_t\)</span> is on integral form we know that</p>
+<p><span class="math display">\[
+\begin{cases}
+dX_t=f(t)\ dW_t\\
+X_0=0.
+\end{cases}
+\]</span></p>
+<p>Hence we may represent <span class="math inline">\(M\)</span> as <span class="math inline">\(M^{(\lambda)}_t=g(t,X_t,Y_t)\)</span> given by</p>
+<p><span class="math display">\[
+g(t,x,y)=\exp\left\{\lambda x-\frac{\lambda^2}{2}y \right\},
+\]</span></p>
+<p>where <span class="math inline">\(Y_t=\int_0^t f^2(u)\ du\)</span> with dynamics</p>
+<p><span class="math display">\[
+\begin{cases}
+dY_t=f^2(t)\ dt\\
+Y_0=0.
+\end{cases}
+\]</span></p>
+<p>Hence by the multidimensional Ito’s formula we have the dynamics of <span class="math inline">\(M\)</span> given by
+<span class="math display">\[\begin{align*}
+dM^{(\lambda)}_t&amp;=g_t\ dt+g_x\ dX_t+g_y\ dY_t+\frac{1}{2}g_{yy}\ (dY_t)^2+\frac{1}{2}g_{xx}\ (dX_t)^2 +f_{xy}(dX_t)(dY_t)\\
+&amp;=0+\lambda g\ dX_t-\frac{\lambda^2}{2}g\ dY_t+0+\frac{1}{2}\lambda ^2g\ (dX_t)^2+0\\
+&amp;=\lambda M_t^{(\lambda)} f(t)\ dW_t-\frac{1}{2}\lambda^2M_t^{(\lambda)} f^2(t)\ dt+\frac{1}{2}\lambda M_t^{(\lambda)} f^2(t)\ dt\\
+&amp;=\lambda f(t)M_t^{(\lambda)}\ dW_t,
+\end{align*}\]</span>
+And so we see that <span class="math inline">\(M\)</span> is a martingale as it only has dynamics wrt. the Brownian motion <span class="math inline">\(W\)</span> (assuming <span class="math inline">\(\lambda f_tM_t^{(\lambda)}\in\mathcal{L}^2\)</span>). Furthermore we have that</p>
+<p><span class="math display">\[
+M_0^{(\lambda)}=g(0,X_0,Y_0)=\exp\left\{\lambda X_0-\frac{1}{2}\lambda ^2 Y_0\right\}=e^0=1
+\]</span></p>
+<p>and so we have <span class="math inline">\(E[M_t^{(\lambda)}]=M_0^{(\lambda)}=1\)</span> as desired. <span class="math inline">\(\square\)</span></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p><em>“(i)”</em> We have from the previous exercise
+<span class="math display">\[\begin{align*}
+&amp;\frac{M^{(\lambda_1)}_sM^{(\lambda_2)}_t}{M^{(\lambda_2)}_s}\\
+&amp;=\exp\left\{\lambda_1 X_s-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du\right\}\exp\left\{\lambda_2 X_t-\frac{1}{2}\lambda_2^2\int_0^t f^2(u)\ du\right\}\exp\left\{\frac{1}{2}\lambda_2^2\int_0^s f^2(u)\ du-\lambda_2 X_s\right\}\\
+&amp;=\exp\left\{\lambda_1 X_s-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du+\lambda_2 X_t-\frac{1}{2}\lambda_2^2\int_0^t f^2(u)\ du+\frac{1}{2}\lambda_2^2\int_0^s f^2(u)\ du-\lambda_2 X_s\right\}\\
+&amp;=\exp\left\{\lambda_1 X_s+\lambda_2 (X_t-X_s)-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du-\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du\right\}
+\end{align*}\]</span>
+and so the conclusion follows. <span class="math inline">\(\square\)</span></p>
+<p><em>“(ii)”</em> We have that from lemma 4.18 that</p>
+<p><span class="math display">\[
+X_s=\int_0^sf(u)\ dW_u\sim \mathcal{N}\left(0,\int_0^sf^2(u)\ dW_u\right)
+\]</span></p>
+<p>furthermore we have that</p>
+<p><span class="math display">\[
+X_t-X_s=\int_s^tf(u)\ dW_u\sim \mathcal{N}\left(0,\int_s^tf^2(u)\ dW_u\right).
+\]</span></p>
+<p>In regard to the independence claim we could check identity below</p>
+<p><span class="math display">\[
+E[e^{t_1X}e^{t_2 Y}]=E[e^{t_1X}]E[e^{t_2Y}]
+\]</span></p>
+<p>where <span class="math inline">\(X,Y\)</span> are independent random variables. The above identity holds if and only if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent. From above we have that</p>
+<p><span class="math display">\[
+M_s^{(\lambda_1)}=E[e^{\lambda_1X_s}e^{\lambda_2(X_t-X_s)}\ \vert\ \mathcal{F}_s]e^{-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du-\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du}
+\]</span></p>
+<p>and so taking expectation we have</p>
+<p><span class="math display">\[
+1=E[e^{\lambda_1X_s}e^{\lambda_2(X_t-X_s)}]e^{-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du-\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du}
+\]</span>
+Which the gives</p>
+<p><span class="math display">\[
+E[e^{\lambda_1X_s}e^{\lambda_2(X_t-X_s)}]=e^{\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du+\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du}=E[e^{\lambda_1X_s}]E[e^{\lambda_2(X_t-X_s)}]
+\]</span></p>
+<p>and so the conclusion is that <span class="math inline">\(X_s\)</span> and <span class="math inline">\(X_t-X_s\)</span> are independent. <span class="math inline">\(\square\)</span></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (c).</strong>
+</summary>
+<p>We recall the definition of <span class="math inline">\(M_t^{(\lambda)}\)</span> and observe that</p>
+<p><span class="math display">\[
+\log M_t^{(\lambda)}=\lambda X_t-\frac{1}{2}\lambda ^2\int_0^t f^2(u)\ du.
+\]</span></p>
+<p>Furthermore we have the dynamics of <span class="math inline">\(M^{(\lambda)}\)</span> given by the differential form</p>
+<p><span class="math display">\[
+dM_t^{(\lambda)}=\lambda f(t)M_t^{(\lambda)}\ dW_t.
+\]</span></p>
+<p>with <span class="math inline">\(M_0^{(\lambda)}=1\)</span>. Since we know that <span class="math inline">\(M_t^{(\lambda)}\)</span> is a martingale we have</p>
+<p><span class="math display">\[
+E^P[M_T^{(\lambda)}]=E^P[M_0^{(\lambda)}]=1,
+\]</span></p>
+<p>and so we may define a new probability measure as</p>
+<p><span class="math display">\[
+d\tilde{P}=M_T^{(\lambda)}\ dP
+\]</span></p>
+<p>on <span class="math inline">\(\mathcal{F}_T\)</span>. We then have a new Brownian motion <span class="math inline">\(\tilde{W}\)</span> such that</p>
+<p><span class="math display">\[
+dW_t=\lambda f(t)\ dt + d\tilde{W}_t.
+\]</span></p>
+<p>We can then see
+<span class="math display">\[\begin{align*}
+E^P[M_T^{(\lambda)}\log M_T^{(\lambda)}]&amp;=\int M_T^{(\lambda)}\log M_T^{(\lambda)}\ dP=\int M_T^{(\lambda)}\log M_T^{(\lambda)} \frac{1}{M_T^{(\lambda)}}\ d\tilde{P}\\
+&amp;=\int \log M_T^{(\lambda)}\ d\tilde{P}=E^{\tilde{P}}[\log M_T^{(\lambda)}].
+\end{align*}\]</span>
+Then we can evaluate the mean value by seeing the <span class="math inline">\(X\)</span> has representation wrt. <span class="math inline">\(\tilde{P}\)</span> by</p>
+<p><span class="math display">\[
+X_t=\int_0^tf(u)\ (\lambda f(u)\ du + d\tilde{W}_u)=\lambda\int_0^tf^2(u)\ du+\int_0^tf(u)\ d\tilde{W}_u.
+\]</span></p>
+<p>Giving that
+<span class="math display">\[\begin{align*}
+E^P[M_T^{(\lambda)}\log M_T^{(\lambda)}]&amp;=E^{\tilde{P}}[\log M_T^{(\lambda)}]\\
+&amp;=E^{\tilde{P}}\left[ \lambda X_T-\frac{1}{2}\lambda ^2\int_0^T f^2(u)\ du \right]\\
+&amp;=E^{\tilde{P}}\left[ \lambda^2\int_0^Tf^2(u)\ du+\lambda\int_0^Tf(u)\ d\tilde{W}_u-\frac{1}{2}\lambda ^2\int_0^T f^2(u)\ du \right]\\
+&amp;=\lambda E^{\tilde{P}}\left[\frac{1}{2} \lambda\int_0^Tf^2(u)\ du+\int_0^Tf(u)\ d\tilde{W}_u \right]\\
+&amp;=\frac{1}{2} \lambda^2\int_0^Tf^2(u)\ du+\lambda E^{\tilde{P}}\left[\int_0^Tf(u)\ d\tilde{W}_u \right]\\
+&amp;=\frac{1}{2} \lambda^2\int_0^Tf^2(u)\ du
+\end{align*}\]</span>
+Since</p>
+<p><span class="math display">\[
+\tilde{X}_T=\int_0^Tf(u)\ d\tilde{W}_u,
+\]</span></p>
+<p>is a <span class="math inline">\(\tilde{P}\)</span>-martingale. <span class="math inline">\(\square\)</span></p>
+</details>
+<p></p>
+</div>
+<div id="problem-2" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Problem 2<a href="exam-201718.html#problem-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider a standard Black-Scholes model, that is, a model consisting of a bank account <span class="math inline">\(B_t\)</span> with <span class="math inline">\(P\)</span>-dynamics given by</p>
+<p><span class="math display">\[
+dB_t=rB_t\ dt,\ B_0=1
+\]</span></p>
+<p>and a stock <span class="math inline">\(S_t\)</span> with <span class="math inline">\(P\)</span>-dynamics given by</p>
+<p><span class="math display">\[
+dS_t=\alpha S_t\ dt+\sigma S_t\ d\overline{W}_t,\ S_0=s&gt;0
+\]</span></p>
+<p>where <span class="math inline">\(r,\alpha\in\mathbb{R}\)</span> and <span class="math inline">\(\sigma &gt;0\)</span> are constants and <span class="math inline">\(\overline{W}_t\)</span> is a <span class="math inline">\(P\)</span>-Brownian motion. Let <span class="math inline">\(T&gt;0\)</span> be a given and fixed date.</p>
+<p>Consider the derivative that at time <span class="math inline">\(T\)</span> pays</p>
+<p><span class="math display">\[
+X=\max\left\{\min\left\{S_T,K_2\right\},K_1\right\},
+\]</span></p>
+<p>where <span class="math inline">\(0&lt;K_1&lt;K_2\)</span> are constants.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Determine the arbitrage free price of derivative <span class="math inline">\(X\)</span> at time <span class="math inline">\(t&lt;T\)</span>.</li>
+</ol>
+<p>Consider a new derivative that at time <span class="math inline">\(T\)</span> pays</p>
+<p><span class="math display">\[
+Y=(S^2_T-K^2)^+-(K^2-S^2_T)^+.
+\]</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><ol style="list-style-type: lower-roman">
+<li>Determine the arbitrage free price of derivative <span class="math inline">\(Y\)</span> at time <span class="math inline">\(t&lt;T\)</span>.</li>
+<li>Find a hedging portfolio for derivative <span class="math inline">\(Y\)</span>.</li>
+</ol></li>
+</ol>
+<p>Let <span class="math inline">\(h(t)=(h_0(t),h_1(t))\)</span> be a portfolio where</p>
+<p><span class="math display">\[
+h_0(t)=-e^{r(T-2t)+\sigma^2(T-t)}S^2(t)
+\]</span></p>
+<p>is the number of units in the bank account at time <span class="math inline">\(t\)</span> and</p>
+<p><span class="math display">\[
+h_1(t)=2e^{(r+\sigma^2)(T-t)}S(t)
+\]</span></p>
+<p>is the number of shares in the stock at time <span class="math inline">\(t\)</span>. Let <span class="math inline">\(V^h(t)\)</span> denote the associated value process.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Determine whether the portfolio <span class="math inline">\(h\)</span> is self-financing or not.</li>
+<li>Compute <span class="math inline">\(V^h(T)\)</span>.</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (a).</strong>
+</summary>
+<p>We see that the derivative is the bull spread given by the payout function</p>
+<p><span class="math display">\[
+X=
+\begin{cases}
+  K_2 &amp; \text{if }S_T&gt;K_2,\\
+  S_T &amp; \text{if }K_1\le S_T\le K_2,\\
+  K_1 &amp;\text{if }S_T&lt; K_1.
+\end{cases}
+\]</span></p>
+<p>We know from exercise 10.3 that this can be replicated by holding <span class="math inline">\(K_1\)</span> bonds, one call option with strike <span class="math inline">\(K_1\)</span> and a short on a call with strike <span class="math inline">\(K_2\)</span>. The arbitrage free price of the derivative is then the value process of the mentioned portfolio i.e.</p>
+<p><span class="math display">\[
+\Pi_t[X]=K_1 e^{-r(T-t)}+c(K_1;t,T)-c(K_2;t,T),
+\]</span></p>
+<p>where <span class="math inline">\(c\)</span> denotes the pricing function for a European call option (non-instructive parameters supressed). <span class="math inline">\(\square\)</span></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p><em>(i)</em>: We start by seeing that the derivative pays out</p>
+<p><span class="math display">\[
+Y=
+\begin{cases}
+  S_T^2-K^2 &amp; \text{if }S_T^2\ge K^2,\\
+  -(K^2-S_T^2) &amp;\text{if }S_T^2&lt; K^2.
+\end{cases}
+\]</span></p>
+<p>hence the payout is <span class="math inline">\(Y=S_T^2-K^2=\Phi(S_T)\)</span> where <span class="math inline">\(\Phi(s)=s^2-K^2\)</span>. That is <span class="math inline">\(Y\)</span> is in fact a simple claim. We have from the risk neutral valueation formula 7.11 that
+<span class="math display">\[\begin{align*}
+\Pi_t[Y]&amp;=e^{-r(T-t)}E^Q_{t,s}[S_T^2-K^2]\\
+&amp;=e^{-r(T-t)}E^Q_{t,s}[S_T^2]-e^{-r(T-t)}K^2.
+\end{align*}\]</span>
+Recall that under the martingale measure <span class="math inline">\(Q\)</span> we have that <span class="math inline">\(S_t\)</span> is a GBM hence</p>
+<p><span class="math display">\[
+S_t=s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\sigma\left(W_T^Q-W_t^Q\right)\right\}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+S_T^2=s^2\cdot \exp\left\{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)+2\sigma\left(W_T^Q-W_t^Q\right)\right\}.
+\]</span></p>
+<p>Inserting this into the risk neutral valuation formula we get
+<span class="math display">\[\begin{align*}
+\Pi_t[Y]&amp;=e^{-r(T-t)}E^Q_{t,s}[S_T^2]-e^{-r(T-t)}K^2\\
+&amp;=e^{-r(T-t)}s^2e^{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)} E^Q\left[\exp\left\{2\sigma\left(W_T^Q-W_t^Q\right)\right\}\right]-e^{-r(T-t)}K^2\\
+&amp;=e^{-r(T-t)}s^2e^{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)}e^{\frac{1}{2}4\sigma^2(T-t)}-e^{-r(T-t)}K^2\\
+&amp;=e^{-r(T-t)}\left(s^2e^{(2r-\sigma^2)(T-t)+\frac{1}{2}4\sigma^2(T-t)}-K^2\right)\\
+&amp;=e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right).
+\end{align*}\]</span>
+The arbitrage free price of the derivative is then given above. <span class="math inline">\(\square\)</span></p>
+<p><em>(ii)</em>: From theorem 8.5 we can determine a hedging portfolio with weightings
+<span class="math display">\[\begin{align*}
+w_t^B&amp;=\frac{\Pi_t-S_t\frac{\partial\Pi}{\partial s}}{\Pi_t}\\
+&amp;=1-\frac{S_t2S_te^{-r(T-t)}e^{(2r+\sigma^2)(T-t)}}{e^{-r(T-t)}\left(S_t^2e^{(2r+\sigma^2)(T-t)}-K^2\right)}\\
+&amp;=1-\frac{2S_t^2e^{(2r+\sigma^2)(T-t)}}{S_t^2e^{(2r+\sigma^2)(T-t)}-K^2}\\
+&amp;=1-\frac{2}{1-K^2S_t^{-2}e^{(2r+\sigma^2)(t-T)}}\\
+w_t^S&amp;=\frac{2}{1-K^2S_t^{-2}e^{(2r+\sigma^2)(t-T)}}.
+\end{align*}\]</span>
+In absolute terms we will hold the portfolio
+<span class="math display">\[\begin{align*}
+h_t^S&amp;=2S_te^{-r(T-t)}e^{(2r+\sigma^2)(T-t)}\\
+h_t^B&amp;=\frac{e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right)-S_th_t^S}{B_t}\\
+&amp;=\frac{e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right)-S_th_t^S}{e^{rt}}\\
+&amp;=e^{-rT}s^2e^{(2r+\sigma^2)(T-t)}-e^{-rT}K^2-e^{-rt}S_th_t^S.
+\end{align*}\]</span>
+The portfolio above will hedge <span class="math inline">\(Y\)</span> with probability one. <span class="math inline">\(\square\)</span></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (c).</strong>
+</summary>
+<p>We assume no dividends and no consumption that is <span class="math inline">\(c_t=0\)</span> and <span class="math inline">\(dD_t^i=0\)</span> for <span class="math inline">\(i=0,1\)</span>. Then the portfolio is self-financing if and only if the value process has dynamics.</p>
+<p><span class="math display">\[
+h_0(t)\ dB_t+h_1(t)\ dS_t=0
+\]</span></p>
+<p>This is given in lemma 6.12. <strong>THE SOLUTION HAS NOT BEEN FINISHED</strong></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (d).</strong>
+</summary>
+<p>We compute <span class="math inline">\(V_T^h\)</span> easily by inserting <span class="math inline">\(h_0\)</span> and <span class="math inline">\(h_1\)</span> below
+<span class="math display">\[\begin{align*}
+V_T^h&amp;=B_Th_0(T)+S_Th_1(T)\\
+&amp;=B_T\left(-e^{r(T-2T)+\sigma^2(T-T)}S_T^2\right)+S_T\left(2e^{(r+\sigma^2)(T-T)}S_T\right)\\
+&amp;=-S_T^2+2S_T^2=S_T^2.
+\end{align*}\]</span>
+and so <span class="math inline">\(h\)</span> hedge the payout <span class="math inline">\(\Phi(S_T)=S_T^2\)</span>. <span class="math inline">\(\square\)</span></p>
+</details>
+<p></p>
+</div>
+<div id="problem-3" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Problem 3<a href="exam-201718.html#problem-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider a two-dimensional model. The market model consist of three assets: A bank account <span class="math inline">\(B_t\)</span> and two stocks <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span>. The <span class="math inline">\(P\)</span>-dynamics of <span class="math inline">\(B_t\)</span> is</p>
+<p><span class="math display">\[
+dB_t=rB_t\ dt,\ B_0=1,
+\]</span></p>
+<p>where <span class="math inline">\(r\in\mathbb{R}\)</span> is a constant interest rate. The <span class="math inline">\(P\)</span>-dynamics of <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> are given by
+<span class="math display">\[\begin{align*}
+dS_1(t)&amp;=\alpha_1S_1(t)\ dt+\sigma_1S_1(t)\ d\overline{W}_1(t),&amp;S_1(0)=s_1&gt;0,\\
+dS_2(t)&amp;=\alpha_2S_2(t)\ dt+\sigma_2S_2(t)\ d\overline{W}_2(t),&amp;S_2(0)=s_2&gt;0,
+\end{align*}\]</span>
+where <span class="math inline">\(\alpha_1,\alpha_2\in\mathbb{R}\)</span> are constants. Moreover, <span class="math inline">\(\sigma_1&gt;0\)</span> is a constant and <span class="math inline">\(\sigma_2(t)=\sigma_0e^{-\gamma t}\)</span> where <span class="math inline">\(\sigma_0&gt;0\)</span> and <span class="math inline">\(\gamma&gt;0\)</span> are constants and <span class="math inline">\(\overline{W}_1(t)\)</span> and <span class="math inline">\(\overline{W}_2(t)\)</span> are two independent <span class="math inline">\(P\)</span>-Brownian motions. The filtration is the one generated by the two Brownian motions, that is, <span class="math inline">\(\mathcal{F}_t=\sigma(\overline{W}_1(s),\overline{W}_2(s)\ \vert\ 0\le s\le t)\)</span>. Let <span class="math inline">\(T&gt;0\)</span> be a given and fixed (expiry) date.</p>
+<ol style="list-style-type: lower-alpha">
+<li><ol style="list-style-type: lower-roman">
+<li>Is the model arbitrage free?</li>
+<li>Is the model complete?</li>
+</ol></li>
+</ol>
+<p>Consider the derivative that at time <span class="math inline">\(T\)</span> pays <span class="math inline">\(X=S_1(T)S_2(T)\)</span> and let <span class="math inline">\(F(t,s_1,s_2)\)</span> be the pricing function of the derivative.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><ol style="list-style-type: lower-roman">
+<li>Determine the arbitrage free price of derivative <span class="math inline">\(X\)</span> at time <span class="math inline">\(t=0\)</span>.</li>
+<li>Determine the equation satisfied by the pricing function <span class="math inline">\(F(t,s_1,s_2)\)</span>.</li>
+</ol></li>
+</ol>
+<p>Consider a new derivative that at time <span class="math inline">\(T\)</span> pays <span class="math inline">\(Y=\log(S_2(T))\)</span>.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Determine the arbitrage free price of derivative <span class="math inline">\(Y\)</span> at time <span class="math inline">\(t&lt;T\)</span>.</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (a).</strong>
+</summary>
+<p><em>(i)</em>: We know that the model is arbitrage free if and only if there exist a martingale measure <span class="math inline">\(Q\)</span>. This is equivalent with finding a likelihood process <span class="math inline">\(L\)</span> with Radon-Nikodym derivative <span class="math inline">\(\varphi\)</span> given by the solution to the equation</p>
+<p><span class="math display">\[
+\sigma_t\varphi_t=r_t-\mu_t.
+\]</span></p>
+<p>We see that</p>
+<p><span class="math display">\[
+\sigma_t=
+\begin{bmatrix}
+\sigma_1 &amp; 0\\
+0 &amp; \sigma_0e^{-\gamma t}
+\end{bmatrix}\ \Rightarrow
+\sigma_t^{-1}=
+\begin{bmatrix}
+1/\sigma_1 &amp; 0\\
+0 &amp; e^{\gamma t}/\sigma_0
+\end{bmatrix}.
+\]</span></p>
+<p>Hence we trivially have <strong>a solution</strong> given by</p>
+<p><span class="math display">\[
+\varphi_t=\begin{bmatrix}
+1/\sigma_1 &amp; 0\\
+0 &amp; e^{\gamma t}/\sigma_0
+\end{bmatrix}\begin{bmatrix}
+r-\alpha_1\\
+r-\alpha_2
+\end{bmatrix}=\begin{bmatrix}
+\frac{r-\alpha_1}{\sigma_1}\\
+\frac{r-\alpha_2}{\sigma_0}e^{\gamma t}
+\end{bmatrix}.
+\]</span></p>
+<p>Proposition 14.1 gives now that if <span class="math inline">\(L\)</span>, given by</p>
+<p><span class="math display">\[
+dL_t=\varphi_t^\top L_t\ dW_t,\ L_0=1,
+\]</span></p>
+<p>is a martingale then the market is arbitrage free. This is true if the Novikov condition is satisfied. We have</p>
+<p><span class="math display">\[
+E^P\left[e^{\frac{1}{2}\int_0^T\Vert\varphi_t\Vert^2\ dt}\right]=e^{\frac{1}{2}\int_0^T\Vert\varphi_t\Vert^2\ dt}= e^{\frac{1}{2}\int_0^T(\frac{r-\alpha_1}{\sigma_1})^2+(\frac{r-\alpha_2}{\sigma_0}e^{\gamma t})^2\ dt}&lt;\infty
+\]</span></p>
+<p>since of cause</p>
+<p><span class="math display">\[
+\int_0^T(\frac{r-\alpha_1}{\sigma_1})^2+(\frac{r-\alpha_2}{\sigma_0}e^{\gamma t})^2\ dt=T(\frac{r-\alpha_1}{\sigma_1})^2+(\frac{r-\alpha_2}{\sigma_0})^2\int_0^Te^{2\gamma t}\ dt&lt;\infty
+\]</span></p>
+<p>for all <span class="math inline">\(T\ge 0\)</span>. Then the Novikov condition is satisfied and <span class="math inline">\(L\)</span> is martingale with <span class="math inline">\(E[L_T]=1\)</span>. <span class="math inline">\(\square\)</span></p>
+<p><em>(ii)</em>: The model is complete if the martingale measure is unique. This is equivalent with <span class="math inline">\(Ker[\sigma_t]=\{0\}\)</span> and since <span class="math inline">\(\sigma_t\)</span> is invertible (diagonal) we have that the model is complete. <span class="math inline">\(\square\)</span></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p><em>(i)</em>: We may determine the price of the derivative using the risk neutral valueation formula</p>
+<p><span class="math display">\[
+\Pi_t[X]=E^Q\left[\left.e^{-\int_t^Tr(u)\ du}X\ \right\vert\ \mathcal{F}_t\right]
+\]</span></p>
+<p>Hence we have for <span class="math inline">\(t=0\)</span> and <span class="math inline">\(S_1(0)=s_1\)</span> and <span class="math inline">\(S_2(0)=s_2\)</span> that</p>
+<p><span class="math display">\[
+\Pi_0[X]=E^Q\left[\left.e^{-\int_0^Tr(u)\ du}X\ \right\vert\ \mathcal{F}_0\right]=e^{-rT}E^Q\left[\left. S_1(T)S_2(T)\ \right\vert\ \mathcal{F}_0\right],
+\]</span></p>
+<p>Since we have that <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> have dynamics wrt. two independent Brownian motions we know that the price processes are independent. If we multiply by <span class="math inline">\(B(T)/B(T)\)</span> we obtain two martingale processes under the measure <span class="math inline">\(Q\)</span>:
+<span class="math display">\[\begin{align*}
+\Pi_0[X]&amp;=e^{-rT}B(T)^2E^Q\left[\left. \frac{S_1(T)}{B(T)}\ \right\vert\ \mathcal{F}_0\right]E^Q\left[\left. \frac{S_2(T)}{B(T)}\ \right\vert\ \mathcal{F}_0\right]\\
+&amp;=e^{-rT}e^{2rT}s_1(0)s_2(0)=e^{rT}s_1(0)s_2(0),
+\end{align*}\]</span>
+and so the arbitrage free price is given above. <span class="math inline">\(\square\)</span></p>
+<p><em>(ii)</em>: We have from Bjork (14.31) that <span class="math inline">\(\Pi\)</span> satisfies the PDE below</p>
+<p><span class="math display">\[
+\begin{cases}
+F_t+\sum_{i=1}^2rs_iF_{s_i}+\frac{1}{2}\text{tr}[\sigma_t^\top D(S)F_{ss}D(S)\sigma_t]-rF=0\\
+F(T,s_1,s_2)=\Phi(s_1,s_2)
+\end{cases}
+\]</span></p>
+<p>The PDE is in detail
+<span class="math display">\[\begin{align*}
+&amp;0+rS_1(t)S_2(t)+rS_2S_1+\frac{1}{2}\text{tr}
+\begin{bmatrix}
+S_1\sigma_1 &amp; 0\\
+0 &amp; S_2\sigma_0 e^{-\gamma t}
+\end{bmatrix}
+\begin{bmatrix}
+0 &amp; 1\\
+1 &amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+S_1\sigma_1 &amp; 0\\
+0 &amp; S_2\sigma_0 e^{-\gamma t}
+\end{bmatrix} -r\Pi_t\\
+&amp;=2rS_1(t)S_2(t)+\frac{1}{2}\text{tr}
+\begin{bmatrix}
+S_1\sigma_1 &amp; 0\\
+0 &amp; S_2\sigma_0 e^{-\gamma t}
+\end{bmatrix}
+\begin{bmatrix}
+0 &amp; S_2\sigma_0 e^{-\gamma t}\\
+S_1\sigma_1 &amp; 0
+\end{bmatrix}\\
+&amp;=2rS_1(t)S_2(t)+\frac{1}{2}\text{tr}
+\begin{bmatrix}
+0 &amp; S_1S_2\sigma_0\sigma_1e^{-\gamma t}\\
+S_1S_2\sigma_0\sigma_1e^{-\gamma t} &amp; 0
+\end{bmatrix}-r\Pi_t\\
+&amp;=2rS_1(t)S_2(t)-r\Pi_t=0.
+\end{align*}\]</span>
+or</p>
+<p><span class="math display">\[
+F(t,s_1,s_2)=2s_1s_2,\ F(T,s_1,s_2)=s_1s_2
+\]</span></p>
+<p>this ends the question. <span class="math inline">\(\square\)</span></p>
+</details>
+
+<details>
+<summary>
+<strong>Solution (c).</strong>
+</summary>
+<p>We have the derivative <span class="math inline">\(Y=\log(S_2(T))\)</span>. By the risk neutral valuation formula we have that the arbitrage free price is given by</p>
+<p><span class="math display">\[
+\Pi_t[Y]=E^Q\left[\left.e^{-\int_t^Tr(u)\ du}Y\ \right\vert\ \mathcal{F}_t\right]=e^{-r(T-t)}E^Q\left[\left.\log(S_2(T))\ \right\vert\ \mathcal{F}_t\right].
+\]</span></p>
+<p>Under the measure <span class="math inline">\(Q\)</span> the dynamics of <span class="math inline">\(S_2\)</span> is that of a GBM hence</p>
+<p><span class="math display">\[
+d\log(S_2(t))=\left(r-\frac{1}{2}\sigma_0^2e^{-2\gamma t}\right)\ dt+\sigma_0^2e^{-2\gamma t}\ dW^Q_t,
+\]</span></p>
+<p>and so with the knowledge that <span class="math inline">\(S_2(t)=s_2\)</span> we have
+<span class="math display">\[\begin{align*}
+\Pi_t[Y]&amp;=e^{-r(T-t)}E^Q\left[\left.\log(s_2)+\int_t^T\left(r-\frac{1}{2}\sigma_0^2e^{-2\gamma s}\right)\ ds + \int_t^T \sigma_0^2e^{-2\gamma t}\ dW^Q_t\ \right\vert\ \mathcal{F}_t\right]\\
+&amp;=e^{-r(T-t)}\left[\log(s_2)+\int_t^T\left(r-\frac{1}{2}\sigma_0^2e^{-2\gamma s}\right)\ ds\right]\\
+&amp;=e^{-r(T-t)}\left[\log(s_2)+r(T-t)-\frac{1}{2}\sigma_0^2\int_t^Te^{-2\gamma s}\ ds\right]\\
+&amp;=e^{-r(T-t)}\left[\log(s_2)+r(T-t)+\frac{1}{4\gamma}\sigma_0\left[e^{-2\gamma s}\right]_t^T\right]\\
+&amp;=e^{-r(T-t)}\left[\log(s_2)+r(T-t)+\frac{1}{4\gamma}\sigma_0(e^{-2\gamma T}-e^{-2\gamma t})\right].
+\end{align*}\]</span>
+The arbitrage free price of the derivative is then given above. <span class="math inline">\(\square\)</span></p>
+</details>
+<p>
+</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="continuous-time-finance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exam-201819.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["exam.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

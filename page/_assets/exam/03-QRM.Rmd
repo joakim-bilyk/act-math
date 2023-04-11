@@ -1,0 +1,67 @@
+# Quantative Risk Management
+
+## Emne 1: Risk measures
+
+  * Risk measures, axioms, theoretical properties of VaR and ES,loss r.v.’s and operators.
+  * Forelæsning 21/11, 23/11
+  * Introduktion: Definition af risk measure (axiomerne), inverse fordelinger, hvad beskriver et risk measure
+  * Bevis: VaR opfylder ikke axiomerne. ES udregninerne med tegning i Rias hæfte (uge 1 punkt 2). 
+  * Eksempel: VaR i Black Scholes model. 
+
+
+## Emne 2: VaR and ES
+
+  * VaR and ES: calculational methods (Var-Cov methods, empirical methods, confidence intervals, Monte Carlo andimportance sampling, bootstrap).
+  * Forelæsning 23/11, 28/11
+  * Indtroduktion: Definition af VaR og ES.
+  * Bevis: udlede emperisk VaR, ES og confidence bounds (Hav afleveringen i baghovedet som motivation for andre metoder)
+  * Diskussion: Forskellige måder at simulere på (Monte Carlo, importance sampling/rare event simulation), da vi ikke har nok data i halen.  
+
+## Emne 3: EVT
+
+  * Extreme value theory (and its general relationship to problems in risk management).
+  * Forelæsning 30/11. 
+  * Introduktion: Tale om hvad det vil sige at være regularly eller slowly varying.
+  * Bevis: Udlede Hill's estimator (Karamata's thm)
+  * Risk management afslutning: Hvordan vil man aflæse et Hill plot (fortolkning). Diskussion om forskelle/ligheder til POT (bruges begge til at bestemme tail index alfa). 
+
+## Emne 4: Elliptical distributions}
+
+  * Elliptical distributions.
+  * Forelæsning 5/12, 7/12
+  * Introduktion: spheriske og eliptiske fordelinger. (Karakteristiske funktioner)
+  * Bevis: Konstruktion af elliptisk ud fra sfærisk (og deres egenskaber). Proposition ALLE TO VEJE (Amalies noter).
+  * Risk management afslutning: disadvantage of elliptical dist.: all coordinates have same dist, application in portfolio investment 
+
+## Emne 5: Copulas I
+
+  * Basics, Sklar’s Theorem, measures of dependence, statistical fitting to data.
+  * Forelæsning 7/12, 12/12, 19/12
+  * Introduktion: Defintion af copula, egenskaber af generalisede inverse, tegning 
+  * Bevis: Sklar’s Theorem
+  * Afslutning: Fitting copulas to data (correlation, tail dependence) -> Tail dependence (upper tail), (kendall's tau, spearmans rho) 
+
+## Emne 6: Copulas II
+
+  * Examples (e.g. Gaussian, elliptical, t, Archimedean, simulating Archimedean copulas), Frechet bounds.
+  * Forelæsning 12/12, 14/12
+  * Introduktion: Definition af copula, klasser af copula, tegning. Eksempel med Archimedean copulas (Clayton, Frank, Gumbel) og udledning af én (med definition af archimeadean copula). 
+  * Bevis: Frechet bounds i begge ender.  (Amalies noter)
+  * Eksempel: comonotonicity/counter monotonicity, (generelt bound, gælder for alle copulas) 
+
+## Emne 7: Credit Risk I
+
+  * Merton’s model and its extensions (i.e. KMV, multidimensional Merton)
+  * Forelæsning 21/12, 4/1
+  * Introduktion: Definition of credit risk. Different types of methods to describe credit risk (Merton, mundtligt), factor models
+  * Bevis: Merton model and -DD. Extension to multivariate Merton. 
+  * Perspektiver: VaR, factor models (common factors and firm-specific factors).
+
+## Emne 8: Credit Risk II
+
+  * Portfolio credit risk management; "reduced form models" including the various mixture models
+  * Forelæsning 2/1, 4/1
+  * Introduktion: Definition of credit risk. Different methods to describe credit risk, i.e. Merton and reduced form (probit normal, bernoulli, beta mixture, poisson mixture)
+  * Bevis: Probit normal mixture model and its VaR, Basel formula with Vasicek LLN. 
+  * Afslutning: Sammenligning af modeller.
+  * Perspektivering til operational risk. 

@@ -1,0 +1,59 @@
+\documentclass[
+%% TIKZ_CLASSOPTION %%
+tikz
+]{standalone}
+\usepackage{amsmath}
+\usetikzlibrary{matrix}
+%% EXTRA_TIKZ_PREAMBLE_CODE %%
+\begin{document}
+%% TIKZ_CODE %%
+\tikzstyle{level 1}=[level distance=4cm, sibling distance=3.5cm,->]
+\tikzstyle{level 2}=[level distance=4cm, sibling distance=2cm,->]
+
+\tikzstyle{bag} = [text width=2em, text centered]
+\tikzstyle{end} = []
+
+\begin{tikzpicture}[grow=right, sloped]
+\node[bag] {100}
+    child {
+        node[bag] {90}        
+            child {
+                node[end, label=right:
+                    {81}] {}
+                edge from parent
+                node[above] {}
+                node[below]  {$p_d^2$}
+            }
+            child {
+                node[end, label=right:
+                    {99}] {}
+                edge from parent
+                node[above] {}
+                node[below]  {$p_dp_u$}
+            }
+            edge from parent 
+            node[above] {}
+            node[below]  {$p_d$}
+    }
+    child {
+        node[bag] {110}        
+        child {
+                node[end, label=right:
+                    {99}] {}
+                edge from parent
+                node[above] {$p_dp_u$}
+                node[below]  {}
+            }
+            child {
+                node[end, label=right:
+                    {121}] {}
+                edge from parent
+                node[above] {$p_u^2$}
+                node[below]  {}
+            }
+        edge from parent         
+            node[above] {$p_u$}
+            node[below]  {}
+    };
+\end{tikzpicture}
+\end{document}

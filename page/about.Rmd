@@ -1,0 +1,11 @@
+---
+title: "About This Website"
+---
+
+More about this website.
+
+```{r,echo=FALSE}
+unlink("joakim-bilyk.github.io/docs",recursive = TRUE)
+dir.create("joakim-bilyk.github.io/docs")
+```
+

@@ -1,0 +1,131 @@
+---
+title: "PDF Archive"
+author: "Joakim Bilyk"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: no
+    code_folding: hide
+    toc_depth: 2
+---
+
+```{r, include = FALSE,eval = TRUE}
+#Hent pandoc skabelon: system("pandoc -D latex")
+files <- list.files(path = "pdf/render",include.dirs = F, full.names = T)
+files <- files[!grepl("logo_ku.png",files)]
+file.remove(files)
+files <- list.files(path = "pdf/render",include.dirs = T, full.names = T)
+files <- files[!grepl("logo_ku.png",files)]
+unlink(files,recursive = TRUE)
+options(knitr.duplicate.label = "allow")
+#Rmds <- c("FinKont_homework","FinKont_examprep")
+#for (dok in Rmds) {
+#  rmarkdown::render(
+#      paste0(dok,".Rmd"),
+#      output_format = "pdf_document",
+#      output_file = paste0(dok,".pdf"),
+#      output_dir = "pdf/render"
+#  )
+#}
+```
+
+
+**Complete theory on all courses.**
+
+<a href="books/theory/index.html" target="_blank" rel="noopener noreferrer">Bookdown</a>
+
+<a href="pdf/render/theory.pdf" target="_blank" rel="noopener noreferrer">Pdf</a>
+
+**Exercises on all courses.**
+
+<a href="books/exercises/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
+
+<a href="pdf/render/exercises.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+
+**Exam prep.**
+
+<a href="books/exam/index.html" target="_blank" rel="noopener noreferrer">Click to open Bookdown in new tab.</a>
+
+<a href="pdf/render/exam.pdf" target="_blank" rel="noopener noreferrer">Click to open PDF in new tab.</a>
+
+
+# Bachelor Courses
+
+| Course | Type | Description/title | Link |
+| :----- | :--- | :---------------- | :--- |
+| **Diskrete Matematiske Metoder** | Lecture Notes | *Diskrete Matematiske Metoder* (2. edition) by Jesper Lutzen (2019). | <a href="https://drive.google.com/file/d/1ReuzqZ0Fi2kiPZG-VU5cFFY_I-oBxy5Y/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Introduction til de matematiske fag** | Book | *Kalkulus* (4. edition) by Tom Lindstrom (2016). |  |
+| | Notes | *Funktioner af flere variable* by Tore August Kro (2003). | <a href="https://drive.google.com/file/d/1RfFD6AEyXNNnq8Sr9oT78fwYhYqlWErV/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Lineaer Algebra i de matematiske fag** | Lecture Notes | *Lineaer Algebra* (2. edition) by Lars Hesselholt and Nathalie Wahl (2017). | <a href="https://drive.google.com/file/d/1S4W1uEyjJXj3VdHd214gqa-UDMiNaxd-/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+|  | Supplemental Book | *Linear Algebra With Applications* (8. edition) by Gareth Williams (2014). | <a href="https://drive.google.com/file/d/1SC54UTmG7Cd74GwYAr9qNSF4ZjKlp_3f/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+|  | Supplemental Book | *Linear Algebra: Gateway to Mathematics* (2. edition) by Robert Messers (2021). | <a href="https://drive.google.com/file/d/1SpTBIywQfRwxhfpzXu768r6-j3RIm02Z/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Introduktion til Oekonomi** | Book | *Intermediate Microeconomics: A Modern Approach* (8. edition) by Hal R. Varian (2010). | <a href="https://drive.google.com/file/d/1RiL36Kr_WZn8vdswmJe7kDGdT6CfTYX1/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+|  | Book | *Macroeconomics* (9. edition) by N. Gregory Mankiw (2016). | <a href="https://drive.google.com/file/d/1Rp3sreIAlO75GJzAmzMow6iouZMoohyl/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Analyse 0** | Book | *Indledende matematisk analyse* (11. edition) by Soeren Eilers, Ernst Hansen and Tage Gutmann Madsen (2017). | |
+| **Sandsynlighed og Statistik** | Book | *Introduction to Probability* (2. edition) by Joseph K. Blitzstein and Jessica Hwang (2015). | <a href="https://drive.google.com/file/d/1RhX8eGq7rxf8P1sCOBFxHnMLgEUpSvtm/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Book | *Introduktion til Statistik* (5. edition) by Susanne Ditlevsen and Helle Soerensen (2015). | <a href="https://drive.google.com/file/d/1SDjvxxPueUbZEJ_PbhKY_zm-iT4jI8Da/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Planintegraler i sandsynlighedsregning: saadan goer man* by Ernst Hansen and Helle Soerensen (2018). | <a href="https://drive.google.com/file/d/1SE-gqJpJuBFLKSAA7QS0duW1ZQ0AuDJN/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Analyse 1** | Book | *Analyse 1* (4. edition) by Matthias Christandl, Soeren Eilers and Henrik Schlichtkrull (2022). | <a href="https://drive.google.com/file/d/1SIB3n8zmf53XLTJmrWaEd5FXzxcXLKk7/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Forsikring og Jura** | Lecture Notes | *Lecture notes in Insurance and Law - Insurance* (2019). | <a href="https://drive.google.com/file/d/1S0mnWvikckrS-EkvtmulHyfS2muaMU8d/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Analyse 2** | Book | *Measures, Integrals and Martingales* (2. edition) by Rene L. Schilling (2017). | <a href="https://drive.google.com/file/d/1SJ9ugln8xpz1tW2GlbTkSZt6wcTEeU3G/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Om maalelige funktioner*. | <a href="https://drive.google.com/file/d/1SLPNE7OtT_BP8booyb2EwXu9L2VspUYG/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Om eksistensen af ikke-Borel maengder*. | <a href="https://drive.google.com/file/d/1SPGUnf_zsDRpY3YwcaOe4Rlpl5Gr8VpT/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Introduktion til numerisk analyse** | Book | *Numerical Analysis:  Mathematics of Scientific Computing* (6. edition) by David Kincaid and Ward Cheney (2008). | <a href="https://drive.google.com/file/d/1ST8rXOauXeOO0FRcSxdT_1IYJNyTm7yH/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Learning Python for Numerical Analysis* by Kenny Erleben (2017). | <a href="https://drive.google.com/file/d/1SToEYeyKGvFvbuhhV2WIGOujn2Q3ku0i/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Maal- og Integralteori** | Book | *Probability Essentials* (2. edition) by Jean Jacod and Philip Protter (2004). | <a href="https://drive.google.com/file/d/1RiZeorzY6cNmrhDVNhPmYFR0laCxLXOX/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Lebesgue- og Riemannintegralet* by Carsten Wiuf (2021). | <a href="https://drive.google.com/file/d/1SXvCwwQ6HQWDD55ixrslAkkbMntg5ApD/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Personal Notes | Notes from the book and solutions to exercises. | <a href="https://drive.google.com/file/d/1SqaoI4Fktr5zALZeOzQzD5fJtZjedELD/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Stokastiske Processer** | Lecture notes | *An Introduction to Markov Chains* by Anders Tolver (2017). | <a href="https://drive.google.com/file/d/1S9JpG03qpJven9OwRfD2u0XXHIML33Mc/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental book | *Markov Chains* by James R. Norris (1997). | <a href="https://drive.google.com/file/d/1ScF_G58S0qTp6iSU1gHQD10DX6AQA5NE/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Matematisk Statistik** | Book | *Introduktion til Matematisk Statistik, bind 2* by Ernst Hansen. | |
+| | Book | *Basic Mathematical Statistics* by Steffen Lauritzen. | |
+| | Supplemental note | *Matematisk Statistik: supplerende noter* by Niels Richard Hansen (2021). | <a href="https://drive.google.com/file/d/1SgAs7RS6ugbWGIuzE5DHg_LRGQbNZwhC/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Personal Notes | Notes from the book and solutions to exercises. | <a href="https://drive.google.com/file/d/1SqxTSzvFrFlXvEA6l3Vv-h7vKOPYJmQK/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Videnskabsteori for matematiske fag** | Book | *Invitation til matematikkens videnskabsteori* by Mikkel Willum Johansen and Henrik Kragh Soerensen (2014). | |
+| | Supplemental book | *The Elements of Moral Philosophy* (7. edition) by James Rachels and Stuart Rachels (2012). | <a href="https://drive.google.com/file/d/1Rj7i7pTa8Z5LJAJiLkfSnC34EHKbboIy/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Grundlaeggende livsforsikringsmatematik** | Book | *Basic Life Insurance Mathematics* by Ragnar Norberg (2002). | <a href="https://drive.google.com/file/d/1lDxvr2qZL7y62S5gX0jc067gsBZAlBwn/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Seven Introductory Lectures on Actuarial Mathematics* by Mogens Steffensen (2008). | <a href="https://drive.google.com/file/d/1Shi5cdGtjiEyCAA4iB4qYv5w0ongVrdS/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Liv1 Cheat Sheet* (2019). | <a href="https://drive.google.com/file/d/1SkbSNP4tZ29hLWeXtehcipacjx_6hAmc/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental note | *Solving Thiele ODEs in R* by Jeppe Bast Ketilsson (2020). | <a href="https://drive.google.com/file/d/1SkyraDWClPdpz2lNbeQPcvCkFYITs9Zp/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Personal Notes | Notes from the book and solutions to exercises. | <a href="https://drive.google.com/file/d/1SwHEy4qIc3WgcpxVTSBZ_EjebbUkzuPI/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Basic Non-Life Insurance Mathematics** | Book | *Non-Life Insurance Mathematics* (2. edition) by Thomas Mikosch (2009). | <a href="https://drive.google.com/file/d/1Slj1h1jp620FjxhmItGyEH4l09RH8x6M/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Personal Notes | Notes from the book and solutions to exercises. | <a href="https://drive.google.com/file/d/1Sr3s4AXbILo5e_2UjiLGG63iivm_NBiT/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Stochastic Processes 2-3** | Book | *Stochastic Processes* (2. edition) by Ernst Hansen (2021). | |
+| | Personal Notes | Notes from the book and solutions to exercises. | <a href="https://drive.google.com/file/d/1SpUSGbnKwpho_i6gsv_LaJ2MKyKxy917/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Regression** | Book | *Regression with R* by Niels Richard Hansen. | <a href="https://drive.google.com/file/d/1Sn1UOh2M_j2g11bd7MIotxGewOfPfxi8/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Personal Notes | Notes from the book and solutions to exercises. | <a href="https://drive.google.com/file/d/1SrDUAXpERrpty6hoEmwbIPy6i5FFNUN2/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Finansiering 1** | Book | *Finance 1 and Beyond* by David Lando and Rolf Poulsen (2022). | <a href="https://drive.google.com/file/d/1SoJX8LytSjh9jzbzV3XTwYb_PkAyb9bU/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+<a href="http://web.math.ku.dk/noter/filer/matematik.htm" target="_blank" rel="noopener noreferrer">Library on ku math.</a>
+
+# Master Courses
+
+| Course | Type | Description/title | Link |
+| :----- | :--- | :---------------- | :--- |
+| **Stochastic Processes in Life Insurance** | Lecture Notes | *Stochastic Processes in Life Insurance: The Dynamic Approach* by Jesper Lund Pedersen. | <a href="https://drive.google.com/file/d/1yDxP7CcUYKhHUr2bgyTpHsQobRvx76l1/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental Lecture Notes | *Basic Life Insurance Mathematics* by Ragnar Norberg (2002). | <a href="https://drive.google.com/file/d/1lDxvr2qZL7y62S5gX0jc067gsBZAlBwn/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Stochastic Processes in Non-Life Insurance** | Lecture Notes | *Lecture Notes on FM2* by Hanspeter Schmidli. | <a href="https://drive.google.com/file/d/1i_MxwIQwJxmNqqKDRXPVGlznlcCrjRek/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Remark | *Ruin with Stochastic Investments* by Jeffrey .F. Collamore. | <a href="https://drive.google.com/file/d/1L7qrZs67NuOdz4eY2NJTpZYEXABlCxBK/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Lecture Notes | *Claim Reservation in Non-life Insurance* by Jostein Paulsen. | <a href="https://drive.google.com/file/d/1dl_UWX9KwRarFpjE31rRFJ_sgzbO_5GB/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Continuous Time Finance** | Book | *Arbitrage Theory in Continuous Time* (Fourth edition) by Thomas Björk, Oxford University Press (2019). | <a href="https://drive.google.com/file/d/13I7Ms2WuiNZ8p0hj_ZpXE8wAYYuZwJ9I/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental Book | *Stochastic Differential Equations* (Fifth Edition) by Bernt Oksendal, Springer (2000). | <a href="https://drive.google.com/file/d/1vKQhEsDyQNl55icBaUTW_wrYD_9sNWIS/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental Book | *Simulation and Inference for Stochastic Differential Equations* by Stefano M. Iacus, Springer (2008). | <a href="https://drive.google.com/file/d/1MADh2rISj-26JFtladuRQo1PhYU4eHHM/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Supplemental Lecture Notes | *Lecture Notes for the course Investerings- og Finansieringsteori* by David Lando and Rolf Poulsen (2002). | <a href="https://drive.google.com/file/d/1rh8g7OvPWbCdZTWFf7wS-_bQdH1E5EZz/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Remark | Remark on the Black Scholes formula | <a href="https://drive.google.com/file/d/1IW4nClTzzhgMZH7hO4RFikD0qUHGWBPQ/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| | Remark | Remark on the Girsanov | <a href="https://drive.google.com/file/d/1KeANr5Q6eBJW8ypMlJt9cDft10obnXyC/preview" target="_blank" rel="noopener noreferrer">Open</a> |
+| **Quantative Risk Management** | Book | *Quantitative Risk Management: Concepts, Techniques and Tools* (second edition) by Alexander J. McNeil and others, Princeton University Press (2015) | <a href="https://drive.google.com/file/d/1RdxtpTy_WLpjPnZlmsWwdwz7DzKg-gUq/preview" rel="noopener noreferrer">Open</a> |
+| | Lecture Notes | *Mathematical Modeling and Statistical Methods for Risk Management* by Henrik Hult and Filip Lindskog (2007). | <a href="https://drive.google.com/file/d/1ING81sokdvoqqIBjDMQjx5YOiVF027q-/preview" rel="noopener noreferrer">Open</a> |
+| | Lecture Notes | *Importance Sampling*. | <a href="https://drive.google.com/file/d/1qZB3UU_bmVjfNy_77D8A7wPW0kirTfWT/preview" rel="noopener noreferrer">Open</a> |
+| | Paper | *Importance Sampling for Monte Carlo Estimation Of Quantiles* (paper) by Peter W. Glynn, Stanford University. | <a href="https://drive.google.com/file/d/1chA9F2p-Rk_Z0gqFFVaC4Wt62OAsavXm/preview" rel="noopener noreferrer">Open</a> |
+| | Assignment | Assignment 1 | <a href="pdf/render/QRM-Assignment1.pdf" rel="noopener noreferrer">Open</a> |
+| | Assignment | Assignment 2 | <a href="pdf/render/QRM-Assignment2.pdf" rel="noopener noreferrer">Open</a> |
+| **Topics in Life Insurance** | Lecture Notes | *Lecture notes* by Mogens Bladt (2023). | <a href="https://drive.google.com/file/d/1SyNNvGsOKPBvP4MvYdab03UJZig117HE/preview" rel="noopener noreferrer">Open</a> |
+| | Book | *Risk and Insurance: A Graduate Text* by Soren Asmussen and Mogens Steffensen (2020). | <a href="https://drive.google.com/file/d/1S7BI4uAZ9OkLa4L5FW5jd1els6aUfYnd/preview" rel="noopener noreferrer">Open</a> |
+| | Handout | Lecture on *Unit linked life insurance* | <a href="https://drive.google.com/file/d/1TUPZN_KUIZn8tc-Y4BlETI6-bdXRUmh_/preview" rel="noopener noreferrer">Open</a> |
+| | Handout | Lecture on *With-profit life insurance* | <a 
+href="https://drive.google.com/file/d/1Ta7_K1wUmCmxD-8dq0KTr_XPhKNwlm0E/preview" rel="noopener noreferrer">Open</a> |
+| | Handout | Motivation on *With-profit life insurance* | <a href="https://drive.google.com/file/d/1TbgTiP6NWkPqp7AWXhJITOKsZaYHGxnD/preview" rel="noopener noreferrer">Open</a> |
+| | Handout | Guest-lecture | <a href="https://drive.google.com/file/d/1S7BI4uAZ9OkLa4L5FW5jd1els6aUfYnd/preview" rel="noopener noreferrer">Open</a> |
+| **Machine Learning in Non-Life Insurance** | Book (Website) | *Flexible and Robust Machine Learning Using mlr3 in R* by Lars Kotthoff, Raphael Sonabend, Michel Lang and Bernd Bischl. | <a href="https://mlr3book.mlr-org.com" rel="noopener noreferrer">Open</a> |
+| | Assignment 1 | *Estimating Technical Prices with Machine Learning Algorithms* by Joakim Bilyk, Sebastian Cramer and Teis Blem (2023). | <a href="static/frempl1-1.pdf" rel="noopener noreferrer">Pdf</a>, <a href="https://github.com/joakim-bilyk/act-math/tree/main/projects/ml-frempl1-1" rel="noopener noreferrer">Project page.</a> |
+| | Assignment 2 | *Comparing and Intereting Machine Learning Algorithms Estimating Technical Prices* by Joakim Bilyk, Sebastian Cramer and Teis Blem (2023). | <a href="static/frempl1-2.pdf" rel="noopener noreferrer">Pdf</a>, <a href="https://github.com/joakim-bilyk/act-math/tree/main/projects/ml-frempl1-2" rel="noopener noreferrer">Project page.</a> |
+| **Topics in Non-Life Insurance** | Book | *Non-life insurance* by Jostein Paulsen (2023). | <a href="https://drive.google.com/file/d/1ThN0Imp4caBk4wdF7awWzLJcltrDKNR8/preview" rel="noopener noreferrer">Open</a> |

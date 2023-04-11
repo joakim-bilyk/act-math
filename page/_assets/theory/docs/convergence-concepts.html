@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>13.1 Convergence concepts | Complete Theory</title>
+  <meta name="description" content="13.1 Convergence concepts | Complete Theory" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="13.1 Convergence concepts | Complete Theory" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="13.1 Convergence concepts | Complete Theory" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="discrete-time-stochastic-processes.html"/>
+<link rel="next" href="markov-chains.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.9/grViz.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Comlete theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-reading.html"><a href="to-do-reading.html"><i class="fa fa-check"></i><b>1.2</b> To-do reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-life-insurance-mathematics.html"><a href="basic-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>2</b> Basic Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-processes-in-life-insurance-mathematics.html"><a href="stochastic-processes-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>3</b> Stochastic Processes in Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance-mathematics.html"><a href="topics-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance Mathematics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="markov-jump-processes.html"><a href="markov-jump-processes.html"><i class="fa fa-check"></i><b>4.1</b> Markov Jump Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="phase-type-distributions.html"><a href="phase-type-distributions.html"><i class="fa fa-check"></i><b>4.2</b> Phase-type distributions</a></li>
+<li class="chapter" data-level="4.3" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>4.3</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="interest-rates.html"><a href="interest-rates.html#basic-definitions-and-properties"><i class="fa fa-check"></i><b>4.3.1</b> Basic definitions and properties</a></li>
+<li class="chapter" data-level="4.3.2" data-path="interest-rates.html"><a href="interest-rates.html#phase-type-representation-of-bond-prices"><i class="fa fa-check"></i><b>4.3.2</b> Phase-type representation of bond prices</a></li>
+<li class="chapter" data-level="4.3.3" data-path="interest-rates.html"><a href="interest-rates.html#term-structure-models"><i class="fa fa-check"></i><b>4.3.3</b> Term structure models</a></li>
+<li class="chapter" data-level="4.3.4" data-path="interest-rates.html"><a href="interest-rates.html#estimation-of-ph-bond-models"><i class="fa fa-check"></i><b>4.3.4</b> Estimation of PH bond models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html"><i class="fa fa-check"></i><b>4.4</b> Survival and mortality rates</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#survival-probabilities-and-forward-mortality-rates"><i class="fa fa-check"></i><b>4.4.1</b> Survival probabilities and forward mortality rates</a></li>
+<li class="chapter" data-level="4.4.2" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#forward-transistion-rates"><i class="fa fa-check"></i><b>4.4.2</b> Forward transistion rates</a></li>
+<li class="chapter" data-level="4.4.3" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#reserves-revisited"><i class="fa fa-check"></i><b>4.4.3</b> Reserves revisited</a></li>
+<li class="chapter" data-level="4.4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#stochastic-mortality-rates"><i class="fa fa-check"></i><b>4.4.4</b> Stochastic mortality rates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html"><i class="fa fa-check"></i><b>4.5</b> Matrix methods in life insurance</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#basic-setup"><i class="fa fa-check"></i><b>4.5.1</b> Basic setup</a></li>
+<li class="chapter" data-level="4.5.2" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#interest-rate-free-analysis"><i class="fa fa-check"></i><b>4.5.2</b> Interest rate free analysis</a></li>
+<li class="chapter" data-level="4.5.3" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#transform-of-rewards-and-higher-order-moments"><i class="fa fa-check"></i><b>4.5.3</b> Transform of rewards and higher order moments</a></li>
+<li class="chapter" data-level="4.5.4" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#markovian-interest-rates"><i class="fa fa-check"></i><b>4.5.4</b> Markovian interest rates</a></li>
+<li class="chapter" data-level="4.5.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#reserves"><i class="fa fa-check"></i><b>4.5.5</b> Reserves</a></li>
+<li class="chapter" data-level="4.5.6" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#higher-order-moments"><i class="fa fa-check"></i><b>4.5.6</b> Higher order moments</a></li>
+<li class="chapter" data-level="4.5.7" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#equivalence-premium"><i class="fa fa-check"></i><b>4.5.7</b> Equivalence premium</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html"><i class="fa fa-check"></i><b>4.6</b> Financial Mathematics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#background-and-simple-claims"><i class="fa fa-check"></i><b>4.6.1</b> Background and Simple Claims</a></li>
+<li class="chapter" data-level="4.6.2" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#payment-streams"><i class="fa fa-check"></i><b>4.6.2</b> Payment Streams</a></li>
+<li class="chapter" data-level="4.6.3" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#unit-link-insurance"><i class="fa fa-check"></i><b>4.6.3</b> Unit-Link Insurance</a></li>
+<li class="chapter" data-level="4.6.4" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#with-profit-insurance-and-the-dynamics-of-the-surplus"><i class="fa fa-check"></i><b>4.6.4</b> With-Profit Insurance and the Dynamics of the Surplus</a></li>
+<li class="chapter" data-level="4.6.5" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#cash-dividends-and-market-reserve"><i class="fa fa-check"></i><b>4.6.5</b> Cash Dividends and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-cash-dividends"><i class="fa fa-check"></i><b>4.6.6</b> The Pure Case of Cash Dividends</a></li>
+<li class="chapter" data-level="4.6.7" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#bonus-payments-and-market-reserve"><i class="fa fa-check"></i><b>4.6.7</b> Bonus Payments and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.8" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-bonus-payments"><i class="fa fa-check"></i><b>4.6.8</b> The Pure Case of Bonus Payments</a></li>
+<li class="chapter" data-level="4.6.9" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#incidental-policy-holder-behavior"><i class="fa fa-check"></i><b>4.6.9</b> Incidental Policy Holder Behavior</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>5</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html"><i class="fa fa-check"></i><b>5.1</b> Discrete time models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html#one-period-time-models"><i class="fa fa-check"></i><b>5.1.1</b> One-period time models</a></li>
+<li class="chapter" data-level="5.1.2" data-path="discrete-time-models.html"><a href="discrete-time-models.html#multi-period-model"><i class="fa fa-check"></i><b>5.1.2</b> Multi-period model</a></li>
+<li class="chapter" data-level="5.1.3" data-path="discrete-time-models.html"><a href="discrete-time-models.html#generelised-one-period-model"><i class="fa fa-check"></i><b>5.1.3</b> Generelised one-period model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html"><i class="fa fa-check"></i><b>5.2</b> Self-financing portfolios</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#discrete-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.1</b> Discrete time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#continuous-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.2</b> Continuous time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.3" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#portfolio-weights"><i class="fa fa-check"></i><b>5.2.3</b> Portfolio weights</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html"><i class="fa fa-check"></i><b>5.3</b> Black-Scholes PDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#contingent-claims-and-arbitrage"><i class="fa fa-check"></i><b>5.3.1</b> Contingent Claims and Arbitrage</a></li>
+<li class="chapter" data-level="5.3.2" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#risk-neutral-valuation-1"><i class="fa fa-check"></i><b>5.3.2</b> Risk Neutral Valuation</a></li>
+<li class="chapter" data-level="5.3.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#black-scholes-formula"><i class="fa fa-check"></i><b>5.3.3</b> Black-Scholes formula</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html"><i class="fa fa-check"></i><b>5.4</b> Completeness and Hedging</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#completeness-in-black-scholes"><i class="fa fa-check"></i><b>5.4.1</b> Completeness in Black-Scholes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#absence-of-arbitrage-1"><i class="fa fa-check"></i><b>5.4.2</b> Absence of Arbitrage</a></li>
+<li class="chapter" data-level="5.4.3" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#incomplete-markets"><i class="fa fa-check"></i><b>5.4.3</b> Incomplete Markets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="parity-relations.html"><a href="parity-relations.html"><i class="fa fa-check"></i><b>5.5</b> Parity relations</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="parity-relations.html"><a href="parity-relations.html#put-call-parity"><i class="fa fa-check"></i><b>5.5.1</b> Put-call Parity</a></li>
+<li class="chapter" data-level="5.5.2" data-path="parity-relations.html"><a href="parity-relations.html#the-greeks"><i class="fa fa-check"></i><b>5.5.2</b> The Greeks</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html"><i class="fa fa-check"></i><b>5.6</b> Fundamental pricing theorem I and II</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#completeness-1"><i class="fa fa-check"></i><b>5.6.1</b> Completeness</a></li>
+<li class="chapter" data-level="5.6.2" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#risk-neutral-valuation-formula"><i class="fa fa-check"></i><b>5.6.2</b> Risk Neutral Valuation Formula</a></li>
+<li class="chapter" data-level="5.6.3" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#stochastic-discount-factors-1"><i class="fa fa-check"></i><b>5.6.3</b> Stochastic Discount Factors</a></li>
+<li class="chapter" data-level="5.6.4" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#summary"><i class="fa fa-check"></i><b>5.6.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html"><i class="fa fa-check"></i><b>5.7</b> Mathematics of the martingale approach</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#martingale-representation-theorem"><i class="fa fa-check"></i><b>5.7.1</b> Martingale representation theorem</a></li>
+<li class="chapter" data-level="5.7.2" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#girsanov-theorem"><i class="fa fa-check"></i><b>5.7.2</b> Girsanov theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="black-scholes-model---martingale-approach.html"><a href="black-scholes-model---martingale-approach.html"><i class="fa fa-check"></i><b>5.8</b> Black-Scholes model - martingale approach</a></li>
+<li class="chapter" data-level="5.9" data-path="multidimensional-models.html"><a href="multidimensional-models.html"><i class="fa fa-check"></i><b>5.9</b> Multidimensional models</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="basic-non-life-insurance-mathematics.html"><a href="basic-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>6</b> Basic Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="7" data-path="stochastic-processes-in-non-life-insurance-mathematics.html"><a href="stochastic-processes-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>7</b> Stochastic Processes in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>9.1</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-is-a-good-estimator"><i class="fa fa-check"></i><b>9.1.1</b> What is a good estimator?</a></li>
+<li class="chapter" data-level="9.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#excess-risk"><i class="fa fa-check"></i><b>9.1.2</b> Excess risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html"><i class="fa fa-check"></i><b>9.2</b> Training, Validating and Testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html#estimating-risk"><i class="fa fa-check"></i><b>9.2.1</b> Estimating risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>9.3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="linear-models.html"><a href="linear-models.html#least-squares-estimator"><i class="fa fa-check"></i><b>9.3.1</b> Least Squares Estimator</a></li>
+<li class="chapter" data-level="9.3.2" data-path="linear-models.html"><a href="linear-models.html#ridge-regression"><i class="fa fa-check"></i><b>9.3.2</b> Ridge Regression</a></li>
+<li class="chapter" data-level="9.3.3" data-path="linear-models.html"><a href="linear-models.html#lasso-regression"><i class="fa fa-check"></i><b>9.3.3</b> Lasso Regression</a></li>
+<li class="chapter" data-level="9.3.4" data-path="linear-models.html"><a href="linear-models.html#conclusion"><i class="fa fa-check"></i><b>9.3.4</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html"><i class="fa fa-check"></i><b>9.4</b> Nonparametric Regression</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-smoothers"><i class="fa fa-check"></i><b>9.4.1</b> Linear Smoothers</a></li>
+<li class="chapter" data-level="9.4.2" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#curse-of-dimensionality"><i class="fa fa-check"></i><b>9.4.2</b> Curse of dimensionality</a></li>
+<li class="chapter" data-level="9.4.3" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#splines"><i class="fa fa-check"></i><b>9.4.3</b> Splines</a></li>
+<li class="chapter" data-level="9.4.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-regression-with-splines."><i class="fa fa-check"></i><b>9.4.4</b> Linear regression with splines.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="trees-and-forests.html"><a href="trees-and-forests.html"><i class="fa fa-check"></i><b>9.5</b> Trees and forests</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="trees-and-forests.html"><a href="trees-and-forests.html#cart"><i class="fa fa-check"></i><b>9.5.1</b> CART</a></li>
+<li class="chapter" data-level="9.5.2" data-path="trees-and-forests.html"><a href="trees-and-forests.html#pruning"><i class="fa fa-check"></i><b>9.5.2</b> Pruning</a></li>
+<li class="chapter" data-level="9.5.3" data-path="trees-and-forests.html"><a href="trees-and-forests.html#bagging"><i class="fa fa-check"></i><b>9.5.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.5.4" data-path="trees-and-forests.html"><a href="trees-and-forests.html#random-forests"><i class="fa fa-check"></i><b>9.5.4</b> Random Forests</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html"><i class="fa fa-check"></i><b>9.6</b> Boosting and additive trees</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#gradient-boosting-machines"><i class="fa fa-check"></i><b>9.6.1</b> Gradient Boosting Machines</a></li>
+<li class="chapter" data-level="9.6.2" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#bayesian-additive-regression-trees"><i class="fa fa-check"></i><b>9.6.2</b> Bayesian additive regression trees</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="some-practical-considerations.html"><a href="some-practical-considerations.html"><i class="fa fa-check"></i><b>9.7</b> Some practical considerations</a></li>
+<li class="chapter" data-level="9.8" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>9.8</b> Neural Networks</a></li>
+<li class="chapter" data-level="9.9" data-path="local-explanations.html"><a href="local-explanations.html"><i class="fa fa-check"></i><b>9.9</b> Local explanations</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="local-explanations.html"><a href="local-explanations.html#interpretability"><i class="fa fa-check"></i><b>9.9.1</b> Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="causality.html"><a href="causality.html"><i class="fa fa-check"></i><b>9.10</b> Causality</a></li>
+<li class="chapter" data-level="9.11" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html"><i class="fa fa-check"></i><b>9.11</b> Local and Global Explanations</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#interpretability-1"><i class="fa fa-check"></i><b>9.11.1</b> Interpretability</a></li>
+<li class="chapter" data-level="9.11.2" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#partial-dependence-plots"><i class="fa fa-check"></i><b>9.11.2</b> Partial dependence plots</a></li>
+<li class="chapter" data-level="9.11.3" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#a-functional-decomposition"><i class="fa fa-check"></i><b>9.11.3</b> A functional decomposition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="quantative-risk-management.html"><a href="quantative-risk-management.html"><i class="fa fa-check"></i><b>10</b> Quantative Risk Management</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html"><i class="fa fa-check"></i><b>10.1</b> The Loss Variable</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html#risk-measures"><i class="fa fa-check"></i><b>10.1.1</b> Risk measures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="measure-theory.html"><a href="measure-theory.html"><i class="fa fa-check"></i><b>11</b> Measure theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="axioms-of-probability.html"><a href="axioms-of-probability.html"><i class="fa fa-check"></i><b>11.1</b> Axioms of Probability</a></li>
+<li class="chapter" data-level="11.2" data-path="conditional-probability-and-independence.html"><a href="conditional-probability-and-independence.html"><i class="fa fa-check"></i><b>11.2</b> Conditional Probability and Independence</a></li>
+<li class="chapter" data-level="11.3" data-path="probabilities-on-a-finite-or-countable-space.html"><a href="probabilities-on-a-finite-or-countable-space.html"><i class="fa fa-check"></i><b>11.3</b> Probabilities on a Finite or Countable Space</a></li>
+<li class="chapter" data-level="11.4" data-path="construction-of-a-probability-measure-on-mathbb-r.html"><a href="construction-of-a-probability-measure-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.4</b> Construction of a Probability Measure on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.5" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>11.5</b> Random Variables</a></li>
+<li class="chapter" data-level="11.6" data-path="integration-with-respect-to-a-probability-measure.html"><a href="integration-with-respect-to-a-probability-measure.html"><i class="fa fa-check"></i><b>11.6</b> Integration with Respect to a Probability Measure</a></li>
+<li class="chapter" data-level="11.7" data-path="independent-random-variables.html"><a href="independent-random-variables.html"><i class="fa fa-check"></i><b>11.7</b> Independent Random Variables</a></li>
+<li class="chapter" data-level="11.8" data-path="probability-distributions-on-mathbb-r.html"><a href="probability-distributions-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.8</b> Probability Distributions on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.9" data-path="probability-distributions-on-mathbb-rn.html"><a href="probability-distributions-on-mathbb-rn.html"><i class="fa fa-check"></i><b>11.9</b> Probability Distributions on <span class="math inline">\(\mathbb R^n\)</span></a></li>
+<li class="chapter" data-level="11.10" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html"><i class="fa fa-check"></i><b>11.10</b> Equivalent Probability Measures</a>
+<ul>
+<li class="chapter" data-level="11.10.1" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#the-radon-nikodym-theorem"><i class="fa fa-check"></i><b>11.10.1</b> The Radon-Nikodym Theorem</a></li>
+<li class="chapter" data-level="11.10.2" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#equivalent-probability-measures-1"><i class="fa fa-check"></i><b>11.10.2</b> Equivalent Probability Measures</a></li>
+<li class="chapter" data-level="11.10.3" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#likelihood-processes"><i class="fa fa-check"></i><b>11.10.3</b> Likelihood processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="random-variables-1.html"><a href="random-variables-1.html"><i class="fa fa-check"></i><b>12</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>12.2</b> Conditional expectation</a></li>
+<li class="chapter" data-level="12.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>12.3</b> Independence</a></li>
+<li class="chapter" data-level="12.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>12.4</b> Moment generating function</a></li>
+<li class="chapter" data-level="12.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>12.5</b> Standard distributions</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>12.5.1</b> Normal disribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>13</b> Discrete Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html"><i class="fa fa-check"></i><b>13.1</b> Convergence concepts</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html#sums-and-average-processes"><i class="fa fa-check"></i><b>13.1.1</b> Sums and average processes</a></li>
+<li class="chapter" data-level="13.1.2" data-path="convergence-concepts.html"><a href="convergence-concepts.html#ergodic-theory"><i class="fa fa-check"></i><b>13.1.2</b> Ergodic Theory</a></li>
+<li class="chapter" data-level="13.1.3" data-path="convergence-concepts.html"><a href="convergence-concepts.html#weak-convergence"><i class="fa fa-check"></i><b>13.1.3</b> Weak Convergence</a></li>
+<li class="chapter" data-level="13.1.4" data-path="convergence-concepts.html"><a href="convergence-concepts.html#central-limit-theorems"><i class="fa fa-check"></i><b>13.1.4</b> Central Limit Theorems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>14</b> Markov Chains</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="definition-of-a-markov-chain.html"><a href="definition-of-a-markov-chain.html"><i class="fa fa-check"></i><b>14.1</b> Definition of a Markov Chain</a></li>
+<li class="chapter" data-level="14.2" data-path="classification-of-states.html"><a href="classification-of-states.html"><i class="fa fa-check"></i><b>14.2</b> Classification of states</a></li>
+<li class="chapter" data-level="14.3" data-path="limit-results-and-invariant-probabilities.html"><a href="limit-results-and-invariant-probabilities.html"><i class="fa fa-check"></i><b>14.3</b> Limit results and invariant probabilities</a></li>
+<li class="chapter" data-level="14.4" data-path="absorbing-probabilities.html"><a href="absorbing-probabilities.html"><i class="fa fa-check"></i><b>14.4</b> Absorbing probabilities</a></li>
+<li class="chapter" data-level="14.5" data-path="markov-chains-in-continuous-times.html"><a href="markov-chains-in-continuous-times.html"><i class="fa fa-check"></i><b>14.5</b> Markov Chains in Continuous Times</a></li>
+<li class="chapter" data-level="14.6" data-path="properties-of-transitionsprobabilities.html"><a href="properties-of-transitionsprobabilities.html"><i class="fa fa-check"></i><b>14.6</b> Properties of transitionsprobabilities</a></li>
+<li class="chapter" data-level="14.7" data-path="invariant-probabilies-and-absorption.html"><a href="invariant-probabilies-and-absorption.html"><i class="fa fa-check"></i><b>14.7</b> Invariant probabilies and absorption</a></li>
+<li class="chapter" data-level="14.8" data-path="birth-death-processes.html"><a href="birth-death-processes.html"><i class="fa fa-check"></i><b>14.8</b> Birth-death processes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="continuous-time-stochastic-processes.html"><a href="continuous-time-stochastic-processes.html"><i class="fa fa-check"></i><b>15</b> Continuous Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="brownian-motion.html"><a href="brownian-motion.html"><i class="fa fa-check"></i><b>15.1</b> Brownian Motion</a></li>
+<li class="chapter" data-level="15.2" data-path="filtration.html"><a href="filtration.html"><i class="fa fa-check"></i><b>15.2</b> Filtration</a></li>
+<li class="chapter" data-level="15.3" data-path="martingale.html"><a href="martingale.html"><i class="fa fa-check"></i><b>15.3</b> Martingale</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stochastic-calculus.html"><a href="stochastic-calculus.html"><i class="fa fa-check"></i><b>16</b> Stochastic calculus</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html"><i class="fa fa-check"></i><b>16.1</b> Stochastic Integrals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#information"><i class="fa fa-check"></i><b>16.1.1</b> Information</a></li>
+<li class="chapter" data-level="16.1.2" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-integrals-1"><i class="fa fa-check"></i><b>16.1.2</b> Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.1.3" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#martingales"><i class="fa fa-check"></i><b>16.1.3</b> Martingales</a></li>
+<li class="chapter" data-level="16.1.4" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-calculus-and-the-ito-formula"><i class="fa fa-check"></i><b>16.1.4</b> Stochastic Calculus and the Ito Formula</a></li>
+<li class="chapter" data-level="16.1.5" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula"><i class="fa fa-check"></i><b>16.1.5</b> The multidimensional Ito Formula</a></li>
+<li class="chapter" data-level="16.1.6" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula-with-states"><i class="fa fa-check"></i><b>16.1.6</b> The multidimensional Ito Formula with states</a></li>
+<li class="chapter" data-level="16.1.7" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#correlated-brownian-motions"><i class="fa fa-check"></i><b>16.1.7</b> Correlated Brownian motions</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="discrete-stochastic-integrals.html"><a href="discrete-stochastic-integrals.html"><i class="fa fa-check"></i><b>16.2</b> Discrete Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.3" data-path="stochastic-differential-equations.html"><a href="stochastic-differential-equations.html"><i class="fa fa-check"></i><b>16.3</b> Stochastic Differential Equations</a></li>
+<li class="chapter" data-level="16.4" data-path="partial-differential-equations.html"><a href="partial-differential-equations.html"><i class="fa fa-check"></i><b>16.4</b> Partial differential equations</a></li>
+<li class="chapter" data-level="16.5" data-path="the-product-integral.html"><a href="the-product-integral.html"><i class="fa fa-check"></i><b>16.5</b> The Product Integral</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="the-product-integral.html"><a href="the-product-integral.html#properties-of-the-product-integral"><i class="fa fa-check"></i><b>16.5.1</b> Properties of the Product Integral</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="linear-algebra.html"><a href="linear-algebra.html"><i class="fa fa-check"></i><b>17</b> Linear Algebra</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="invertible-matrices.html"><a href="invertible-matrices.html"><i class="fa fa-check"></i><b>17.1</b> Invertible matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="coding.html"><a href="coding.html"><i class="fa fa-check"></i><b>18</b> Coding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="r-packages.html"><a href="r-packages.html"><i class="fa fa-check"></i><b>18.1</b> R-Packages</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="r-packages.html"><a href="r-packages.html#mlr3"><i class="fa fa-check"></i><b>18.1.1</b> mlr3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Complete Theory</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="convergence-concepts" class="section level2 hasAnchor" number="13.1">
+<h2><span class="header-section-number">13.1</span> Convergence concepts<a href="convergence-concepts.html#convergence-concepts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We start this chapter by refering to a sequence <span class="math inline">\(X_1,X_2,...\)</span> of real-valued random variables as a <strong>proces</strong>. Consider the event <span class="math inline">\((X_n\to X)=\left\{\omega\in\Omega\ \vert\ X_m(\omega)\to X(\omega)\ \text{for}\ n\to \infty\right\}\)</span>. We want to study such convergence in detail. However first we check measurability. Consider a family <span class="math inline">\((A_i)_{i\in I}\subset \Omega\)</span> and observe that
+<span class="math display">\[\begin{align*}
+    \Big\{\omega\in \Omega\ \vert\ \forall i\in I : \omega \in A_i\Big\}=\bigcap_{i\in I} A_i,\tag{2.1}\\
+    \Big\{\omega\in \Omega\ \vert\ \exists i\in I : \omega \in A_i\Big\}=\bigcup_{i\in I} A_i.\tag{2.2}
+\end{align*}\]</span>
+From the standard <span class="math inline">\(N,\varepsilon\)</span> definition of a convergent sequence <span class="math inline">\((x_n)_{n\in \mathbb{N}}\)</span> we may formulate this convergens in the stochastic setting:
+<span class="math display">\[\begin{align*}
+    (X_n\to X)&amp;=\Big\{\omega\in \Omega\ \vert\ \forall\varepsilon&gt;0 \exists N\in \mathbb{N} \forall n\ge N : \vert X_n(\omega)-X(\omega)\vert &lt;\varepsilon\Big\}\\
+    &amp;=\Big(\forall\varepsilon&gt;0 \exists N\in \mathbb{N} \forall n\ge N : \vert X_n-X\vert &lt;\varepsilon\Big)\\
+    &amp;=\bigcap_{\epsilon\in \mathbb{R}^+}\Big(\exists N\in \mathbb{N} \forall n\ge N : \vert X_n-X\vert&lt;\varepsilon\Big)\\
+    &amp;=\bigcap_{\epsilon\in \mathbb{R}^+}\bigcup_{N=1}^\infty\Big( \forall n\ge N : \vert X_n-X\vert&lt;\varepsilon\Big)\\
+    &amp;=\bigcap_{\epsilon\in \mathbb{R}^+}\bigcup_{N=1}^\infty\bigcap_{n=N}^\infty\Big(  \vert X_n-X\vert&lt;\varepsilon\Big)\in \mathbb{F}\hspace{15pt}\text{for all}\ \varepsilon&gt;0.
+\end{align*}\]</span>
+Hence <span class="math inline">\((X_n\to X)\)</span> lies in <span class="math inline">\(\mathbb{F}\)</span> since <span class="math inline">\((\vert X_n-X\vert &lt;\varepsilon)\)</span> lies in <span class="math inline">\(\mathbb{F}\)</span> since <span class="math inline">\(X_n-X\)</span> is measurable.</p>
+<blockquote class="lem">
+<strong>Lemma 2.1. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega, \mathbb{F},P)\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    (X_n\to X)\in \mathbb{F}.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 2.2. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. We say that <span class="math inline">\(X_n\)</span> <strong>converges</strong> to <span class="math inline">\(X\)</span> <strong>almost surely</strong>, written <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to}X\)</span>, if</em>
+<span class="math display">\[\begin{align*}
+    P(X_n\to X)=1.\tag{2.6}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.3. (Hansen)</strong> <em>Let <span class="math inline">\(X,X&#39;,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. If <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to}X\)</span> and <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to}X&#39;\)</span> then <span class="math inline">\(X=X&#39;\)</span> almost surely.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.7. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. Then</em>
+<span class="math display">\[\begin{align*}
+    \Big((X_n)\text{ is Cauchy}\Big)\in \mathbb{F}.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.8. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. If <span class="math inline">\(P\Big((X_n)\text{ is Cauchy}\Big)=1\)</span> then there exists and <span class="math inline">\(\mathbb{F}\)</span>-measurable real-valued random variable <span class="math inline">\(X\)</span> such that <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to}X\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 2.10. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> and <span class="math inline">\(Y_1,Y_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. Assume that the <span class="math inline">\(X\)</span>-process and the <span class="math inline">\(Y\)</span>-process have the same distribution in the sense that <span class="math inline">\((X_1,...,X_n)\)</span> has the same distribution ad <span class="math inline">\((Y_1,...,Y_n)\)</span> for all <span class="math inline">\(n\in\mathbb{N}\)</span>.</em>
+<em>If <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to}X\)</span> for som limit variable <span class="math inline">\(X\)</span>, there is a limit variable <span class="math inline">\(Y\)</span> such that <span class="math inline">\(Y_n\stackrel{\text{a.s.}}{\to}Y\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 2.11. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X},\mathbf{X}_1,\mathbf{X}_2,...\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span> valued random variables on <span class="math inline">\((\Omega, \mathbb{F},P)\)</span>. We say that <span class="math inline">\(\mathbf{X}_n\)</span> converges to <span class="math inline">\(\mathbf{X}\)</span> <strong>almost surely</strong>, written <span class="math inline">\(\mathbf{X}_n\stackrel{\text{a.s.}}{\to}\mathbf{X}\)</span>, if</em>
+<span class="math display">\[\begin{align*}
+    \vert\mathbf{X}_n-\mathbf{X}\vert \stackrel{\text{a.s.}}{\to} 0.\tag{2.15}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.12. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X},\mathbf{X}_1,\mathbf{X}_2,...\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span> valued random variables on <span class="math inline">\((\Omega, \mathbb{F},P)\)</span> such that <span class="math inline">\(\mathbf{X}_n\stackrel{\text{a.s.}}{\to}\mathbf{X}\)</span>. Let <span class="math inline">\(f : \mathbb{R}^k\to\mathbb{R}^m\)</span> be a measurable map.</em>
+<em>Assume that there is a set <span class="math inline">\(A\in \mathbb{B}_k\)</span> such that <span class="math inline">\(f\)</span> is continuous on <span class="math inline">\(A\)</span> and such that <span class="math inline">\(P(\mathbf{X}\in A)=1\)</span>. Then it holds that <span class="math inline">\(f(\mathbf{X}_n)\stackrel{\text{a.s.}}{\to} f(\mathbf{X})\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 2.13. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. We say that <span class="math inline">\(X_n\)</span> <strong>converges</strong> to <span class="math inline">\(X\)</span> <strong>in probability</strong>, written <span class="math inline">\(X_n\stackrel{\text{P}}{\to} X\)</span>, if</em>
+<span class="math display">\[\begin{align*}
+    \forall \varepsilon&gt;0 :\hspace{10pt} P\big(\vert X_n-X\vert\ge \varepsilon\big)\to 0\hspace{10pt}\text{for}\ n\to \infty.\tag{2.17}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.14. (Hansen)</strong> <em>Let <span class="math inline">\(X,X&#39;,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. If <span class="math inline">\(X_n\stackrel{\text{P}}{\to} X\)</span> and <span class="math inline">\(X_n\stackrel{\text{P}}{\to} X&#39;\)</span> then <span class="math inline">\(X=X&#39;\)</span> almost surely.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.14. (Hansen)</strong> <em>Let <span class="math inline">\(X,X&#39;,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. If <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to} X\)</span>, then <span class="math inline">\(X_n\stackrel{\text{P}}{\to} X\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 2.17. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X},\mathbf{X}_1,\mathbf{X}_2,...\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span> valued random variables on <span class="math inline">\((\Omega, \mathbb{F},P)\)</span>. We say that <span class="math inline">\(\mathbf{X}_n\)</span> converges to <span class="math inline">\(\mathbf{X}\)</span> <strong>in probability</strong>, written <span class="math inline">\(\mathbf{X}_n\stackrel{\text{P}}{\to} \mathbb{X}\)</span>, if</em>
+<span class="math display">\[\begin{align*}
+    \vert \mathbf{X}_n-\mathbf{X}\vert \stackrel{\text{P}}{\to} 0.\tag{2.23}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.18. (Hansen)</strong> <em>Let <span class="math inline">\(X,Y,X_1,Y_1,X_2,Y_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \begin{pmatrix}
+    X_n\\Y_n
+    \end{pmatrix}\stackrel{\text{P}}{\to} \begin{pmatrix}
+    X\\Y
+    \end{pmatrix}\hspace{15pt}\iff \hspace{15pt} X_n\stackrel{\text{P}}{\to} X\text{ and }Y_n\stackrel{\text{P}}{\to} Y.\tag{2.24}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 2.19. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables in <span class="math inline">\(\mathcal{L}^p(\Omega,\mathbb{F},P)\)</span> for some <span class="math inline">\(p\ge 1\)</span>. We say that <span class="math inline">\(X_n\)</span> <strong>converges</strong> to <span class="math inline">\(X\)</span> <span class="math inline">\(\mathcal{L}^p\)</span>, written <span class="math inline">\(X_n\stackrel{\mathcal{L}^p}{\to} X\)</span>, if</em>
+<span class="math display">\[\begin{align*}
+    \Vert X_n - X\Vert_p\to 0.\tag{2.27}
+\end{align*}\]</span>
+<em>Where the <span class="math inline">\(p\)</span>’th norm is defined as the mapping <span class="math inline">\(\Vert \cdot \Vert_p : \Omega\to [0,\infty)\)</span> given by <span class="math inline">\(X\mapsto \left(\int_\Omega \vert X\vert ^p\ dP\right)^{1/p}\)</span>.</em>
+</blockquote>
+<p>One might also define convergence in <span class="math inline">\(\mathcal{L}^p\)</span> by simply saying if <span class="math inline">\(X_n\stackrel{\mathcal{L}^p}{\to} X\)</span> then <span class="math inline">\(E\,\Vert X_n-X\Vert_p\to 0\)</span>.</p>
+<blockquote class="lem">
+<strong>Lemma 2.20. (Hansen)</strong> <em>(Extended Cauchy-Schwarz inequality) Let <span class="math inline">\(X,Y\in\mathcal{L}^p(\Omega,\mathbb{F},P)\)</span> for some <span class="math inline">\(p\ge 1\)</span>. For any <span class="math inline">\(a\in[0,p]\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    E\, \vert X\vert^a\vert Y\vert^{p-a}\le \Big(E\, \vert X\vert^p\Big)^{\frac{a}{p}}\Big(E\, \vert Y\vert^p\Big)^{\frac{p-a}{p}}.\tag{2.29}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 2.21. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables in <span class="math inline">\(\mathcal{L}^p(\Omega,\mathbb{F},P)\)</span> for some <span class="math inline">\(p\in\mathbb{N}\)</span>. If <span class="math inline">\(X_n\stackrel{\mathcal{L}^p}{\to} X\)</span>, then it holds that <span class="math inline">\(E\, X_n^p\to E\, X^p\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.22. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables in <span class="math inline">\(\mathcal{L}^p(\Omega,\mathbb{F},P)\)</span> for some <span class="math inline">\(p\ge 1\)</span>. If <span class="math inline">\(X_n\stackrel{\mathcal{L}^p}{\to} X\)</span>, then <span class="math inline">\(X_n\stackrel{\text{P}}{\to} X\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.25. (Hansen)</strong> <em>(Borel-Cantelli) Let <span class="math inline">\((\Omega,\mathbb{F},P)\)</span> be a probability space, and let <span class="math inline">\(A_1,A_2,...\)</span> be a sequence of <span class="math inline">\(\mathbb{F}\)</span>-measurable sets. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \sum_{n=1}^\infty P(A_n)&lt;\infty\hspace{10pt}\Rightarrow\hspace{10pt}P(A_n\ \text{i.o.})=0.
+\end{align*}\]</span>
+</blockquote>
+<p>Let <span class="math inline">\(A_1,A_2,...\)</span> be a sequence of subsets of <span class="math inline">\(\Omega\)</span>. We define
+<span class="math display">\[\begin{align*}
+    (A_n\ \text{i.o.})=\bigcap_{n=1}^\infty\bigcup_{m=n}^\infty A_m,\hspace{10pt}(A_n\ \text{evt.})=\bigcup_{n=1}^\infty\bigcap_{m=n}^\infty A_m.
+\end{align*}\]</span>
+One might also define <span class="math inline">\(Y=\sum_{n=1}^\infty 1_{A_n}\)</span> and realise that <span class="math inline">\((A_n\ \text{i.o.})=(Y=\infty)\)</span> and <span class="math inline">\((A_n\ \text{evt.})=(Y&lt;\infty)\)</span>. Also by de Morgan’s law it follows that <span class="math inline">\((A_n\ \text{evt.})^c=(A_n^c\ \text{i.o.})\)</span>.</p>
+<blockquote class="thm">
+<strong>Theorem 2.26. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \forall \varepsilon&gt;0:\hspace{10pt}\sum_{n=1}^\infty P(\vert X_n-X\vert \ge \varepsilon)&lt;\infty,\tag{2.32}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to} X\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 2.27. (Hansen)</strong> <em>Let <span class="math inline">\(X,X_1,X_2,...\)</span> be real-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>. If <span class="math inline">\(X_n\stackrel{\text{P}}{\to} X\)</span>, then there is a subsequence <span class="math inline">\(X_{n_1},X_{n_2},...\)</span> such that <span class="math inline">\(X_{n_k}\stackrel{\text{a.s.}}{\to} X\)</span> for <span class="math inline">\(k\to \infty\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 2.28. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X},\mathbf{X}_1,\mathbf{X}_2,...\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variables on <span class="math inline">\((\Omega,\mathbb{F},P)\)</span> such that <span class="math inline">\(\mathbf{X}_n\stackrel{\text{P}}{\to} \mathbf{X}\)</span>. Let <span class="math inline">\(f : \mathbb{R}^k\to \mathbb{R}^m\)</span> be a measurable map.</em>
+<em>Assume that there is a set <span class="math inline">\(A\in\mathbb{B}_k\)</span> such that <span class="math inline">\(f\)</span> is continuous on <span class="math inline">\(A\)</span> and such that <span class="math inline">\(P(\mathbf{X}\in A)=1\)</span>. Then it holds that <span class="math inline">\(f(\mathbf{X}_n)\stackrel{\text{P}}{\to} f(\mathbf{X})\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma.</strong> <em>(Fatou’s Lemma) Let <span class="math inline">\((\Omega,\mathbb{F},P)\)</span> be a measure space (here probability space). Let <span class="math inline">\(f_n : \mathcal{X} \to [0,\infty]\)</span>, with <span class="math inline">\(\mathcal{X}\in\mathbb{F}\)</span>, be a sequence of non-negative measurable functions. Assume <span class="math inline">\(f_n\)</span> converge pointwise to <span class="math inline">\(f : \mathcal{X}\to [0,\infty)\)</span>. Then</em>
+<span class="math display">\[\begin{align*}
+    \int_{\mathcal{X}} \liminf_{n\to\infty} f_n\ dP\le \liminf_{n\to\infty} \int_{\mathcal{X}} f_n\ dP.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma.</strong> <em>(Holder’s Inequality) Let <span class="math inline">\((\Omega,\mathbb{F},P)\)</span> be a measure space (here probability space). Let <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> be real-valued (or complex-valued) functions defined on <span class="math inline">\(\Omega\)</span>. Assume <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> are measurable. For any <span class="math inline">\(p,q\ge 1\)</span> such that <span class="math inline">\(\frac{1}{p}+\frac{1}{q}=1\)</span> it holds that </em>
+<span class="math display">\[\begin{align*}
+    \left(\int_\Omega \vert fg\vert^1\ dP\right)^1\le \left(\int_\Omega \vert f\vert^p\ dP\right)^{1/p}\left(\int_\Omega \vert g\vert^q\ dP\right)^{1/q}
+\end{align*}\]</span>
+</blockquote>
+<div style="page-break-after: always;"></div>
+<div id="sums-and-average-processes" class="section level3 hasAnchor" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> Sums and average processes<a href="convergence-concepts.html#sums-and-average-processes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="lem">
+<strong>Lemma 4.1. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,...,X_n\)</span> be independent real-valued random variables with <span class="math inline">\(E\, X_i^4&lt;\infty\)</span> for all <span class="math inline">\(i\)</span>. If <span class="math inline">\(E\, X_i=0\)</span> for all <span class="math inline">\(i\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    E\left(\sum_{i=1}^n X_i\right)^4=\sum_{i=1}^n E\, X_i^4+6\sum_{i=1}^{n-1}\sum_{j=i+1}^n E\, X_i^2\,E\,X_j^2.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.2. (Hansen)</strong> <em>(SLLN, weak form) Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of independent and identically distributed real-valued random variables. If <span class="math inline">\(E\, X_1^4&lt;\infty\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=1}^n X_i \hspace{10pt}\stackrel{\text{a.s.}}{\to} \hspace{10pt}E\, X_1.\tag{4.3}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.10. (Hansen)</strong> <em>(Etemadi’s maximal inequality) Let <span class="math inline">\(X_1,...,X_n\)</span> be independent real-valued random variables. Consider the cumulative sums</em>
+<span class="math display">\[\begin{align*}
+    S_k=\sum_{i=1}^kX_i\hspace{10pt}\text{for}\ k=1,..., n.
+\end{align*}\]</span>
+<em>For any <span class="math inline">\(\alpha &gt;0\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    P\left(\max_{j=1,...,n}\ \vert S_j\vert\ge 3\alpha\right)\le 3\ \max_{j=1,...,n}\ P(\vert S_j\vert \ge \alpha).\tag{4.11}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.11. (Hansen)</strong> <em>(Levy’s maximal inequality) Let <span class="math inline">\(X_1,...,X_n\)</span> be independent real-valued random variables, each with a symmetric distribution. Consider the cumulative sums</em>
+<span class="math display">\[\begin{align*}
+    S_k=\sum_{i=1}^kX_i\hspace{10pt}\text{for}\ k=1,..., n.
+\end{align*}\]</span>
+<em>For any <span class="math inline">\(\alpha&gt;0\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    P\left(\max_{j=1,...,n}\ S_j\ge \alpha\right)\le 2 P(S_j\ge \alpha).\tag{4.13}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 4.12. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,...,X_n\)</span> be independent real-valued random variables, each with a symmetric distribution. Consider the cumulative sums</em>
+<span class="math display">\[\begin{align*}
+    S_k=\sum_{i=1}^kX_i\hspace{10pt}\text{for}\ k=1,..., n.
+\end{align*}\]</span>
+<em>For any <span class="math inline">\(\alpha&gt;0\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    P\left(\max_{j=1,...,n}\ \vert S_j\vert\ge \alpha\right)\le 2 P(\vert S_j\vert\ge \alpha).\tag{4.14}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.13. (Hansen)</strong> <em>(Skorokhod) Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of independent real-valued random variables, and consider the cumulative sums <span class="math inline">\(S_k=\sum_{i=1}^kX_i\)</span>. Let <span class="math inline">\(S\)</span> be a potential limit variable. It holds that</em>
+<span class="math display">\[\begin{align*}
+    S_n \stackrel{\text{P}}{\to} S\hspace{10pt}\Rightarrow\hspace{10pt} S_n\stackrel{\text{a.s.}}{\to} S.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 4.14. (Hansen)</strong> <em>(Khintchine-Kolmogorov) Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of independent real-valued random variables. Assume <span class="math inline">\(E\, X_n^2&lt;\infty\)</span> and that <span class="math inline">\(E\, X_n=0\)</span> for every <span class="math inline">\(n\in\mathbb{N}\)</span>. Consider the cumulative sums <span class="math inline">\(S_k=\sum_{i=1}^kX_i\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \sum_{n=1}^\infty E\, X_n^2&lt;\infty\tag{4.18}
+\end{align*}\]</span>
+<em>then there exist a limit variable <span class="math inline">\(S\)</span> such that <span class="math inline">\(S_n\to S\)</span> almost surely and in <span class="math inline">\(\mathcal{L}^2\)</span>. The limit variable satisfies that</em>
+<span class="math display">\[\begin{align*}
+    E\, S=0\hspace{10pt}\text{and}\hspace{10pt}V\, S=\sum_{n=1}^\infty V\, X_n.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.17. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of independent real-valued random variables, and consider the cumulative sums <span class="math inline">\(S_k=\sum_{i=1}^kX_i\)</span>. Let <span class="math inline">\(S\)</span> be a potential limit variable. Assume that there is a constant <span class="math inline">\(c&gt;0\)</span> such that <span class="math inline">\(P(\vert X_n\vert \le c)=1\)</span> for all <span class="math inline">\(n\)</span>, and assume that <span class="math inline">\(E\, X_n=0\)</span> for all <span class="math inline">\(n\)</span>. The the three statements</em>
+1. <span class="math inline">\(S_n\stackrel{\text{P}}{\to} S\)</span>,
+2. <span class="math inline">\(S_n\stackrel{\text{a.s.}}{\to} S\)</span>
+3. <span class="math inline">\(S_n\stackrel{\mathcal{L}^2}{\to} S\)</span>
+<em>are equivalent.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 4.18. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of independent real-valued random variables. Assume that there is a constant <span class="math inline">\(c&gt;0\)</span> such that <span class="math inline">\(P(\vert X_n\vert \le c)=1\)</span> for all <span class="math inline">\(n\)</span>. If the associated random walk <span class="math inline">\(S_n=\sum_{i=1}^n X_i\)</span> satisfies that <span class="math inline">\(S_n\to S\)</span> almost surely for some limit variable then it holds that</em>
+<span class="math display">\[\begin{align}
+    \text{1)}\hspace{10pt}&amp; \sum_{n=1}^NE\, X_n\hspace{5pt}\text{converges in }\mathbb{R}\hspace{5pt}\text{for}\ N\to \infty,\\
+    \text{2)}\hspace{10pt}&amp;\sum_{n=1}^\infty V(X_n)&lt;\infty.
+\end{align}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.19. (Hansen)</strong> <em>(Kolmogorov’s 3-series theorem) Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of independent real-valued random variables. Consider the assoiciated random walk <span class="math inline">\(S_n=\sum_{i=1}^n X_i\)</span>. If there is a cut-off value <span class="math inline">\(c&gt;0\)</span> such that the capped variables <span class="math inline">\(\tilde{X}_n=1_{\vert X_n\vert \le c}X_n\)</span> satisfies that</em>
+<span class="math display">\[\begin{align*}
+    \text{1)}\hspace{10pt}&amp; \sum_{n=1}^\infty P(X_n\ne \tilde{X}_n)&lt;\infty,\\
+    \text{2)}\hspace{10pt}&amp; \sum_{n=1}^N E\, \tilde{X}_n\ \text{converges in }\mathbb{R}\ \text{for}\ N\to \infty,\\
+    \text{3)}\hspace{10pt}&amp; \sum_{n=1}^\infty V(\tilde{X}_n)&lt;\infty,
+\end{align*}\]</span>
+<em>then there is a real-valued limit variable <span class="math inline">\(S\)</span> such that <span class="math inline">\(S_n\to S\)</span> almost surely.</em>
+<em>Conversely, if <span class="math inline">\((S_n)_{n\in\mathbb{N}}\)</span> is almost surely convergent, then the three series above converge for <strong>any</strong> cut-off value <span class="math inline">\(c&gt;0\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 4.20. (Hansen)</strong> <em>Let <span class="math inline">\((x_n)_{n\in\mathbb{N}}\)</span> be a real-valued sequence, and let <span class="math inline">\(c\)</span> be a real number. It holds that</em>
+<span class="math display">\[\begin{align*}
+    x_n\to c\ \text{for}\ n\to \infty \hspace{10pt}\Rightarrow\hspace{10pt} \frac{1}{n}\sum_{i=1}^nx_i\to x\ \text{for}\ n\to\infty.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 4.21. (Hansen)</strong> <em>(Kronecker) Let <span class="math inline">\((x_n)_{n\in\mathbb{N}}\)</span> be real-valued sequence, and let <span class="math inline">\(c\)</span> be a real number. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \sum_{i=1}^n\frac{x_i}{i}\to c \hspace{10pt}\Rightarrow\hspace{10pt} \frac{1}{n}\sum_{i=1}^nx_i\to 0
+\end{align*}\]</span>
+<em>for <span class="math inline">\(n\to \infty\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 4.23. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of identically distributed real-valued random variables, and let <span class="math inline">\(\tilde{X}_n=1_{(\vert X_n\vert \le n}X_n\)</span>. If <span class="math inline">\(E\vert X_1\vert&lt;\infty\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \sum_{n=1}^\infty\frac{E\ \tilde{X}_n^2}{n^2}&lt;\infty.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.24. (Hansen)</strong> <em>(SLLN, strong version) Let <span class="math inline">\(X_1,X_2,...\)</span> be sequence of independent and identically distributed real-valued random variables. If <span class="math inline">\(E\vert X_1\vert &lt;\infty\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{n=1}^\infty X_i\stackrel{\text{a.s.}}{\to} E\ X_1.\tag{4.24}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.25. (Hansen)</strong> <em>(SLLN, <span class="math inline">\(\mathcal{L}^p\)</span>-version) Let <span class="math inline">\(X_1,X_2,...\)</span> be sequence of independent and identically distributed real-valued random variables. If <span class="math inline">\(E\vert X_1\vert^p &lt;\infty\)</span> for some <span class="math inline">\(p\ge 1\)</span>, then it holds that</em>
+<span class="math display">\[\begin{align*}
+\frac{1}{n}\sum_{n=1}^\infty \stackrel{\mathcal{L}^p}{\to} E\ X_1.\tag{4.26}    
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 4.26. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of pairwise independent, identically distributed real-valued random variables with <span class="math inline">\(E\vert X_1\vert &lt;\infty\)</span>. Let <span class="math inline">\(n_1&lt;n_2&lt;...\)</span> be a sequence of natural numbers. If there are constants <span class="math inline">\(C_1,C_2&gt;0\)</span> and <span class="math inline">\(\alpha&gt;1\)</span> such that</em>
+<span class="math display">\[\begin{align*}
+    C_1\alpha^k\le n_k\le C_2\alpha^k\hspace{15pt}\text{for}\ k\to\infty\tag{4.27}
+\end{align*}\]</span>
+<em>then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n_k}\sum_{i=1}^{n_k}X_i\stackrel{\text{a.s.}}{\to} E\ X_1\hspace{15pt}\text{for}\ k\to \infty.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 4.27. (Hansen)</strong> <em>(Etemahdi’s version) Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of pairwise independent, identically distributed real-valued random variables. If <span class="math inline">\(E\vert X_1\vert&lt;\infty\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=1}^nX_i\stackrel{\text{a.s.}}{\to} E\ X_1.\tag{4.30}
+\end{align*}\]</span>
+</blockquote>
+</div>
+<div id="ergodic-theory" class="section level3 hasAnchor" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> Ergodic Theory<a href="convergence-concepts.html#ergodic-theory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="def">
+<strong>Definition 5.3. (Hansen)</strong> <em>Let <span class="math inline">\((\mathcal{X},\mathbb{E})\)</span> be a measurable space and let <span class="math inline">\(T : \mathcal{X}\to \mathcal{X}\)</span> be measurable. A probability measure <span class="math inline">\(\mu\)</span> on <span class="math inline">\((\mathcal{X},\mathbb{E})\)</span> is <strong>invariant</strong> under <span class="math inline">\(T\)</span> if</em>
+<span class="math display">\[\begin{align*}
+    \mu\big(T^{-1}(A)\big)=\mu(A)\hspace{10pt}\text{for all}\ A\in\mathbb{E}\tag{5.5}
+\end{align*}\]</span>
+<em>In this case we call the quadruple <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> a <strong>measure-preserving dynamical system</strong>.</em>
+</blockquote>
+<p>We say that a set <span class="math inline">\(A\in\mathbb{E}\)</span> is an <strong>invariant set</strong> if <span class="math inline">\(T^{-1}(A)=A\)</span> i.e. the orbit of all <span class="math inline">\(x\in A\)</span> stays in <span class="math inline">\(A\)</span>.</p>
+<blockquote class="def">
+<strong>Definition 5.5. (Hansen)</strong> <em>A measure-preserving dynamical system <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> is <strong>ergodic</strong> if</em>
+<span class="math display">\[\begin{align*}
+    T^{-1}(A)=A,\ A\in\mathbb{E} \hspace{10pt}\Rightarrow\hspace{10pt} \mu(A)\in\{0,1\}.\tag{5.7}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 5.6. (Hansen)</strong> <em>A measure-preserving dynamical system <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> is <strong>mixing</strong> if</em>
+<span class="math display">\[\begin{align*}
+    \mu(A\cap T^{-n}(B))\to \mu(A)\mu(B)\hspace{10pt}\text{for all}\ A,B\in\mathbb{E}.\tag{5.8}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 5.7. (Hansen)</strong> <em>If a measure-preserving dynamical system <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> is mixing then it is also ergodic.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 5.8. (Hansen)</strong> <em>Let <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> be a measure-preserving dynamical system. Let <span class="math inline">\(\mathbb{D}\)</span> be an <span class="math inline">\(\cap\)</span>-stable generator for <span class="math inline">\(\mathbb{E}\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+        \mu(A\cap T^{-n}(B))\to \mu(A)\mu(B)\hspace{10pt}\text{for all}\ A,B\in\mathbb{D}.\tag{5.10}
+\end{align*}\]</span>
+<em>then the system is mixing. (and ergodic)</em>
+</blockquote>
+<blockquote class="lem">
+<p><strong>Lemma 5.9. (Hansen)</strong> <em>Let <span class="math inline">\((\mathcal{X},\mathbb{E},\mu)\)</span> be a probability space, and let <span class="math inline">\(T : \mathcal{X}\to \mathcal{X}\)</span> be a measure-preserving map. Let <span class="math inline">\((\mathcal{Y},\mathbb{G})\)</span> be another measurable space, and let <span class="math inline">\(S : \mathcal{Y} \to \mathcal{Y}\)</span> be a measurable map.</em>
+<em>Suppose there is a measurable map <span class="math inline">\(\gamma : \mathcal{X}\to \mathcal{Y}\)</span> such that the following diagram commutes:</em></p>
+<p><img src="theory_files/figure-html/unnamed-chunk-18-1.png" width="25%" style="display: block; margin: auto;" /></p>
+<em>Then <span class="math inline">\((\mathcal{Y},\mathbb{G},\gamma(\mu),S)\)</span> is a measure-preserving dynamical system.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 5.10. (Hansen)</strong> <em>Let <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> and <span class="math inline">\((\mathcal{Y},\mathbb{G},\nu,S)\)</span> be two measure-preserving dynamical systems. Suppose there is a measurable map <span class="math inline">\(\gamma : \mathcal{X}\to\mathcal{Y}\)</span> such that <span class="math inline">\(\nu =\gamma(\mu)\)</span> and such that the diagram in lemma 5.9 commutes.</em>
+<em>If <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> is ergodic then <span class="math inline">\((\mathcal{Y},\mathbb{G},\nu,S)\)</span> is also ergodic.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 5.11. (Hansen)</strong> <em>(Maximal Ergodic Lemma) Let <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> be a measure-preserving dynamical system, and let <span class="math inline">\(f : \mathcal{X}\to \mathbb{R}\)</span> be Borel measurable. If <span class="math inline">\(f\in \mathcal{L}^1(\mu)\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \int_{(M_n&gt;0)}f\ d\mu\ge 0\tag{5.14}
+\end{align*}\]</span>
+<em>where <span class="math inline">\(M_n=\max\{0,S_1,S_2,...,S_n\}\)</span> from the sequence</em>
+<span class="math display">\[\begin{align*}
+    \Big(f(x), f\circ T(x),f\circ T^2(x),f\circ T^3(x),...\Big)\hspace{10pt}\text{with}\hspace{10pt}S_n=\sum_{i=0}^{n-1}f\circ T^i.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 5.12. (Hansen)</strong> <em>(Birkhoff’s ergodic theorem) Let <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> be an ergodic system. For <span class="math inline">\(f\in \mathcal{L}^1(\mu)\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=0}^{n-1}f\circ T^i\stackrel{\text{a.s.}}{\to} \int f\ d\mu.\tag{5.16}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 5.13. (Hansen)</strong> <em>(Ergodic theorem, <span class="math inline">\(\mathcal{L}^p\)</span>-version) Let <span class="math inline">\((\mathcal{X},\mathbb{E},\mu,T)\)</span> be an ergodic system. If <span class="math inline">\(f\in \mathcal{L}^p(\mu)\)</span> for some <span class="math inline">\(p\ge 1\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=0}^{n-1}f\circ T^i\stackrel{\mathcal{L}^p}{\to}\int f\ d\mu.\tag{5.21}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 5.14. (Hansen)</strong> <em>Let <span class="math inline">\((\mathcal{X},\mathbb{E})\)</span> be a measurable space. The measurable finite dimensional product sets in <span class="math inline">\(\mathcal{X}^{\mathbb{N}}\)</span> form an <span class="math inline">\(\cap\)</span>-stable generator for</em> <span class="math inline">\({\mathbb{E}}^{\otimes\mathbb{N}}\)</span>.
+</blockquote>
+<p>An element of the space <span class="math inline">\(\mathcal{X}^{\mathbb{N}}\)</span> is a countable set of coordinates <span class="math inline">\(x_n\)</span> for <span class="math inline">\(n\in\mathcal{N}\)</span> with <span class="math inline">\(x_n\in\mathcal{X}\)</span>. A <strong>finite dimensional product set</strong> in <span class="math inline">\(\mathcal{X}^{\mathbb{N}}\)</span> is set on the form
+<span class="math display">\[\begin{align*}
+    A_1\times ... \times A_k\times \mathcal{X}\times \mathcal{X}\times ...
+\end{align*}\]</span>
+where <span class="math inline">\(A_1,...,A_k\subset \mathcal{X}\)</span>. We also define the <strong>projection sigma-algebra</strong> <span class="math inline">\(\mathbb{E}^{\otimes \mathbb{N}}\)</span> as <span class="math inline">\(\sigma\left(\big(\hat{X}_n(\mathcal{X}^n)\big)_{n\in\mathbb{N}}\right)\)</span> where <span class="math inline">\(\hat{X}_n(x_1,...,x_n)=x_n\)</span>.</p>
+<blockquote class="def">
+<strong>Definition 5.15. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of <span class="math inline">\((\mathcal{X},\mathbb{E})\)</span>-valued random variable, defined on a background space <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>, and let <span class="math inline">\(\mathbb{X}=(X_1,X_2,...)\)</span> be their bundling. The <strong>distribution</strong> of the process is the image measure <span class="math inline">\(\mathbb{X}(P)\)</span> on</em> <span class="math inline">\((\mathcal{X}^{\mathbb{N}},{\mathbb{E}}^{\otimes \mathbb{N}})\)</span>.
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 5.16. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbb{X}=(X_1,X_2,...)\)</span> and <span class="math inline">\(\mathbb{Y}=(Y_1,Y_2,...)\)</span> be two <span class="math inline">\((\mathcal{X},\mathbb{E})\)</span>-valued stochastic process, defined on a common background space . The two processes <span class="math inline">\(\mathbb{X}\)</span> and <span class="math inline">\(\mathbb{Y}\)</span> have the same distribution if and only if the have the same fidis.</em>
+<em>This can be checked by showing that</em>
+<span class="math display">\[\begin{align*}
+    P(X_1\in A_i,...,X_k\in A_k)=P(Y_1\in A_1,...,Y_k\in A_k)\tag{5.25}
+\end{align*}\]</span>
+<em>for any <span class="math inline">\(k\in\mathbb{N}\)</span> and any choice of <span class="math inline">\(A_1,...,A_k\in\mathbb{E}\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 5.18. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of <span class="math inline">\((\mathcal{X},\mathbb{E})\)</span>-valued random variable, defined on a background space <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>, and let <span class="math inline">\(\mathbb{X}=(X_1,X_2,...)\)</span> be their bundling. Then we define:</em>
+1. <em>The proces <span class="math inline">\(\mathbb{X}\)</span> is <strong>stationary</strong> if the distrbution <span class="math inline">\(\mathbb{X}(P)\)</span> is an <span class="math inline">\(S\)</span>-invariant probability on</em> <span class="math inline">\(\Big(\mathbb{R}^{\mathbb{N}},\mathbb{B}^{\otimes \mathbb{N}}\Big)\)</span>,
+2. <em>The proces <span class="math inline">\(\mathbb{X}\)</span> is <strong>ergodic</strong> if it is stationary and if the dynamical system</em> <span class="math inline">\(\Big(\mathbb{R}^{\mathbb{N}},\mathbb{B}^{\otimes \mathbb{N}},\mathbb{X}(P),S\Big)\)</span> <em>is ergodic.</em>
+3. <em>The proces <span class="math inline">\(\mathbb{X}\)</span> is <strong>mixing</strong> if it is stationary and if the dynamical system</em> <span class="math inline">\(\Big(\mathbb{R}^{\mathbb{N}},\mathbb{B}^{\otimes \mathbb{N}},\mathbb{X}(P),S\Big)\)</span> <em>is mixing.</em>
+<em>with <span class="math inline">\(S\)</span> being the <strong>shift</strong> map defined as <span class="math inline">\(S(x_1,x_2,...)=(x_2,x_3,...)\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 5.20. (Hansen)</strong> <em>(Khintchine’s ergodic theorem) Let <span class="math inline">\(X_1,X_2,...\)</span> be a stationary and ergodic sequence of real-valued random variables. If <span class="math inline">\(E\vert X_1\vert &lt;\infty\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=1}^nX_i\stackrel{\text{a.s.}}{\to} E\ X_1.\tag{5.27}
+\end{align*}\]</span>
+<em>If <span class="math inline">\(E\vert X_1\vert ^p&lt;\infty\)</span> for some <span class="math inline">\(p\ge 1\)</span>, the convergence is also in <span class="math inline">\(\mathcal{L}^p\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 5.21. (Hansen)</strong> <em>(Ergodic transformation theorem) Let <span class="math inline">\(X_1,X_2,...\)</span> be a sequence of real-valued random variables. For a measurable function</em> <span class="math inline">\(\phi : \big(\mathbb{R}^{\mathbb{N}},\mathbb{B}^{\otimes\mathbb{N}}\big)\to (\mathbb{R},\mathbb{B})\)</span> <em>we define new real-valued random variables</em>
+<span class="math display">\[\begin{align*}
+    Y_n=\phi(X_n,X_{n+1},...)=\phi\circ S^{n-1}(\mathbb{X})\hspace{15pt}\text{for}\ n\in\mathbb{N}.
+\end{align*}\]</span>
+<em>If <span class="math inline">\(X_1,X_2,...\)</span> is stationary and ergodic then <span class="math inline">\(Y_1,Y_2,...\)</span> is also stationary and ergodic.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 5.23. (Hansen)</strong> <em>Let <span class="math inline">\((X_n)_{n\in\mathbb{Z}}\)</span> be a two-sided sequence of real-valued random variables, defined on a background space <span class="math inline">\((\Omega,\mathbb{F},P)\)</span>, and let <span class="math inline">\(\mathbb{X}\)</span> be their bundling.</em>
+1. <em>The proces <span class="math inline">\(\mathbb{X}\)</span> is <strong>stationary</strong> if the distrbution <span class="math inline">\(\mathbb{X}(P)\)</span> is an <span class="math inline">\(S\)</span>-invariant probability on</em> <span class="math inline">\(\Big(\mathbb{R}^{\mathbb{Z}},\mathbb{B}^{\otimes \mathbb{Z}}\Big)\)</span>,
+2. <em>The proces <span class="math inline">\(\mathbb{X}\)</span> is <strong>ergodic</strong> if it is stationary and if the dynamical system</em> <span class="math inline">\(\Big(\mathbb{R}^{\mathbb{Z}},\mathbb{B}^{\otimes \mathbb{Z}},\mathbb{X}(P),S\Big)\)</span> <em>is ergodic.</em>
+3. <em>The proces <span class="math inline">\(\mathbb{X}\)</span> is <strong>mixing</strong> if it is stationary and if the dynamical system</em> <span class="math inline">\(\Big(\mathbb{R}^{\mathbb{Z}},\mathbb{B}^{\otimes \mathbb{Z}},\mathbb{X}(P),S\Big)\)</span> <em>is mixing.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 5.25. (Hansen)</strong> <em>(Khintchine’s ergodic theorem, two-sided version) Let <span class="math inline">\((X_n)_{n\in\mathbb{Z}}\)</span> be a two-sided sequence of real-valued random variables. If the sequence is stationary and ergodic and if <span class="math inline">\(E\vert X_1\vert &lt;\infty\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=1}^nX_i\stackrel{\text{a.s.}}{\to} E\ X_1.\tag{5.30}
+\end{align*}\]</span>
+<em>If <span class="math inline">\(E\vert X_1\vert^p&lt;\infty\)</span> for some <span class="math inline">\(p\ge 1\)</span>, the convergence is also in <span class="math inline">\(\mathcal{L}^p\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 5.26. (Hansen)</strong> <em>(Ergodic transformation theorem) Let <span class="math inline">\((X_n)_{n\in\mathbb{Z}}\)</span> be a two-sided sequence of real-valued random variables. For a measurable function</em> <span class="math inline">\(\phi : \big(\mathbb{R}^{\mathbb{Z}},\mathbb{B}^{\otimes\mathbb{Z}}\big)\to (\mathbb{R},\mathbb{B})\)</span> <em>we define new real-valued random variables</em>
+<span class="math display">\[\begin{align*}
+    Y_n=\phi\circ S^{n}(\mathbb{X})\hspace{15pt}\text{for}\ n\in\mathbb{Z}.
+\end{align*}\]</span>
+<em>If <span class="math inline">\((X_n)_{n\in\mathbb{Z}}\)</span> is stationary and ergodic then <span class="math inline">\((Y_n)_{n\in\mathbb{Z}}\)</span> is also stationary and ergodic.</em>
+</blockquote>
+</div>
+<div id="weak-convergence" class="section level3 hasAnchor" number="13.1.3">
+<h3><span class="header-section-number">13.1.3</span> Weak Convergence<a href="convergence-concepts.html#weak-convergence" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="def">
+<strong>Definition 6.1. (Hansen)</strong> <em>A sequence of probability measures <span class="math inline">\(\nu_1,\nu_2,...\)</span> on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> is said to <strong>converge weakly</strong> to a limit probability measure <span class="math inline">\(\nu\)</span> if</em>
+<span class="math display">\[\begin{align*}
+    \int f\ d\nu_n\to \int f\ d\nu\hspace{15pt}\text{for every}\ f\in C_b(\mathbb{R})\tag{6.2}
+\end{align*}\]</span>
+<em>We write <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to} \nu\)</span> to denote weak convergence.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.4. (Hansen)</strong> <em>(Scheffe’s) Let <span class="math inline">\(\nu_1,\nu_2,...\)</span> and <span class="math inline">\(\nu\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. Assume that for some choice of basic measure <span class="math inline">\(\mu\)</span> it holds that <span class="math inline">\(\nu_n=f_n\cdot \mu\)</span> for every <span class="math inline">\(n\)</span> and <span class="math inline">\(\nu = f\cdot \mu\)</span> for suitable density functions <span class="math inline">\(f_n\)</span> and <span class="math inline">\(f\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    f_n(x)\to f(x)\hspace{15pt}\mu\text{-almost surely}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to} \nu\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.8. (Hansen)</strong> <em>Let <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\nu\)</span> be two probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \int f\ d\mu=\int f\ d\nu\hspace{15pt}\text{for all}\ f\in C_b(\mathbb{R})\tag{6.7}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(\mu=\nu\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.9. (Hansen)</strong> <em>Let <span class="math inline">\(\nu_1,\nu_2,...\)</span> be a sequence of probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> and let <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\nu\)</span> be two extra probability measures. If</em>
+<span class="math display">\[\begin{align*}
+    \nu_n\stackrel{\text{wk}}{\to} \mu\hspace{15pt}\text{and}\hspace{15pt}\nu_n\stackrel{\text{wk}}{\to} \nu
+\end{align*}\]</span>
+<em>then <span class="math inline">\(\mu=\nu\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.10. (Hansen)</strong> <em>A sequence of real-valued variables <span class="math inline">\(X_1,X_2,...\)</span>, defined on a common background space <span class="math inline">\((\Omega,\mathbb{F},P)\)</span> is said to <strong>converge in distrbution</strong> to a limit variable <span class="math inline">\(X\)</span> if</em>
+<span class="math display">\[\begin{align*}
+    \int f(X_n)\ dP\to \int f(X)\ dP\hspace{15pt}\text{for every}\ f\in C_b(\mathbb{R}).\tag{6.9}
+\end{align*}\]</span>
+We will write <span class="math inline">\(X_n\stackrel{\mathcal{D}}{\to} X\)</span> to denote convergence in distribution.
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.11. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> and <span class="math inline">\(X\)</span> be real-valued random variables. It holds that</em>
+<span class="math display">\[\begin{align*}
+    X_n\stackrel{\text{P}}{\to} X\hspace{10pt}\Rightarrow\hspace{10pt} X_n\stackrel{\mathcal{D}}{\to} X.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.12. (Hansen)</strong> <em>Let <span class="math inline">\(X_1,X_2,...\)</span> be real-valued random variable and let <span class="math inline">\(x_0\in\mathbb{R}\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    X_n\stackrel{\mathcal{D}}{\to} x_0\hspace{10pt}\Rightarrow\hspace{10pt} X_n\stackrel{\text{P}}{\to} x_0.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.13. (Hansen)</strong> <em>Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. Let <span class="math inline">\(\mathcal{H}\)</span> be a class of bounded, non-negative and measurable functions with the following approximation property: For <span class="math inline">\(f\in C_b(\mathbb{R})\)</span> with <span class="math inline">\(f\ge 0\)</span> there is a sequence <span class="math inline">\(h_1,h_2,...\)</span> of <span class="math inline">\(\mathcal{H}\)</span>-functions such that <span class="math inline">\(h_n\nearrow f\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \int h\ d\nu_n\to \int h\ d\nu\hspace{15pt}\text{for all}\ h\in\mathcal{H}.\tag{6.11}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to} \nu\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.14. (Hansen)</strong> <em>Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \int f\ d\nu_n\to \int f\ d\nu\hspace{15pt}\text{for all}\ f\in C_c(\mathbb{R})\tag{6.13}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to} \nu\)</span>.</em>
+</blockquote>
+<p>The class <span class="math inline">\(C_c(\mathbb{R})\)</span> is denoted as the set of all continuous real-valued functions with compact support i.e. there exist a <span class="math inline">\(M&gt;0\)</span> such that <span class="math inline">\(f(x)=0\)</span> for all <span class="math inline">\(\vert x\vert&gt;M\)</span>.</p>
+<blockquote class="lem">
+<strong>Lemma 6.15. (Hansen)</strong> <em>Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>, and let <span class="math inline">\(F,F_1,F_2,...\)</span> be the corresponding distribution functions. If <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    F_n(x_0)\to F(x_0),
+\end{align*}\]</span>
+<em>whenever <span class="math inline">\(x_0\)</span> is a point of continuity for <span class="math inline">\(F\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.17. (Hansen)</strong> <em>(Helly-Bray) Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>, and let <span class="math inline">\(F,F_1,F_2,...\)</span> be the corresponding distribution functions. It holds that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span> if and only if there is a dense subset <span class="math inline">\(A\subset\mathbb{R}\)</span> such that</em>
+<span class="math display">\[\begin{align*}
+    F_n(x)\to F(x)\hspace{15pt}\text{for every}\ x\in A.\tag{6.16}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.18. (Hansen)</strong> <em>Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. Let <span class="math inline">\(F,F_1,F_2,...\)</span> be the corresponding distribution functions, and let <span class="math inline">\(q,q_1,q_2,...\)</span> be the corresponding quantile functions. If <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    q_n(p)\to q(p)
+\end{align*}\]</span>
+<em>for any <span class="math inline">\(p\in(0,1)\)</span> such that the equation <span class="math inline">\(F(x)=p\)</span> hast at most one solution.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.19. (Hansen)</strong> <em>(Skorokhod’s representation theorem) Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. If <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to} \nu\)</span> then it is possible to find random variables <span class="math inline">\(X,X_1,X_2,...\)</span> on a background space <span class="math inline">\((\Omega,\mathbb{F},P)\)</span> such that</em>
+<span class="math display">\[\begin{align*}
+    X(P)=\nu,\ X_1(P)=\nu_1,\ X_2(P)=\nu_2, ...
+\end{align*}\]</span>
+<em>and such that <span class="math inline">\(X_n\stackrel{\text{a.s.}}{\to} X\)</span>.</em>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 6.20. (Hansen)</strong> <em>Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> such that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span>. Let <span class="math inline">\(h : \mathbb{R}\to\mathbb{R}\)</span> be a bounded and measurable function. If there is a Boral-measurable set <span class="math inline">\(C\subset \mathbb{R}\)</span> such that <span class="math inline">\(h\)</span> is continuous in every point of <span class="math inline">\(C\)</span> and such that <span class="math inline">\(\nu(C)=1\)</span>, then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \int h\ d\nu_n\to \int h\ d\nu.\tag{6.20}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 6.21. (Hansen)</strong> <em>(Portmanteau’s lemma) Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> such that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span>. For any open set <span class="math inline">\(G\subset \mathbb{R}\)</span> it holds that</em>
+<span class="math display">\[\begin{align*}
+    \liminf{\nu_n(G)}\ge \nu(G)\tag{6.21}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.22. (Hansen)</strong> <em>The <strong>characteristic function</strong> for a probability measure <span class="math inline">\(\nu\)</span> on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> is the function <span class="math inline">\(\phi : \mathbb{R}\to \mathbb{C}\)</span> given by</em>
+<span class="math display">\[\begin{align*}
+    \phi(\theta)=\int e^{ix\theta}\ d\nu(x).\hspace{15pt}\text{for}\ \theta\in\mathbb{R}.\tag{6.23}
+\end{align*}\]</span>
+</blockquote>
+<p>Some useful observations include <span class="math inline">\(\vert e^{ix\theta}\vert = 1\)</span> hence <span class="math inline">\(\phi(\theta)\le 1\)</span> for all <span class="math inline">\(\theta\in\mathbb{R}\)</span>. We may also split the <span class="math inline">\(\phi\)</span> into an imaginary part and a real part with Euler’s cartesian form
+<span class="math display">\[\begin{align*}
+    \phi(\theta)=\int \cos (x\theta)\ d\nu(x)+i\int \sin (x\theta)\ d\nu(x)\tag{6.24}
+\end{align*}\]</span>
+And lastly we have the implication
+<span class="math display">\[\begin{align*}
+    \nu_n\stackrel{\text{wk}}{\to} \nu \hspace{10pt}\Rightarrow\hspace{10pt} \phi_n(\theta)\to \phi(\theta)\hspace{10pt}\text{for all}\ \theta\in\mathbb{R}.
+\end{align*}\]</span>
+Furthermore, if <span class="math inline">\(Y=\xi+\sigma X\)</span> and <span class="math inline">\(X\sim \mathcal{N}(0,1)\)</span> we have
+<span class="math display">\[\begin{align*}
+    \phi_Y(\theta)=e^{i\xi\theta}e^{-\sigma^2\theta^2/2}.
+\end{align*}\]</span></p>
+<blockquote class="thm">
+<strong>Theorem 6.28. (Hansen)</strong> <em>The characteristic function for any probability measure <span class="math inline">\(\nu\)</span> on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> is uniformly continuous.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.29. (Hansen)</strong> <em>Let <span class="math inline">\(\nu\)</span> be a probability measure on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \int \vert x\vert^k\ d\nu(x)&lt;\infty
+\end{align*}\]</span>
+<em>for some <span class="math inline">\(k\in\mathbb{N}\)</span>, then the characteristic function <span class="math inline">\(\phi\)</span> is <span class="math inline">\(C^k\)</span> and it holds that</em>
+<span class="math display">\[\begin{align*}
+    \phi^{(k)}(\theta)=i^k\int x^ke^{i\theta x}\ d\nu(x)\hspace{15pt}\text{for}\ \theta\in\mathbb{R}.\tag{6.31}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.30. (Hansen)</strong> <em>The <strong>convolution</strong> of two probability measures <span class="math inline">\(\nu\)</span> and <span class="math inline">\(\xi\)</span> on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> is the image measure</em>
+<span class="math display">\[\begin{align*}
+    \nu * \xi=\kappa (\nu\otimes\xi)\tag{6.33}
+\end{align*}\]</span>
+<em>where <span class="math inline">\(\kappa : \mathbb{R}^2\to\mathbb{R}\)</span> is the addition map <span class="math inline">\(\kappa(x,y)=x+y\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.31. (Hansen)</strong> <em>Let <span class="math inline">\(\nu\)</span> and <span class="math inline">\(\xi\)</span> be two probability measures on <span class="math inline">\(\mathbb{R}\)</span>. If <span class="math inline">\(\xi=f\cdot m\)</span>, then the convolution <span class="math inline">\(\nu*\xi\)</span> will have a density with respect to <span class="math inline">\(m\)</span>. The density is given as</em>
+<span class="math display">\[\begin{align*}
+    g(x)=\int f(x-y)\ d\nu(y)\hspace{15pt}\text{for}\ x\in\mathbb{R}.\tag{6.35}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.31. (Hansen)</strong> <em>Let <span class="math inline">\(\nu_1\)</span> and <span class="math inline">\(\nu_2\)</span> be two probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> with characteristic functions <span class="math inline">\(\phi_1\)</span> and <span class="math inline">\(\phi_2\)</span>. The convolution <span class="math inline">\(\nu_1*\nu_2\)</span> has characteristic function <span class="math inline">\(\gamma\)</span> given by</em>
+<span class="math display">\[\begin{align*}
+    \gamma(\theta)=\phi_1(\theta)\phi_2(\theta)\hspace{15pt}\text{for}\ \theta\in\mathbb{R}.\tag{6.37}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.34. (Hansen)</strong> <em>Let <span class="math inline">\(\xi,\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \nu_n\stackrel{\text{wk}}{\to} \nu\hspace{10pt}\Rightarrow\hspace{10pt} \nu_n*\xi\stackrel{\text{wk}}{\to} \nu *\xi.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.35. (Hansen)</strong> <em>A probability measure <span class="math inline">\(\nu=f\cdot m\)</span> on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> with density <span class="math inline">\(f\)</span> with respect to Lebesgue measure is of <strong>Polya class</strong> if <span class="math inline">\(f\in C_b(\mathbb{R})\)</span> and if the Fourier transform <span class="math inline">\(\hat{f}\)</span> is <span class="math inline">\(m\)</span>-integrable.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.39. (Hansen)</strong> <em>Let <span class="math inline">\(\nu\)</span> and <span class="math inline">\(\xi\)</span> be two probability measures on <span class="math inline">\(\mathbb{R}\)</span>. If <span class="math inline">\(\xi\)</span> is of Polya class then the convolution <span class="math inline">\(\nu *\xi\)</span> is also of Polya class.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.40. (Hansen)</strong> <em>(Inversion theorem) Let <span class="math inline">\(\nu=f\cdot m\)</span> be a probability measure on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> of Polya class. It holds that</em>
+<span class="math display">\[\begin{align*}
+    f(x)=\frac{1}{2\pi}\int_{-\infty}^\infty e^{-i\theta x}\hat{f}(\theta)\ d\theta,\ x\in\mathbb{R}.\tag{6.39}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.41. (Hansen)</strong> <em>Let <span class="math inline">\(\nu_1\)</span> and <span class="math inline">\(\nu_2\)</span> be two probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> with characteristic functions <span class="math inline">\(\phi_1\)</span> and <span class="math inline">\(\phi_2\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \phi_1(\theta)=\phi_2(\theta),\ \forall \theta \in\mathbb{R}
+\end{align*}\]</span>
+<em>then <span class="math inline">\(\nu_1=\nu_2\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.42. (Hansen)</strong> <em>Let <span class="math inline">\(f : \mathbb{R}\to\mathbb{R}\)</span> be bounded and uniformly continuous. For every <span class="math inline">\(\varepsilon&gt;0\)</span> there is a probability measure <span class="math inline">\(\xi\)</span> of Polya class with the property that</em>
+<span class="math display">\[\begin{align*}
+    \Big\vert f(x)-\int f(x+y)\ d\xi(y)\Big\vert&lt;\varepsilon,\ \forall x\in\mathbb{R}.\tag{6.43}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.43. (Hansen)</strong> <em>(Continuity theorem) Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\((\mathbb{R},\mathbb{B})\)</span> with characteristic functions <span class="math inline">\(\phi,\phi_1,\phi_2,...\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \phi_n(\theta)\to \phi(\theta),\ \theta\in\mathbb{R},\tag{6.45}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.44. (Hansen)</strong> <em>A sequence of probability measures <span class="math inline">\(\nu_1,\nu_2,...\)</span> on <span class="math inline">\(\big(\mathbb{R}^k,\mathbb{B}_k\big)\)</span> is said to <strong>converge weakly</strong> to a limit probability measure <span class="math inline">\(\nu\)</span> if</em>
+<span class="math display">\[\begin{align*}
+    \int f(x)\ d\nu_n(x)\to\int f(x)\ d\nu(x), \forall f\in C_b(\mathbb{R}^k).\tag{6.46}
+\end{align*}\]</span>
+<em>We will write <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span> to denote weak convergence.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.45. (Hansen)</strong> <em>(Continuity theorem) Let <span class="math inline">\(\nu,\nu_1,\nu_2,...\)</span> be probability measures on <span class="math inline">\(\big(\mathbb{R}^k,\mathbb{B}_k\big)\)</span> with characteristic functions <span class="math inline">\(\phi,\phi_1,\phi_2,...\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \phi_n(\theta)\to \phi(\theta),\ \theta\in\mathbb{R}^k,\tag{6.47}
+\end{align*}\]</span>
+<em>then it holds that <span class="math inline">\(\nu_n\stackrel{\text{wk}}{\to}\nu\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.46. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}\)</span> be an <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variable with characteristic function <span class="math inline">\(\phi_\mathbf{X}\)</span>, and let <span class="math inline">\(\mathbf{Y}\)</span> be an <span class="math inline">\(\mathbb{R}^m\)</span>-valued random variable with characteristic function <span class="math inline">\(\phi_\mathbf{Y}\)</span>. If <span class="math inline">\(\mathbf{X} \perp \!\!\! \perp \mathbf{Y}\)</span> then the bundle <span class="math inline">\((\mathbf{X},\mathbf{Y})\)</span> is an <span class="math inline">\(\mathbb{R}^{k+m}\)</span>-valued random variable with</em>
+<span class="math display">\[\begin{align*}
+    \phi_{(\mathbf{X},\mathbf{Y})}(\theta_1,\theta_2)=\phi_\mathbf{X}(\theta_1)\phi_\mathbf{Y}(\theta_2),\ \theta_1\in\mathbb{R}^k,\theta_2\in\mathbb{R}^m.\tag{6.49}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.47. (Hansen)</strong> <em>(Continuous mapping theorem) Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{X}\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span>, and let <span class="math inline">\(h : \mathbb{R}^k\to\mathbb{R}^m\)</span> be continuous. If <span class="math inline">\(\mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{X}\)</span>, then it holds that <span class="math inline">\(h(\mathbf{X}_n)\stackrel{\mathcal{D}}{\to} h(\mathbf{X})\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.48. (Hansen)</strong> <em>(Cramer-Wold’s device) Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{X}\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span>. If</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{v}^\top\mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{v}^\top\mathbf{X},\tag{6.51}
+\end{align*}\]</span>
+<em>for any fixed vector <span class="math inline">\(\mathbf{v}\in\mathbb{R}^k\)</span>, then it holds that <span class="math inline">\(\mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{X}\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.49. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X},\mathbf{X}_1,\mathbf{X}_2,...\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span>, let <span class="math inline">\(\mathbf{Y}_1,\mathbf{Y}_2,...\)</span> be random variables in <span class="math inline">\(\mathbb{R}^m\)</span>, and let <span class="math inline">\(\mathbf{y}\)</span> be a vector in <span class="math inline">\(\mathbb{R}^m\)</span>. If it holds that</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{X},\hspace{15pt}\mathbf{Y}_n\stackrel{\text{P}}{\to} \mathbf{y}
+\end{align*}\]</span>
+<em>then the bundle <span class="math inline">\((\mathbf{X}_n,\mathbf{Y}_n)\)</span> in <span class="math inline">\(\mathbb{R}^{k+m}\)</span> will satisfy that</em>
+<span class="math display">\[\begin{align*}
+    (\mathbf{X}_n,\mathbf{Y}_n)\stackrel{\mathcal{D}}{\to} (\mathbf{X},\mathbf{y}).
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 6.50. (Hansen)</strong> <em>(Slutsky’s lemma) Let <span class="math inline">\(\mathbf{X},\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{Y}_1,\mathbf{Y}_2,...\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{X},\hspace{10pt}\mathbf{Y}_n\stackrel{\text{P}}{\to} \mathbf{0}\hspace{10pt}\Rightarrow\hspace{10pt} \mathbf{X}_n+\mathbf{Y}_n\stackrel{\mathcal{D}}{\to}\mathbf{X}.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 6.51. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{X}\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span> and let <span class="math inline">\(Y_1,Y_2,...\)</span> be real-valued random variables. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{X},\hspace{10pt}Y_n\stackrel{\text{P}}{\to} 1\hspace{10pt}\Rightarrow\hspace{10pt} Y_n\mathbf{X}_n\stackrel{\mathcal{D}}{\to}\mathbf{X}.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 6.52. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{X}\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span> and let <span class="math inline">\(Y_1,Y_2,...\)</span> be real-valued random variables. If</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{X},\hspace{10pt}Y_n\stackrel{\text{P}}{\to} 0\hspace{10pt}\Rightarrow\hspace{10pt} Y_n\mathbf{X}_n\stackrel{\text{P}}{\to} \mathbf{0}.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.53. (Hansen)</strong> <em>The <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variable <span class="math inline">\(\mathbf{Z}=(Z_1,...,Z_k)\)</span> has a <strong>multivariate Gaussian distribution</strong> if and only if the real-valued random variable <span class="math inline">\(\sum_{j=1}^kc_jZ_j\)</span> has a one-dimensional Gaussian distribution for every choice of <span class="math inline">\(c_1,...,c_k\in\mathbb{R}\)</span>.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 6.54. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{Z}=(Z_1,...,Z_k)\)</span> have a multivariate Gaussian distribution with <span class="math inline">\(E\ \mathbf{Z}=\xi\)</span> and <span class="math inline">\(V\ \mathbf{Z}=\Sigma\)</span>. Then the characteristic function is</em>
+<span class="math display">\[\begin{align*}
+    \phi_\mathbf{Z}(\theta)=e^{i\theta^\top\xi}\exp\left(-\frac{1}{2}\theta^\top\Sigma\theta\right),\ \theta\in\mathbb{R}^k.\tag{6.53}
+\end{align*}\]</span>
+<em>Conversly, if <span class="math inline">\(\mathbf{Z}\)</span> has characteristic function given by (6.53) for some <span class="math inline">\(\xi\in\mathbb{R}^k\)</span> and some symmetric, positive semi-definite <span class="math inline">\(k\times k\)</span> matrix <span class="math inline">\(\Sigma\)</span> then <span class="math inline">\(\mathbf{Z}\)</span> has a multivariate Gaussian distribution with <span class="math inline">\(E\ \mathbf{Z}=\xi\)</span> and <span class="math inline">\(V\ \mathbf{Z}=\Sigma\)</span>.</em>
+</blockquote>
+<blockquote class="prop">
+<strong>Corollary 6.55. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{Z}\)</span> be an <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variable, let <span class="math inline">\(\mathbf{a}\in\mathbb{R}^m\)</span> and let <span class="math inline">\(B\)</span> be an <span class="math inline">\(m\times k\)</span> matrix. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{Z}\sim \mathcal{N}(\xi,\Sigma)\hspace{10pt}\Rightarrow\hspace{10pt} \mathbf{a}+B\mathbf{Z}\sim \mathcal{N}\left(\mathbf{a}+B\xi,B\Sigma B^\top\right).
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.56. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}=(X_1,...,X_k)\)</span> and <span class="math inline">\(\mathbf{Y}=(Y_1,...,Y_m)\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span> respectively <span class="math inline">\(\mathbb{R}^m\)</span>. If both <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> have multivariate Gaussian distributions and if <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> are independent, then the <span class="math inline">\(\mathbb{R}^{k+m}\)</span>-valued bundle <span class="math inline">\((\mathbf{X},\mathbf{Y})\)</span> has a multivariate Gaussian distribution.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.58. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}=(X_1,...,X_k)\)</span> and <span class="math inline">\(\mathbf{Y}=(Y_1,...,Y_m)\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span> respectively <span class="math inline">\(\mathbb{R}^m\)</span>. If the <span class="math inline">\(\mathbb{R}^{k+m}\)</span>-valued bundle <span class="math inline">\((\mathbf{X},\mathbf{Y})\)</span> has a multivariate Gaussian distribution, and if</em>
+<span class="math display">\[\begin{align*}
+    \text{Cov}(X_j,Y_l)=0,\ \forall j\text{ and }l
+\end{align*}\]</span>
+<em>then <span class="math inline">\(\mathbf{X}\perp \!\!\! \perp\mathbf{Y}\)</span>.</em>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 6.59. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variables. Let <span class="math inline">\(\xi\in\mathbb{R}^k\)</span> be a vector and let <span class="math inline">\(\Sigma\)</span> be a symmetric, positive semi-definite <span class="math inline">\(k\times k\)</span> matrix.</em>
+<em>We sat that <span class="math inline">\(\mathbf{X}_n\)</span> has an <strong>asymptotic normal distribution</strong> with parameters <span class="math inline">\(\big(\xi,\frac{1}{n}\Sigma\big)\)</span>, written</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{X}_n\stackrel{\text{a.s.}}{\sim}\mathcal{N}\left(\xi,\frac{1}{n}\Sigma\right),
+\end{align*}\]</span>
+<em>if it holds that</em>
+<span class="math display">\[\begin{align*}
+    \sqrt{n}(\mathbf{X}_n-\xi)\stackrel{\mathcal{D}}{\to} \mathcal{N}(0,\Sigma).
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.60. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> be random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span>. If it holds that <span class="math inline">\(\mathbf{X}_n\stackrel{\text{a.s.}}{\sim} \mathcal{N}(\xi,\frac{1}{n}\Sigma)\)</span> then it follows that <span class="math inline">\(\mathbf{X}_n\stackrel{\text{P}}{\to}\xi\)</span>.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.61. (Hansen)</strong> <em>Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variables, and assume that <span class="math inline">\(\sqrt{n}\mathbf{X}_n\stackrel{\mathcal{D}}{\to} \mathbf{Y}\)</span>. Let <span class="math inline">\(g : \mathbb{R}^k\to \mathbb{R}^m\)</span> be a measurable map. Assume that <span class="math inline">\(g(\mathbf{0})=\mathbf{0}\)</span> and that <span class="math inline">\(g\)</span> is differentiable in <span class="math inline">\(\mathbf{0}\)</span> with deriviate <span class="math inline">\(Dg(\mathbf{0})=A\)</span>. Then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \sqrt{n}g(\mathbf{X}_n)\stackrel{\mathcal{D}}{\to} A\ \mathbf{Y}.
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 6.62. (Hansen)</strong> <em>(Delta method) Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> be <span class="math inline">\(\mathbb{R}^k\)</span>-valued random variables, and let <span class="math inline">\(f : \mathbb{R}^k\to \mathbb{R}^m\)</span> be measurable. If <span class="math inline">\(f\)</span> is differentiable in <span class="math inline">\(\xi\)</span>, then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \mathbf{X}_n\stackrel{\text{a.s.}}{\sim} \mathcal{N}\left(\xi,\frac{1}{n}\Sigma\right)\hspace{10pt}\Rightarrow\hspace{10pt} f(\mathbf{X}_n)\stackrel{\text{a.s.}}{\sim} \mathcal{N}\left(f(\xi),\frac{1}{n}Df(\xi)\Sigma Df(\xi)^\top\right).
+\end{align*}\]</span>
+</blockquote>
+</div>
+<div id="central-limit-theorems" class="section level3 hasAnchor" number="13.1.4">
+<h3><span class="header-section-number">13.1.4</span> Central Limit Theorems<a href="convergence-concepts.html#central-limit-theorems" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="lem">
+<strong>Lemma 7.1. (Hansen)</strong> <em>Let <span class="math inline">\(z_1,...,z_n\)</span> and <span class="math inline">\(w_1,...,w_n\)</span> be complex numbers. If <span class="math inline">\(\vert z_i\vert \le 1\)</span> and <span class="math inline">\(\vert w_i\vert\le 1\)</span> for all <span class="math inline">\(i=1,...,n\)</span> then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \left\vert\prod_{i=1}^n z_i-\prod_{i=1}^n w_i\right\vert\le \sum_{i=1}^n \vert z_i-w_i\vert.\tag{7.1 }
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 7.2. (Hansen)</strong> <em>(Basic CLT) Let <span class="math inline">\(X_1,X_2,...\)</span> be independent and identically distributed real-valued random variables. Assume that <span class="math inline">\(E\ X_1=0\)</span> and <span class="math inline">\(E\ X_1^2=1\)</span>. Then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{\sqrt{n}}\sum_{i=1}^nX_i\stackrel{\mathcal{D}}{\to} \mathcal{N}(0,1)\tag{7.3}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 7.3. (Hansen)</strong> <em>(Laplace’s CLT) Let <span class="math inline">\(X_1,X_2,...\)</span> be independent and identically distributed real-valued random variables with <span class="math inline">\(E\ X_1^2&lt;\infty\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=1}^nX_i\stackrel{\mathcal{D}}{\to} \mathcal{N}\left(E\ X_1,\frac{V\ X_1}{n}\right)\tag{7.4}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 7.7. (Hansen)</strong> <em>(Laplace’s CLT, multivariate version) Let <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,...\)</span> be independent and identically distributed random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span>. Assume that <span class="math inline">\(E\vert \mathbf{X}_1\vert^2&lt;\infty\)</span>. It holds that</em>
+<span class="math display">\[\begin{align*}
+    \frac{1}{n}\sum_{i=1}^n\mathbf{X}_i\stackrel{\mathcal{D}}{\to} \mathcal{N}\left(E\ \mathbf{X}_1,\frac{1}{n}V\ \mathbf{X}_1\right)\tag{7.7}
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="def">
+<strong>Definition 7.10. (Hansen)</strong> <em>Let <span class="math inline">\((X_{nm})\)</span> be a centralized array of real-valued random variables.</em>
+a. <em>The array satisfies the <strong>vanishing variance condition</strong> if</em>
+<span class="math display">\[\begin{align*}
+      \max_{m=1,...,n}E\ X_{nm}^2\to 0.\tag{7.8}
+  \end{align*}\]</span>
+b. <em>The array satisfies <strong>Lindeberg’s condition</strong> if</em>
+<span class="math display">\[\begin{align*}
+      \forall c&gt;0:\hspace{15pt}\sum_{m=1}^n\int_{(\vert X_{nm}\vert&gt;c)}X_{nm}^2\ dP\to 0.\tag{7.9}
+  \end{align*}\]</span>
+c. <em>The array satisfies <strong>Lyapounov’s condition</strong> of order <span class="math inline">\(\alpha&gt;2\)</span> if</em>
+<span class="math display">\[\begin{align*}
+      \sum_{m=1}^nE\ \vert X_{nm}\vert ^\alpha\to 0.\tag{7.10}
+  \end{align*}\]</span>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 7.11. (Hansen)</strong> <em>Lyapounov’s condition of order <span class="math inline">\(\alpha&gt;2\)</span> implies Lindeberg’s condition.</em>
+</blockquote>
+<blockquote class="lem">
+<strong>Lemma 7.12. (Hansen)</strong> <em>Lindeberg’s condition implies the vanishing variance condition.</em>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 7.14. (Hansen)</strong> <em>(Lindeberg’s CLT) Let <span class="math inline">\((X_{nm})\)</span> be a centralized array of real-valued random variables with <span class="math inline">\(E\ X_{nm}^2&lt;\infty\)</span>. Assume that the array satisfies that</em>
+<span class="math display">\[\begin{align*}
+    E\ X_{nm}=0,\ \forall n,m,
+\end{align*}\]</span>
+<em>and that</em>
+<span class="math display">\[\begin{align*}
+    \sum_{m=1}^n E\ X^2_{nm}=1.\tag{7.13}
+\end{align*}\]</span>
+<em>Assume that the array has independence within rows i.e. <span class="math inline">\(X_{i1}\perp \!\!\! \perp ... \perp \!\!\! \perp X_{ii}\)</span> for all <span class="math inline">\(i=1,...,n\)</span> and satisfies Lindeberg’s condition. Then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \sum_{m=1}^nX_{nm}\stackrel{\mathcal{D}}{\to} \mathcal{N}(0,1).
+\end{align*}\]</span>
+</blockquote>
+<blockquote class="thm">
+<strong>Theorem 7.19. (Hansen)</strong> <em>(Lindeberg’s CLT, multivariate version) Let <span class="math inline">\((\mathbf{X}_{nm})\)</span> be a triangular array of random variables with values in <span class="math inline">\(\mathbb{R}^k\)</span> with <span class="math inline">\(E\ \vert \mathbf{X}_{nm}\vert^2&lt;\infty\)</span> for all <span class="math inline">\(n\)</span>, <span class="math inline">\(m\)</span>. Assume that</em>
+<span class="math display">\[\begin{align*}
+    E\ \mathbf{X}_{nm}=\mathbf{0},\ \forall n,m
+\end{align*}\]</span>
+<em>and</em>
+<span class="math display">\[\begin{align*}
+    \sum_{m=1}^n V\ \mathbf{X}_{nm}\to \Sigma
+\end{align*}\]</span>
+<em>for a fixed <span class="math inline">\(k\times k\)</span> matrix <span class="math inline">\(\Sigma\)</span>. Assume that the array has independence within rows, and assume that the associated real-valued array <span class="math inline">\((\vert\mathbf{X}_{nm}\vert )\)</span> satisfies Lindeberg’s condition. Then it holds that</em>
+<span class="math display">\[\begin{align*}
+    \sum_{m=1}^n\mathbf{X}_{nm}\stackrel{\mathcal{D}}{\to} \mathcal{N}(\mathbf{0},\Sigma)
+\end{align*}\]</span>
+</blockquote>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="discrete-time-stochastic-processes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="markov-chains.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["theory.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

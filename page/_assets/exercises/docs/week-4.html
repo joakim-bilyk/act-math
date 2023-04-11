@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.4 Week 4 | Exercises</title>
+  <meta name="description" content="2.4 Week 4 | Exercises" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.4 Week 4 | Exercises" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.4 Week 4 | Exercises" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="week-3.html"/>
+<link rel="next" href="week-5.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Exercises</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-work.html"><a href="to-do-work.html"><i class="fa fa-check"></i><b>1.2</b> To-do work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>2</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>2.1</b> Week 1</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2.2</b> Week 2</a></li>
+<li class="chapter" data-level="2.3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>2.3</b> Week 3</a></li>
+<li class="chapter" data-level="2.4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>2.4</b> Week 4</a></li>
+<li class="chapter" data-level="2.5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>2.5</b> Week 5</a></li>
+<li class="chapter" data-level="2.6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>2.6</b> Week 6</a></li>
+<li class="chapter" data-level="2.7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>2.7</b> Week 7</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>3</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="week-1-1.html"><a href="week-1-1.html"><i class="fa fa-check"></i><b>3.1</b> Week 1</a></li>
+<li class="chapter" data-level="3.2" data-path="week-2-1.html"><a href="week-2-1.html"><i class="fa fa-check"></i><b>3.2</b> Week 2</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3-1.html"><a href="week-3-1.html"><i class="fa fa-check"></i><b>3.3</b> Week 3</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance.html"><a href="topics-in-life-insurance.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="computing-moments-of-reserve-in-timehomogeneous-case.html"><a href="computing-moments-of-reserve-in-timehomogeneous-case.html"><i class="fa fa-check"></i><b>4.1</b> Computing moments of reserve in timehomogeneous case</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exercises</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="week-4" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Week 4<a href="week-4.html#week-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Exercise 1.</strong> <em>(Bjork 7.1)</em> Consider the standard Black-Scholes model and a <span class="math inline">\(T\)</span>-claim <span class="math inline">\(\mathcal{X}\)</span> of the form <span class="math inline">\(\mathcal{X}=\Phi(S_t)\)</span>. Denote the corresponding arbitrage free price processes by <span class="math inline">\(\Pi_t\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Show that, under the martingale measure <span class="math inline">\(Q\)</span>, <span class="math inline">\(\Pi_t\)</span> has a local rate of return equal to the short rate <span class="math inline">\(r\)</span>. In other words shot that <span class="math inline">\(\Pi_t\)</span> has a differential of the form
+<span class="math display">\[
+  d\Pi_t=r\Pi_t\ dt+g_t\ dW_t^Q.
+  \]</span>
+<strong>Hint:</strong> Use the <span class="math inline">\(Q\)</span>-dynamics of <span class="math inline">\(S\)</span> together with the fact that <span class="math inline">\(F\)</span> satisfies the pricing PDE.</li>
+<li>Show that, under the martingale measure <span class="math inline">\(Q\)</span>, the process <span class="math inline">\(Z_t=\frac{\Pi_t}{B_t}\)</span> is a <strong>martingale</strong>. More precisely show that the stochastic differential for <span class="math inline">\(Z\)</span> has zero drift term, i.e. is of the form
+<span class="math display">\[
+  dZ_t=Z_t\sigma_t^Z\ dW_t^Q.
+  \]</span>
+Determine also the diffusion process <span class="math inline">\(\Sigma_t^Z\)</span> (in terms of the pricing function <span class="math inline">\(F\)</span> and its derivatives).</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (a).</strong>
+</summary>
+<p>First we have that the dynamics of <span class="math inline">\(S\)</span> and <span class="math inline">\(B\)</span> are given by
+<span class="math display">\[\begin{align*}
+dS_t&amp;=\mu S_t\ dt + \sigma S_t\ dW_t,\\
+dB_t&amp;=rB_t\ dt.
+\end{align*}\]</span>
+We know that <span class="math inline">\(\Pi_t[X]=F(t,S_t)\)</span> for some smooth function <span class="math inline">\(F\)</span> hence by Ito’s formula we have
+<span class="math display">\[\begin{align*}
+d\Pi_t&amp;=\frac{\partial F}{\partial t}(t,S_t)\ dt +\frac{\partial F}{\partial s}(t,S_t)\ dS_t+\frac{1}{2}\frac{\partial^2 F}{\partial s^2}(t,S_t)\ (dS_t)^2\\
+&amp;=F_t\ dt+F_s(r S_t\ dt + \sigma S_t\ dW^Q_t)+\frac{1}{2}F_{ss}(r S_t\ dt + \sigma S_t\ dW^Q_t)^2\\
+&amp;=(F_t+r S_t F_s)\ dt+F_s\sigma S_t\ dW^Q_t+\frac{1}{2}F_{ss}\sigma ^2S_t^2\ dt\\
+&amp;=(F_t+r S_tF_s+\frac{1}{2}F_{ss}\sigma ^2S_t^2)\ dt+F_s\sigma S_t\ dW^   Q_t.
+\end{align*}\]</span>
+By setting <span class="math inline">\(g_t=F_s\sigma S_t\)</span> and restating the Black-Scholes equation we have
+<span class="math display">\[\begin{align*}
+rF=F_t+rsF_s+\frac{1}{2}F_{ss}\sigma ^2 s^2
+\end{align*}\]</span>
+hence</p>
+<p><span class="math display">\[
+d\Pi_t=r F\ dt+g_t\ dW^Q_t
+\]</span></p>
+<p>as desired. <span class="math inline">\(\square\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p>Consider the stochastic process <span class="math inline">\(Z_t=F(t,\Pi_t,B_t)\)</span> given by <span class="math inline">\(F(t,\pi,b)=\frac{\pi}{b}\)</span>. Then by Ito’s formula we have the dynamics of <span class="math inline">\(Z\)</span> as
+<span class="math display">\[\begin{align*}
+dZ_t&amp;=F_t\ dt+F_\pi\ d\Pi_t+F_b\ dB_t+\frac{1}{2}F_{\pi\pi}\ (d\Pi_t)^2+\frac{1}{2}F_{bb}\ (dB_t)^2+F_{b\pi}\ (d\Pi_t)(dB_t)\\
+&amp;=0+\frac{1}{B_t}\ d\Pi_t-\frac{\Pi_t}{B_t^2}\ dB_t+\frac{1}{2}0g_t\ dt+\frac{\Pi_t}{B_t^3}0-\frac{1}{B_t^2}0\\
+&amp;=\frac{1}{B_t}(r \Pi_t\ dt + g_t\ dW^Q_t)-\frac{\Pi_t}{B_t^2}(rB_t\ dt)\\
+&amp;=\frac{1}{B_t}(r\Pi_t\ dt-r\Pi_t\ dt+g_t\ dW_t^Q)\\
+&amp;=\frac{1}{B_t}g_t\ dW_t^Q.
+\end{align*}\]</span>
+hence we have that <span class="math inline">\(Z_t\)</span> is a <span class="math inline">\(Q\)</span>-martingale since it only has dynamics in terms of the Brownian motion <span class="math inline">\(W^Q\)</span>. Additionally we may represent the process as</p>
+<p><span class="math display">\[
+Z_t=\Pi_0+\int_0^t\frac{g_s}{B_s}\ dW_s^Q.
+\]</span></p>
+<p>From this it is clear that <span class="math inline">\(Z_t\)</span> is a <span class="math inline">\(Q\)</span>-martingale. <span class="math inline">\(\square\)</span></p>
+</details>
+<p><strong>Exercise 2.</strong> <em>(Bjork 7.2)</em> Consider the standard Black-Scholes model. An innovative company, F&amp;H Inc., has produced the derivative “the Golden Logarith”, henceforth abbreviated as the <em>GL</em>. The holder of a <em>GL</em> with maturity time <span class="math inline">\(T\)</span>, denotet as <span class="math inline">\(GL_t\)</span>, will, at time <span class="math inline">\(T\)</span>, obtain the sum <span class="math inline">\(\Phi(S_T)=\log\ S_T\)</span>. Note that if <span class="math inline">\(S_T&lt;1\)</span> this means that the holder has to pay a positive amount to F&amp;H Inc. Determine the arbitrage free price process for the <span class="math inline">\(GL_t\)</span>.</p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+<p>We know that in the BS model the simple derivative has to have the smooth pricing function <span class="math inline">\(F(t,s)\)</span> that is the solution to the boundary value problem.</p>
+<p><span class="math display">\[
+\left\{
+\begin{matrix}
+F_t(t,s) + rsF_s(t,s)+\frac{1}{2}\sigma^2 s^2F_{ss}(t,s)-rF(t,s)=0\\
+F(T,s)=\Phi(s).
+\end{matrix}
+\right.
+\]</span></p>
+<p>Which has the stochastic representation (proposition 7.11) given by the risk neutral valuation formula:</p>
+<p><span class="math display">\[
+F(t,s)=e^{-r(T-t)}E^Q_{t,s}[\Phi(S_T)]=e^{-r(T-t)}E^Q_{t,s}[\log(S_T)],
+\]</span></p>
+<p>with <span class="math inline">\(S_t\)</span> having dynamics</p>
+<p><span class="math display">\[
+dS_t=rS_t\ dt+\sigma S_t\ dW_t^Q.
+\]</span></p>
+<p>Then by Ito’s formula on the function <span class="math inline">\(f(t,s)=\log(s)\)</span> we have</p>
+<p><span class="math display">\[
+d(\log(S_t))=d f(t,S_t)=f_t\ dt+f_s\ dS_t+\frac{1}{2}f_{ss}(dS_t)^2.
+\]</span></p>
+<p>Since <span class="math inline">\(f_t=0\)</span> and <span class="math inline">\(f_s=1/s\)</span> and <span class="math inline">\(f_{ss}=-1/s^2\)</span> we have
+<span class="math display">\[\begin{align*}
+d(\log(S_t))&amp;=\frac{1}{S_t}(rS_t\ dt+\sigma S_t\ dW_t^Q)-\frac{1}{2}\sigma^2S_t^2\frac{1}{S_t^2}\ dt\\
+&amp;=\left(r-\frac{1}{2}\sigma^2\right)\ dt+\sigma \ dW_t^Q.
+\end{align*}\]</span>
+Then given that <span class="math inline">\(S_t=s\)</span> we have
+<span class="math display">\[\begin{align*}
+\log(S_u)&amp;=\log s+\int_t^ur-\frac{1}{2}\sigma^2\ dv+\sigma\int_t^u dW_v^Q\\
+&amp;=\log s+\left(r-\frac{1}{2}\sigma^2\right)(u-t)+\sigma(W_u^Q-W_t^Q)
+\end{align*}\]</span>
+Taking expectation we then have</p>
+<p><span class="math display">\[
+E^Q[\log(S_T)\ \vert\ S_t=s]=\log s+\left(r-\frac{1}{2}\sigma^2\right)(T-t),
+\]</span></p>
+<p>given that</p>
+<p><span class="math display">\[
+\Pi_t(\Phi(S_t))=e^{-r(T-t)}\log s+e^{-r(T-t)}\left(r-\frac{1}{2}\sigma^2\right)(T-t).
+\]</span></p>
+<p>The arbitrage free price is the the above. <span class="math inline">\(\square\)</span></p>
+</details>
+<p><strong>Exercise 3.</strong> <em>(Bjork 7.4)</em> Consider the standard Black-Scholes model. Derive the arbitrage free price process for the <span class="math inline">\(T\)</span>-claim <span class="math inline">\(X\)</span> where <span class="math inline">\(X\)</span> is given by <span class="math inline">\(X=S_T^\beta\)</span>. Here <span class="math inline">\(\beta\)</span> is a known constant.</p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+<p>We may solve the pricing problem by evaluating the risk neautral valuation formula 7.11 given by</p>
+<p><span class="math display">\[
+F(t,s)=e^{-r(T-t)}E^Q_{t,s}[\Phi(S_T)]=e^{-r(T-t)}E^Q_{t,s}[S_T^\beta].
+\]</span></p>
+<p>We know that <span class="math inline">\(S_t\)</span> is a Geometric Brownian motion with drift <span class="math inline">\((r-\sigma^2/2)\)</span> and diffusion <span class="math inline">\(\sigma\)</span> i.e.</p>
+<p><span class="math display">\[
+S_T=s\cdot\exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\sigma (W_T^Q-W_t^Q)\right\}
+\]</span></p>
+<p>wrt. the martingale-measure <span class="math inline">\(Q\)</span>. Here we assume that <span class="math inline">\(S_t=s\)</span>. Then we know that <span class="math inline">\(S_T^\beta\)</span> is likewise a GBM given as</p>
+<p><span class="math display">\[
+S_T^\beta=s^\beta\cdot\exp\left\{\beta\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\beta\sigma  (W_T^Q-W_t^Q)\right\}.
+\]</span></p>
+<p>Evaluating the price process then becomes
+<span class="math display">\[\begin{align*}
+\Pi_t&amp;=e^{-r(T-t)}E^Q\left[s^\beta\cdot\exp\left\{\beta\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\beta\sigma  (W_T^Q-W_t^Q)\right\}\right]\\
+&amp;=e^{-r(T-t)}s^\beta e^{\beta\left(r-\frac{1}{2}\sigma^2\right)(T-t)}E^Q\left[e^{\beta\sigma(W_T^Q-W_t^Q)}\right].
+\end{align*}\]</span>
+Evaluating the expectation may be done by calculating the MGF of a <span class="math inline">\(\mathcal{N}(0,T-t)\)</span> variable i.e.</p>
+<p><span class="math display">\[
+E^Q\left[e^{\beta\sigma(W_T^Q-W_t^Q)}\right]=e^{0\cdot 1+(T-t)(\beta\sigma)^2/2}=e^{\beta^2\sigma^2\frac{T-t}{2}}.
+\]</span></p>
+<p>Combining these two equations yields</p>
+<p><span class="math display">\[
+\log \Pi_t=-r(T-t)+\beta\log s+\beta\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\beta^2\sigma^2\frac{T-t}{2}\\
+=-r(T-t)+\beta\log s+\left(\beta r+\frac{1}{2}\sigma^2\beta(\beta-1)\right)(T-t).
+\]</span></p>
+<p>We arrive at the arrived result. <span class="math inline">\(\square\)</span></p>
+</details>
+<p><strong>Exercise 4.</strong> <em>(Bjork 7.5)</em> A so-called <strong>binary option</strong> is a claim which pays a certain amount if the stock prices at a certain date falls within some pre-specified interval. Otherwise nothing will be paid out. Consider a binary option which pays <span class="math inline">\(K\)</span> dollars to the holder at date <span class="math inline">\(T\)</span> if the stock price at time <span class="math inline">\(T\)</span> is in the interval <span class="math inline">\([\mu,\beta]\)</span>. Determine the arbitrage free price. The pricing formula will involve the standard Gaussian cumulative distrbution function <span class="math inline">\(N\)</span>.</p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+<p>First we see that the claim may be written on the form</p>
+<p><span class="math display">\[
+\Phi(S_T)=1_{S_T\in [a,b]}K,
+\]</span></p>
+<p>using the values <span class="math inline">\(a&lt;b\)</span> for the interval endpoints (instead of <span class="math inline">\(\mu,\beta\)</span>). We then by the risk neutral valuation formula must have</p>
+<p><span class="math display">\[
+\Pi_t=e^{-r(T-t)}E^Q_{t,s}[1_{S_T\in [a,b]}K].
+\]</span></p>
+<p>Under closer inspection we see that we must evaluating the expectation of the indicator under the measure <span class="math inline">\(Q\)</span>. Then we have</p>
+<p><span class="math display">\[
+E^Q_{t,s}[1_{S_T\in [a,b]}]=Q(S_T\in[a,b]\ \vert\ S_t=s)=(*).
+\]</span></p>
+<p>When assuming <span class="math inline">\(S_t=s\)</span> we must have that under <span class="math inline">\(Q\)</span> that</p>
+<p><span class="math display">\[
+S_T=s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma ^2\right)(T-t)+\sigma\left(W_T^Q-W_t^Q\right)\right\}.
+\]</span></p>
+<p>Then
+<span class="math display">\[\begin{align*}
+(*)&amp;=Q(S_T\le b\ \vert\ S_t=s)-Q(S_T&lt;a\ \vert\ S_t=s)\\
+&amp;=Q(S_T\le b\ \vert\ S_t=s)-Q(S_T\le a\ \vert\ S_t=s)\\
+&amp;=Q\left(s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma ^2\right)(T-t)+\sigma\left(W_T^Q-W_t^Q\right)\right\}\le b\right)\\
+&amp;-Q\left(s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma ^2\right)(T-t)+\sigma\left(W_T^Q-W_t^Q\right)\right\}\le a\right)\\
+&amp;=Q\left(\frac{1}{\sqrt{T-t}}\left(W_T^Q-W_t^Q\right)\le\frac{1}{\sigma\sqrt{T-t}}\left\{\log b-\log s+\left(\frac{1}{2}\sigma ^2-r\right)(T-t)\right\}\right)\\
+&amp;-Q\left(\frac{1}{\sqrt{T-t}}\left(W_T^Q-W_t^Q\right)\le\frac{1}{\sigma\sqrt{T-t}}\left\{\log a-\log s+\left(\frac{1}{2}\sigma ^2-r\right)(T-t)\right\}\right)\\
+&amp;=N\left(\frac{1}{\sigma\sqrt{T-t}}\left\{\log b-\log s+\left(\frac{1}{2}\sigma ^2-r\right)(T-t)\right\}\right)\\
+&amp;-N\left(\frac{1}{\sigma\sqrt{T-t}}\left\{\log a-\log s+\left(\frac{1}{2}\sigma ^2-r\right)(T-t)\right\}\right)\\
+&amp;=N(d_b)-N(d_a),
+\end{align*}\]</span>
+as <span class="math inline">\(W_T^Q-W_t^Q\)</span> is <span class="math inline">\(\mathcal{N}(0,T-t)\)</span> distributed under the <span class="math inline">\(Q\)</span>-measure. The function <span class="math inline">\(d_c\)</span> is defined as</p>
+<p><span class="math display">\[
+d_c=\frac{1}{\sigma\sqrt{T-t}}\left\{\log c-\log s+\left(\frac{1}{2}\sigma ^2-r\right)(T-t)\right\},
+\]</span></p>
+<p>as expected. We then arrive at the price</p>
+<p><span class="math display">\[
+\Pi_t=e^{-r(T-t)}K(N(d_b)-N(d_a)),
+\]</span></p>
+<p>as desired. <span class="math inline">\(\square\)</span></p>
+</details>
+<p><strong>Exercise 5.</strong> <em>(Bjork 7.6)</em> Consider the standard Black-Scholes model. Derive the arbitrage free price process for the <span class="math inline">\(T\)</span>-claim <span class="math inline">\(X\)</span> where <span class="math inline">\(X\)</span> is given by <span class="math inline">\(X=\frac{S_{T_1}}{S_{T_0}}\)</span>. The times <span class="math inline">\(T_0\)</span> and <span class="math inline">\(T_1\)</span> are given and the claim is paid out at time <span class="math inline">\(T_1\)</span>.</p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+<p>Firstly, we may use that <span class="math inline">\(S\)</span> is a GBM. Setting <span class="math inline">\(S_t=s\)</span> we have that
+<span class="math display">\[\begin{align*}
+X&amp;=\frac{S_{T_1}}{S_{T_0}}=\frac{s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T_1-t) +\sigma\left(W_{T_1}^Q-W_t^Q\right)\right\}}{s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T_0-t) +\sigma\left(W_{T_0}^Q-W_t^Q\right)\right\}}\\
+&amp;=\exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T_1-t-T_0+t) +\sigma\left(W_{T_1}^Q-W_t^Q-W_{T_0}^Q+W_t^Q\right)\right\}\\
+&amp;=\exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T_1-T_0) +\sigma\left(W_{T_1}^Q-W_{T_0}^Q\right)\right\}.
+\end{align*}\]</span>
+Then it follows from proposition 7.11 that the price process is given by
+<span class="math display">\[\begin{align*}
+\Pi_t&amp;=e^{-r(T_1-t)}E^Q_{t,s}[X]\\
+&amp;=e^{-r(T_1-t)}E^Q\left[\exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T_1-T_0) +\sigma\left(W_{T_1}^Q-W_{T_0}^Q\right)\right\}\right]\\
+&amp;=\exp\left\{-r(T_1-t)+\left(r-\frac{1}{2}\sigma^2\right)(T_1-T_0)\right\}E^Q\left[\exp\left\{\sigma\left(W_{T_1}^Q-W_{T_0}^Q\right)\right\}\right]\\
+&amp;=\exp\left\{-r(T_1-t)+\left(r-\frac{1}{2}\sigma^2\right)(T_1-T_0)+\frac{1}{2}\sigma^2(T_1-T_0)\right\}\\
+&amp;=\exp\left\{-r(T_1-t)+r(T_1-T_0)\right\}\\
+&amp;=\exp\left\{-r(T_1+T_0-T_1-t)\right\}=\exp\left\{-r(T_0-t)\right\}
+\end{align*}\]</span>
+as desired. <span class="math inline">\(\square\)</span></p>
+</details>
+<p><strong>Exercise 6.</strong> <em>(Exam 2017/18, problem 2, question (c)-(d))</em> Consider a standard Black-Scholes model, that is, a model consisting of a bank account <span class="math inline">\(B_t\)</span> with <span class="math inline">\(P\)</span>-dynamics given by</p>
+<p><span class="math display">\[
+dB_t=rB_t\ dt,\ B_0=1
+\]</span></p>
+<p>and a stock <span class="math inline">\(S_t\)</span> with <span class="math inline">\(P\)</span>-dynamics given by</p>
+<p><span class="math display">\[
+dS_t=\alpha S_t\ dt+\sigma S_t\ d\overline{W}_t,\ S_0=s&gt;0
+\]</span></p>
+<p>where <span class="math inline">\(r,\alpha\in\mathbb{R}\)</span> and <span class="math inline">\(\sigma &gt;0\)</span> are constants and <span class="math inline">\(\overline{W}_t\)</span> is a <span class="math inline">\(P\)</span>-Brownian motion. Let <span class="math inline">\(T&gt;0\)</span> be a given and fixed date.</p>
+<p>Consider the derivative that at time <span class="math inline">\(T\)</span> pays</p>
+<p><span class="math display">\[
+X=\max\left\{\min\left\{S_T,K_2\right\},K_1\right\},
+\]</span></p>
+<p>where <span class="math inline">\(0&lt;K_1&lt;K_2\)</span> are constants.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Determine the arbitrage free price of derivative <span class="math inline">\(X\)</span> at time <span class="math inline">\(t&lt;T\)</span>.</li>
+</ol>
+<p>Consider a new derivative that at time <span class="math inline">\(T\)</span> pays</p>
+<p><span class="math display">\[
+Y=(S^2_T-K^2)^+-(K^2-S^2_T)^+.
+\]</span></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><ol style="list-style-type: lower-roman">
+<li>Determine the arbitrage free price of derivative <span class="math inline">\(Y\)</span> at time <span class="math inline">\(t&lt;T\)</span>.</li>
+<li>Find a hedging portfolio for derivative <span class="math inline">\(Y\)</span>.</li>
+</ol></li>
+</ol>
+<p>Let <span class="math inline">\(h(t)=(h_0(t),h_1(t))\)</span> be a portfolio where</p>
+<p><span class="math display">\[
+h_0(t)=-e^{r(T-2t)+\sigma^2(T-t)}S^2(t)
+\]</span></p>
+<p>is the number of units in the bank account at time <span class="math inline">\(t\)</span> and</p>
+<p><span class="math display">\[
+h_1(t)=2e^{(r+\sigma^2)(T-t)}S(t)
+\]</span></p>
+<p>is the number of shares in the stock at time <span class="math inline">\(t\)</span>. Let <span class="math inline">\(V^h(t)\)</span> denote the associated value process.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Determine whether the portfolio <span class="math inline">\(h\)</span> is self-financing or not.</li>
+<li>Compute <span class="math inline">\(V^h(T)\)</span>.</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (b).</strong>
+</summary>
+<p><em>(i)</em>: We start by seeing that the derivative pays out</p>
+<p><span class="math display">\[
+Y=
+\begin{cases}
+  S_T^2-K^2 &amp; \text{if }S_T^2\ge K^2,\\
+  -(K^2-S_T^2) &amp;\text{if }S_T^2&lt; K^2.
+\end{cases}
+\]</span></p>
+<p>hence the payout is <span class="math inline">\(Y=S_T^2-K^2=\Phi(S_T)\)</span> where <span class="math inline">\(\Phi(s)=s^2-K^2\)</span>. That is <span class="math inline">\(Y\)</span> is in fact a simple claim. We have from the risk neutral valueation formula 7.11 that
+<span class="math display">\[\begin{align*}
+\Pi_t[Y]&amp;=e^{-r(T-t)}E^Q_{t,s}[S_T^2-K^2]\\
+&amp;=e^{-r(T-t)}E^Q_{t,s}[S_T^2]-e^{-r(T-t)}K^2.
+\end{align*}\]</span>
+Recall that under the martingale measure <span class="math inline">\(Q\)</span> we have that <span class="math inline">\(S_t\)</span> is a GBM hence</p>
+<p><span class="math display">\[
+S_t=s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\sigma\left(W_T^Q-W_t^Q\right)\right\}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+S_T^2=s^2\cdot \exp\left\{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)+2\sigma\left(W_T^Q-W_t^Q\right)\right\}.
+\]</span></p>
+<p>Inserting this into the risk neutral valuation formula we get
+<span class="math display">\[\begin{align*}
+\Pi_t[Y]&amp;=e^{-r(T-t)}E^Q_{t,s}[S_T^2]-e^{-r(T-t)}K^2\\
+&amp;=e^{-r(T-t)}s^2e^{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)} E^Q\left[\exp\left\{2\sigma\left(W_T^Q-W_t^Q\right)\right\}\right]-e^{-r(T-t)}K^2\\
+&amp;=e^{-r(T-t)}s^2e^{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)}e^{\frac{1}{2}4\sigma^2(T-t)}-e^{-r(T-t)}K^2\\
+&amp;=e^{-r(T-t)}\left(s^2e^{(2r-\sigma^2)(T-t)+\frac{1}{2}4\sigma^2(T-t)}-K^2\right)\\
+&amp;=e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right).
+\end{align*}\]</span>
+The arbitrage free price of the derivative is then given above. <span class="math inline">\(\square\)</span></p>
+<p><em>(ii)</em>: From theorem 8.5 we can determine a hedging portfolio with weightings
+<span class="math display">\[\begin{align*}
+w_t^B&amp;=\frac{\Pi_t-S_t\frac{\partial\Pi}{\partial s}}{\Pi_t}\\
+&amp;=1-\frac{S_t2S_te^{-r(T-t)}e^{(2r+\sigma^2)(T-t)}}{e^{-r(T-t)}\left(S_t^2e^{(2r+\sigma^2)(T-t)}-K^2\right)}\\
+&amp;=1-\frac{2S_t^2e^{(2r+\sigma^2)(T-t)}}{S_t^2e^{(2r+\sigma^2)(T-t)}-K^2}\\
+&amp;=1-\frac{2}{1-K^2S_t^{-2}e^{(2r+\sigma^2)(t-T)}}\\
+w_t^S&amp;=\frac{2}{1-K^2S_t^{-2}e^{(2r+\sigma^2)(t-T)}}.
+\end{align*}\]</span>
+In absolute terms we will hold the portfolio
+<span class="math display">\[\begin{align*}
+h_t^S&amp;=2S_te^{-r(T-t)}e^{(2r+\sigma^2)(T-t)}\\
+h_t^B&amp;=\frac{e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right)-S_th_t^S}{B_t}\\
+&amp;=\frac{e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right)-S_th_t^S}{e^{rt}}\\
+&amp;=e^{-rT}s^2e^{(2r+\sigma^2)(T-t)}-e^{-rT}K^2-e^{-rt}S_th_t^S.
+\end{align*}\]</span>
+The portfolio above will hedge <span class="math inline">\(Y\)</span> with probability one. <span class="math inline">\(\square\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Solution (c).</strong>
+</summary>
+<p>We assume no dividends and no consumption that is <span class="math inline">\(c_t=0\)</span> and <span class="math inline">\(dD_t^i=0\)</span> for <span class="math inline">\(i=0,1\)</span>. Then the portfolio is self-financing if and only if the value process has dynamics.</p>
+<p><span class="math display">\[
+h_0(t)\ dB_t+h_1(t)\ dS_t=0
+\]</span></p>
+<p>This is given in lemma 6.12.</p>
+<p><strong>THE BELOW IS IN WORKS AND NOT CORRECT!</strong></p>
+<p>Now we have that the value process is given by</p>
+<p><span class="math display">\[
+V_t^h=h_0(t)B_t+h_1(t)S_t.
+\]</span></p>
+<p>Using the representation <span class="math inline">\(V_t^h=f(h_0(t),B_t)+f(h_1(t),S_t)\)</span> given by <span class="math inline">\(f(x,y)=xy\)</span> we have</p>
+<p><span class="math display">\[
+dV_t^h=df(h_0(t),B_t)+df(h_1(t),S_t).
+\]</span></p>
+<p>Using Ito’s formula on each term we have
+<span class="math display">\[\begin{align*}
+df(h_0(t),B_t)&amp;=B_t\ dh_0(t)+h_0(t)\ dB_t+(dB_t)(dh_0(t)),\\
+df(h_1(t),S_t)&amp;=S_t\ dh_1(t)+h_1(t)\ dS_t+(dS_t)(dh_1(t)),\\
+\end{align*}\]</span>
+since of cause <span class="math inline">\(f_{xx}=f_{yy}=0\)</span>. We can the determine the dynamics of the portfolio by
+<span class="math display">\[\begin{align*}
+dh_0(t)&amp;=-(-2t-\sigma^2)S_t^2e^{r(T-2t)+\sigma^2(T-t)}\ dt\\
+&amp;-2S_te^{r(T-2t)+\sigma^2(T-t)}\ dS_t\\
+&amp;-\frac{1}{2}2e^{r(T-2t)+\sigma^2(T-t)}\ (dS_t)^2\\
+&amp;=(-2t-\sigma^2)h_0(t)\ dt+\frac{2}{S_t}h_0(t)\ (\mu S_t\ dt+\sigma S_t\ dW_t)+\frac{1}{S_t^2}h_0(t) \sigma^2S_t^2\ dt\\
+&amp;=(\mu-1)2h_0(t)\ dt+2\sigma h_0(t)\ dW_t
+\end{align*}\]</span>
+and
+<span class="math display">\[\begin{align*}
+dh_1(t)&amp;=(-r-\sigma^2)2e^{(r+\sigma^2)(T-t)}S_t\ dt\\
+&amp;+2e^{(r+\sigma^2)(T-t)}\ dS_t+0\\
+&amp;=(-r-\sigma^2)h_1(t)\ dt+\frac{1}{S_t}h_1(t)(\mu S_t\ dt+\sigma S_t\ dW_t)\\
+&amp;=(-r-\sigma^2+\mu)h_1(t)\ dt+h_1(t)\sigma \ dW_t\\
+\end{align*}\]</span>
+And so in total
+<span class="math display">\[\begin{align*}
+dV_t^h(t)&amp;=df(h_0(t),B_t)+df(h_1(t),S_t)\\
+&amp;=B_t\ dh_0(t)+h_0(t)\ dB_t+(dB_t)(dh_0(t))\\
+&amp;+S_t\ dh_1(t)+h_1(t)\ dS_t+(dS_t)(dh_1(t))\\
+&amp;=B_t\ ((\mu-1)2h_0(t)\ dt+2\sigma h_0(t)\ dW_t)+h_0(t)\ rB_t\ dt+0\\
+&amp;+S_t\ ((-r-\sigma^2+\mu)h_1(t)\ dt+h_1(t)\sigma \ dW_t)+h_1(t)\ (\mu S_t\ dt+\sigma S_t\ dW_t)+\sigma^2S_th_1(t)\ dt\\
+&amp;=\left[B_t(\mu-1)2h_0(t)+h_0(t)rB_t+S_t(-r-\sigma^2+\mu)h_1(t)+h_1\mu S_t+\sigma^2S_th_1(t)\right]\ dt\\
+&amp;+\left[B_t2\sigma h_0(t)+S_th_1\sigma+h_1\sigma S_t\right]\ dW_t\\
+&amp;=\left[(2\mu-2+r)B_th_0(t)+(-r+2\mu)S_th_1(t)\right]\ dt\\
+&amp;+\left[B_t h_0(t)+h_1 S_t\right]2\sigma\ dW_t\\
+&amp;=V_t^h2\mu\ dt+V_t^h\ dW_t
+\end{align*}\]</span></p>
+</details>
+<details>
+<summary>
+<strong>Solution (d).</strong>
+</summary>
+<p>We compute <span class="math inline">\(V_T^h\)</span> easily by inserting <span class="math inline">\(h_0\)</span> and <span class="math inline">\(h_1\)</span> below
+<span class="math display">\[\begin{align*}
+V_T^h&amp;=B_Th_0(T)+S_Th_1(T)\\
+&amp;=B_T\left(-e^{r(T-2T)+\sigma^2(T-T)}S_T^2\right)+S_T\left(2e^{(r+\sigma^2)(T-T)}S_T\right)\\
+&amp;=-S_T^2+2S_T^2=S_T^2.
+\end{align*}\]</span>
+and so <span class="math inline">\(h\)</span> hedge the payout <span class="math inline">\(\Phi(S_T)=S_T^2\)</span>. <span class="math inline">\(\square\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+</details>
+<p><strong>Exercise 7.</strong> <em>(Exam 2018/19, problem 1)</em></p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+</details>
+<p><strong>Exercise 8.</strong> <em>(Exam 2018/19, problem 2, question (a))</em></p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+</details>
+<p><strong>Extra-Exercise 1.</strong> <em>(Bjork 7.7)</em></p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+</details>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="week-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="week-5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["exercises.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

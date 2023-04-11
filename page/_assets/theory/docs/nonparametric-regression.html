@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9.4 Nonparametric Regression | Complete Theory</title>
+  <meta name="description" content="9.4 Nonparametric Regression | Complete Theory" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9.4 Nonparametric Regression | Complete Theory" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9.4 Nonparametric Regression | Complete Theory" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="linear-models.html"/>
+<link rel="next" href="trees-and-forests.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.9/grViz.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Comlete theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-reading.html"><a href="to-do-reading.html"><i class="fa fa-check"></i><b>1.2</b> To-do reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-life-insurance-mathematics.html"><a href="basic-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>2</b> Basic Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-processes-in-life-insurance-mathematics.html"><a href="stochastic-processes-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>3</b> Stochastic Processes in Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance-mathematics.html"><a href="topics-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance Mathematics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="markov-jump-processes.html"><a href="markov-jump-processes.html"><i class="fa fa-check"></i><b>4.1</b> Markov Jump Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="phase-type-distributions.html"><a href="phase-type-distributions.html"><i class="fa fa-check"></i><b>4.2</b> Phase-type distributions</a></li>
+<li class="chapter" data-level="4.3" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>4.3</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="interest-rates.html"><a href="interest-rates.html#basic-definitions-and-properties"><i class="fa fa-check"></i><b>4.3.1</b> Basic definitions and properties</a></li>
+<li class="chapter" data-level="4.3.2" data-path="interest-rates.html"><a href="interest-rates.html#phase-type-representation-of-bond-prices"><i class="fa fa-check"></i><b>4.3.2</b> Phase-type representation of bond prices</a></li>
+<li class="chapter" data-level="4.3.3" data-path="interest-rates.html"><a href="interest-rates.html#term-structure-models"><i class="fa fa-check"></i><b>4.3.3</b> Term structure models</a></li>
+<li class="chapter" data-level="4.3.4" data-path="interest-rates.html"><a href="interest-rates.html#estimation-of-ph-bond-models"><i class="fa fa-check"></i><b>4.3.4</b> Estimation of PH bond models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html"><i class="fa fa-check"></i><b>4.4</b> Survival and mortality rates</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#survival-probabilities-and-forward-mortality-rates"><i class="fa fa-check"></i><b>4.4.1</b> Survival probabilities and forward mortality rates</a></li>
+<li class="chapter" data-level="4.4.2" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#forward-transistion-rates"><i class="fa fa-check"></i><b>4.4.2</b> Forward transistion rates</a></li>
+<li class="chapter" data-level="4.4.3" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#reserves-revisited"><i class="fa fa-check"></i><b>4.4.3</b> Reserves revisited</a></li>
+<li class="chapter" data-level="4.4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#stochastic-mortality-rates"><i class="fa fa-check"></i><b>4.4.4</b> Stochastic mortality rates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html"><i class="fa fa-check"></i><b>4.5</b> Matrix methods in life insurance</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#basic-setup"><i class="fa fa-check"></i><b>4.5.1</b> Basic setup</a></li>
+<li class="chapter" data-level="4.5.2" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#interest-rate-free-analysis"><i class="fa fa-check"></i><b>4.5.2</b> Interest rate free analysis</a></li>
+<li class="chapter" data-level="4.5.3" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#transform-of-rewards-and-higher-order-moments"><i class="fa fa-check"></i><b>4.5.3</b> Transform of rewards and higher order moments</a></li>
+<li class="chapter" data-level="4.5.4" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#markovian-interest-rates"><i class="fa fa-check"></i><b>4.5.4</b> Markovian interest rates</a></li>
+<li class="chapter" data-level="4.5.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#reserves"><i class="fa fa-check"></i><b>4.5.5</b> Reserves</a></li>
+<li class="chapter" data-level="4.5.6" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#higher-order-moments"><i class="fa fa-check"></i><b>4.5.6</b> Higher order moments</a></li>
+<li class="chapter" data-level="4.5.7" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#equivalence-premium"><i class="fa fa-check"></i><b>4.5.7</b> Equivalence premium</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html"><i class="fa fa-check"></i><b>4.6</b> Financial Mathematics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#background-and-simple-claims"><i class="fa fa-check"></i><b>4.6.1</b> Background and Simple Claims</a></li>
+<li class="chapter" data-level="4.6.2" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#payment-streams"><i class="fa fa-check"></i><b>4.6.2</b> Payment Streams</a></li>
+<li class="chapter" data-level="4.6.3" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#unit-link-insurance"><i class="fa fa-check"></i><b>4.6.3</b> Unit-Link Insurance</a></li>
+<li class="chapter" data-level="4.6.4" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#with-profit-insurance-and-the-dynamics-of-the-surplus"><i class="fa fa-check"></i><b>4.6.4</b> With-Profit Insurance and the Dynamics of the Surplus</a></li>
+<li class="chapter" data-level="4.6.5" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#cash-dividends-and-market-reserve"><i class="fa fa-check"></i><b>4.6.5</b> Cash Dividends and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-cash-dividends"><i class="fa fa-check"></i><b>4.6.6</b> The Pure Case of Cash Dividends</a></li>
+<li class="chapter" data-level="4.6.7" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#bonus-payments-and-market-reserve"><i class="fa fa-check"></i><b>4.6.7</b> Bonus Payments and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.8" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-bonus-payments"><i class="fa fa-check"></i><b>4.6.8</b> The Pure Case of Bonus Payments</a></li>
+<li class="chapter" data-level="4.6.9" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#incidental-policy-holder-behavior"><i class="fa fa-check"></i><b>4.6.9</b> Incidental Policy Holder Behavior</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>5</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html"><i class="fa fa-check"></i><b>5.1</b> Discrete time models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html#one-period-time-models"><i class="fa fa-check"></i><b>5.1.1</b> One-period time models</a></li>
+<li class="chapter" data-level="5.1.2" data-path="discrete-time-models.html"><a href="discrete-time-models.html#multi-period-model"><i class="fa fa-check"></i><b>5.1.2</b> Multi-period model</a></li>
+<li class="chapter" data-level="5.1.3" data-path="discrete-time-models.html"><a href="discrete-time-models.html#generelised-one-period-model"><i class="fa fa-check"></i><b>5.1.3</b> Generelised one-period model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html"><i class="fa fa-check"></i><b>5.2</b> Self-financing portfolios</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#discrete-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.1</b> Discrete time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#continuous-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.2</b> Continuous time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.3" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#portfolio-weights"><i class="fa fa-check"></i><b>5.2.3</b> Portfolio weights</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html"><i class="fa fa-check"></i><b>5.3</b> Black-Scholes PDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#contingent-claims-and-arbitrage"><i class="fa fa-check"></i><b>5.3.1</b> Contingent Claims and Arbitrage</a></li>
+<li class="chapter" data-level="5.3.2" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#risk-neutral-valuation-1"><i class="fa fa-check"></i><b>5.3.2</b> Risk Neutral Valuation</a></li>
+<li class="chapter" data-level="5.3.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#black-scholes-formula"><i class="fa fa-check"></i><b>5.3.3</b> Black-Scholes formula</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html"><i class="fa fa-check"></i><b>5.4</b> Completeness and Hedging</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#completeness-in-black-scholes"><i class="fa fa-check"></i><b>5.4.1</b> Completeness in Black-Scholes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#absence-of-arbitrage-1"><i class="fa fa-check"></i><b>5.4.2</b> Absence of Arbitrage</a></li>
+<li class="chapter" data-level="5.4.3" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#incomplete-markets"><i class="fa fa-check"></i><b>5.4.3</b> Incomplete Markets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="parity-relations.html"><a href="parity-relations.html"><i class="fa fa-check"></i><b>5.5</b> Parity relations</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="parity-relations.html"><a href="parity-relations.html#put-call-parity"><i class="fa fa-check"></i><b>5.5.1</b> Put-call Parity</a></li>
+<li class="chapter" data-level="5.5.2" data-path="parity-relations.html"><a href="parity-relations.html#the-greeks"><i class="fa fa-check"></i><b>5.5.2</b> The Greeks</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html"><i class="fa fa-check"></i><b>5.6</b> Fundamental pricing theorem I and II</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#completeness-1"><i class="fa fa-check"></i><b>5.6.1</b> Completeness</a></li>
+<li class="chapter" data-level="5.6.2" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#risk-neutral-valuation-formula"><i class="fa fa-check"></i><b>5.6.2</b> Risk Neutral Valuation Formula</a></li>
+<li class="chapter" data-level="5.6.3" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#stochastic-discount-factors-1"><i class="fa fa-check"></i><b>5.6.3</b> Stochastic Discount Factors</a></li>
+<li class="chapter" data-level="5.6.4" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#summary"><i class="fa fa-check"></i><b>5.6.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html"><i class="fa fa-check"></i><b>5.7</b> Mathematics of the martingale approach</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#martingale-representation-theorem"><i class="fa fa-check"></i><b>5.7.1</b> Martingale representation theorem</a></li>
+<li class="chapter" data-level="5.7.2" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#girsanov-theorem"><i class="fa fa-check"></i><b>5.7.2</b> Girsanov theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="black-scholes-model---martingale-approach.html"><a href="black-scholes-model---martingale-approach.html"><i class="fa fa-check"></i><b>5.8</b> Black-Scholes model - martingale approach</a></li>
+<li class="chapter" data-level="5.9" data-path="multidimensional-models.html"><a href="multidimensional-models.html"><i class="fa fa-check"></i><b>5.9</b> Multidimensional models</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="basic-non-life-insurance-mathematics.html"><a href="basic-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>6</b> Basic Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="7" data-path="stochastic-processes-in-non-life-insurance-mathematics.html"><a href="stochastic-processes-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>7</b> Stochastic Processes in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>9.1</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-is-a-good-estimator"><i class="fa fa-check"></i><b>9.1.1</b> What is a good estimator?</a></li>
+<li class="chapter" data-level="9.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#excess-risk"><i class="fa fa-check"></i><b>9.1.2</b> Excess risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html"><i class="fa fa-check"></i><b>9.2</b> Training, Validating and Testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html#estimating-risk"><i class="fa fa-check"></i><b>9.2.1</b> Estimating risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>9.3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="linear-models.html"><a href="linear-models.html#least-squares-estimator"><i class="fa fa-check"></i><b>9.3.1</b> Least Squares Estimator</a></li>
+<li class="chapter" data-level="9.3.2" data-path="linear-models.html"><a href="linear-models.html#ridge-regression"><i class="fa fa-check"></i><b>9.3.2</b> Ridge Regression</a></li>
+<li class="chapter" data-level="9.3.3" data-path="linear-models.html"><a href="linear-models.html#lasso-regression"><i class="fa fa-check"></i><b>9.3.3</b> Lasso Regression</a></li>
+<li class="chapter" data-level="9.3.4" data-path="linear-models.html"><a href="linear-models.html#conclusion"><i class="fa fa-check"></i><b>9.3.4</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html"><i class="fa fa-check"></i><b>9.4</b> Nonparametric Regression</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-smoothers"><i class="fa fa-check"></i><b>9.4.1</b> Linear Smoothers</a></li>
+<li class="chapter" data-level="9.4.2" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#curse-of-dimensionality"><i class="fa fa-check"></i><b>9.4.2</b> Curse of dimensionality</a></li>
+<li class="chapter" data-level="9.4.3" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#splines"><i class="fa fa-check"></i><b>9.4.3</b> Splines</a></li>
+<li class="chapter" data-level="9.4.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-regression-with-splines."><i class="fa fa-check"></i><b>9.4.4</b> Linear regression with splines.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="trees-and-forests.html"><a href="trees-and-forests.html"><i class="fa fa-check"></i><b>9.5</b> Trees and forests</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="trees-and-forests.html"><a href="trees-and-forests.html#cart"><i class="fa fa-check"></i><b>9.5.1</b> CART</a></li>
+<li class="chapter" data-level="9.5.2" data-path="trees-and-forests.html"><a href="trees-and-forests.html#pruning"><i class="fa fa-check"></i><b>9.5.2</b> Pruning</a></li>
+<li class="chapter" data-level="9.5.3" data-path="trees-and-forests.html"><a href="trees-and-forests.html#bagging"><i class="fa fa-check"></i><b>9.5.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.5.4" data-path="trees-and-forests.html"><a href="trees-and-forests.html#random-forests"><i class="fa fa-check"></i><b>9.5.4</b> Random Forests</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html"><i class="fa fa-check"></i><b>9.6</b> Boosting and additive trees</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#gradient-boosting-machines"><i class="fa fa-check"></i><b>9.6.1</b> Gradient Boosting Machines</a></li>
+<li class="chapter" data-level="9.6.2" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#bayesian-additive-regression-trees"><i class="fa fa-check"></i><b>9.6.2</b> Bayesian additive regression trees</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="some-practical-considerations.html"><a href="some-practical-considerations.html"><i class="fa fa-check"></i><b>9.7</b> Some practical considerations</a></li>
+<li class="chapter" data-level="9.8" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>9.8</b> Neural Networks</a></li>
+<li class="chapter" data-level="9.9" data-path="local-explanations.html"><a href="local-explanations.html"><i class="fa fa-check"></i><b>9.9</b> Local explanations</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="local-explanations.html"><a href="local-explanations.html#interpretability"><i class="fa fa-check"></i><b>9.9.1</b> Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="causality.html"><a href="causality.html"><i class="fa fa-check"></i><b>9.10</b> Causality</a></li>
+<li class="chapter" data-level="9.11" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html"><i class="fa fa-check"></i><b>9.11</b> Local and Global Explanations</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#interpretability-1"><i class="fa fa-check"></i><b>9.11.1</b> Interpretability</a></li>
+<li class="chapter" data-level="9.11.2" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#partial-dependence-plots"><i class="fa fa-check"></i><b>9.11.2</b> Partial dependence plots</a></li>
+<li class="chapter" data-level="9.11.3" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#a-functional-decomposition"><i class="fa fa-check"></i><b>9.11.3</b> A functional decomposition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="quantative-risk-management.html"><a href="quantative-risk-management.html"><i class="fa fa-check"></i><b>10</b> Quantative Risk Management</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html"><i class="fa fa-check"></i><b>10.1</b> The Loss Variable</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html#risk-measures"><i class="fa fa-check"></i><b>10.1.1</b> Risk measures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="measure-theory.html"><a href="measure-theory.html"><i class="fa fa-check"></i><b>11</b> Measure theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="axioms-of-probability.html"><a href="axioms-of-probability.html"><i class="fa fa-check"></i><b>11.1</b> Axioms of Probability</a></li>
+<li class="chapter" data-level="11.2" data-path="conditional-probability-and-independence.html"><a href="conditional-probability-and-independence.html"><i class="fa fa-check"></i><b>11.2</b> Conditional Probability and Independence</a></li>
+<li class="chapter" data-level="11.3" data-path="probabilities-on-a-finite-or-countable-space.html"><a href="probabilities-on-a-finite-or-countable-space.html"><i class="fa fa-check"></i><b>11.3</b> Probabilities on a Finite or Countable Space</a></li>
+<li class="chapter" data-level="11.4" data-path="construction-of-a-probability-measure-on-mathbb-r.html"><a href="construction-of-a-probability-measure-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.4</b> Construction of a Probability Measure on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.5" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>11.5</b> Random Variables</a></li>
+<li class="chapter" data-level="11.6" data-path="integration-with-respect-to-a-probability-measure.html"><a href="integration-with-respect-to-a-probability-measure.html"><i class="fa fa-check"></i><b>11.6</b> Integration with Respect to a Probability Measure</a></li>
+<li class="chapter" data-level="11.7" data-path="independent-random-variables.html"><a href="independent-random-variables.html"><i class="fa fa-check"></i><b>11.7</b> Independent Random Variables</a></li>
+<li class="chapter" data-level="11.8" data-path="probability-distributions-on-mathbb-r.html"><a href="probability-distributions-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.8</b> Probability Distributions on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.9" data-path="probability-distributions-on-mathbb-rn.html"><a href="probability-distributions-on-mathbb-rn.html"><i class="fa fa-check"></i><b>11.9</b> Probability Distributions on <span class="math inline">\(\mathbb R^n\)</span></a></li>
+<li class="chapter" data-level="11.10" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html"><i class="fa fa-check"></i><b>11.10</b> Equivalent Probability Measures</a>
+<ul>
+<li class="chapter" data-level="11.10.1" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#the-radon-nikodym-theorem"><i class="fa fa-check"></i><b>11.10.1</b> The Radon-Nikodym Theorem</a></li>
+<li class="chapter" data-level="11.10.2" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#equivalent-probability-measures-1"><i class="fa fa-check"></i><b>11.10.2</b> Equivalent Probability Measures</a></li>
+<li class="chapter" data-level="11.10.3" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#likelihood-processes"><i class="fa fa-check"></i><b>11.10.3</b> Likelihood processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="random-variables-1.html"><a href="random-variables-1.html"><i class="fa fa-check"></i><b>12</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>12.2</b> Conditional expectation</a></li>
+<li class="chapter" data-level="12.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>12.3</b> Independence</a></li>
+<li class="chapter" data-level="12.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>12.4</b> Moment generating function</a></li>
+<li class="chapter" data-level="12.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>12.5</b> Standard distributions</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>12.5.1</b> Normal disribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>13</b> Discrete Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html"><i class="fa fa-check"></i><b>13.1</b> Convergence concepts</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html#sums-and-average-processes"><i class="fa fa-check"></i><b>13.1.1</b> Sums and average processes</a></li>
+<li class="chapter" data-level="13.1.2" data-path="convergence-concepts.html"><a href="convergence-concepts.html#ergodic-theory"><i class="fa fa-check"></i><b>13.1.2</b> Ergodic Theory</a></li>
+<li class="chapter" data-level="13.1.3" data-path="convergence-concepts.html"><a href="convergence-concepts.html#weak-convergence"><i class="fa fa-check"></i><b>13.1.3</b> Weak Convergence</a></li>
+<li class="chapter" data-level="13.1.4" data-path="convergence-concepts.html"><a href="convergence-concepts.html#central-limit-theorems"><i class="fa fa-check"></i><b>13.1.4</b> Central Limit Theorems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>14</b> Markov Chains</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="definition-of-a-markov-chain.html"><a href="definition-of-a-markov-chain.html"><i class="fa fa-check"></i><b>14.1</b> Definition of a Markov Chain</a></li>
+<li class="chapter" data-level="14.2" data-path="classification-of-states.html"><a href="classification-of-states.html"><i class="fa fa-check"></i><b>14.2</b> Classification of states</a></li>
+<li class="chapter" data-level="14.3" data-path="limit-results-and-invariant-probabilities.html"><a href="limit-results-and-invariant-probabilities.html"><i class="fa fa-check"></i><b>14.3</b> Limit results and invariant probabilities</a></li>
+<li class="chapter" data-level="14.4" data-path="absorbing-probabilities.html"><a href="absorbing-probabilities.html"><i class="fa fa-check"></i><b>14.4</b> Absorbing probabilities</a></li>
+<li class="chapter" data-level="14.5" data-path="markov-chains-in-continuous-times.html"><a href="markov-chains-in-continuous-times.html"><i class="fa fa-check"></i><b>14.5</b> Markov Chains in Continuous Times</a></li>
+<li class="chapter" data-level="14.6" data-path="properties-of-transitionsprobabilities.html"><a href="properties-of-transitionsprobabilities.html"><i class="fa fa-check"></i><b>14.6</b> Properties of transitionsprobabilities</a></li>
+<li class="chapter" data-level="14.7" data-path="invariant-probabilies-and-absorption.html"><a href="invariant-probabilies-and-absorption.html"><i class="fa fa-check"></i><b>14.7</b> Invariant probabilies and absorption</a></li>
+<li class="chapter" data-level="14.8" data-path="birth-death-processes.html"><a href="birth-death-processes.html"><i class="fa fa-check"></i><b>14.8</b> Birth-death processes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="continuous-time-stochastic-processes.html"><a href="continuous-time-stochastic-processes.html"><i class="fa fa-check"></i><b>15</b> Continuous Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="brownian-motion.html"><a href="brownian-motion.html"><i class="fa fa-check"></i><b>15.1</b> Brownian Motion</a></li>
+<li class="chapter" data-level="15.2" data-path="filtration.html"><a href="filtration.html"><i class="fa fa-check"></i><b>15.2</b> Filtration</a></li>
+<li class="chapter" data-level="15.3" data-path="martingale.html"><a href="martingale.html"><i class="fa fa-check"></i><b>15.3</b> Martingale</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stochastic-calculus.html"><a href="stochastic-calculus.html"><i class="fa fa-check"></i><b>16</b> Stochastic calculus</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html"><i class="fa fa-check"></i><b>16.1</b> Stochastic Integrals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#information"><i class="fa fa-check"></i><b>16.1.1</b> Information</a></li>
+<li class="chapter" data-level="16.1.2" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-integrals-1"><i class="fa fa-check"></i><b>16.1.2</b> Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.1.3" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#martingales"><i class="fa fa-check"></i><b>16.1.3</b> Martingales</a></li>
+<li class="chapter" data-level="16.1.4" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-calculus-and-the-ito-formula"><i class="fa fa-check"></i><b>16.1.4</b> Stochastic Calculus and the Ito Formula</a></li>
+<li class="chapter" data-level="16.1.5" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula"><i class="fa fa-check"></i><b>16.1.5</b> The multidimensional Ito Formula</a></li>
+<li class="chapter" data-level="16.1.6" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula-with-states"><i class="fa fa-check"></i><b>16.1.6</b> The multidimensional Ito Formula with states</a></li>
+<li class="chapter" data-level="16.1.7" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#correlated-brownian-motions"><i class="fa fa-check"></i><b>16.1.7</b> Correlated Brownian motions</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="discrete-stochastic-integrals.html"><a href="discrete-stochastic-integrals.html"><i class="fa fa-check"></i><b>16.2</b> Discrete Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.3" data-path="stochastic-differential-equations.html"><a href="stochastic-differential-equations.html"><i class="fa fa-check"></i><b>16.3</b> Stochastic Differential Equations</a></li>
+<li class="chapter" data-level="16.4" data-path="partial-differential-equations.html"><a href="partial-differential-equations.html"><i class="fa fa-check"></i><b>16.4</b> Partial differential equations</a></li>
+<li class="chapter" data-level="16.5" data-path="the-product-integral.html"><a href="the-product-integral.html"><i class="fa fa-check"></i><b>16.5</b> The Product Integral</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="the-product-integral.html"><a href="the-product-integral.html#properties-of-the-product-integral"><i class="fa fa-check"></i><b>16.5.1</b> Properties of the Product Integral</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="linear-algebra.html"><a href="linear-algebra.html"><i class="fa fa-check"></i><b>17</b> Linear Algebra</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="invertible-matrices.html"><a href="invertible-matrices.html"><i class="fa fa-check"></i><b>17.1</b> Invertible matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="coding.html"><a href="coding.html"><i class="fa fa-check"></i><b>18</b> Coding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="r-packages.html"><a href="r-packages.html"><i class="fa fa-check"></i><b>18.1</b> R-Packages</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="r-packages.html"><a href="r-packages.html#mlr3"><i class="fa fa-check"></i><b>18.1.1</b> mlr3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Complete Theory</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="nonparametric-regression" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Nonparametric Regression<a href="nonparametric-regression.html#nonparametric-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Linear models are quite restrictive and one may ask how one can achieve more flexibility. In this chapter we will look at the nonparametric regression problem with squared loss <span class="math inline">\(L(y_1,y_2)=(y_1-y_2)^2\)</span>. We already know that the Bayes-rule is <span class="math inline">\(m^\ast(x)=\mathbb E[Y|X=x]\)</span>.</p>
+<div id="linear-smoothers" class="section level3 hasAnchor" number="9.4.1">
+<h3><span class="header-section-number">9.4.1</span> Linear Smoothers<a href="nonparametric-regression.html#linear-smoothers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="def">
+<p><strong>Definition. (k-nearest-neighbor)</strong> <em>The k-nearest-neighbor estimator is </em></p>
+<p><span class="math display">\[
+\hat m^{knn}(x)= \frac 1 k \sum_{i \in \mathcal N_k(x)}Y_i,
+\]</span></p>
+<p><em>where <span class="math inline">\(\mathcal N_k(x)\)</span> contains the indices of the <span class="math inline">\(k\)</span> closest points of <span class="math inline">\(\{X_1, \dots X_n\}\)</span> to <span class="math inline">\(x\)</span>.</em></p>
+</blockquote>
+<blockquote class="def">
+<p><strong>Definition. (Linear Smoother)</strong> <em>An estimator is called linear smoother if it can be written as </em></p>
+<p><span class="math display">\[
+\hat m(x)= \sum_i w_i(x)Y_i,
+\]</span></p>
+<p><em>where the weight function <span class="math inline">\(w_i\)</span> can depend on <span class="math inline">\(\{X_1, \dots, X_n\}\)</span>.</em></p>
+</blockquote>
+<p><strong>Example.</strong> The k-nearest-neighbor estimator is a linear smoother:</p>
+<p><span class="math display">\[
+\hat m^{knn}(x)= \sum_i^n w_i(x) Y_i,
+\]</span></p>
+<p>with</p>
+<p><span class="math display">\[
+w_i(x)=\begin{cases}\frac 1 k &amp; X_i \ \text{belongs to the}\  k \ \text{closest points to}\  x \\ 0 &amp; else\end{cases}
+\]</span></p>
+<p>In the below proposition the definition of Lipschitz continuity is used. We recall that a real-valued function <span class="math inline">\(f:\mathbb R\to\mathbb R\)</span> is <span class="math inline">\(L\)</span>-Lipschitz continuous if and only if</p>
+<p><span class="math display">\[
+f(x_1)-f(x_2)\le L\Vert x_1-x_2\Vert_2
+\]</span></p>
+<p>for all <span class="math inline">\((x_1,x_2)\in\mathbb R^2\)</span>. This in particulat means that <span class="math inline">\(f(x)\in[f(x_1)-L\vert x_1-x\vert,f(x_1)+L\vert x_1-x\vert]\)</span> i.e. does not on any interval grow faster that a linear function with slope <span class="math inline">\(L\)</span>.</p>
+<blockquote class="prop">
+<p><strong>Proposition. (MSE k-nearest-neighbor)</strong> <em>Assume that</em></p>
+<p><span class="math display">\[
+E[Y|X=x]=m^\ast(x)\in \mathcal G_L = \{m: \mathbb R^p \mapsto \mathbb R\ |\ m \ \text{is L-Lipschitz continuous}\},
+\]</span></p>
+<p><em>and <span class="math inline">\(\textrm{Var}(Y|X=x)=\sigma^2(x)\leq \sigma^2.\)</span> Then </em></p>
+<p><span class="math display">\[
+\mathbb E[(\hat m^{knn}(x)-m^\ast(x))^2]\leq (cL)^2 \left(\frac k n \right)^{2/p}+\frac {\sigma^2}k.
+\]</span></p>
+<p><em>In particular, for <span class="math inline">\(k_n=O_p( n^{2/(2+p)})\)</span>, we get </em></p>
+<p><span class="math display">\[
+\mathbb E[(\hat m^{knn}(x)-m^\ast(x))^2]=O_p(n^{-2/(2+p)}).
+\]</span></p>
+</blockquote>
+<details>
+<summary>
+<strong>Proof.</strong>
+</summary>
+<p>Write <span class="math inline">\(\mathbf X=(X_1,\dots, X_n)\)</span> and denote by <span class="math inline">\(Y_i^{(x)}\)</span> the <span class="math inline">\(i\)</span>th closest <span class="math inline">\(Y\)</span> to <span class="math inline">\(x\)</span> among <span class="math inline">\(Y_1,\dots Y_n\)</span>.
+<span class="math display">\[\begin{align*}
+\mathbb E[(\hat m^{knn}(x)-m^\ast(x))^2]&amp; \stackrel{(\dagger_1)}{=}\mathbb E \Big [{\left(\mathbb{E}[\hat m^{knn}(x)|\mathbf  X]-m^\ast(x)\right)^2}\Big]+{\mathbb{E}\Big[(\hat m^{knn}(x)-\mathbb{E}[\hat m^{knn}(x)|\mathbf  X])^2\Big]}\\
+&amp;\stackrel{(\dagger_2)}{=}\mathbb E\left[ \Big \{\frac{1}{k} \sum_{i \in \mathcal{N}_k(x)}\left(m^\ast\left(X_i\right)-m^\ast(x)\right)\Big \}^2\right] \\
+&amp;+ \frac 1 {k^2} \mathbb E \left[ \sum_i^k \sum_j^k \{Y_i^{(x)}- \mathbb  E[Y_i^{(x)}| \mathbf X]\}\{Y_j^{(x)}- \mathbb  E[Y_j^{(x)}| \mathbf X]\} \right] \\
+&amp;\stackrel{(\dagger_3)}{\leq} \mathbb  E\left[ \left(\frac{L}{k} \sum_{i \in \mathcal{N}_k(x)}\left\|X_i-x\right\|_2\right)^2 \right]+\frac{\sigma^2}{k} \\
+&amp;\stackrel{(\dagger_4)}{\leq}  L^2 c \left(\frac k n \right)^{2/p}+\frac {\sigma^2}k
+\end{align*}\]</span>
+where we as usual in <span class="math inline">\((\dagger_1)\)</span> use that <span class="math inline">\(m^*(x)-Y\)</span> is orthogonal to any element <span class="math inline">\(m(x)-m^*(x)\)</span>. In the <span class="math inline">\((\dagger_2)\)</span> we use the assumption that <span class="math inline">\(m^*(x)=\mathbb E[Y\vert X=x]\)</span> and hence</p>
+<p><span class="math display">\[
+\mathbb E\left[\left. \hat m^{knn}(x)\right\vert X\right]=\frac{1}{k}\sum_{i\in \mathcal N_k(x)}\mathbb E\left[\left.  Y_i\right\vert X \right]=\frac{1}{k}\sum_{i\in \mathcal N_k(x)}m^*(X_i).
+\]</span></p>
+<p>Furthermore, the second term is derived from the below
+<span class="math display">\[\begin{align*}
+\mathbb{E}\left[(\hat m^{knn}(x)-\mathbb{E}[\hat m^{knn}(x)|\mathbf  X])^2\right]&amp;=\mathbb{E}\left[\left(\frac{1}{k}\sum_{l\in \mathcal N_k(x)}Y_l-\frac{1}{k}\sum_{i\in \mathcal N_k(x)}\mathbb E\left[\left.  Y_i\right\vert X \right]\right)^2\right]\\
+&amp;=\frac 1 {k^2} \mathbb E \left[ \sum_i^k \sum_j^k \{Y_i^{(x)}- \mathbb  E[Y_i^{(x)}| \mathbf X]\}\{Y_j^{(x)}- \mathbb  E[Y_j^{(x)}| \mathbf X]\} \right]
+\end{align*}\]</span>
+The <span class="math inline">\((\dagger_3)\)</span> is derived by the definition of a <span class="math inline">\(L\)</span>-Lipschitz function and the assumption regarding the variance of the conditional variable <span class="math inline">\(Y\ \vert\ X=x\)</span>. <span class="math inline">\((\dagger_4)\)</span> is a result taken from Gyorfi et al. 2002, vol. 1, chap. 6.3. <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>Note that this is slower than the “parametric” MSE of <span class="math inline">\(n^{-1}\)</span>. In particular the rate depends on <span class="math inline">\(p\)</span>. Even worse: It grows exponentially in <span class="math inline">\(p\)</span>.</p>
+<p>We have learned that the knn estimator can be written as</p>
+<p><span class="math display">\[
+\hat m^{knn}(x)= \frac 1 k w_i(x_i) Y_i,
+\]</span></p>
+<p>Note that <span class="math inline">\(w_i(x)\)</span> is not smooth as a function of <span class="math inline">\(x\)</span>. This also makes the estimator not smooth. Given that we assume that <span class="math inline">\(m^\ast\)</span> is smooth, this may not be desirable. An alternative are kernel smoothers.</p>
+<blockquote class="def">
+<p><strong>Definition. (Kernel Smoother)</strong> <em>The kernel smoother is a linear smoother with </em></p>
+<p><span class="math display">\[
+\hat m^{ks}(x)=  \sum_i w_i(x_i) Y_i,
+\]</span></p>
+<p><em>where </em></p>
+<p><span class="math display">\[
+w_i(x)=\frac{K\left(\frac{||x-X_i||}{h}\right)}{\sum_j K\left(\frac{||x-X_j||}{h}\right)}
+\]</span></p>
+<p><em>Often <span class="math inline">\(K=\prod_j k_j\)</span>, such that <span class="math inline">\(K\left(\frac{||x-X_i||}{h}\right)=\prod_j k(x-X_{ij})\)</span>. The function <span class="math inline">\(k: \mathbb R \mapsto \mathbb R\)</span> is usually a symmetric density function.</em></p>
+</blockquote>
+<p><img src="figures/ML_fig_kernel.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>The general idea is to fit a smooth function to the data points <span class="math inline">\((X,Y)\)</span> such that <span class="math inline">\(m(X)\)</span> is somewhat centered between the data points. The choice of a symmetric function <span class="math inline">\(k\)</span> ensures that the estimator weighs the datapoints closer to <span class="math inline">\(x\)</span> higher than further away data point. In the case with <span class="math inline">\(X,Y\in \mathbb R\)</span> we can choose for instance</p>
+<ol style="list-style-type: decimal">
+<li>Gaussian kernel: <span class="math inline">\(k_j(z)=\exp\left(\frac{z}{2b^2}\right)\)</span> with <span class="math inline">\(b&gt;0\)</span>,</li>
+<li>Uniform kernel: <span class="math inline">\(k_j(z)=1_{[0,1]}(z)/2\in \{0,1\}\)</span>,</li>
+<li>Triangular kernel: <span class="math inline">\(k_j(z)=\big(1-z\big)^+\)</span>,</li>
+<li>Epanechnikov kernel: <span class="math inline">\(k_j(z)=\frac{(1-z^2)^a}{2^{2a+1}\Gamma(a+1)^2\Gamma(2a+2)^{-1}}1_{[0,1]}(z)\)</span> with <span class="math inline">\(a=1\)</span>.</li>
+<li>Biweight kernel: Above with <span class="math inline">\(a=2\)</span>.</li>
+</ol>
+<p>where of course the argument is <span class="math inline">\(z=\vert x-X_{ij}\vert/h\)</span> with <span class="math inline">\(h&gt;0\)</span> being the bandwidth. Notice that the uniform kernel in fact is the Epanechnikov kernel with <span class="math inline">\(a=0\)</span>.</p>
+<blockquote class="prop">
+<p><strong>Proposition. (MSE Kernel Smoother)</strong> <em>Assume that <span class="math inline">\(E[Y|X=x]=m^\ast(x)\in \mathcal G_L\)</span> with</em></p>
+<p><span class="math display">\[
+\mathcal G_L = \{m: \mathbb R^p \mapsto \mathbb R\ |\  m \ \text{is L-Lipschitz continuous}\},
+\]</span></p>
+<p><em>and <span class="math inline">\(\textrm{Var}(Y|X=x)=\sigma^2(x)\leq \sigma^2.\)</span> Then </em></p>
+<p><span class="math display">\[
+\mathbb E[(\hat m^{ks}(x)-m^\ast(x))^2]= O_p\left( \frac{1}{nh^p} + h^2 \right)
+\]</span></p>
+<p><em>In particular, for <span class="math inline">\(h_n=O_p(n^{-1/(2+p)})\)</span>, we get </em></p>
+<p><span class="math display">\[
+\mathbb E[(\hat m^{ks}(x)-m^\ast(x))^2]=O_p(n^{-2/(2+p)}).
+\]</span></p>
+</blockquote>
+</div>
+<div id="curse-of-dimensionality" class="section level3 hasAnchor" number="9.4.2">
+<h3><span class="header-section-number">9.4.2</span> Curse of dimensionality<a href="nonparametric-regression.html#curse-of-dimensionality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We have seen that under a Lipschitz condition, both kernel smoother and knn have an asymptotic mean squared error of order <span class="math inline">\(n^{-2/(2+p)}\)</span>. One can show that under the assumption that <span class="math inline">\(m^\ast\)</span> is twice continuously differentiable, the rate for both methods can be improved to</p>
+<p><span class="math display">\[
+n^{-4/(4+p)}.
+\]</span></p>
+<p>But this rate is still exponentially decreasing in <span class="math inline">\(p\)</span>. Furthermore, it has been shown that no method can do better under the given assumptions.</p>
+<p>A new observation <span class="math inline">\(x_0\)</span> will have very few or no observations in its neighborhood. This leads to high variance and high bias when increasing the size of the neighborhood.</p>
+<p>Under the model in the previous section, the setting <span class="math inline">\(n=50,p=1\)</span> has the same expected amount of observations in a neighborhood as the setting <span class="math inline">\(n=7.5\times10^{110}, p=100\)</span>.</p>
+<p>There are two ways to tackle the curse of dimensionality.</p>
+<p><strong>Sparsity:</strong> Assume that the intrinsic dimension is lower. E.g. Not all variables are relevant. Or feature engineer a few highly predictive variables.</p>
+<p><strong>Structure:</strong> Interactions are limited and structure can be exploited
+e.g. an additive structure <span class="math inline">\(m(x)=m_1(x_1)+m_2(x_2)\)</span>. Remember that structure is essential for interpretability.</p>
+</div>
+<div id="splines" class="section level3 hasAnchor" number="9.4.3">
+<h3><span class="header-section-number">9.4.3</span> Splines<a href="nonparametric-regression.html#splines" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We want to establish a framework to estimate additive regression functions. To this end, assume <span class="math inline">\(p=1\)</span> until further notice.</p>
+<blockquote class="def">
+<p><strong>Definition. (Splines)</strong> <em>Consider a function <span class="math inline">\(S : \mathbb R\to \mathbb R\)</span>. If</em></p>
+<p><span class="math display">\[
+S(t)=\sum_{i=1}^\ell 1_{[t_{i-1},t_i)}(t)P_i(t),
+\]</span></p>
+<p><em>for a family of polynomial functions <span class="math inline">\(\{P_i\}_{i=1,...,\ell}\)</span> of at most order <span class="math inline">\(k\)</span>. If <span class="math inline">\(S(t)\)</span> is <span class="math inline">\(C^n\)</span> (<span class="math inline">\(n\ge 1\)</span>) we say that <span class="math inline">\(S\)</span> is a <span class="math inline">\(k\)</span>th-order spline with <span class="math inline">\(\ell\)</span> knotpoints and smoothness <span class="math inline">\(n\)</span>. We call <span class="math inline">\(t_0&lt;t_1&lt;\cdots &lt;t_\ell\)</span> for knotpoints.</em></p>
+</blockquote>
+<p><strong>Example. (Truncated Power Basis)</strong> A <span class="math inline">\(k\)</span>th-order spline <span class="math inline">\(m\)</span> with <span class="math inline">\(l\)</span> knotpoints can an be uniquely written as</p>
+<p><span class="math display">\[
+m(x)=\sum_{j=1}^{k+1+l}\theta_jg_j(x)
+\]</span></p>
+<p>For <span class="math inline">\(j=1,\dots, k+1\)</span>: <span class="math inline">\(g_{j}=x^{j-1}\)</span> and for <span class="math inline">\(j=1,\dots,l:\)</span> <span class="math inline">\(g_{k+1+j}=(x-x_j)^k_+\)</span>. We call this the truncated power basis. Note that <span class="math inline">\(\theta_j\)</span> is some indicator function.</p>
+<p>Splines have high variance at the boundaries. Solution: Let the piecewise polynomial function have a lower degree at <span class="math inline">\((-\infty,x_1],[x_l,\infty)\)</span>.</p>
+<blockquote class="def">
+<p><strong>Definition. (Natural Splines)</strong> <em>Consider a <span class="math inline">\(k\)</span>th order spline <span class="math inline">\(S\)</span>, <span class="math inline">\(k\)</span> odd, with smoothness <span class="math inline">\(k-1\)</span> defined for the knotpoints <span class="math inline">\(t_0,...,t_\ell\)</span>. We say that <span class="math inline">\(S\)</span> is a natural spline of order <span class="math inline">\(k\)</span> if <span class="math inline">\(S\)</span> is a <span class="math inline">\(C^{(k-1)/2}\)</span> on <span class="math inline">\((-\infty,t_0)\cup (t_\ell,\infty)\)</span>.</em></p>
+</blockquote>
+<p>Note that natural splines have dimension <span class="math inline">\(l\)</span> which is in particular independent of the order <span class="math inline">\(k\)</span> (compare to dimension <span class="math inline">\(k+l\)</span> for splines). There is also a truncated power basis and a B-splines basis for natural splines. An example is the cubic spline which is a 3rd order natural spline. One can find a unique <a href="https://random-walks.org/content/misc/ncs/ncs.html">solution</a> to the problem of fitting a natural cubic spline to a dataset <span class="math inline">\(\{(x_i,y_i)\}_{i=1,...,n}\)</span>. Furthermore, this interpolated function minimizes <span class="math inline">\(\int_{x_0}^{x_n} (f&#39;&#39;(x))^2\ dx\)</span>. Which makes this interpolation tractable.</p>
+</div>
+<div id="linear-regression-with-splines." class="section level3 hasAnchor" number="9.4.4">
+<h3><span class="header-section-number">9.4.4</span> Linear regression with splines.<a href="nonparametric-regression.html#linear-regression-with-splines." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We still assume the one-dimensional case, <span class="math inline">\(p=1\)</span>. Instead of looking at observations <span class="math inline">\((X_i,Y_i)_{i=1,\dots,n}\)</span> we can consider a natural splines basis and look at observations <span class="math inline">\((g_1(X_i), \dots, g_l(X_i), Y_i)_{i=1,\dots,n}.\)</span> By doing so we are able to approximate any natural spline in <span class="math inline">\(x\)</span> instead of just linear functions in <span class="math inline">\(x\)</span>, while still being in a linear regression framework, i.e.,</p>
+<p><span class="math display">\[
+\hat \beta = {\arg \min }_\beta \sum_i (Y_i - { G_i^T}\beta )^2= (\mathbf G^T\mathbf  G)^{-1}\mathbf  G^T\mathbf Y
+\]</span></p>
+<p>where <span class="math inline">\(G_i^T=(g_1(X_i), \dots, g_l(X_i))\)</span>, the rows of <span class="math inline">\(\mathbf G\)</span>. Problem: How do we choose the number of knotpoints <span class="math inline">\(l\)</span> and their position? First thought: Cross validation. But that would be quite expensive to run.</p>
+<p>Let us look at the following minimization problem:</p>
+<p><span class="math display">\[
+\hat m= \arg\min_{m} \sum_i (Y_i-m(X_i))^2+\lambda\int_a^b m&#39;&#39;(x)^2\mathrm dx,
+\]</span></p>
+<p>where minimization runs over all twice times differentiable functions <span class="math inline">\(m\)</span> and observations <span class="math inline">\(X_i\)</span> are in <span class="math inline">\([a,b]\)</span> for all <span class="math inline">\(i\)</span>.</p>
+<blockquote class="thm">
+<p><strong>Theorem (Smoothing splines)</strong> <em>If <span class="math inline">\(m\)</span> is twice differentiable and the solution to </em></p>
+<p><span class="math display">\[
+\arg\min_{m} \sum_i (Y_i-m(X_i))^2+\lambda\int_a^b m&#39;&#39;(x)^2\mathrm dx,
+\]</span></p>
+<p><em>then <span class="math inline">\(m\)</span> is a natural spline of order 3 (natural cubic spline).</em></p>
+</blockquote>
+<details>
+<summary>
+<strong>Proof.</strong>
+</summary>
+<p>Consider a dataset <span class="math inline">\(\mathcal D_n=\left\{(X_i,Y_i)\right\}_{i=1,..,n}\)</span> orderet such that <span class="math inline">\(X_1\le X_2\le \cdots \le X_n\)</span>. Let <span class="math inline">\(m^*\)</span> be the minimizer to the minimization problem</p>
+<p><span class="math display">\[
+m^*=\underset{m\in\mathcal G}{\text{arg min}}\left\{\sum_i (Y_i-m(X_i))^2+\lambda\int_a^b m&#39;&#39;(x)^2\mathrm dx\right\},
+\]</span></p>
+<p>for <span class="math inline">\(\mathcal G\)</span> being the class of <span class="math inline">\(C^2\)</span> functions and <span class="math inline">\(\lambda\ge 0\)</span> be given. We know from <a href="https://random-walks.org/content/misc/ncs/ncs.html">earlier</a> that the cubic spline does indeed minimize the integral above and so if <span class="math inline">\(m(X_i)=Y_i\)</span> for all <span class="math inline">\(i\)</span> then we will have a minimizer. Let us for good measure show that the cubic spline fitted to the dataset <span class="math inline">\(\mathcal D_n\)</span>, call it <span class="math inline">\(\tilde m\)</span>, is indeed the minimizer.</p>
+<p>Let <span class="math inline">\(\tilde m\)</span> be the unique natural cubic spline interpolated to the points <span class="math inline">\(\mathcal D_n\)</span>. This in particular gives that <span class="math inline">\(X_1,...,X_n\)</span> are knotpoints for <span class="math inline">\(\tilde m\)</span> and so we have</p>
+<p><span class="math display">\[
+m(X_i)=Y_i,\quad m^{(3)}(X_i)=0,\quad \forall x\notin [X_1,X_n]:m&#39;&#39;(x)=0.
+\]</span></p>
+<p>Assume that <span class="math inline">\([X_1,X_n]\subset [a,b]\)</span>. By now we already have</p>
+<p><span class="math display">\[
+\sum_i(Y_i-\tilde m(X_i))^2=0\le \sum_i(Y_i-m^*(X_i))^2,
+\]</span></p>
+<p>and so if we show that</p>
+<p><span class="math display">\[
+\int_a^b(\tilde m&#39;&#39;(x))^2\ dx\le \int_a^b({m^*}&#39;&#39;(x))^2\ dx,
+\]</span></p>
+<p>then <span class="math inline">\(\tilde m=m^*\)</span>. In particular we have to show that</p>
+<p><span class="math display">\[
+0\le  \int_a^b({m^*}&#39;&#39;(x))^2\ dx-\int_a^b(\tilde m&#39;&#39;(x))^2\ dx.
+\]</span></p>
+<p>We start by seeing that</p>
+<p><span class="math display">\[
+(a-b)^2=a^2+b^2-2ab=a^2+2b^2-2ab-b^2=a^2-2(a-b)b-b^2
+\]</span></p>
+<p>hence</p>
+<p><span class="math display">\[
+\int_a^b\left({m^*}&#39;&#39;(x)-\tilde m&#39;&#39;(x)\right)^2\ dx=\int_a^b({m^*}&#39;&#39;(x))^2\ dx-\int_a^b(\tilde m&#39;&#39;(x))^2\ dx-2\int_a^b\tilde m&#39;&#39;(x)({m^*}&#39;&#39;(x)-\tilde m&#39;&#39;(x))\ dx
+\]</span></p>
+<p>and so if the last term is zero, then we would trivially have</p>
+<p><span class="math display">\[
+\int_a^b({m^*}&#39;&#39;(x))^2\ dx-\int_a^b(\tilde m&#39;&#39;(x))^2\ dx=\int_a^b\left({m^*}&#39;&#39;(x)-\tilde m&#39;&#39;(x)\right)^2\ dx\ge 0
+\]</span></p>
+<p>as desired. Define <span class="math inline">\(h=m^*-\tilde m\)</span> then we have</p>
+<p><span class="math display">\[
+\int_a^b\tilde m&#39;&#39;(x)({m^*}&#39;&#39;(x)-\tilde m&#39;&#39;(x))\ dx=\int_a^b\tilde m&#39;&#39;(x)h&#39;&#39;(x)\ dx.
+\]</span></p>
+<p>Since <span class="math inline">\(\tilde m&#39;&#39;=0\)</span> for all <span class="math inline">\(x\notin [X_1,X_n]\)</span>, the bound can be moved in and so by using integration by parts we have
+<span class="math display">\[\begin{align*}
+\int_a^b\tilde m&#39;&#39;(x)h&#39;&#39;(x)\ dx
+&amp;=\sum_{i=1}^{n-1}\int_{X_i}^{X_{i+1}}\tilde m&#39;&#39;(x)h&#39;&#39;(x)\ dx \\
+&amp;=\sum_{i=1}^{n-1}\left[\tilde m&#39;&#39;(x)h&#39;(x)\right]_{X_i}^{X_{i+1}}-\int_{X_i}^{X_{i+1}}\tilde m&#39;&#39;&#39;(x)h&#39;(x)\ dx \\
+&amp;\stackrel{(\dagger_1)}{=} -\sum_{i=1}^{n-1}\int_{X_i}^{X_{i+1}}\tilde m&#39;&#39;&#39;(x)h&#39;(x)\ dx\\
+&amp;\stackrel{(\dagger_2)}{=} -\sum_{i=1}^{n-1}\tilde m&#39;&#39;&#39;(X_i)\int_{X_i}^{X_{i+1}}h&#39;(x)\ dx\\
+&amp;=-\sum_{i=1}^{n-1}\tilde m&#39;&#39;&#39;(X_i)\left[h(x)\right]_{X_i}^{X_{i+1}}\\
+&amp;=-\sum_{i=1}^{n-1}\tilde m&#39;&#39;&#39;(X_i)(m^*(X_{i+1})-\tilde m(X_{i+1})-m^*(X_i)+\tilde m(X_i))\\
+&amp;\stackrel{(\dagger_1)}{=}0
+\end{align*}\]</span>
+where we used that <span class="math inline">\(h=0\)</span> on <span class="math inline">\(x\in\{X_i\}_{i=1,...,n}\)</span> (<span class="math inline">\(\dagger_1\)</span>) twice and that <span class="math inline">\(m&#39;&#39;&#39;\)</span> is constant (<span class="math inline">\(\dagger_2\)</span>). Then we have shown the desired equality hence</p>
+<p><span class="math display">\[
+\int_a^b(\tilde m&#39;&#39;(x))^2\ dx\le \int_a^b({m^*}&#39;&#39;(x))^2\ dx
+\]</span></p>
+<p>as desired. <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>We can conclude the following:</p>
+<ul>
+<li>Let <span class="math inline">\(\mathbf G\)</span> be the matrix with with rows <span class="math inline">\(G_i=(g_1(X_i), \dots, g_l(X_i))\)</span>.
+<ul>
+<li><span class="math inline">\(\{g_j\}_{j=1,\dots,l}\)</span> is a basis for natural cubic splines.</li>
+</ul></li>
+<li>Define
+<span class="math display">\[\hat \beta  = \arg\min_{\beta} \sum_i (Y_i- G_i^T\beta)^2+\lambda\int_0^1 \left\{{\sum_j \beta_jg_j&#39;&#39;}(x)\right\}^2\mathrm dx.\]</span>
+Then,
+<span class="math display">\[\sum_j \hat \beta_j g_j=\arg\min_{m} \sum_i (Y_i-m(X_i))^2+\lambda\int_0^1 m&#39;&#39;(x)^2\mathrm dx.\]</span></li>
+</ul>
+<p>Smoothing splines can be seen as a special case of generalized ridge regression:</p>
+<ul>
+<li>Write <span class="math inline">\(\mathbf W_{ij}=\int_0^1g_i&#39;&#39;(x)g_j&#39;&#39;(x)\mathrm dx,\)</span> then
+<span class="math display">\[\begin{align*}
+  &amp;\arg\min_{\beta} \sum_i (Y_i- G_i^T\beta)^2+\lambda\int_0^1 \left\{{\sum_j \beta_jg_j&#39;&#39;}(x)\right\}^2\mathrm dx\\=
+  &amp;\arg\min_{\beta} \sum_i (Y_i- G_i^T\beta)^2+\lambda \beta^T \mathbf W \beta.
+  \end{align*}\]</span>
+Hence,
+<span class="math display">\[
+  \hat \beta= (\mathbf G^T\mathbf G+\lambda \mathbf W)^{-1}\mathbf G^T\mathbf Y.
+  \]</span></li>
+</ul>
+<p>It can be shown the smoothing splines are asymptotically equivalent to kernel smoothers with varying bandwidth and a specific choice of kernel, see Silverman (1984) or Wang, Du, and Shen (2013) for a more recent contribution. In general, smoothing splines are more practical since they can be efficiently calculated while kernel smoothers are much easier to analyze theoretically.</p>
+<p>We have seen that fully nonparametric methods suffer from the curse of dimensionality: the optimal rate of convergence for twice continuously differentiable functions is <span class="math inline">\(n^{-4/(4+p)}\)</span>. One solution is to restrict oneself to the class of additive functions</p>
+<p><span class="math display">\[
+\mathcal G=\{m\ |\ m(x)=m_1(x_1)+\cdots +m_p(x_p)\}
+\]</span></p>
+<p>Stone (1985) showed that the components <span class="math inline">\(m_k\)</span>, if twice continuously differentiable, can be estimated with one-dimensional rate of <span class="math inline">\(n^{-4/(4+p)}\)</span>. The components <span class="math inline">\(m_j\)</span> are usually estimated via the so called backfitting algorithm (Hastie and Tibshirani 1990).</p>
+<p>Backffitting comprises the following two steps:</p>
+<blockquote class="def">
+<p><strong>Definition. (Backfitting Algorithm)</strong></p>
+<ul>
+<li><em>Intialize: <span class="math inline">\(\hat m_j^{[0]}=0, j=1,\dots,p\)</span></em></li>
+<li><em>Iterate for <span class="math inline">\(r=1,\dots\)</span></em>
+<ol style="list-style-type: decimal">
+<li><em>Residuals: <span class="math inline">\(r_{ij}^{[r]}=Y_i-\sum_{k &lt; j} \hat{m}_{k}^{[r]}(x_{ik})-\sum_{k &gt; j} \hat{m}_{k}^{[r-1]}(x_{ik})\)</span>.</em></li>
+<li><em>Smooth: <span class="math inline">\(\hat{m}_j^{[r]}=\operatorname{Smooth}\left(\left\{X_{ij},r_{ij}^{[r]}\}_{i=1,\dots,n}\right\}\right).\)</span></em></li>
+<li><em>Center: <span class="math inline">\(\hat{m}_j^{[r]}=\hat{m}_j^{[r]}-\frac{1}{n} \sum_{i=1}^n \hat{m}_j^{[r]}\left(X_{i j}\right)\)</span>.</em></li>
+</ol></li>
+</ul>
+</blockquote>
+<p>Note that Smooth is a one-dimensional regression problem. In practice Smooth is most often a smoothing spline.
+It has been shown backfitting via smoothing splines achieve optimal rate of <span class="math inline">\(n^{-4/(4+p)}\)</span> for each component and <span class="math inline">\(pn^{-4/(4+p)}\)</span> for the p-dimensional additive regression function.</p>
+<p>Problem: Additive methods are still not optimal in the case of sparsity (i.e. some features being not relevant) and interactions between features.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="linear-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="trees-and-forests.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["theory.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

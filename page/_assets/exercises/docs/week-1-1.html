@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.1 Week 1 | Exercises</title>
+  <meta name="description" content="3.1 Week 1 | Exercises" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.1 Week 1 | Exercises" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.1 Week 1 | Exercises" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="probabilistic-machine-learning.html"/>
+<link rel="next" href="week-2-1.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Exercises</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-work.html"><a href="to-do-work.html"><i class="fa fa-check"></i><b>1.2</b> To-do work</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>2</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i><b>2.1</b> Week 1</a></li>
+<li class="chapter" data-level="2.2" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i><b>2.2</b> Week 2</a></li>
+<li class="chapter" data-level="2.3" data-path="week-3.html"><a href="week-3.html"><i class="fa fa-check"></i><b>2.3</b> Week 3</a></li>
+<li class="chapter" data-level="2.4" data-path="week-4.html"><a href="week-4.html"><i class="fa fa-check"></i><b>2.4</b> Week 4</a></li>
+<li class="chapter" data-level="2.5" data-path="week-5.html"><a href="week-5.html"><i class="fa fa-check"></i><b>2.5</b> Week 5</a></li>
+<li class="chapter" data-level="2.6" data-path="week-6.html"><a href="week-6.html"><i class="fa fa-check"></i><b>2.6</b> Week 6</a></li>
+<li class="chapter" data-level="2.7" data-path="week-7.html"><a href="week-7.html"><i class="fa fa-check"></i><b>2.7</b> Week 7</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>3</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="week-1-1.html"><a href="week-1-1.html"><i class="fa fa-check"></i><b>3.1</b> Week 1</a></li>
+<li class="chapter" data-level="3.2" data-path="week-2-1.html"><a href="week-2-1.html"><i class="fa fa-check"></i><b>3.2</b> Week 2</a></li>
+<li class="chapter" data-level="3.3" data-path="week-3-1.html"><a href="week-3-1.html"><i class="fa fa-check"></i><b>3.3</b> Week 3</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance.html"><a href="topics-in-life-insurance.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="computing-moments-of-reserve-in-timehomogeneous-case.html"><a href="computing-moments-of-reserve-in-timehomogeneous-case.html"><i class="fa fa-check"></i><b>4.1</b> Computing moments of reserve in timehomogeneous case</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exercises</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="week-1-1" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Week 1<a href="week-1-1.html#week-1-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Exercise 1.</strong> Let <span class="math inline">\(\tilde m = \arg\min_{m\in\mathcal G} r(m)\)</span>. Proof that</p>
+<p><span class="math display">\[
+r(\hat m_n)-r(\tilde m)\le 2\sup_{m\in\mathcal G}\left\vert\hat R_n(m)-r(m) \right\vert.
+\]</span></p>
+<details>
+<summary>
+<strong>Solution.</strong>
+</summary>
+<p>We recall that per definition</p>
+<p><span class="math display">\[
+R(\hat m_n)=\mathbb E[L(Y,\hat m_n(X))\ \vert\ \mathcal D_n]\quad \text{and}\quad r(\hat m_n)=\mathbb E[R(\hat m_n)]
+\]</span></p>
+<p>for some estimator <span class="math inline">\(\hat m_n\)</span>. Assume now that <span class="math inline">\(m(\mathcal D_n)=\hat m_n\in \mathcal G\)</span> is the estimator given the data <span class="math inline">\(\mathcal D_n\)</span> from the precedure <span class="math inline">\(m\)</span>. We led <span class="math inline">\(\tilde m\)</span> be the Bayes estimator on <span class="math inline">\(\mathcal G\)</span>. We therefore have
+<span class="math display">\[\begin{align*}
+r(\hat m_n)-r(\tilde m)&amp;=r(\hat m_n)-r(\tilde m)+\hat R_n(\hat m_n)-\hat R_n(\hat m_n)+\hat R_n(\tilde m)-\hat R_n(\tilde m)\\
+&amp;=r(\hat m_n)-\hat R_n(\hat m_n)+\hat R_n(\tilde m)-r(\tilde m)+\underbrace{\hat R_n(\hat m_n)-\hat R_n(\tilde m)}_{\le 0}\\
+&amp;\le \Big(r(\hat m_n)-\hat R_n(\hat m_n)\Big)+\Big(\hat R_n(\tilde m)-r(\tilde m)\Big)\\
+&amp;\le \Big\vert \hat R_n(\hat m_n)-r(\hat m_n)\Big\vert+\Big\vert \hat R_n(\tilde m)-r(\tilde m)\Big\vert\\
+&amp;\le2\sup_{m\in \mathcal G} \Big\vert \hat R_n(m)-r(m)\Big\vert
+\end{align*}\]</span>
+as desired. <span class="math inline">\(\square\)</span></p>
+</details>
+<p>We consider the Poisson deviance loss</p>
+<p><span class="math display">\[
+L_{\text{pois:dev}}(y_1,y_2)=2\left(y_1\log \frac{y_1}{y_2}-y_1+y_2\right).
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li>Show that <span class="math inline">\(\arg\min r(m)=m^*(x)=E[Y\ \vert\ X=x]\)</span>.</li>
+<li>In the squared loss case <span class="math inline">\(L_2(y_1,y_2)=(y_1-y_2)^2\)</span>, we used its Hilbert space property to derive that for any estimator <span class="math inline">\(\hat m_n(x)\)</span>
+<span class="math display">\[
+  r_2(\hat m_n(x))-r_2(m^*(x))=\mathbb E[L_2(\hat m_n(x),m^*(x))]
+  \]</span>
+Show that an anaolgue result for the he Poisson deviance loss is not true, i.e.,
+<span class="math display">\[\begin{align*}
+  r_{\text{pois:dev}}(\hat m_n(x))-r_{\text{pois:dev}}(m^*(x))&amp;=\mathbb E\left[2\left(Y\log \frac{m^*(x)}{\hat m_n(x)}-m^*(x)+\hat m_n(x)\right)\right]\\
+  &amp;\ne \mathbb E[L_{\text{pois:dev}}(\hat m_n(x),m^*(x))]
+  \end{align*}\]</span></li>
+</ol>
+<details>
+<summary>
+<strong>Solution (1).</strong>
+</summary>
+<p>We have that
+<span class="math display">\[\begin{align*}
+r(m)&amp;=\mathbb E\left[2\left(Y\log \frac{Y}{m(X)}-Y+m(X)\right)\right]\\
+&amp;=\mathbb E\left[ \mathbb E\left.\left[2\left(Y\log \frac{Y}{m(x)}-Y+m(x)\right)\ \right\vert\ X=x\right]\right]\\
+\end{align*}\]</span>
+We see that the integrand is differentiable in <span class="math inline">\(m=m(x)\)</span> and so we have
+<span class="math display">\[\begin{align*}
+\frac{\partial}{\partial m}r(m)&amp;=\frac{\partial}{\partial m}\mathbb E\left[ \mathbb E\left.\left[2\left(Y\log \frac{Y}{m}-Y+m\right)\ \right\vert\ X=x\right]\right]\\
+&amp;=\mathbb E\left[ \mathbb E\left.\left[\frac{\partial}{\partial m}2\left(Y\log \frac{Y}{m}-Y+m\right)\ \right\vert\ X=x\right]\right]\\
+&amp;=\mathbb E\left[ \mathbb E\left.\left[2\left(-Y \frac{m}{Y}\frac{Y}{m^2}+1\right)\ \right\vert\ X=x\right]\right]\\
+&amp;=\mathbb E\left[ \mathbb E\left.\left[2\left(-\frac{Y}{m}+1\right)\ \right\vert\ X=x\right]\right]\\
+&amp;=-2\mathbb E\left[ \mathbb E\left.\left[\frac{Y}{m}\ \right\vert\ X=x\right]\right]+2
+\end{align*}\]</span>
+Setting this equal to zero gives</p>
+<p><span class="math display">\[
+1=\mathbb E\left[ \mathbb E\left.\left[\frac{Y}{m}\ \right\vert\ X=x\right]\right]=\frac{1}{m}\mathbb E\left[ \mathbb E\left.\left[Y\ \right\vert\ X=x\right]\right]
+\]</span></p>
+<p>Giving that the expectation is minimized for</p>
+<p><span class="math display">\[
+m=E\left.\left[Y\ \right\vert\ X=x\right]
+\]</span></p>
+<p>as desired. <span class="math inline">\(\square\)</span></p>
+</details>
+<details>
+<summary>
+<strong>Solution (2).</strong>
+</summary>
+<p>Take any estimator <span class="math inline">\(\hat m_n\)</span> and consider the risk associated with the estimator:
+<span class="math display">\[\begin{align*}
+r_{\text{pois:dev}}(\hat m_n(X))-r_{\text{pois:dev}}(m^*(x))&amp;=\mathbb E\left[2\left(Y\log \frac{Y}{\hat m_n(X)}-Y+\hat m_n(X)\right)\right]-\mathbb E\left[2\left(Y\log \frac{Y}{ m^*(X)}-Y+m^*(X)\right)\right]\\
+&amp;=\mathbb E\left[2\left(Y\log \frac{Y}{\hat m_n(X)}-Y+\hat m_n(X)-Y\log \frac{Y}{ m^*(X)}+Y-m^*(X)\right)\right]\\
+&amp;=\mathbb E\left[2\left(Y\log \frac{Ym^*(X)}{\hat m_n(X)Y}+\hat m_n(X)-m^*(X)\right)\right]\\
+&amp;=\mathbb E\left[2\left(Y\log \frac{m^*(X)}{\hat m_n(X)}+\hat m_n(X)-m^*(X)\right)\right]
+\end{align*}\]</span>
+Yielding the desired result. <span class="math inline">\(\square\)</span></p>
+</details>
+<p><strong>Exercise 3.</strong> We consider a simple regression case with no explanatory variables. We denote by <span class="math inline">\(\hat m_{n,1}\)</span> the sample mean and by <span class="math inline">\(\hat m_{n,2}\)</span> the sample mean. Furthermore, <span class="math inline">\(\hat R_{n,1}\)</span> and <span class="math inline">\(\hat R_{n,2}\)</span> denote the empirical risk with respect to the <span class="math inline">\(L_1\)</span> loss and the squared loss respectively.</p>
+<ol style="list-style-type: decimal">
+<li>Generate 10,000 iid observations <span class="math inline">\(y_1,...,y_{10000}\)</span> from a standard normal distribution. Compare
+<span class="math display">\[
+  \hat R_{n,1}(\hat m_{n,1}),\hat R_{n,1}(\hat m_{n,2}),\hat R_{n,2}(\hat m_{n,1}),\hat R_{n,2}(\hat m_{n,2}).
+  \]</span></li>
+<li>Generate 10,000 iid observations <span class="math inline">\(y_1,...,y_{10000}\)</span> from a <span class="math inline">\(t\)</span>-distribution with one degree of freedom. Compare
+<span class="math display">\[
+  \hat R_{n,1}(\hat m_{n,1}),\hat R_{n,1}(\hat m_{n,2}),\hat R_{n,2}(\hat m_{n,1}),\hat R_{n,2}(\hat m_{n,2}).
+  \]</span></li>
+<li>What conclusion can you draw from the two exercises?</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (1).</strong>
+</summary>
+<p>We set the seed to 1 <code>set.seed(1)</code> and generate the <span class="math inline">\(n=10000\)</span> samples.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="week-1-1.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb1-2"><a href="week-1-1.html#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span><span class="dv">10000</span>,</span>
+<span id="cb1-3"><a href="week-1-1.html#cb1-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">mean =</span> <span class="dv">0</span>,</span>
+<span id="cb1-4"><a href="week-1-1.html#cb1-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>We may now compute the sample mean and median.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="week-1-1.html#cb2-1" aria-hidden="true" tabindex="-1"></a>hat_m_1 <span class="ot">&lt;-</span> <span class="fu">median</span>(y)</span>
+<span id="cb2-2"><a href="week-1-1.html#cb2-2" aria-hidden="true" tabindex="-1"></a>hat_m_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span></code></pre></div>
+<p>One may recall that <span class="math inline">\(\text{median}(X)=\mathbb E[X]=0\)</span> for <span class="math inline">\(X\sim \mathcal N(0,1)\)</span> and so we would expect <span class="math inline">\(\hat m_{n,1}\approx \hat m_{n,2}\)</span>. We can compute the empirical risk wrt. the <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> loss.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="week-1-1.html#cb3-1" aria-hidden="true" tabindex="-1"></a>hat_R_11 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">abs</span>(y<span class="sc">-</span>hat_m_1))<span class="sc">/</span><span class="fu">length</span>(y)</span>
+<span id="cb3-2"><a href="week-1-1.html#cb3-2" aria-hidden="true" tabindex="-1"></a>hat_R_11</span></code></pre></div>
+<pre><code>## [1] 0.8060947</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="week-1-1.html#cb5-1" aria-hidden="true" tabindex="-1"></a>hat_R_12 <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">abs</span>(y<span class="sc">-</span>hat_m_2))<span class="sc">/</span><span class="fu">length</span>(y)</span>
+<span id="cb5-2"><a href="week-1-1.html#cb5-2" aria-hidden="true" tabindex="-1"></a>hat_R_12</span></code></pre></div>
+<pre><code>## [1] 0.8061373</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="week-1-1.html#cb7-1" aria-hidden="true" tabindex="-1"></a>hat_R_21 <span class="ot">&lt;-</span> <span class="fu">sum</span>((y<span class="sc">-</span>hat_m_1)<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(y)</span>
+<span id="cb7-2"><a href="week-1-1.html#cb7-2" aria-hidden="true" tabindex="-1"></a>hat_R_21</span></code></pre></div>
+<pre><code>## [1] 1.024851</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="week-1-1.html#cb9-1" aria-hidden="true" tabindex="-1"></a>hat_R_22 <span class="ot">&lt;-</span> <span class="fu">sum</span>((y<span class="sc">-</span>hat_m_2)<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(y)</span>
+<span id="cb9-2"><a href="week-1-1.html#cb9-2" aria-hidden="true" tabindex="-1"></a>hat_R_22</span></code></pre></div>
+<pre><code>## [1] 1.024763</code></pre>
+<p>Although these are empirical risk we have not computed an estimate of the risk as we should generate more samples of the risk. As such we draw using the above method <span class="math inline">\(S=1000\)</span> samples of the risks and compute the means.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="week-1-1.html#cb11-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb11-2"><a href="week-1-1.html#cb11-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb11-3"><a href="week-1-1.html#cb11-3" aria-hidden="true" tabindex="-1"></a>hat_R <span class="ot">&lt;-</span>  <span class="fu">rowMeans</span>(</span>
+<span id="cb11-4"><a href="week-1-1.html#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Generate S samples (in 4 x S-matrix)</span></span>
+<span id="cb11-5"><a href="week-1-1.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>S, <span class="cf">function</span>(s) {</span>
+<span id="cb11-6"><a href="week-1-1.html#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Generate y&#39;s</span></span>
+<span id="cb11-7"><a href="week-1-1.html#cb11-7" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span>
+<span id="cb11-8"><a href="week-1-1.html#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Compute estimates</span></span>
+<span id="cb11-9"><a href="week-1-1.html#cb11-9" aria-hidden="true" tabindex="-1"></a>    hat_m_1 <span class="ot">&lt;-</span> <span class="fu">median</span>(y)</span>
+<span id="cb11-10"><a href="week-1-1.html#cb11-10" aria-hidden="true" tabindex="-1"></a>    hat_m_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb11-11"><a href="week-1-1.html#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Compute risks</span></span>
+<span id="cb11-12"><a href="week-1-1.html#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb11-13"><a href="week-1-1.html#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>(<span class="fu">abs</span>(y<span class="sc">-</span>hat_m_1))<span class="sc">/</span><span class="fu">length</span>(y),</span>
+<span id="cb11-14"><a href="week-1-1.html#cb11-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>(<span class="fu">abs</span>(y<span class="sc">-</span>hat_m_2))<span class="sc">/</span><span class="fu">length</span>(y),</span>
+<span id="cb11-15"><a href="week-1-1.html#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>((y<span class="sc">-</span>hat_m_1)<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(y),</span>
+<span id="cb11-16"><a href="week-1-1.html#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>((y<span class="sc">-</span>hat_m_2)<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(y)</span>
+<span id="cb11-17"><a href="week-1-1.html#cb11-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-18"><a href="week-1-1.html#cb11-18" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb11-19"><a href="week-1-1.html#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#The output i then taken rowMeans on</span></span>
+<span id="cb11-20"><a href="week-1-1.html#cb11-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>We may compare the results in the table below.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Measure</th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\hat R_{n,1}(\hat m_{n,1})\)</span></td>
+<td align="center">0.7979859</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\hat R_{n,1}(\hat m_{n,2})\)</span></td>
+<td align="center">0.7980077</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\hat R_{n,2}(\hat m_{n,1})\)</span></td>
+<td align="center">1.0004189</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\hat R_{n,2}(\hat m_{n,2})\)</span></td>
+<td align="center">1.0003643</td>
+</tr>
+</tbody>
+</table>
+<p>We can see that the following holds:</p>
+<ol style="list-style-type: decimal">
+<li>For the <span class="math inline">\(L_1\)</span> loss the empirical median does better than the empirical mean,</li>
+<li>For the squared loss the empirical median does worse than the empirical mean.</li>
+</ol>
+</details>
+<details>
+<summary>
+<strong>Solution (2).</strong>
+</summary>
+<p>We set the seed to 1 <code>set.seed(1)</code> and generate the <span class="math inline">\(n=10000\)</span> samples.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="week-1-1.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="week-1-1.html#cb12-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rt</span>(<span class="at">n =</span><span class="dv">10000</span>,</span>
+<span id="cb12-3"><a href="week-1-1.html#cb12-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">df =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>We may now compute the sample mean and median.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="week-1-1.html#cb13-1" aria-hidden="true" tabindex="-1"></a>hat_m_1 <span class="ot">&lt;-</span> <span class="fu">median</span>(y)</span>
+<span id="cb13-2"><a href="week-1-1.html#cb13-2" aria-hidden="true" tabindex="-1"></a>hat_m_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span></code></pre></div>
+<p>One may recall that <span class="math inline">\(\text{median}(X)=\mathbb E[X]=0\)</span> for <span class="math inline">\(X\sim \mathcal t(1)\)</span> and so we would expect <span class="math inline">\(\hat m_{n,1}\approx \hat m_{n,2}\)</span>. We can compute the empiracal risk wrt. the <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> loss.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="week-1-1.html#cb14-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb14-2"><a href="week-1-1.html#cb14-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb14-3"><a href="week-1-1.html#cb14-3" aria-hidden="true" tabindex="-1"></a>hat_R <span class="ot">&lt;-</span>  <span class="fu">rowMeans</span>(</span>
+<span id="cb14-4"><a href="week-1-1.html#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Generate S samples (in 4 x S-matrix)</span></span>
+<span id="cb14-5"><a href="week-1-1.html#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>S, <span class="cf">function</span>(s) {</span>
+<span id="cb14-6"><a href="week-1-1.html#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Generate y&#39;s</span></span>
+<span id="cb14-7"><a href="week-1-1.html#cb14-7" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rt</span>(n,<span class="at">df=</span><span class="dv">1</span>)</span>
+<span id="cb14-8"><a href="week-1-1.html#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Compute estimates</span></span>
+<span id="cb14-9"><a href="week-1-1.html#cb14-9" aria-hidden="true" tabindex="-1"></a>    hat_m_1 <span class="ot">&lt;-</span> <span class="fu">median</span>(y)</span>
+<span id="cb14-10"><a href="week-1-1.html#cb14-10" aria-hidden="true" tabindex="-1"></a>    hat_m_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb14-11"><a href="week-1-1.html#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Compute risks</span></span>
+<span id="cb14-12"><a href="week-1-1.html#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb14-13"><a href="week-1-1.html#cb14-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>(<span class="fu">abs</span>(y<span class="sc">-</span>hat_m_1))<span class="sc">/</span><span class="fu">length</span>(y),</span>
+<span id="cb14-14"><a href="week-1-1.html#cb14-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>(<span class="fu">abs</span>(y<span class="sc">-</span>hat_m_2))<span class="sc">/</span><span class="fu">length</span>(y),</span>
+<span id="cb14-15"><a href="week-1-1.html#cb14-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>((y<span class="sc">-</span>hat_m_1)<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(y),</span>
+<span id="cb14-16"><a href="week-1-1.html#cb14-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>((y<span class="sc">-</span>hat_m_2)<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(y)</span>
+<span id="cb14-17"><a href="week-1-1.html#cb14-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-18"><a href="week-1-1.html#cb14-18" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb14-19"><a href="week-1-1.html#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#The output i then taken rowMeans on</span></span>
+<span id="cb14-20"><a href="week-1-1.html#cb14-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>We may compare the results in the table below.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Measure</th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\hat R_{n,1}(\hat m_{n,1})\)</span></td>
+<td align="center">11.7586085</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\hat R_{n,1}(\hat m_{n,2})\)</span></td>
+<td align="center">16.7838177</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\hat R_{n,2}(\hat m_{n,1})\)</span></td>
+<td align="center">1.8456626^{7}</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\hat R_{n,2}(\hat m_{n,2})\)</span></td>
+<td align="center">1.84548^{7}</td>
+</tr>
+</tbody>
+</table>
+<p>We see that for the <span class="math inline">\(t\)</span>-distribution with one degree of freedom we see the same relation as in the normal case. The median does better in the <span class="math inline">\(L_1\)</span> loss but worse under the squared loss.</p>
+</details>
+<details>
+<summary>
+<strong>Solution (3).</strong>
+</summary>
+<p>We can see that the risk is far greater than the normal case. Comparing the density functions of a standard normal distribution and the <span class="math inline">\(t\)</span>-distribution with one degree of freedom we see that the mean is the same but the variance is far greater than the normal case. In fact, with degrees of freedom below 2 we have that the variance is infinite.</p>
+<p><img src="figures/ML_week1_ex3.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>This gives that for a given sample size the risk will tend to infinity as <span class="math inline">\(n\)</span> grows to infinity. This in turn explains the large values we see in the risk. We see that for the <span class="math inline">\(t\)</span>-distribution with one degree of freedom we see the same relation as in the normal case. The median does better in the <span class="math inline">\(L_1\)</span> loss but worse under the squared loss.</p>
+</details>
+<p><strong>Exercise 4.</strong> We want to practise model tuning with the mlr3 package. Go through the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Install and load the relevant ml3 packages: mlr3, mlr3learners, mlr3tuning, mlr3mbo.</li>
+<li>Create a task</li>
+</ol>
+<ul>
+<li>Load the <code>mtcars</code> data (write: <em>data(mtcars)</em>)</li>
+<li>Use the <code>as_task_regr</code> to create a task with <code>mpg</code> as target</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Set <code>regr.xgboost</code> as learner with corresponding search space; e.g.,
+<span class="math display">\[\begin{align*}
+eta &amp;= to\_tune(0, 1)\\
+nrounds &amp;= to\_tune(10, 5000)\\
+max\_depth &amp;= to\_tune(1, 20)\\
+colsample\_bytree &amp;= to\_tune(0.1, 1)\\
+subsample &amp;= to\_tune(0.1, 1)
+\end{align*}\]</span></li>
+<li>Tune your learner on you task using the <code>tune</code> function with</li>
+</ol>
+<ul>
+<li>Resampling method: 5-fold cross validation</li>
+<li>Measure: squared loss</li>
+<li>Method: <code>mbo</code> or <code>random search</code></li>
+<li>Terminator: 10 evaluations</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>Fit your learner on the task using the optimal hyper parameters calculated</li>
+</ol>
+<details>
+<summary>
+<strong>Solution (1).</strong>
+</summary>
+<p>We install the required packages.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="week-1-1.html#cb15-1" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mlr3&quot;</span>,</span>
+<span id="cb15-2"><a href="week-1-1.html#cb15-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;mlr3learners&quot;</span>,</span>
+<span id="cb15-3"><a href="week-1-1.html#cb15-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;mlr3tuning&quot;</span>,</span>
+<span id="cb15-4"><a href="week-1-1.html#cb15-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;mlr3mbo&quot;</span>)</span>
+<span id="cb15-5"><a href="week-1-1.html#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(packages, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</details>
+<details>
+<summary>
+<strong>Solution (2).</strong>
+</summary>
+<p>We start by loading the data.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="week-1-1.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mtcars&quot;</span>)</span>
+<span id="cb16-2"><a href="week-1-1.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code></pre></div>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<p>We now transform the data into a task.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="week-1-1.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the relevant libraries</span></span>
+<span id="cb18-2"><a href="week-1-1.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3)</span>
+<span id="cb18-3"><a href="week-1-1.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3learners )</span>
+<span id="cb18-4"><a href="week-1-1.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3tuning)</span>
+<span id="cb18-5"><a href="week-1-1.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3mbo)</span>
+<span id="cb18-6"><a href="week-1-1.html#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="week-1-1.html#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Start task</span></span>
+<span id="cb18-8"><a href="week-1-1.html#cb18-8" aria-hidden="true" tabindex="-1"></a>task_mtcars <span class="ot">=</span> <span class="fu">as_task_regr</span>(</span>
+<span id="cb18-9"><a href="week-1-1.html#cb18-9" aria-hidden="true" tabindex="-1"></a>  mtcars,</span>
+<span id="cb18-10"><a href="week-1-1.html#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="st">&quot;mpg&quot;</span>,</span>
+<span id="cb18-11"><a href="week-1-1.html#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">&quot;cars&quot;</span></span>
+<span id="cb18-12"><a href="week-1-1.html#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>We may now split out data set into random partions of a training dataset and a testing dataset.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="week-1-1.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Split data</span></span>
+<span id="cb19-2"><a href="week-1-1.html#cb19-2" aria-hidden="true" tabindex="-1"></a>splits <span class="ot">=</span> <span class="fu">partition</span>(task_mtcars)</span>
+<span id="cb19-3"><a href="week-1-1.html#cb19-3" aria-hidden="true" tabindex="-1"></a>splits</span></code></pre></div>
+<pre><code>## $train
+##  [1]  3  4  8  9 10 21 25 30 32  6 12 16 17 22 23 24 29 31 18 19 20
+## 
+## $test
+##  [1]  1  2  5 27  7 11 13 14 15 26 28</code></pre>
+<p>We see that the testing dataset has <span class="math inline">\(N_1=11\)</span> and the training dataset has <span class="math inline">\(N_2=21\)</span>. We will be training the model on the training dataset. Therefore we start a task on the subset.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="week-1-1.html#cb21-1" aria-hidden="true" tabindex="-1"></a>task_mtcars_train <span class="ot">=</span> <span class="fu">as_task_regr</span>(</span>
+<span id="cb21-2"><a href="week-1-1.html#cb21-2" aria-hidden="true" tabindex="-1"></a>  mtcars[splits<span class="sc">$</span>train,],</span>
+<span id="cb21-3"><a href="week-1-1.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="st">&quot;mpg&quot;</span>,</span>
+<span id="cb21-4"><a href="week-1-1.html#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">&quot;cars_train&quot;</span></span>
+<span id="cb21-5"><a href="week-1-1.html#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</details>
+<details>
+<summary>
+<strong>Solution (3).</strong>
+</summary>
+<p>We now initiate a learner.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="week-1-1.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load regression xgboost</span></span>
+<span id="cb22-2"><a href="week-1-1.html#cb22-2" aria-hidden="true" tabindex="-1"></a>learner_xgboost <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.xgboost&quot;</span>)</span></code></pre></div>
+<p>We can now look at the current configuration of the leaner by looking at the parameter space of the hyperparameter.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="week-1-1.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.table</span>(learner_xgboost<span class="sc">$</span>param_set)[,<span class="fu">c</span>(<span class="st">&quot;id&quot;</span>,<span class="st">&quot;class&quot;</span>,<span class="st">&quot;lower&quot;</span>,</span>
+<span id="cb23-2"><a href="week-1-1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">&quot;upper&quot;</span>,<span class="st">&quot;nlevels&quot;</span>)]</span></code></pre></div>
+<pre><code>##                              id    class lower upper nlevels
+##  1:                       alpha ParamDbl     0   Inf     Inf
+##  2:               approxcontrib ParamLgl    NA    NA       2
+##  3:                  base_score ParamDbl  -Inf   Inf     Inf
+##  4:                     booster ParamFct    NA    NA       3
+##  5:                   callbacks ParamUty    NA    NA     Inf
+##  6:           colsample_bylevel ParamDbl     0     1     Inf
+##  7:            colsample_bynode ParamDbl     0     1     Inf
+##  8:            colsample_bytree ParamDbl     0     1     Inf
+##  9: disable_default_eval_metric ParamLgl    NA    NA       2
+## 10:       early_stopping_rounds ParamInt     1   Inf     Inf
+## 11:          early_stopping_set ParamFct    NA    NA       3
+## 12:                         eta ParamDbl     0     1     Inf
+## 13:                 eval_metric ParamUty    NA    NA     Inf
+## 14:            feature_selector ParamFct    NA    NA       5
+## 15:                       feval ParamUty    NA    NA     Inf
+## 16:                       gamma ParamDbl     0   Inf     Inf
+## 17:                 grow_policy ParamFct    NA    NA       2
+## 18:     interaction_constraints ParamUty    NA    NA     Inf
+## 19:              iterationrange ParamUty    NA    NA     Inf
+## 20:                      lambda ParamDbl     0   Inf     Inf
+## 21:                 lambda_bias ParamDbl     0   Inf     Inf
+## 22:                     max_bin ParamInt     2   Inf     Inf
+## 23:              max_delta_step ParamDbl     0   Inf     Inf
+## 24:                   max_depth ParamInt     0   Inf     Inf
+## 25:                  max_leaves ParamInt     0   Inf     Inf
+## 26:                    maximize ParamLgl    NA    NA       2
+## 27:            min_child_weight ParamDbl     0   Inf     Inf
+## 28:                     missing ParamDbl  -Inf   Inf     Inf
+## 29:        monotone_constraints ParamUty    NA    NA     Inf
+## 30:              normalize_type ParamFct    NA    NA       2
+## 31:                     nrounds ParamInt     1   Inf     Inf
+## 32:                     nthread ParamInt     1   Inf     Inf
+## 33:                  ntreelimit ParamInt     1   Inf     Inf
+## 34:           num_parallel_tree ParamInt     1   Inf     Inf
+## 35:                   objective ParamUty    NA    NA     Inf
+## 36:                    one_drop ParamLgl    NA    NA       2
+## 37:                outputmargin ParamLgl    NA    NA       2
+## 38:                 predcontrib ParamLgl    NA    NA       2
+## 39:                   predictor ParamFct    NA    NA       2
+## 40:             predinteraction ParamLgl    NA    NA       2
+## 41:                    predleaf ParamLgl    NA    NA       2
+## 42:               print_every_n ParamInt     1   Inf     Inf
+## 43:                process_type ParamFct    NA    NA       2
+## 44:                   rate_drop ParamDbl     0     1     Inf
+## 45:                refresh_leaf ParamLgl    NA    NA       2
+## 46:                     reshape ParamLgl    NA    NA       2
+## 47:             sampling_method ParamFct    NA    NA       2
+## 48:                 sample_type ParamFct    NA    NA       2
+## 49:                   save_name ParamUty    NA    NA     Inf
+## 50:                 save_period ParamInt     0   Inf     Inf
+## 51:            scale_pos_weight ParamDbl  -Inf   Inf     Inf
+## 52:          seed_per_iteration ParamLgl    NA    NA       2
+## 53:                   skip_drop ParamDbl     0     1     Inf
+## 54:                strict_shape ParamLgl    NA    NA       2
+## 55:                   subsample ParamDbl     0     1     Inf
+## 56:                       top_k ParamInt     0   Inf     Inf
+## 57:                    training ParamLgl    NA    NA       2
+## 58:                 tree_method ParamFct    NA    NA       5
+## 59:      tweedie_variance_power ParamDbl     1     2     Inf
+## 60:                     updater ParamUty    NA    NA     Inf
+## 61:                     verbose ParamInt     0     2       3
+## 62:                   watchlist ParamUty    NA    NA     Inf
+## 63:                   xgb_model ParamUty    NA    NA     Inf
+##                              id    class lower upper nlevels</code></pre>
+<p>As the text says we set som of the parameters to as specific section of the parameter space.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="week-1-1.html#cb25-1" aria-hidden="true" tabindex="-1"></a>my_xg_learner <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.xgboost&quot;</span>,</span>
+<span id="cb25-2"><a href="week-1-1.html#cb25-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">eta =</span> <span class="fu">to_tune</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb25-3"><a href="week-1-1.html#cb25-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">nrounds =</span> <span class="fu">to_tune</span>(<span class="dv">10</span>, <span class="dv">5000</span>),</span>
+<span id="cb25-4"><a href="week-1-1.html#cb25-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">max_depth =</span> <span class="fu">to_tune</span>(<span class="dv">1</span>, <span class="dv">20</span>),</span>
+<span id="cb25-5"><a href="week-1-1.html#cb25-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colsample_bytree =</span> <span class="fu">to_tune</span>(<span class="fl">0.1</span>, <span class="dv">1</span>),</span>
+<span id="cb25-6"><a href="week-1-1.html#cb25-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">subsample =</span> <span class="fu">to_tune</span>(<span class="fl">0.1</span>, <span class="dv">1</span>))</span></code></pre></div>
+</details>
+<details>
+<summary>
+<strong>Solution (4).</strong>
+</summary>
+<p>We tune a regression model using <code>mbo</code> search.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="week-1-1.html#cb26-1" aria-hidden="true" tabindex="-1"></a>instance <span class="ot">=</span> <span class="fu">tune</span>(</span>
+<span id="cb26-2"><a href="week-1-1.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="fu">tnr</span>(<span class="st">&quot;mbo&quot;</span>), <span class="do">### tuning method</span></span>
+<span id="cb26-3"><a href="week-1-1.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> task_mtcars_train,</span>
+<span id="cb26-4"><a href="week-1-1.html#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">learner =</span> my_xg_learner,</span>
+<span id="cb26-5"><a href="week-1-1.html#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">resampling =</span> <span class="fu">rsmp</span>(<span class="st">&quot;cv&quot;</span>, <span class="at">folds =</span> <span class="dv">5</span>), <span class="do">#### resampling method: 5-fold cross validation</span></span>
+<span id="cb26-6"><a href="week-1-1.html#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">measures =</span> <span class="fu">msr</span>(<span class="st">&quot;regr.rmse&quot;</span>), <span class="do">#### root mean squared error</span></span>
+<span id="cb26-7"><a href="week-1-1.html#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">terminator =</span> <span class="fu">trm</span>(<span class="st">&quot;evals&quot;</span>, <span class="at">n_evals =</span><span class="dv">10</span>) <span class="do">#### terminator</span></span>
+<span id="cb26-8"><a href="week-1-1.html#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>We can consider the the estimates from each subset and the fitted parameters.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="week-1-1.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#All 20 runs</span></span>
+<span id="cb27-2"><a href="week-1-1.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.table</span>(instance<span class="sc">$</span>archive)[, <span class="fu">c</span>(<span class="st">&quot;eta&quot;</span>, <span class="st">&quot;nrounds&quot;</span>,</span>
+<span id="cb27-3"><a href="week-1-1.html#cb27-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">&quot;max_depth&quot;</span>, <span class="st">&quot;regr.rmse&quot;</span>)]</span></code></pre></div>
+<pre><code>##             eta nrounds max_depth regr.rmse
+##  1: 0.917875208    3533        11  3.802051
+##  2: 0.765106068     412         8  2.964021
+##  3: 0.674223188    4335         7  3.464838
+##  4: 0.101590241    2508        18  2.433159
+##  5: 0.818736983    1039        19  2.859263
+##  6: 0.014765501    2093         3  2.229626
+##  7: 0.872891106    3868         4  2.897375
+##  8: 0.610313191    2177        11  3.501744
+##  9: 0.028048314    4693         2  2.165364
+## 10: 0.373920733     548        18  2.626296
+## 11: 0.160639059    4116         2  2.187469
+## 12: 0.796255760    4447         6  3.551414
+## 13: 0.285658641    3817         5  2.380419
+## 14: 0.002011162    4297        20  2.381016
+## 15: 0.675239580    3975         1  3.539176
+## 16: 0.616630552    4012         3  2.610140
+## 17: 0.151641272    1924         5  2.284830
+## 18: 0.368378715     382        17  3.098928
+## 19: 0.475511641    2419        19  2.568179
+## 20: 0.004646809    1678        10  3.029619</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="week-1-1.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Optimal fitting</span></span>
+<span id="cb29-2"><a href="week-1-1.html#cb29-2" aria-hidden="true" tabindex="-1"></a>instance<span class="sc">$</span>result</span></code></pre></div>
+<pre><code>##    nrounds        eta max_depth colsample_bytree subsample learner_param_vals
+## 1:    4693 0.02804831         2        0.4502029 0.7789301          &lt;list[8]&gt;
+##     x_domain regr.rmse
+## 1: &lt;list[5]&gt;  2.165364</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="week-1-1.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Optimal parameters</span></span>
+<span id="cb31-2"><a href="week-1-1.html#cb31-2" aria-hidden="true" tabindex="-1"></a>instance<span class="sc">$</span>result_learner_param_vals</span></code></pre></div>
+<pre><code>## $nthread
+## [1] 1
+## 
+## $verbose
+## [1] 0
+## 
+## $early_stopping_set
+## [1] &quot;none&quot;
+## 
+## $nrounds
+## [1] 4693
+## 
+## $eta
+## [1] 0.02804831
+## 
+## $max_depth
+## [1] 2
+## 
+## $colsample_bytree
+## [1] 0.4502029
+## 
+## $subsample
+## [1] 0.7789301</code></pre>
+</details>
+<details>
+<summary>
+<strong>Solution (5).</strong>
+</summary>
+<p>We can now use optimal paramteres in <code>instance$result_learner_param_vals</code> to create a learner that we may fit to the training data.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="week-1-1.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Define new tuner</span></span>
+<span id="cb33-2"><a href="week-1-1.html#cb33-2" aria-hidden="true" tabindex="-1"></a>xgb_tuned <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.xgboost&quot;</span>, <span class="at">id =</span> <span class="st">&quot;xgb tuned&quot;</span>)</span>
+<span id="cb33-3"><a href="week-1-1.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Set parameters to the optimals from before</span></span>
+<span id="cb33-4"><a href="week-1-1.html#cb33-4" aria-hidden="true" tabindex="-1"></a>xgb_tuned<span class="sc">$</span>param_set<span class="sc">$</span>values <span class="ot">=</span> instance<span class="sc">$</span>result_learner_param_vals</span></code></pre></div>
+<p>We now fit the data.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="week-1-1.html#cb34-1" aria-hidden="true" tabindex="-1"></a>xgb_tuned<span class="sc">$</span><span class="fu">train</span>(task_mtcars_train)</span></code></pre></div>
+<p>We can now predict onto the testing data.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="week-1-1.html#cb35-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">=</span> xgb_tuned<span class="sc">$</span><span class="fu">predict_newdata</span>(mtcars[splits<span class="sc">$</span>test,])</span>
+<span id="cb35-2"><a href="week-1-1.html#cb35-2" aria-hidden="true" tabindex="-1"></a>predictions</span></code></pre></div>
+<pre><code>## &lt;PredictionRegr&gt; for 11 observations:
+##     row_ids truth response
+##           1  21.0 20.02108
+##           2  21.0 20.04601
+##           3  18.7 16.99866
+## ---                       
+##           9  10.4 11.58364
+##          10  27.3 31.80603
+##          11  30.4 24.47183</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="week-1-1.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#empirical risk</span></span>
+<span id="cb37-2"><a href="week-1-1.html#cb37-2" aria-hidden="true" tabindex="-1"></a>risk <span class="ot">&lt;-</span> <span class="fu">mean</span>((predictions<span class="sc">$</span>truth<span class="sc">-</span>predictions<span class="sc">$</span>response)<span class="sc">**</span><span class="dv">2</span>)</span></code></pre></div>
+<p>Using a diagram we can see. That the model does pretty well. In fact the empirical risk is 6.38.</p>
+<p><img src="figures/ML_week1_ex4.png" width="75%" style="display: block; margin: auto;" /></p>
+</details>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="probabilistic-machine-learning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="week-2-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["exercises.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,268 @@
+---
+title: "QRM - Assignment 1"
+author: "Teis, Sebastian og Joakim"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen=999)
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+```
+
+```{r,include=FALSE}
+library(kableExtra)
+library(ggplot2)
+library(ggpubr)
+```
+
+
+## Problem 3
+
+The data used in this problem is locatet in the file `dax_returns.txt` which is loaded into r using the following
+
+```{r}
+dax <- read.delim("dax_returns.txt",header = TRUE)
+head(dax) %>% kbl() %>%
+  kable_styling(latex_options = c("striped","center","HOLD_position"))
+```
+
+The data contains 1700 one day log-returns of one share in the european DAX index.
+
+### Problem 3.a
+
+Using the above data we want to construct an estimate of $VaR_{0.99}(L)$ where $L$ is the loss random variable associated with at portfolio consisting of only DAX shares, that is
+
+$$
+L_i=-100(\exp(X_i)-1),\hspace{15pt}i\ge 1
+$$
+
+where $X_i=-log(S_i)+log(S_{i-1})$ and $S_i$ is the share prices at time $t_i$. We assume throughout that $t_i=i$ for all $i$. The data consist of data drawn from the log-return random variable $X$. Drawing the stock prices we may add the log-return to the shareprice $S_0=100$. We use that
+
+$$
+S_i=S_{i-1}\cdot\frac{S_i}{S_{i-1}}=S_{i-1}\cdot \exp\left\{\log(S_i)-\log(S_{i-1}) \right\}=S_{i-1}\cdot \exp\{X_i \}
+$$
+
+and so with initiol condition $S_0=100$ it follows that
+
+$$
+S_i = S_0\prod_{n=1}^i\exp\{X_n\}=100\prod_{n=1}^i\exp\{X_n\}
+$$
+
+```{r}
+prices <- data.frame(date = as.Date("1990-1-1") +as.numeric(row.names(dax)),
+                     X = dax$dax_return,
+                     S = 100*cumprod(exp(dax$dax_return)),
+                     L = -(exp(dax$dax_return)-1))
+p1 <- ggplot(data = prices) + geom_line(mapping = aes(x=date,y=S)) +
+  labs(title = "Stock prices of on share in DAX",
+       x = "Time", y = "Stock price")
+p2 <- ggplot(data = prices) + geom_ribbon(aes(x=date,ymin = pmin(0,L), ymax = pmax(0,L))) +
+  labs(title = "Daily log-returns of on share in DAX",
+       x = "Time", y = "Log-returns")
+ggarrange(p1,p2,ncol=2)
+```
+
+For the purpose of this exercise the first row is deleted, since this does not represent any gain or loss on the portfolio and only serve as an initial value of the portfolio.
+
+```{r}
+prices <- prices[2:dim(prices)[1],]
+```
+
+Drawing the empirical distribution of the losses $L_i$ 
+
+```{r}
+m <- mean(prices$L) #-0.0002727548
+ggplot(data = prices) +
+  geom_histogram(mapping = aes(x=L), fill = "gray", col = "black",bins = 100) +
+  geom_vline(xintercept = m, col ="red")
+```
+The estimate of $VaR_{0.99}(L)$ is then the empirical $99\%$ quantile i.e.
+
+$$
+\widehat{VaR}_{0.99}(L)=L^{(\lceil N\cdot 0.99 \rceil-1)},
+$$
+
+where $N=1700$ is the number of observations. That is
+
+```{r}
+alpha <- 0.99
+VaR <- sort(prices$L)[floor(dim(prices)[1]*alpha)-1]
+VaR*100
+```
+
+That is an empirical estimate of the value at risk at level $\alpha = 0.01$ given the data is $`r round(VaR*100,digits = 2)`\%$.
+
+The estimate of the expected shortfall
+
+$$
+ES_{0.99}(L)\stackrel{\text{def}}{=} \mathbb{E}\left\{ L \vert L\ge VaR_{0.99}(L) \right\},
+$$
+
+is then estimated simply by
+
+$$
+\widehat{ES}_{0.99}(L)=\frac{1}{\sum_{i=0}^{N-1}1_{\left(L_i \ge \widehat{VaR}_{0.99}(L)\right)}}\sum_{i=0}^{N-1}L_i\cdot 1_{\left(L_i \ge \widehat{VaR}_{0.99}(L)\right)},
+$$
+
+being the empirical estiamte of the mean value of $L$ given $L$ is larger than the estimated Value-at-Risk.
+
+```{r}
+ES <- mean(prices$L[prices$L >= VaR])
+ES*100
+```
+
+That is an empirical estimate of the expected shortfall at level $\alpha = 0.01$ given the data is $`r round(ES*100,digits = 2)`\%$.
+
+The confidence interval of the Value-at-Risk is computed using the binomial distribution given by
+
+$$
+P(Y\ge y)=\sum_{k=y}^N \binom{n}{y}p^k(1-p)^{N-k}
+$$
+
+for an $Y\sim Binom(N,p)$. Assuming that $Y=\#\{ L_i\ge VaR_{0.99}(L)\}$ is binomial distributed with $p=0.01$. For a confidence level $\beta$ we find the smallest $j$ in the ordered set $\{L_{i,N}\}_{i=1,..,N}$ of $N$-trials such that
+$$
+P(Y\ge j)=P(L_{j,n}\ge VaR_{0.99}(L))\le \frac{\beta}{2}
+$$
+
+and the largest $j$ such that
+
+$$
+P(Y\le j)=P(L_{j,n}\le VaR_{0.99}(L))\le \frac{\beta}{2}
+$$
+
+Giving that this choice yield a $1-\beta$ confidence interval for the estimate.
+
+```{r}
+N <- dim(prices)[1]
+prices[order(prices$X),"binom_lower"] <- pbinom(
+  as.numeric(row.names(prices))-1,N,0.01,lower.tail = TRUE
+  ) #P(Y<= j-1) = P(L_(j,n)<= VaR),            j= 1,...,N
+beta <- 0.05
+lower_bound <- prices$L[prices$binom_lower == min(prices$binom_lower[prices$binom_lower >= 1-beta/2])]
+upper_bound <- prices$L[prices$binom_lower == max(prices$binom_lower[prices$binom_lower <= beta/2])]
+lower_bound*100
+upper_bound*100
+```
+
+That is
+
+$$
+P(VaR_{0.99}(L)\in [`r round(lower_bound*100,digits = 2)`,`r round(upper_bound*100,digits = 2)`]) \le \beta
+$$
+
+### Problem 3.b
+
+The 10-day log-return is given by
+
+$$
+X^{[10]}_i=log(S_i)-log(S_{i-10})=\log\left(\frac{S_i}{S_{i-10}}\right)=\log\left(\prod_{j=i-10}^i\frac{S_j}{S_{j-1}}\right)=\log\left(\prod_{j=i-10}^i\exp\{X_j\}\right)
+$$
+
+
+```{r}
+prices[10:dim(prices)[1],"X10"] <- log(unlist(lapply(10:dim(prices)[1],function(x){prod(exp(prices$X[(x-10):x]))})))
+prices_small <- prices[10:dim(prices)[1],]
+prices_small[,"L10"] <- -(exp(prices_small$X10)-1)
+```
+
+We compute Value-at-Risk with a confidence interval and the expected shortfall.
+
+```{r}
+N <- dim(prices_small)[1]
+alpha <- 0.99
+VaR <- sort(prices_small$L10)[floor(N*alpha)-1]
+VaR*100
+ES <- mean(sort(prices_small$L10)[N:(floor(N*alpha)-1)])
+ES*100
+
+prices_small[order(prices_small$X10),"binom_lower"] <- pbinom(
+  as.numeric(row.names(prices_small))-1,N,0.01,lower.tail = TRUE
+  ) #P(Y<= j-1) = P(L_(j,n)<= VaR),            j= 1,...,N
+beta <- 0.05
+lower_bound <- prices_small$L[prices_small$binom_lower == min(prices_small$binom_lower[prices_small$binom_lower >= 1-beta/2])]
+upper_bound <- prices_small$L[prices_small$binom_lower == max(prices_small$binom_lower[prices_small$binom_lower <= beta/2])]
+lower_bound*100
+upper_bound*100
+```
+
+### Problem
+
+```{r,include = FALSE, eval = FALSE}
+## PROBLEM 3A
+dax_returns <- read.delim("dax_returns.txt",header = TRUE)
+dax_returns <- data.frame(Day = 1:dim(dax_returns)[1],
+                          X = dax_returns$dax_return)
+S_n <- 100
+
+dax_returns[,3] <- -S_n*(exp(dax_returns[,2]) - 1)
+
+dax_returns[,4] <- sort(dax_returns[,3], decreasing = T)
+
+bound <- (1700*(1-0.99)+1)
+ES_0.99 <- sum(dax_returns[1:bound,4])/bound
+VaR_0.99 <- dax_returns[bound,4]
+
+qbinom((1-0.95)/2,1700,0.01)
+qbinom((1-0.95)/2,1700,0.01, lower.tail = F)
+# Dette er ikke helt rigtigt, da R tager værdien tættest på skillepunktet.
+pbinom(8,1700,0.01)
+1-pbinom(25,1700,0.01)
+# 8 og 25 er de rigtige værdier.
+Confidence <- c(dax_returns[25+1,4], dax_returns[8+1,4])
+(1-pbinom(8,1700,0.01))*pbinom(25,1700,0.01)
+
+## PROBLEM 3B
+
+B <- c()
+for(j in 1:((nrow(dax_returns)/10)-1)){
+  A <- c(S_n)
+  for(i in 1:10){
+    A <- c(A,exp(dax_returns[i+((j-1)*10)+1,2])*A[i])
+  }
+  B <- c(B,-(A[10+1]-A[1]))
+}
+
+
+#C <- c()
+#for(k in 1:170){
+#  C <- c(C,100*(1-exp(sum(dax_returns[((k-1)*10+2):(k*10+1),2]))))
+#}
+
+C <- c()
+for(k in 1:170){
+  C <- c(C,100*(1-exp(sum(dax_returns[((k-1)*10+1):(k*10),2]))))
+}
+
+
+
+dax_returns_10 <- cbind(B,sort(B, decreasing = T))
+
+bound <- (ceiling(nrow(dax_returns_10)*(1-0.99))+1)
+ES_0.99 <- sum(dax_returns_10[1:bound,2])/bound
+VaR_0.99 <- dax_returns_10[bound,2]
+
+qbinom((1-0.95)/2,nrow(dax_returns_10),0.01)
+qbinom((1-0.95)/2,nrow(dax_returns_10),0.01, lower.tail = F)
+
+pbinom(0,170,0.01)
+1-pbinom(5,170,0.01)
+#0 er sdom sådan ikke 'rigtig' men da vi ikke har værdier før 0, da er dette tættest.
+(1-pbinom(-1,170,0.01))*pbinom(5,170,0.01)
+# Det faktiske konfidens er 81.3%
+(1-pbinom(0,170,0.01))*pbinom(170,170,0.01)
+
+Confidence <- c(dax_returns_10[qbinom((1-0.95)/2,nrow(dax_returns_10),0.01, lower.tail = F)+1,2], dax_returns_10[qbinom((1-0.95)/2,nrow(dax_returns_10),0.01)+1,2])
+
+## PROBLEM 4A
+
+library(ggplot2)
+
+qqnorm(dax_returns[,2]);qqline(dax_returns[,2])
+
+
+y_dt <- dt(x_dt, df = 1) 
+
+```
+

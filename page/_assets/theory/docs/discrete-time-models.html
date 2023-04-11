@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5.1 Discrete time models | Complete Theory</title>
+  <meta name="description" content="5.1 Discrete time models | Complete Theory" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5.1 Discrete time models | Complete Theory" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5.1 Discrete time models | Complete Theory" />
+  
+  
+  
+
+<meta name="author" content="Joakim Bilyk" />
+
+
+<meta name="date" content="2023-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="continuous-time-finance.html"/>
+<link rel="next" href="self-financing-portfolios.html"/>
+<style type="text/css">
+p.abstract{
+  text-align: center;
+  font-weight: bold;
+}
+div.abstract{
+  margin: auto;
+  width: 90%;
+}
+</style>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.9/grViz.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+    $(function() {
+        var element = document.body;
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+            $('#remember_me').attr('checked', 'checked');
+            element.classList.toggle("dark-mode");
+            document.querySelector('.book-header.fixed').click();
+        } else {
+            $('#remember_me').removeAttr('checked');
+            document.querySelector('.book-header.fixed').click();
+        }
+
+        $('#remember_me').click(function() {
+
+            if ($('#remember_me').is(':checked')) {
+                // save username and password
+                localStorage.chkbx = $('#remember_me').val();
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            } else {
+                localStorage.chkbx = '';
+                element.classList.toggle("dark-mode");
+                document.querySelector('.book-header.fixed').click();
+            }
+        });
+    });
+
+</script>
+
+<div class = "sticky-darkmode-toggle">
+  <label class="switch">
+  <input type="checkbox" value="remember-me" id="remember_me">
+  <span class="slider round">
+  </span>
+  </label>
+</div>
+
+<script>
+$(function() {
+  $('body').after($('.sticky-darkmode-toggle'));
+})
+</script>
+
+<style>
+
+.sticky-darkmode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+</style>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Comlete theory</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i><b>1.1</b> Abbreviations</a></li>
+<li class="chapter" data-level="1.2" data-path="to-do-reading.html"><a href="to-do-reading.html"><i class="fa fa-check"></i><b>1.2</b> To-do reading</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-life-insurance-mathematics.html"><a href="basic-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>2</b> Basic Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-processes-in-life-insurance-mathematics.html"><a href="stochastic-processes-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>3</b> Stochastic Processes in Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="4" data-path="topics-in-life-insurance-mathematics.html"><a href="topics-in-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>4</b> Topics in Life Insurance Mathematics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="markov-jump-processes.html"><a href="markov-jump-processes.html"><i class="fa fa-check"></i><b>4.1</b> Markov Jump Processes</a></li>
+<li class="chapter" data-level="4.2" data-path="phase-type-distributions.html"><a href="phase-type-distributions.html"><i class="fa fa-check"></i><b>4.2</b> Phase-type distributions</a></li>
+<li class="chapter" data-level="4.3" data-path="interest-rates.html"><a href="interest-rates.html"><i class="fa fa-check"></i><b>4.3</b> Interest rates</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="interest-rates.html"><a href="interest-rates.html#basic-definitions-and-properties"><i class="fa fa-check"></i><b>4.3.1</b> Basic definitions and properties</a></li>
+<li class="chapter" data-level="4.3.2" data-path="interest-rates.html"><a href="interest-rates.html#phase-type-representation-of-bond-prices"><i class="fa fa-check"></i><b>4.3.2</b> Phase-type representation of bond prices</a></li>
+<li class="chapter" data-level="4.3.3" data-path="interest-rates.html"><a href="interest-rates.html#term-structure-models"><i class="fa fa-check"></i><b>4.3.3</b> Term structure models</a></li>
+<li class="chapter" data-level="4.3.4" data-path="interest-rates.html"><a href="interest-rates.html#estimation-of-ph-bond-models"><i class="fa fa-check"></i><b>4.3.4</b> Estimation of PH bond models</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html"><i class="fa fa-check"></i><b>4.4</b> Survival and mortality rates</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#survival-probabilities-and-forward-mortality-rates"><i class="fa fa-check"></i><b>4.4.1</b> Survival probabilities and forward mortality rates</a></li>
+<li class="chapter" data-level="4.4.2" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#forward-transistion-rates"><i class="fa fa-check"></i><b>4.4.2</b> Forward transistion rates</a></li>
+<li class="chapter" data-level="4.4.3" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#reserves-revisited"><i class="fa fa-check"></i><b>4.4.3</b> Reserves revisited</a></li>
+<li class="chapter" data-level="4.4.4" data-path="survival-and-mortality-rates.html"><a href="survival-and-mortality-rates.html#stochastic-mortality-rates"><i class="fa fa-check"></i><b>4.4.4</b> Stochastic mortality rates</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html"><i class="fa fa-check"></i><b>4.5</b> Matrix methods in life insurance</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#basic-setup"><i class="fa fa-check"></i><b>4.5.1</b> Basic setup</a></li>
+<li class="chapter" data-level="4.5.2" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#interest-rate-free-analysis"><i class="fa fa-check"></i><b>4.5.2</b> Interest rate free analysis</a></li>
+<li class="chapter" data-level="4.5.3" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#transform-of-rewards-and-higher-order-moments"><i class="fa fa-check"></i><b>4.5.3</b> Transform of rewards and higher order moments</a></li>
+<li class="chapter" data-level="4.5.4" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#markovian-interest-rates"><i class="fa fa-check"></i><b>4.5.4</b> Markovian interest rates</a></li>
+<li class="chapter" data-level="4.5.5" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#reserves"><i class="fa fa-check"></i><b>4.5.5</b> Reserves</a></li>
+<li class="chapter" data-level="4.5.6" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#higher-order-moments"><i class="fa fa-check"></i><b>4.5.6</b> Higher order moments</a></li>
+<li class="chapter" data-level="4.5.7" data-path="matrix-methods-in-life-insurance.html"><a href="matrix-methods-in-life-insurance.html#equivalence-premium"><i class="fa fa-check"></i><b>4.5.7</b> Equivalence premium</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html"><i class="fa fa-check"></i><b>4.6</b> Financial Mathematics in Life Insurance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#background-and-simple-claims"><i class="fa fa-check"></i><b>4.6.1</b> Background and Simple Claims</a></li>
+<li class="chapter" data-level="4.6.2" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#payment-streams"><i class="fa fa-check"></i><b>4.6.2</b> Payment Streams</a></li>
+<li class="chapter" data-level="4.6.3" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#unit-link-insurance"><i class="fa fa-check"></i><b>4.6.3</b> Unit-Link Insurance</a></li>
+<li class="chapter" data-level="4.6.4" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#with-profit-insurance-and-the-dynamics-of-the-surplus"><i class="fa fa-check"></i><b>4.6.4</b> With-Profit Insurance and the Dynamics of the Surplus</a></li>
+<li class="chapter" data-level="4.6.5" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#cash-dividends-and-market-reserve"><i class="fa fa-check"></i><b>4.6.5</b> Cash Dividends and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.6" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-cash-dividends"><i class="fa fa-check"></i><b>4.6.6</b> The Pure Case of Cash Dividends</a></li>
+<li class="chapter" data-level="4.6.7" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#bonus-payments-and-market-reserve"><i class="fa fa-check"></i><b>4.6.7</b> Bonus Payments and Market Reserve</a></li>
+<li class="chapter" data-level="4.6.8" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#the-pure-case-of-bonus-payments"><i class="fa fa-check"></i><b>4.6.8</b> The Pure Case of Bonus Payments</a></li>
+<li class="chapter" data-level="4.6.9" data-path="financial-mathematics-in-life-insurance.html"><a href="financial-mathematics-in-life-insurance.html#incidental-policy-holder-behavior"><i class="fa fa-check"></i><b>4.6.9</b> Incidental Policy Holder Behavior</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="continuous-time-finance.html"><a href="continuous-time-finance.html"><i class="fa fa-check"></i><b>5</b> Continuous Time Finance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html"><i class="fa fa-check"></i><b>5.1</b> Discrete time models</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="discrete-time-models.html"><a href="discrete-time-models.html#one-period-time-models"><i class="fa fa-check"></i><b>5.1.1</b> One-period time models</a></li>
+<li class="chapter" data-level="5.1.2" data-path="discrete-time-models.html"><a href="discrete-time-models.html#multi-period-model"><i class="fa fa-check"></i><b>5.1.2</b> Multi-period model</a></li>
+<li class="chapter" data-level="5.1.3" data-path="discrete-time-models.html"><a href="discrete-time-models.html#generelised-one-period-model"><i class="fa fa-check"></i><b>5.1.3</b> Generelised one-period model</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html"><i class="fa fa-check"></i><b>5.2</b> Self-financing portfolios</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#discrete-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.1</b> Discrete time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.2" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#continuous-time-sf-portfolio"><i class="fa fa-check"></i><b>5.2.2</b> Continuous time SF portfolio</a></li>
+<li class="chapter" data-level="5.2.3" data-path="self-financing-portfolios.html"><a href="self-financing-portfolios.html#portfolio-weights"><i class="fa fa-check"></i><b>5.2.3</b> Portfolio weights</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html"><i class="fa fa-check"></i><b>5.3</b> Black-Scholes PDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#contingent-claims-and-arbitrage"><i class="fa fa-check"></i><b>5.3.1</b> Contingent Claims and Arbitrage</a></li>
+<li class="chapter" data-level="5.3.2" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#risk-neutral-valuation-1"><i class="fa fa-check"></i><b>5.3.2</b> Risk Neutral Valuation</a></li>
+<li class="chapter" data-level="5.3.3" data-path="black-scholes-pde.html"><a href="black-scholes-pde.html#black-scholes-formula"><i class="fa fa-check"></i><b>5.3.3</b> Black-Scholes formula</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html"><i class="fa fa-check"></i><b>5.4</b> Completeness and Hedging</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#completeness-in-black-scholes"><i class="fa fa-check"></i><b>5.4.1</b> Completeness in Black-Scholes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#absence-of-arbitrage-1"><i class="fa fa-check"></i><b>5.4.2</b> Absence of Arbitrage</a></li>
+<li class="chapter" data-level="5.4.3" data-path="completeness-and-hedging.html"><a href="completeness-and-hedging.html#incomplete-markets"><i class="fa fa-check"></i><b>5.4.3</b> Incomplete Markets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="parity-relations.html"><a href="parity-relations.html"><i class="fa fa-check"></i><b>5.5</b> Parity relations</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="parity-relations.html"><a href="parity-relations.html#put-call-parity"><i class="fa fa-check"></i><b>5.5.1</b> Put-call Parity</a></li>
+<li class="chapter" data-level="5.5.2" data-path="parity-relations.html"><a href="parity-relations.html#the-greeks"><i class="fa fa-check"></i><b>5.5.2</b> The Greeks</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html"><i class="fa fa-check"></i><b>5.6</b> Fundamental pricing theorem I and II</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#completeness-1"><i class="fa fa-check"></i><b>5.6.1</b> Completeness</a></li>
+<li class="chapter" data-level="5.6.2" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#risk-neutral-valuation-formula"><i class="fa fa-check"></i><b>5.6.2</b> Risk Neutral Valuation Formula</a></li>
+<li class="chapter" data-level="5.6.3" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#stochastic-discount-factors-1"><i class="fa fa-check"></i><b>5.6.3</b> Stochastic Discount Factors</a></li>
+<li class="chapter" data-level="5.6.4" data-path="fundamental-pricing-theorem-i-and-ii.html"><a href="fundamental-pricing-theorem-i-and-ii.html#summary"><i class="fa fa-check"></i><b>5.6.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html"><i class="fa fa-check"></i><b>5.7</b> Mathematics of the martingale approach</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#martingale-representation-theorem"><i class="fa fa-check"></i><b>5.7.1</b> Martingale representation theorem</a></li>
+<li class="chapter" data-level="5.7.2" data-path="mathematics-of-the-martingale-approach.html"><a href="mathematics-of-the-martingale-approach.html#girsanov-theorem"><i class="fa fa-check"></i><b>5.7.2</b> Girsanov theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="black-scholes-model---martingale-approach.html"><a href="black-scholes-model---martingale-approach.html"><i class="fa fa-check"></i><b>5.8</b> Black-Scholes model - martingale approach</a></li>
+<li class="chapter" data-level="5.9" data-path="multidimensional-models.html"><a href="multidimensional-models.html"><i class="fa fa-check"></i><b>5.9</b> Multidimensional models</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="basic-non-life-insurance-mathematics.html"><a href="basic-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>6</b> Basic Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="7" data-path="stochastic-processes-in-non-life-insurance-mathematics.html"><a href="stochastic-processes-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>7</b> Stochastic Processes in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a></li>
+<li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>9.1</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-is-a-good-estimator"><i class="fa fa-check"></i><b>9.1.1</b> What is a good estimator?</a></li>
+<li class="chapter" data-level="9.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#excess-risk"><i class="fa fa-check"></i><b>9.1.2</b> Excess risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html"><i class="fa fa-check"></i><b>9.2</b> Training, Validating and Testing</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="training-validating-and-testing.html"><a href="training-validating-and-testing.html#estimating-risk"><i class="fa fa-check"></i><b>9.2.1</b> Estimating risk</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>9.3</b> Linear Models</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="linear-models.html"><a href="linear-models.html#least-squares-estimator"><i class="fa fa-check"></i><b>9.3.1</b> Least Squares Estimator</a></li>
+<li class="chapter" data-level="9.3.2" data-path="linear-models.html"><a href="linear-models.html#ridge-regression"><i class="fa fa-check"></i><b>9.3.2</b> Ridge Regression</a></li>
+<li class="chapter" data-level="9.3.3" data-path="linear-models.html"><a href="linear-models.html#lasso-regression"><i class="fa fa-check"></i><b>9.3.3</b> Lasso Regression</a></li>
+<li class="chapter" data-level="9.3.4" data-path="linear-models.html"><a href="linear-models.html#conclusion"><i class="fa fa-check"></i><b>9.3.4</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html"><i class="fa fa-check"></i><b>9.4</b> Nonparametric Regression</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-smoothers"><i class="fa fa-check"></i><b>9.4.1</b> Linear Smoothers</a></li>
+<li class="chapter" data-level="9.4.2" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#curse-of-dimensionality"><i class="fa fa-check"></i><b>9.4.2</b> Curse of dimensionality</a></li>
+<li class="chapter" data-level="9.4.3" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#splines"><i class="fa fa-check"></i><b>9.4.3</b> Splines</a></li>
+<li class="chapter" data-level="9.4.4" data-path="nonparametric-regression.html"><a href="nonparametric-regression.html#linear-regression-with-splines."><i class="fa fa-check"></i><b>9.4.4</b> Linear regression with splines.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="trees-and-forests.html"><a href="trees-and-forests.html"><i class="fa fa-check"></i><b>9.5</b> Trees and forests</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="trees-and-forests.html"><a href="trees-and-forests.html#cart"><i class="fa fa-check"></i><b>9.5.1</b> CART</a></li>
+<li class="chapter" data-level="9.5.2" data-path="trees-and-forests.html"><a href="trees-and-forests.html#pruning"><i class="fa fa-check"></i><b>9.5.2</b> Pruning</a></li>
+<li class="chapter" data-level="9.5.3" data-path="trees-and-forests.html"><a href="trees-and-forests.html#bagging"><i class="fa fa-check"></i><b>9.5.3</b> Bagging</a></li>
+<li class="chapter" data-level="9.5.4" data-path="trees-and-forests.html"><a href="trees-and-forests.html#random-forests"><i class="fa fa-check"></i><b>9.5.4</b> Random Forests</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html"><i class="fa fa-check"></i><b>9.6</b> Boosting and additive trees</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#gradient-boosting-machines"><i class="fa fa-check"></i><b>9.6.1</b> Gradient Boosting Machines</a></li>
+<li class="chapter" data-level="9.6.2" data-path="boosting-and-additive-trees.html"><a href="boosting-and-additive-trees.html#bayesian-additive-regression-trees"><i class="fa fa-check"></i><b>9.6.2</b> Bayesian additive regression trees</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="some-practical-considerations.html"><a href="some-practical-considerations.html"><i class="fa fa-check"></i><b>9.7</b> Some practical considerations</a></li>
+<li class="chapter" data-level="9.8" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>9.8</b> Neural Networks</a></li>
+<li class="chapter" data-level="9.9" data-path="local-explanations.html"><a href="local-explanations.html"><i class="fa fa-check"></i><b>9.9</b> Local explanations</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="local-explanations.html"><a href="local-explanations.html#interpretability"><i class="fa fa-check"></i><b>9.9.1</b> Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="causality.html"><a href="causality.html"><i class="fa fa-check"></i><b>9.10</b> Causality</a></li>
+<li class="chapter" data-level="9.11" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html"><i class="fa fa-check"></i><b>9.11</b> Local and Global Explanations</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#interpretability-1"><i class="fa fa-check"></i><b>9.11.1</b> Interpretability</a></li>
+<li class="chapter" data-level="9.11.2" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#partial-dependence-plots"><i class="fa fa-check"></i><b>9.11.2</b> Partial dependence plots</a></li>
+<li class="chapter" data-level="9.11.3" data-path="local-and-global-explanations.html"><a href="local-and-global-explanations.html#a-functional-decomposition"><i class="fa fa-check"></i><b>9.11.3</b> A functional decomposition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="quantative-risk-management.html"><a href="quantative-risk-management.html"><i class="fa fa-check"></i><b>10</b> Quantative Risk Management</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html"><i class="fa fa-check"></i><b>10.1</b> The Loss Variable</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="the-loss-variable.html"><a href="the-loss-variable.html#risk-measures"><i class="fa fa-check"></i><b>10.1.1</b> Risk measures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="measure-theory.html"><a href="measure-theory.html"><i class="fa fa-check"></i><b>11</b> Measure theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="axioms-of-probability.html"><a href="axioms-of-probability.html"><i class="fa fa-check"></i><b>11.1</b> Axioms of Probability</a></li>
+<li class="chapter" data-level="11.2" data-path="conditional-probability-and-independence.html"><a href="conditional-probability-and-independence.html"><i class="fa fa-check"></i><b>11.2</b> Conditional Probability and Independence</a></li>
+<li class="chapter" data-level="11.3" data-path="probabilities-on-a-finite-or-countable-space.html"><a href="probabilities-on-a-finite-or-countable-space.html"><i class="fa fa-check"></i><b>11.3</b> Probabilities on a Finite or Countable Space</a></li>
+<li class="chapter" data-level="11.4" data-path="construction-of-a-probability-measure-on-mathbb-r.html"><a href="construction-of-a-probability-measure-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.4</b> Construction of a Probability Measure on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.5" data-path="random-variables.html"><a href="random-variables.html"><i class="fa fa-check"></i><b>11.5</b> Random Variables</a></li>
+<li class="chapter" data-level="11.6" data-path="integration-with-respect-to-a-probability-measure.html"><a href="integration-with-respect-to-a-probability-measure.html"><i class="fa fa-check"></i><b>11.6</b> Integration with Respect to a Probability Measure</a></li>
+<li class="chapter" data-level="11.7" data-path="independent-random-variables.html"><a href="independent-random-variables.html"><i class="fa fa-check"></i><b>11.7</b> Independent Random Variables</a></li>
+<li class="chapter" data-level="11.8" data-path="probability-distributions-on-mathbb-r.html"><a href="probability-distributions-on-mathbb-r.html"><i class="fa fa-check"></i><b>11.8</b> Probability Distributions on <span class="math inline">\(\mathbb R\)</span></a></li>
+<li class="chapter" data-level="11.9" data-path="probability-distributions-on-mathbb-rn.html"><a href="probability-distributions-on-mathbb-rn.html"><i class="fa fa-check"></i><b>11.9</b> Probability Distributions on <span class="math inline">\(\mathbb R^n\)</span></a></li>
+<li class="chapter" data-level="11.10" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html"><i class="fa fa-check"></i><b>11.10</b> Equivalent Probability Measures</a>
+<ul>
+<li class="chapter" data-level="11.10.1" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#the-radon-nikodym-theorem"><i class="fa fa-check"></i><b>11.10.1</b> The Radon-Nikodym Theorem</a></li>
+<li class="chapter" data-level="11.10.2" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#equivalent-probability-measures-1"><i class="fa fa-check"></i><b>11.10.2</b> Equivalent Probability Measures</a></li>
+<li class="chapter" data-level="11.10.3" data-path="equivalent-probability-measures.html"><a href="equivalent-probability-measures.html#likelihood-processes"><i class="fa fa-check"></i><b>11.10.3</b> Likelihood processes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="random-variables-1.html"><a href="random-variables-1.html"><i class="fa fa-check"></i><b>12</b> Random Variables</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>12.2</b> Conditional expectation</a></li>
+<li class="chapter" data-level="12.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>12.3</b> Independence</a></li>
+<li class="chapter" data-level="12.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>12.4</b> Moment generating function</a></li>
+<li class="chapter" data-level="12.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>12.5</b> Standard distributions</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>12.5.1</b> Normal disribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>13</b> Discrete Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html"><i class="fa fa-check"></i><b>13.1</b> Convergence concepts</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="convergence-concepts.html"><a href="convergence-concepts.html#sums-and-average-processes"><i class="fa fa-check"></i><b>13.1.1</b> Sums and average processes</a></li>
+<li class="chapter" data-level="13.1.2" data-path="convergence-concepts.html"><a href="convergence-concepts.html#ergodic-theory"><i class="fa fa-check"></i><b>13.1.2</b> Ergodic Theory</a></li>
+<li class="chapter" data-level="13.1.3" data-path="convergence-concepts.html"><a href="convergence-concepts.html#weak-convergence"><i class="fa fa-check"></i><b>13.1.3</b> Weak Convergence</a></li>
+<li class="chapter" data-level="13.1.4" data-path="convergence-concepts.html"><a href="convergence-concepts.html#central-limit-theorems"><i class="fa fa-check"></i><b>13.1.4</b> Central Limit Theorems</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="markov-chains.html"><a href="markov-chains.html"><i class="fa fa-check"></i><b>14</b> Markov Chains</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="definition-of-a-markov-chain.html"><a href="definition-of-a-markov-chain.html"><i class="fa fa-check"></i><b>14.1</b> Definition of a Markov Chain</a></li>
+<li class="chapter" data-level="14.2" data-path="classification-of-states.html"><a href="classification-of-states.html"><i class="fa fa-check"></i><b>14.2</b> Classification of states</a></li>
+<li class="chapter" data-level="14.3" data-path="limit-results-and-invariant-probabilities.html"><a href="limit-results-and-invariant-probabilities.html"><i class="fa fa-check"></i><b>14.3</b> Limit results and invariant probabilities</a></li>
+<li class="chapter" data-level="14.4" data-path="absorbing-probabilities.html"><a href="absorbing-probabilities.html"><i class="fa fa-check"></i><b>14.4</b> Absorbing probabilities</a></li>
+<li class="chapter" data-level="14.5" data-path="markov-chains-in-continuous-times.html"><a href="markov-chains-in-continuous-times.html"><i class="fa fa-check"></i><b>14.5</b> Markov Chains in Continuous Times</a></li>
+<li class="chapter" data-level="14.6" data-path="properties-of-transitionsprobabilities.html"><a href="properties-of-transitionsprobabilities.html"><i class="fa fa-check"></i><b>14.6</b> Properties of transitionsprobabilities</a></li>
+<li class="chapter" data-level="14.7" data-path="invariant-probabilies-and-absorption.html"><a href="invariant-probabilies-and-absorption.html"><i class="fa fa-check"></i><b>14.7</b> Invariant probabilies and absorption</a></li>
+<li class="chapter" data-level="14.8" data-path="birth-death-processes.html"><a href="birth-death-processes.html"><i class="fa fa-check"></i><b>14.8</b> Birth-death processes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="continuous-time-stochastic-processes.html"><a href="continuous-time-stochastic-processes.html"><i class="fa fa-check"></i><b>15</b> Continuous Time Stochastic Processes</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="brownian-motion.html"><a href="brownian-motion.html"><i class="fa fa-check"></i><b>15.1</b> Brownian Motion</a></li>
+<li class="chapter" data-level="15.2" data-path="filtration.html"><a href="filtration.html"><i class="fa fa-check"></i><b>15.2</b> Filtration</a></li>
+<li class="chapter" data-level="15.3" data-path="martingale.html"><a href="martingale.html"><i class="fa fa-check"></i><b>15.3</b> Martingale</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stochastic-calculus.html"><a href="stochastic-calculus.html"><i class="fa fa-check"></i><b>16</b> Stochastic calculus</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html"><i class="fa fa-check"></i><b>16.1</b> Stochastic Integrals</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#information"><i class="fa fa-check"></i><b>16.1.1</b> Information</a></li>
+<li class="chapter" data-level="16.1.2" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-integrals-1"><i class="fa fa-check"></i><b>16.1.2</b> Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.1.3" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#martingales"><i class="fa fa-check"></i><b>16.1.3</b> Martingales</a></li>
+<li class="chapter" data-level="16.1.4" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#stochastic-calculus-and-the-ito-formula"><i class="fa fa-check"></i><b>16.1.4</b> Stochastic Calculus and the Ito Formula</a></li>
+<li class="chapter" data-level="16.1.5" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula"><i class="fa fa-check"></i><b>16.1.5</b> The multidimensional Ito Formula</a></li>
+<li class="chapter" data-level="16.1.6" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#the-multidimensional-ito-formula-with-states"><i class="fa fa-check"></i><b>16.1.6</b> The multidimensional Ito Formula with states</a></li>
+<li class="chapter" data-level="16.1.7" data-path="stochastic-integrals.html"><a href="stochastic-integrals.html#correlated-brownian-motions"><i class="fa fa-check"></i><b>16.1.7</b> Correlated Brownian motions</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="discrete-stochastic-integrals.html"><a href="discrete-stochastic-integrals.html"><i class="fa fa-check"></i><b>16.2</b> Discrete Stochastic Integrals</a></li>
+<li class="chapter" data-level="16.3" data-path="stochastic-differential-equations.html"><a href="stochastic-differential-equations.html"><i class="fa fa-check"></i><b>16.3</b> Stochastic Differential Equations</a></li>
+<li class="chapter" data-level="16.4" data-path="partial-differential-equations.html"><a href="partial-differential-equations.html"><i class="fa fa-check"></i><b>16.4</b> Partial differential equations</a></li>
+<li class="chapter" data-level="16.5" data-path="the-product-integral.html"><a href="the-product-integral.html"><i class="fa fa-check"></i><b>16.5</b> The Product Integral</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="the-product-integral.html"><a href="the-product-integral.html#properties-of-the-product-integral"><i class="fa fa-check"></i><b>16.5.1</b> Properties of the Product Integral</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="linear-algebra.html"><a href="linear-algebra.html"><i class="fa fa-check"></i><b>17</b> Linear Algebra</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="invertible-matrices.html"><a href="invertible-matrices.html"><i class="fa fa-check"></i><b>17.1</b> Invertible matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="coding.html"><a href="coding.html"><i class="fa fa-check"></i><b>18</b> Coding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="r-packages.html"><a href="r-packages.html"><i class="fa fa-check"></i><b>18.1</b> R-Packages</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="r-packages.html"><a href="r-packages.html#mlr3"><i class="fa fa-check"></i><b>18.1.1</b> mlr3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Complete Theory</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="discrete-time-models" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Discrete time models<a href="discrete-time-models.html#discrete-time-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="one-period-time-models" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> One-period time models<a href="discrete-time-models.html#one-period-time-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The study of this course is the <strong>European call</strong> option (and <em>put</em> option). This financial derivative is an agreement between two parties where the holder of the option has the right to <em>“exercise”</em> the derivative, at a future time <span class="math inline">\(t=T\)</span>. Exercising means buying an asset at a certain agreed opon price-strike <span class="math inline">\(K\)</span>. In the case of the put-option: the holder has the right (but not obligation) to sell the asset at the strike price <span class="math inline">\(K\)</span>. As such the derivative has the payoff</p>
+<p><span class="math display">\[
+\text{Call}\ \text{option:}\hspace{10pt}\Phi(S_T)=(S_T-K)^+,\hspace{20pt}\text{Put}\ \text{option:}\hspace{10pt}\Phi(S_T)=(K-S_T)^+.
+\]</span></p>
+<p>Our objective is to understand when an arbitrage exist and to find the fair price of these derivative. The strategy in pricing is finding a replicating portfolio with the same payoff as the option (with probability one) and then price the derivative accordingly.</p>
+<div id="model-description" class="section level4 hasAnchor" number="5.1.1.1">
+<h4><span class="header-section-number">5.1.1.1</span> Model description<a href="discrete-time-models.html#model-description" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In the one-period model we consider the simplest possible market. We have two distinct times <span class="math inline">\(t=0\)</span> (today) and <span class="math inline">\(t=1\)</span> (tomorrow) and we may buy any portfolio as a mixture of bonds and one stock. We denote the bonds price by <span class="math inline">\(B_t\)</span> and the stocks price by <span class="math inline">\(S_t\)</span> and we assume the following:</p>
+<p><span class="math display">\[
+B_0=1,\ B_1=1+R,\hspace{20pt}S_0=s,\ S_1=\left\{\begin{matrix}s\cdot u, &amp; with\ probability\ p_u.\\s\cdot d, &amp; with\ probability\ p_d.\end{matrix}\right.
+\]</span></p>
+<p>We may introduce <span class="math inline">\(Z\)</span> as the random variable</p>
+<p><span class="math display">\[
+Z=u\cdot (I)+d\cdot (1-I),
+\]</span></p>
+<p>for an bernoulli variable <span class="math inline">\(I\)</span> with succes probability <span class="math inline">\(p_u\)</span>. Naturally, we assume <span class="math inline">\(d\le (1+R)\le u\)</span> (this is imperative to ensure no arbitrage as we will see).</p>
+</div>
+<div id="portfolios-and-arbirtage" class="section level4 hasAnchor" number="5.1.1.2">
+<h4><span class="header-section-number">5.1.1.2</span> Portfolios and arbirtage<a href="discrete-time-models.html#portfolios-and-arbirtage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We study any portfolio on the <span class="math inline">\((B,S)\)</span> market as a vector <span class="math inline">\(h=(x,y)\)</span> where <span class="math inline">\(x\)</span> is the amount of bonds and <span class="math inline">\(y\)</span> is the amount of stock held in the portfolio. Notice that we allow for shorting, that is <span class="math inline">\(x&lt;0\)</span> or <span class="math inline">\(y&lt;0\)</span>. As such, we have that <span class="math inline">\(h\in \mathbb{R}^2\)</span>. In this we have made some unrealistic, but attractable assumptions included in the assumptions:</p>
+<ul>
+<li>We allow short positions and fractional holding, i.e. <span class="math inline">\(h\in \mathbb{R}^2\)</span>,</li>
+<li>We assume no spread between ask and bids,</li>
+<li>No transaction costs and</li>
+<li>A completely liquid market i.e. we may borrow and buy as much stock and bonds as wanted.</li>
+</ul>
+<p>Given that we have chosen a portfolio <span class="math inline">\(h\)</span> we may introduce the value process.</p>
+<blockquote class="def">
+<p><strong>Definition 2.1. (Bjork)</strong> <em>The <strong>value process</strong> of the porfolio <span class="math inline">\(h\in\mathbb{R}^2\)</span> is the stochastic process</em></p>
+<p><span class="math display">\[
+V^h_t=xB_t+yS_t,\ t=0,1.
+\]</span></p>
+</blockquote>
+<p>Given this notation we may define what an arbitrage is.</p>
+<blockquote class="def">
+<p><strong>Definition 2.2. (Bjork)</strong> <em>An <strong>arbitrage</strong> is a portfolio <span class="math inline">\(h\)</span> with the properties: 1) <span class="math inline">\(V^h_0=0\)</span>, 2) <span class="math inline">\(P(V^h_1\ge 0)=1\)</span> and 3) <span class="math inline">\(P(V^h_1&gt;0)&gt;0\)</span>.</em></p>
+</blockquote>
+<p>That is <span class="math inline">\(h\)</span> is an deterministic money-machine where we at least never loose any money. Granted the bonds give a determinictic non-negative return, but an arbitrage does not require any money out of pocket. With the notion of an arbitrage we will show the first proposition regarding the choice of <span class="math inline">\(R,u,d\)</span> as defined above.</p>
+<blockquote class="prop">
+<p><strong>Proposition 2.3. (Bjork)</strong> <em>The one-period binomial model is arbitrage free if and only if the following inequality hold:</em></p>
+<p><span class="math display">\[
+d\le (1+R)\le u.\tag{2.1}
+\]</span></p>
+</blockquote>
+
+<details>
+<summary>
+<strong>Proof.</strong>
+</summary>
+<p>The statement is proofed by contradiction. Assume that <span class="math inline">\(d&gt;1+R\)</span> holds. Then by definition <span class="math inline">\(u&gt;d&gt;1+R\)</span>. Notice that any portfolio satisfying <span class="math inline">\(V_0^h=0\)</span> must satisfy</p>
+<p><span class="math display">\[
+0=xB_0+yS_0=x+ys\iff x=-ys
+\]</span></p>
+<p>That is for some choice <span class="math inline">\(y\)</span> the only arbitrage candidate is the portfolio <span class="math inline">\(h=(-ys,y)\)</span>. Calculating the value at time <span class="math inline">\(t=1\)</span> we have</p>
+<p><span class="math display">\[
+V_1^h=-ys\cdot(1+R)+y\cdot s\cdot Z=ys(Z-1-R)
+\]</span></p>
+<p>However since <span class="math inline">\(Z\ge d\)</span> we have <span class="math inline">\(Z-(1+R)\ge 0\)</span> and therefore an arbitrage (for <span class="math inline">\(y&gt;0\)</span>). The other inequality <span class="math inline">\(1+R&gt;u\)</span> follows analog steps. Simply choose some <span class="math inline">\(y&lt;0\)</span> and the result follows. <span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>
+From inequality (2.1) we see that since <span class="math inline">\(1+R\)</span> is between <span class="math inline">\(u\)</span> and <span class="math inline">\(d\)</span> we may find a pair <span class="math inline">\(q_d,q_u\ge 0\)</span> with <span class="math inline">\(q_d+q_u=1\)</span> such that</p>
+<p><span class="math display">\[
+1+R=q_u\cdot u+q_d\cdot d.
+\]</span></p>
+<p>This yields the important risk neutral valuation formula as summed op in the following definition</p>
+<blockquote class="def">
+<p><strong>Definition 2.4. (Bjork)</strong> <em>A probability measure <span class="math inline">\(Q\)</span> is called a <strong>martingale meausre</strong> if the following condition holds:</em></p>
+<p><span class="math display">\[
+S_0=\frac{1}{1+R}E^Q[S_1].
+\]</span></p>
+</blockquote>
+<p>The above measure <span class="math inline">\(Q\)</span> is the measure <span class="math inline">\(Q(Z=d)=q_d\)</span> and <span class="math inline">\(Q(Z=u)=q_u\)</span> for the binomial model. This does in fact yield the risk neautral valuation formula:
+<span class="math display">\[\begin{align*}
+S_0&amp;=\frac{1}{1+R}E^Q[S_1]=\frac{1}{1+R}(Q(Z=d)\cdot d\cdot s+Q(Z=u)\cdot u\cdot s)\\
+&amp;=s\frac{1}{1+R}(q_d\cdot d+q_u\cdot u)=s,
+\end{align*}\]</span>
+where we simply use <span class="math inline">\(1+R=q_d\cdot d+q_u\cdot u\)</span>. We call this the risk neautral valuation formula because it in some sense gives an expected discounted value of the future stock price. We end this endavour with reformulating the arbitrage proposition and determining the values of the <span class="math inline">\(Q\)</span>-measure.</p>
+<blockquote class="prop">
+<p><strong>Proposition 2.5. (Bjork)</strong> <em>The one-period binomial model is arbitrage free if and only if there exists a martingale measure <span class="math inline">\(Q\)</span>.</em></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 2.6. (Bjork)</strong> <em>The one-period binomial model has martingale probabilities given by:</em></p>
+<p><span class="math display">\[
+\left\{\begin{matrix}q_u=\frac{(1+R)-d}{u-d},\\ q_u=\frac{u-(1+R)}{u-d}.\end{matrix}\right.
+\]</span></p>
+</blockquote>
+</div>
+<div id="contingent-claims" class="section level4 hasAnchor" number="5.1.1.3">
+<h4><span class="header-section-number">5.1.1.3</span> Contingent Claims<a href="discrete-time-models.html#contingent-claims" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This chapter revolves around the financial derivative and we start by stating the definition of the financial derivative.</p>
+<blockquote class="def">
+<p><strong>Definition 2.7. (Bjork)</strong> <em>A <strong>contingent claim</strong> (financial derivative) is <em>any</em> stochastic variable <span class="math inline">\(X\)</span> of the form <span class="math inline">\(\Phi(Z)\)</span>, where <span class="math inline">\(Z\)</span> is the stochastic varible driving the stock price process.</em></p>
+</blockquote>
+<p>We may also call the function <span class="math inline">\(\Phi\)</span> the <strong>contract function</strong> as it states how the contract is resolved once the stochastic variable <span class="math inline">\(Z\)</span> has been realised. Our objective is now to study, what a buyer of said contract would have to pay at any given time <span class="math inline">\(t\)</span>. We call the fair price of <span class="math inline">\(X\)</span> at time <span class="math inline">\(t\)</span>: <span class="math inline">\(\Pi_t[X]\)</span>. As such it is easy to see that the fair price at the time of maturity <span class="math inline">\(T\)</span> is simply the payout <span class="math inline">\(X\)</span> i.e. <span class="math inline">\(\Pi_T[X]=X\)</span>. Our strategy is to find a replicating portfolio <span class="math inline">\(h\)</span> and determine the price of said portfolio.</p>
+<blockquote class="def">
+<p><strong>Definition 2.8. (Bjork)</strong> <em>A contingent claim <span class="math inline">\(X\)</span> can be <strong>replicated</strong>, or said to be <strong>reachable</strong> if there exist a portfolio <span class="math inline">\(h\)</span> such that</em></p>
+<p><span class="math display">\[
+V_1^h=X,
+\]</span></p>
+<p><em>with probability one. In that case, we say that the portfolio <span class="math inline">\(h\)</span> is a <strong>hedging</strong> portfolio or a <strong>replicating</strong> portfolio. If all claims can be replicated we say that the market is <strong>complete</strong>.</em></p>
+</blockquote>
+<p>Our pricing strategy is then to determine the value process of the replicating portfolio and then by the first pricing principle below we say that the price is imply the value of the replicating portfolio.</p>
+<p><strong>Pricing principle 1.</strong> If a clain <span class="math inline">\(X\)</span> is reachable with replicating portfolio <span class="math inline">\(h\)</span>, then the only reasonable price process for <span class="math inline">\(X\)</span> is given by</p>
+<p><span class="math display">\[
+\Pi_t[X]=V_t^h.
+\]</span></p>
+<p>Notice, that this assumes that a replicating portfolio exist and even so we have a uniqueness statement to solve. We end this section by writing two important results.</p>
+<blockquote class="prop">
+<p><strong>Proposition 2.9. (Bjork)</strong> <em>Suppose that a claim <span class="math inline">\(X\)</span> is reachable with replicating portfolio <span class="math inline">\(h\)</span>. Then any price at time <span class="math inline">\(t\ge 0\)</span> of the claim <span class="math inline">\(X\)</span> other than the value process of <span class="math inline">\(h\)</span> will lead to an arbitrage on the extended market <span class="math inline">\((B,S,X)\)</span>.</em></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 2.10. (Bjork)</strong> <em>If the one-period binomial model is free of arbitrage, then it is also complete.</em></p>
+</blockquote>
+<p>The hedging portfolio in the one-period binomial model is given by the portfolio <span class="math inline">\((x,y)\)</span> below
+<span class="math display">\[\begin{align*}
+x&amp;=\frac{1}{1+R}\cdot\frac{u\Phi(d)-d\Phi(u)}{u-d},\tag{2.2}\\
+y&amp;=\frac{1}{s}\cdot\frac{\Phi(u)-\Phi(d)}{u-d}.\tag{2.3}
+\end{align*}\]</span></p>
+</div>
+<div id="risk-neutral-valuation" class="section level4 hasAnchor" number="5.1.1.4">
+<h4><span class="header-section-number">5.1.1.4</span> Risk Neutral Valuation<a href="discrete-time-models.html#risk-neutral-valuation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We see that since the one-period model is complete we can price any contingent claim and we see that
+<span class="math display">\[\begin{align*}
+\Pi_0[X]&amp;=\frac{1}{1+R}\cdot\frac{u\Phi(d)-d\Phi(u)}{u-d}+s\frac{1}{s}\cdot\frac{\Phi(u)-\Phi(d)}{u-d}\\
+&amp;=\frac{1}{1+R}\left\{\frac{u\Phi(d)-d\Phi(u)}{u-d}+(1+R)\frac{\Phi(u)-\Phi(d)}{u-d}\right\}\\
+&amp;=\frac{1}{1+R}\left\{\frac{(1+R)-d}{u-d}\Phi(u)+\frac{u-(1+R)}{u-d}\Phi(d)\right\}\\
+&amp;=\frac{1}{1+R}E^Q[X].
+\end{align*}\]</span>
+i.e. the price at time <span class="math inline">\(t=0\)</span> should simply be the expected discounted payout according to the martingale measure. This leads to the important pricing proposition:</p>
+<blockquote class="prop">
+<p><strong>Proposition 2.11. (Bjork)</strong> <em>If the one-period binomial model is free of arbitrage, then the arbitrage free price of a contingent claim <span class="math inline">\(X\)</span> is given by</em></p>
+<p><span class="math display">\[
+\Pi_0[X]=\frac{1}{1+R}E^Q[X].\tag{2.4}
+\]</span></p>
+<p><em>Here the martingale measure <span class="math inline">\(Q\)</span> is uniquely determined by the relation</em></p>
+<p><span class="math display">\[
+S_0=\frac{1}{1+R}E^Q[S_1],\tag{2.5}
+\]</span></p>
+and the explicit expressions for <span class="math inline">\(q_u\)</span> and <span class="math inline">\(q_d\)</span> are given in proposition 2.6. Furthermore the claim <span class="math inline">\(X\)</span> can be replicated using the portfolio
+<span class="math display">\[\begin{align*}
+x&amp;=\frac{1}{1+R}\cdot\frac{u\Phi(d)-d\Phi(u)}{u-d},\tag{2.6}\\
+y&amp;=\frac{1}{s}\cdot\frac{\Phi(u)-\Phi(d)}{u-d}.\tag{2.7}
+\end{align*}\]</span>
+</blockquote>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div id="multi-period-model" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Multi-period model<a href="discrete-time-models.html#multi-period-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The one-period binomial model can easily be extended to a multi-period model, by assuming that the bond and stock pricess evolve by the processes:</p>
+<p><span class="math display">\[
+t\ge1:\ B_t=(1+R)B_{t-1}\hspace{20pt}\text{and}\hspace{20pt}B_0=1,
+\]</span></p>
+<p><span class="math display">\[
+t\ge1:\ S_t=Z_{t-1}S_{t-1}\hspace{20pt}\text{and}\hspace{20pt}S_0=s,
+\]</span></p>
+<p>where we obviously have that <span class="math inline">\(B_t=(1+R)^t\)</span> for <span class="math inline">\(t\ge 0\)</span>. In the above <span class="math inline">\(Z_t\)</span> is <span class="math inline">\(u\)</span> with probability <span class="math inline">\(p_u\)</span> and <span class="math inline">\(d\)</span> with probability <span class="math inline">\(p_d\)</span>. In this context, we need to define a portfolio in terms of a strategy.</p>
+<blockquote class="def">
+<p><strong>Definition 2.13. (Bjork)</strong> <em>A <strong>portfolio strategy</strong> is a stochastic process on <span class="math inline">\(\{1,...,T\}\)</span></em></p>
+<p><span class="math display">\[
+h=\left\{h_t=(x_t,y_t);\ t=1,...,T\right\}
+\]</span></p>
+<p><em>such that <span class="math inline">\(h_t\)</span> is a function of <span class="math inline">\(S_0,S_1,...,S_{t-1}\)</span>. For a given portfolio strategy <span class="math inline">\(h\)</span> we set <span class="math inline">\(h_0=h_1\)</span> by convention. The associated <strong>value process</strong> corresponding to the portfolio <span class="math inline">\(h\)</span> is defined by</em></p>
+<p><span class="math display">\[
+V_t^h=x_t(1+R)+y_tS_t.
+\]</span></p>
+</blockquote>
+<p>Given this notation we may define what an arbitrage is, but first we introduce the notion of a self-financing portfolio. A self-financing portfolio in an intuative sense is a portfolio that is not withdrawn from or deposited into.</p>
+<blockquote class="def">
+<p><strong>Definition 2.14. (Bjork)</strong> <em>A portfolio strategy <span class="math inline">\(h\)</span> is said to be <strong>self-financing</strong> if the following condition holds for all <span class="math inline">\(t=0,...,T-1\)</span>:</em></p>
+<p><span class="math display">\[
+x_t(1+R)+y_tS_t=x_{t+1}+y_{t+1}S_t.
+\]</span></p>
+</blockquote>
+<p>The above equation says that the portfolio purchased at time <span class="math inline">\(t\)</span> and helt until <span class="math inline">\(t+1\)</span> <span class="math inline">\((x_{t+1},y_{t+1})\)</span> can only be financed by the market value of the portfolio held from <span class="math inline">\([t-1,t)\)</span> i.e. <span class="math inline">\((x_{t},y_{t})\)</span>. We now define an arbitrage.</p>
+<blockquote class="def">
+<p><strong>Definition 2.15. (Bjork)</strong> <em>An <strong>arbitrage</strong> is a self-financing portfolio <span class="math inline">\(h\)</span> with the properties: 1) <span class="math inline">\(V^h_0=0\)</span>, 2) <span class="math inline">\(P(V^h_T\ge 0)=1\)</span> and 3) <span class="math inline">\(P(V^h_T&gt;0)&gt;0\)</span>.</em></p>
+</blockquote>
+<p>The multiperiod binomial model has an just like the oneperiod model a result regarding when an arbitrage exists.</p>
+<blockquote class="lem">
+<p><strong>Lemma 2.16. (Bjork)</strong> <em>If <span class="math inline">\(d\le (1+R)\le u\)</span> (eq. 2.8) then the multiperiod model is arbitrage-free.</em></p>
+</blockquote>
+<p>As one can see, the multiperiod model is rather similar to the one period model. We wil in the following summarise equivalent statements for the multiperiod model as the ones in the oneperiod model.</p>
+<blockquote class="def">
+<p><strong>Definition 2.17. (Bjork)</strong> <em>The martingale probabilities <span class="math inline">\(q_u\)</span> and <span class="math inline">\(q_d\)</span> are defined as the probabilities for which the relation below holds.</em></p>
+<p><span class="math display">\[
+s=\frac{1}{1+R}E^Q[S_{t+1}\ \vert\ S_t].
+\]</span></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 2.18. (Bjork)</strong> <em>The martingale probabilities <span class="math inline">\(q_u\)</span> and <span class="math inline">\(q_d\)</span> are given by</em></p>
+<p><span class="math display">\[
+\left\{\begin{matrix}q_u=\frac{(1+R)-d}{u-d},\\ q_u=\frac{u-(1+R)}{u-d}.\end{matrix}\right.
+\]</span></p>
+</blockquote>
+<blockquote class="def">
+<p><strong>Definition 2.19. (Bjork)</strong> <em>A <strong>contingent claim</strong> is a stochastic variable <span class="math inline">\(X\)</span> of the form</em></p>
+<p><span class="math display">\[
+X=\Phi(S_T),
+\]</span></p>
+<p><em>where the <strong>contract function</strong> <span class="math inline">\(\mathbf{\Phi}\)</span> is some given real valued function.</em></p>
+</blockquote>
+<blockquote class="def">
+<p><strong>Definition 2.20. (Bjork)</strong> <em>A given contingent claim <span class="math inline">\(X\)</span> is said to be <strong>reachable</strong> if there exists a self-financing portfolio <span class="math inline">\(h\)</span> such that</em></p>
+<p><span class="math display">\[
+V_T^h=X,
+\]</span></p>
+<p><em>with probability one. In that case we say that the portfolio <span class="math inline">\(h\)</span> is a <strong>hedging</strong> portfolio or a <strong>replicating</strong> portfolio. If all claims can be replicated we say that the market is <em>(dynamically)</em> <strong>complete</strong>.</em></p>
+</blockquote>
+<p><strong>Pricing principle 2. (Bjork)</strong> <em>If a claim <span class="math inline">\(X\)</span> is reachable with replicating portfolio <span class="math inline">\(h\)</span>, then the only reasonable price process for <span class="math inline">\(X\)</span> os given by</em></p>
+<p><span class="math display">\[
+\Pi_t[X]=V_t^h,\ t=0,1,...,T.
+\]</span></p>
+<blockquote class="prop">
+<p><strong>Proposition 2.21. (Bjork)</strong> <em>Assume <span class="math inline">\(X\)</span> is reachable by <span class="math inline">\(h\)</span>, then any price other than <span class="math inline">\(V_t^h\)</span> for some <span class="math inline">\(t\ge 0\)</span> leads to an arbitrage opportunity.</em></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 2.22. (Bjork)</strong> <em>The multiperiod model is complete, i.e. every claim can be replicated by a self-financing portfolio.</em></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 2.24. (Bjork)</strong> <em><strong>(Binomial algorithm)</strong> Consider a <span class="math inline">\(T\)</span>-claim <span class="math inline">\(X=\Phi(S_T)\)</span>. Then this claim can be replicated using af self-financing portfolio. If <span class="math inline">\(V_t(k)\)</span> denotes the value of the portfolio at the node <span class="math inline">\((t,k)\)</span> (<span class="math inline">\(k\)</span> referring to <span class="math inline">\(k\)</span> amount of up-moves for the stock), then <span class="math inline">\(V_t(k)\)</span> can be computed recursively by the scheme</em></p>
+<p><span class="math display">\[
+\left\{\begin{matrix}V_t(k)=\frac{1}{1+R}\left\{q_uV_{t+1}(k+1)+q_dV_{t+1}(k)\right\},\\ V_T(k)=\Phi(su^kd^{T-k}).\end{matrix}\right.
+\]</span></p>
+<p><em>where the martingale probabilities <span class="math inline">\(q_u\)</span> and <span class="math inline">\(q_d\)</span> are given by</em></p>
+<p><span class="math display">\[
+\left\{\begin{matrix}q_u=\frac{(1+R)-d}{u-d},\\ q_u=\frac{u-(1+R)}{u-d}.\end{matrix}\right.
+\]</span></p>
+<p><em>With the notation as above, the hedging portfolio is given by</em></p>
+<p><span class="math display">\[
+\left\{\begin{matrix}x_t(k)=\frac{1}{1+R}\cdot\frac{uV_t(k)-dV_t(k+1)}{u-d},\\ y_t(k)=\frac{1}{S_{t-1}}\cdot\frac{V_t(k+1)-V_t(k)}{u-d}.\end{matrix}\right.
+\]</span></p>
+<p><em>In particular, the arbitrage free price of the claim at <span class="math inline">\(t=0\)</span> is given by <span class="math inline">\(V_0(0)\)</span>.</em></p>
+</blockquote>
+<details>
+<summary>
+<strong>Example.</strong>
+</summary>
+<p><img src="theory_files/figure-html/unnamed-chunk-6-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Consider <span class="math inline">\(R=0.04\)</span>, <span class="math inline">\(s=100\)</span>, <span class="math inline">\(u=1.1\)</span>, <span class="math inline">\(d=0.9\)</span>, <span class="math inline">\(p_u=0.6\)</span> and <span class="math inline">\(p_d=0.4\)</span>. We consider a model of length <span class="math inline">\(T=2\)</span> and we want to evaluate the price of the european call option with srike <span class="math inline">\(K=90\)</span> that is the contingent claim</p>
+<p><span class="math display">\[
+X=(S_T-K)^+,\hspace{20pt}\Phi(s)=(s-K)^+.
+\]</span></p>
+<p>For each time <span class="math inline">\(t\)</span> we know the replicating portfolio, if we know the payoff the following period. Therefore we start from the leaves of the tree and work towards the root. Since the strike price is <span class="math inline">\(K=90\)</span> the end result will be the following payoffs:
+<span class="math display">\[\begin{align*}
+u^2:\hspace{20pt}&amp;(121-90)^+=31\\
+ud:\hspace{20pt}&amp;(99-90)^+=9\\
+du:\hspace{20pt}&amp;(99-90)^+=9\\
+d^2:\hspace{20pt}&amp;(81-90)^+=0
+\end{align*}\]</span>
+Therefore by the risk neautral valuation formula with <span class="math inline">\(q_u=\frac{(1+R)-d}{u-d}=0.7\)</span> and <span class="math inline">\(q_d=\frac{u-(1+R)}{u-d}=0.3\)</span> we have that the cost of the replicating portfolio at time <span class="math inline">\(t=1\)</span> is respectively
+<span class="math display">\[\begin{align*}
+u:\hspace{20pt}&amp;\frac{1}{1+R}\left\{31\cdot q_u + 9 \cdot q_d\right\}\approx 23.46\\
+d:\hspace{20pt}&amp;\frac{1}{1+R}\left\{9\cdot q_u + 0 \cdot q_d\right\}\approx 6.06
+\end{align*}\]</span>
+To replicate this payoff at time <span class="math inline">\(t=1\)</span> we can use the risk neutral valuation formula once more to find the base cost of the replicating portfolio i.e. the price of <span class="math inline">\(X\)</span> at time <span class="math inline">\(t=0\)</span></p>
+<p><span class="math display">\[
+\frac{1}{1+R}\left\{23.46\cdot q_u + 6.06 \cdot q_d\right\}\approx 17.54.
+\]</span></p>
+<p>Working from the root to the leaves we can now calculate the hedging portfolio at time <span class="math inline">\(t=0,1\)</span> for each path. For time <span class="math inline">\(t=0\)</span> we calculate
+<span class="math display">\[\begin{align*}
+x=&amp;\frac{1}{1+R}\cdot \frac{u\cdot 6.06-d\cdot 23.46}{u-d}\approx -69.46,\\
+y=&amp;\frac{1}{s}\cdot\frac{23.46-6.06}{u-d}\approx0.87
+\end{align*}\]</span>
+We see by calculations that this does indeed replicate the payoff at time <span class="math inline">\(t=1\)</span>:
+<span class="math display">\[\begin{align*}
+u:\hspace{20pt}&amp;V_1^h=(1+R)\cdot x + 110\cdot y\approx 23.46,\\
+d:\hspace{20pt}&amp;V_1^h=(1+R)\cdot x + 90\cdot y\approx 6.06.
+\end{align*}\]</span>
+We also see by calculation that the initial portfolio does cost the expected 17.54 as</p>
+<p><span class="math display">\[
+x\cdot 1+y\cdot100=87-69.46=17.54.
+\]</span></p>
+<p>Following these steps at time <span class="math inline">\(t=1\)</span> the portfolios <span class="math inline">\((-86.54,1)\)</span> (for the up-scenario) and <span class="math inline">\((-38.94,0.5)\)</span> (for the down-scenario) would arise. Notice when calculating <span class="math inline">\(y\)</span> one has to use the current price <span class="math inline">\(S_1=S_0\cdot Z\)</span> not <span class="math inline">\(S_0\)</span>. One should also check by similar calculations as above, that these portfolios does indeed replicate the payoff of the contingent claim <span class="math inline">\(X\)</span>. <span class="math inline">\(\square\)</span></p>
+</details>
+<blockquote class="prop">
+<p><strong>Proposition 2.25. (Bjork)</strong> <em>The arbitrage free price at <span class="math inline">\(t=0\)</span> of a <span class="math inline">\(T\)</span>-claim <span class="math inline">\(X\)</span> is given by</em></p>
+<p><span class="math display">\[
+\Pi_0[X]=\frac{1}{(1+R)^T}E^Q[X]
+\]</span></p>
+<p><em>where <span class="math inline">\(Q\)</span> denotes the martingale measure, or more explicitly</em></p>
+<p><span class="math display">\[
+\Pi_0[X]=\frac{1}{(1+R)^T}\sum_{k=0}^T\binom{T}{k}q_u^kq_d^{T-k}\Phi(su^kd^{T-k}).
+\]</span></p>
+</blockquote>
+<details>
+<summary>
+<strong>Example.</strong>
+</summary>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="discrete-time-models.html#cb8-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fl">0.04</span></span>
+<span id="cb8-2"><a href="discrete-time-models.html#cb8-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb8-3"><a href="discrete-time-models.html#cb8-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fl">1.1</span></span>
+<span id="cb8-4"><a href="discrete-time-models.html#cb8-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fl">0.9</span></span>
+<span id="cb8-5"><a href="discrete-time-models.html#cb8-5" aria-hidden="true" tabindex="-1"></a>p_u <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb8-6"><a href="discrete-time-models.html#cb8-6" aria-hidden="true" tabindex="-1"></a>p_d <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
+<span id="cb8-7"><a href="discrete-time-models.html#cb8-7" aria-hidden="true" tabindex="-1"></a>q_u <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">+</span>R<span class="sc">-</span>d)<span class="sc">/</span>(u<span class="sc">-</span>d)</span>
+<span id="cb8-8"><a href="discrete-time-models.html#cb8-8" aria-hidden="true" tabindex="-1"></a>q_d <span class="ot">&lt;-</span> (u<span class="dv">-1</span><span class="sc">-</span>R)<span class="sc">/</span>(u<span class="sc">-</span>d)</span>
+<span id="cb8-9"><a href="discrete-time-models.html#cb8-9" aria-hidden="true" tabindex="-1"></a>cap_t <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb8-10"><a href="discrete-time-models.html#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="discrete-time-models.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Test for K=90</span></span>
+<span id="cb8-12"><a href="discrete-time-models.html#cb8-12" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">90</span></span>
+<span id="cb8-13"><a href="discrete-time-models.html#cb8-13" aria-hidden="true" tabindex="-1"></a>pi_0 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">+</span>R)<span class="sc">**</span>(<span class="sc">-</span>cap_t)<span class="sc">*</span><span class="fu">sum</span>(</span>
+<span id="cb8-14"><a href="discrete-time-models.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">choose</span>(cap_t,<span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span>q_u<span class="sc">**</span>(<span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span>q_d<span class="sc">**</span>(cap_t <span class="sc">-</span> <span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span><span class="fu">pmax</span>(s<span class="sc">*</span>u<span class="sc">**</span>(<span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span>d<span class="sc">**</span>(cap_t <span class="sc">-</span> <span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">-</span>K,<span class="dv">0</span>)</span>
+<span id="cb8-15"><a href="discrete-time-models.html#cb8-15" aria-hidden="true" tabindex="-1"></a>) <span class="co"># = 17.53883</span></span>
+<span id="cb8-16"><a href="discrete-time-models.html#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="discrete-time-models.html#cb8-17" aria-hidden="true" tabindex="-1"></a>pi_0 <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">ceiling</span>(s<span class="sc">*</span>u<span class="sc">**</span>cap_t), <span class="cf">function</span>(K){</span>
+<span id="cb8-18"><a href="discrete-time-models.html#cb8-18" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span><span class="sc">+</span>R)<span class="sc">**</span>(<span class="sc">-</span>cap_t)<span class="sc">*</span><span class="fu">sum</span>(</span>
+<span id="cb8-19"><a href="discrete-time-models.html#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">choose</span>(cap_t,<span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span>q_u<span class="sc">**</span>(<span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span>q_d<span class="sc">**</span>(cap_t <span class="sc">-</span> <span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span><span class="fu">pmax</span>(s<span class="sc">*</span>u<span class="sc">**</span>(<span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">*</span>d<span class="sc">**</span>(cap_t <span class="sc">-</span> <span class="dv">0</span><span class="sc">:</span>cap_t)<span class="sc">-</span>K,<span class="dv">0</span>)</span>
+<span id="cb8-20"><a href="discrete-time-models.html#cb8-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-21"><a href="discrete-time-models.html#cb8-21" aria-hidden="true" tabindex="-1"></a>}))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="figures/BS_call_price.png" alt="The pricing function of the European call option." width="75%" />
+<p class="caption">
+Figure 5.1: The pricing function of the European call option.
+</p>
+</div>
+<p>We follow an analog example as the one after proposition 2.24. Let <span class="math inline">\(K=90\)</span> and we see that
+<span class="math display">\[\begin{align*}
+&amp;\Pi_0[X]\\
+&amp;=\frac{1}{(1+0.04)^2}\sum_{k=0}^2\binom{2}{k}\cdot0.7^k\cdot0.3^{2-k}\cdot\Phi(100\cdot 1.1^k\cdot0.9^{2-k})\\
+&amp;=0.9245562\cdot\left(\underbrace{1\cdot 1\cdot0.09\cdot0}_{k=0}+\underbrace{2\cdot 0.7\cdot0.
+3\cdot 9}_{k=1}+\underbrace{1\cdot 0.49\cdot1\cdot31}_{k=2}\right)\\
+&amp;=0.9245562\cdot\left(0+3.78+15.19\right)\\
+&amp;=17.53883
+\end{align*}\]</span>
+Since we know that <span class="math inline">\(K\)</span> must meaningfully range in <span class="math inline">\([0,121]\)</span> we could try to calculate the price of the contingent claim at time <span class="math inline">\(t=0\)</span> for all integers in this interval. We see that the price range between <span class="math inline">\(S_0\)</span> and 0 as expected. One can also see that the price changes slope at the prices 99 and 121 as the function is linear in <span class="math inline">\(\Phi\)</span> and som realisations loose any effect on the price when the strike is higher than the outcome. <span class="math inline">\(\square\)</span></p>
+</details>
+<blockquote class="prop">
+<p><strong>Proposition 2.26. (Bjork)</strong> <em>The condition <span class="math inline">\(d&lt;(1+R)&lt;u\)</span> is necessary and sufficient condition for absence of arbitrage.</em></p>
+</blockquote>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="generelised-one-period-model" class="section level3 hasAnchor" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Generelised one-period model<a href="discrete-time-models.html#generelised-one-period-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the previous we had the simpel model where we only had one stochastic asset <span class="math inline">\(S\)</span> and only one stochastic variable <span class="math inline">\(Z\)</span> determining the future stock price. Now we will generelise this model by introducing <span class="math inline">\(N\)</span> assets and introducing som stochastic behaviour to the system.</p>
+<div id="model-specification" class="section level4 hasAnchor" number="5.1.3.1">
+<h4><span class="header-section-number">5.1.3.1</span> Model specification<a href="discrete-time-models.html#model-specification" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We consider the market consisting of a collection of stochastic prices assets <span class="math inline">\(i=1,...,N\)</span> with <span class="math inline">\(N\)</span>-dimensional price process.</p>
+<p><span class="math display">\[
+S_t=\begin{bmatrix} S_t^1\\
+\vdots\\
+S_t^N\end{bmatrix}
+\]</span></p>
+<p>We now assume that <span class="math inline">\(S_t\)</span> is defined on a background space with finite sample space <span class="math inline">\(\Omega = \{\omega_1,...,\omega_M\}\)</span> with associated probabilities <span class="math inline">\(p_j=P(\omega_j)\)</span>, <span class="math inline">\(j=1,...,M\)</span>. We can then for eact time <span class="math inline">\(t=1,...,T\)</span> define the <span class="math inline">\(N\times M\)</span> matrix <span class="math inline">\(D_t\)</span> as such</p>
+<p><span class="math display">\[
+D_t=\begin{bmatrix} S_t^1(\omega_1)&amp;\cdots &amp;S_t^1(\omega_M)\\
+\vdots &amp;\ddots &amp; \vdots\\
+S_t^N(\omega_1) &amp;\cdots&amp;S_t^M(\omega_M)\end{bmatrix}.
+\]</span></p>
+<p>We will assume that <span class="math inline">\(S_0^1&gt;0\)</span> and <span class="math inline">\(S_1^1(\omega_j)&gt;0\)</span>, <span class="math inline">\(j=1,...,M\)</span>.</p>
+</div>
+<div id="absence-of-arbitrage" class="section level4 hasAnchor" number="5.1.3.2">
+<h4><span class="header-section-number">5.1.3.2</span> Absence of Arbitrage<a href="discrete-time-models.html#absence-of-arbitrage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We now define a <strong>portfolio</strong> as an <span class="math inline">\(N\)</span>-dimensional row vector</p>
+<p><span class="math display">\[
+h=\begin{bmatrix} h^1, \dots,h^N\end{bmatrix}
+\]</span></p>
+<p>representing the amount of assets held at time <span class="math inline">\(t=0\)</span> and held until <span class="math inline">\(t=1\)</span>. The <strong>value process</strong> is then</p>
+<p><span class="math display">\[
+V^h_t=h\cdot S_t=\sum_{i=1}^N h^iS_t^i,\ t=0,1.\tag{3.1}
+\]</span></p>
+<p>For a given <span class="math inline">\(\omega_j\in\Omega\)</span> we have the realisation</p>
+<p><span class="math display">\[
+V_t^h=hS_t(\omega_j)=hd_j=(hD)_j.
+\]</span></p>
+<blockquote class="def">
+<p><strong>Definition 3.1. (Bjork)</strong> <em>The portfolio <span class="math inline">\(h\)</span> is an <strong>arbitrage portfolio</strong> fil it satisfies the conditions: <span class="math inline">\(V_0^h=0\)</span>, <span class="math inline">\(P(V_1^h\ge 0)=1\)</span> and <span class="math inline">\(P(V_1^h&gt;0)&gt;0\)</span>.</em></p>
+</blockquote>
+<blockquote class="lem">
+<p><strong>Lemma 3.2. (Bjork)</strong> <em><strong>(Farkas’ Lemma)</strong> Suppose that <span class="math inline">\(d_0,d_1,...,d_M\)</span> are column vectors in <span class="math inline">\(\mathbb{R}^N\)</span>. Then exactly one of the following problems possesses a solution.</em></p>
+<ul>
+<li><strong>Problem 1</strong>: <em>There exist <span class="math inline">\(\lambda_1,...,\lambda_M\ge0\)</span> such that <span class="math inline">\(d_0=\sum_{j=1}^M\lambda_jd_j\)</span>.</em></li>
+<li><strong>Problem 2</strong>: <em>There exist <span class="math inline">\(h\in\mathbb{R}^N\)</span> such that <span class="math inline">\(h^\top d_0&lt;0\)</span> and <span class="math inline">\(h^\top d_j\ge 0\)</span> for <span class="math inline">\(j=1,...,M\)</span>.</em></li>
+</ul>
+</blockquote>
+<p>We now investegate this system for any possible arbitrage portfolios. However first we acknowledge that there exist a nominal price system <span class="math inline">\(S_t\)</span> and a normalised price system <span class="math inline">\(Z_t\)</span>. The latter we define as the nominel pricess under the numeraire <span class="math inline">\(S_t^1\)</span> that is</p>
+<p><span class="math display">\[
+Z_t=\begin{bmatrix} S_t^1/S_t^1\\
+S_t^2/S_t^1\\
+\vdots\\
+S_t^N/S_t^1\end{bmatrix}=\begin{bmatrix} 1\\
+S_t^2/S_t^1\\
+\vdots\\
+S_t^N/S_t^1\end{bmatrix}.
+\]</span></p>
+<p>The reason for introducing the normalized price system is that we can without much effort translate results in this system to the nominal system and the normalised system is easier to analize. For this, however, we need af few results.</p>
+<blockquote class="lem">
+<p><strong>Lemma 3.3. (Bjork)</strong> <em>With notation as above, the following hold.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>The <span class="math inline">\(Z_t\)</span> value process i related to the <span class="math inline">\(S_t\)</span> value process by</em>
+<span class="math display">\[
+  V_t^{h,Z}=hZ_t=\frac{1}{S_t^1}V_t^h.
+  \]</span></li>
+<li><em>A portfolio is an arbitrage in the <span class="math inline">\(S_t\)</span> system if and only if there is an arbitrage in the <span class="math inline">\(Z_t\)</span> system.</em></li>
+<li><em>In the <span class="math inline">\(Z_t\)</span> price system, the numeraie asset <span class="math inline">\(Z^1\)</span> has unit constant prices i.e. <span class="math inline">\(Z_t^1=1\)</span> for all <span class="math inline">\(t\ge 0\)</span>.</em></li>
+</ol>
+</blockquote>
+<p>One of the reason that the normalised system is attractable is that the numeraire asset is constant i.e. risk free in the normalised system. Let us formulate our first main result.</p>
+<blockquote class="prop">
+<p><strong>Proposition 3.4. (Bjork)</strong> <em>The market is arbitrage free if and only if there exists strictly positive real numbers <span class="math inline">\(q_1,...,q_M\ge 0\)</span> with <span class="math inline">\(q_1+\cdots + q_M=1\)</span> (eq. 3.2) (probability vector) such that the following vector equality holds</em></p>
+<p><span class="math display">\[
+\begin{bmatrix} Z_0^1\\
+\vdots\\
+Z_N^1\end{bmatrix}=\begin{bmatrix} Z_1^1(\omega_1)\\
+\vdots\\
+Z_1^N(\omega_1)\end{bmatrix}q_1+\cdots +\begin{bmatrix} Z_1^1(\omega_M)\\
+\vdots\\
+Z_1^N(\omega_M)\end{bmatrix}q_M.\tag{3.3}
+\]</span></p>
+</blockquote>
+</div>
+<div id="martingale-measures" class="section level4 hasAnchor" number="5.1.3.3">
+<h4><span class="header-section-number">5.1.3.3</span> Martingale Measures<a href="discrete-time-models.html#martingale-measures" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<blockquote class="def">
+<p><strong>Definition 3.5. (Bjork)</strong> <em>Given the objective probability measure <span class="math inline">\(P\)</span> on <span class="math inline">\((\Omega,\mathcal{F},P)\)</span>, we say that another probability measure <span class="math inline">\(Q\)</span> defined on <span class="math inline">\(\Omega\)</span> is <strong>equivalent</strong> to <span class="math inline">\(P\)</span> if</em></p>
+<p><span class="math display">\[
+\forall A\in\mathcal{F}:P(A)=0\iff Q(A)=0,
+\]</span></p>
+<p><em>or equivalently</em></p>
+<p><span class="math display">\[
+\forall A\in\mathcal{F}:P(A)=1\iff Q(A)=1.
+\]</span></p>
+</blockquote>
+<blockquote class="def">
+<p><strong>Definition 3.7. (Bjork)</strong> <em>Consider the market model above and set <span class="math inline">\(S^1\)</span> as the numeraire asset. We say that a probability measure <span class="math inline">\(Q\)</span> defined on <span class="math inline">\(\Omega\)</span> is a <strong>martingale measure</strong> if it satisfies the following conditions:</em></p>
+<ol style="list-style-type: decimal">
+<li><em><span class="math inline">\(Q\)</span> is equivalent to <span class="math inline">\(P\)</span>, i.e. <span class="math inline">\(Q\sim P\)</span>.</em></li>
+<li><em>For every <span class="math inline">\(i=1,...,N\)</span>, the normalized asset price process</em>
+<span class="math display">\[
+  Z_t^i=\frac{S_t^i}{S_t^1},
+  \]</span>
+<em>is martingale under the measure <span class="math inline">\(Q\)</span>.</em></li>
+</ol>
+</blockquote>
+<blockquote class="thm">
+<p><strong>Theorem 3.8. (Bjork)</strong> <strong>(First Fundamental Theorem)</strong> <em>Given a fixed numeraire, ther market is free of arbitrage possibilities if and only if there exists a martingale measure <span class="math inline">\(Q\)</span>.</em></p>
+</blockquote>
+<p>By assuming that the numeraire asset is risk free (i.e. does not depend on <span class="math inline">\(\omega\)</span>) then by scaling we can derive the short interest rate as</p>
+<p><span class="math display">\[
+1+R=\frac{S_1^1}{S_0^1}.
+\]</span></p>
+<p>With this in mind we can formulate theorem 3.8 in its more widely used form.</p>
+<blockquote class="thm">
+<p><strong>Theorem 3.9. (Bjork)</strong> <strong>(First Fundamental Theorem)</strong> <em>Assume that there exist a risk free asset, and denote the corresponding risk free interest rate by <span class="math inline">\(R\)</span>. Then the market is arbitrage free if and only if there exist a measure <span class="math inline">\(Q\sim P\)</span> such that</em></p>
+<p><span class="math display">\[
+S_0^i=\frac{1}{1+R}E^Q[S_1^i],\hspace{20pt}\text{for all}\ i=1,...,N.\tag{3.9}
+\]</span></p>
+</blockquote>
+</div>
+<div id="martingale-pricing" class="section level4 hasAnchor" number="5.1.3.4">
+<h4><span class="header-section-number">5.1.3.4</span> Martingale Pricing<a href="discrete-time-models.html#martingale-pricing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Moving forward we will assume that there exist a risk free asset and we will denote it by <span class="math inline">\(B_t\)</span> (<span class="math inline">\(B_t=S^1_t/S^1_0\)</span>).</p>
+<blockquote class="def">
+<p><strong>Definition 3.10. (Bjork)</strong> <em>A <strong>contingent claim</strong> is any random variable <span class="math inline">\(X\)</span>, defined on the sample space <span class="math inline">\(\Omega\)</span>.</em></p>
+</blockquote>
+<p>To ensure no arbitrage in the extended market containing the <span class="math inline">\(N\)</span> assets and the contingent claim we can apply the first fundamental pricing theorem on the extended market.</p>
+<blockquote class="prop">
+<p><strong>Proposition 3.11. (Bjork)</strong> <em>Consider a given claim <span class="math inline">\(X\)</span>. In order to avoid arbitrage, <span class="math inline">\(X\)</span> must then be priced according to the formula</em></p>
+<p><span class="math display">\[
+\Pi_0[X]=\frac{1}{1+R}E^Q[X],\tag{3.10}
+\]</span></p>
+<p><em>where <span class="math inline">\(Q\)</span> is a martingale measure for the underlying market <span class="math inline">\((\Pi,S^1,...,S^N)\)</span>.</em></p>
+</blockquote>
+</div>
+<div id="completeness" class="section level4 hasAnchor" number="5.1.3.5">
+<h4><span class="header-section-number">5.1.3.5</span> Completeness<a href="discrete-time-models.html#completeness" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Given that a market is arbitrage-free we may run into a uniqueness issue when determining the price of a contingent claim. If a martingale measure exist we will very much like it to be unique as this will ensure that the price from the risk neutral valuation formula is unique. To this we need the market to be complete.</p>
+<blockquote class="def">
+<p><strong>Definition 3.12. (Bjork)</strong> <em>Consider a contingent claim <span class="math inline">\(X\)</span>. If there exists a portfolio <span class="math inline">\(h\)</span>, based on the underlying assets, such that</em></p>
+<p><span class="math display">\[
+V_1^h=X,\ \text{with probability 1}\tag{3.11}
+\]</span></p>
+<p><em>i.e.</em></p>
+<p><span class="math display">\[
+V_1^h(\omega_j)=X(\omega_j),\ j=1,...,M,\tag{3.12}
+\]</span></p>
+<p><em>then we say that <span class="math inline">\(X\)</span> is <strong>replicated</strong>, or <strong>hedged</strong> by <span class="math inline">\(h\)</span>. Such a portfolio <span class="math inline">\(h\)</span> is called a replicating, or hedging portfolio. If every contingent claim can be replicated, we say that the market is <strong>complete</strong>.</em></p>
+</blockquote>
+<p>We can now formulate a proposition on when the market is complete in terms of the matrix <span class="math inline">\(D\)</span>.</p>
+<blockquote class="prop">
+<p><strong>Proposition 3.13. (Bjork)</strong> <em>The market is complete if and only if the rows of the matrix <span class="math inline">\(D\)</span> span <span class="math inline">\(\mathbb{R}^M\)</span>, i.e. if and only if <span class="math inline">\(D\)</span> has rank <span class="math inline">\(M\)</span>.</em></p>
+</blockquote>
+<p>Now we formulate the second fundamental pricing theorem in terms of the martingale measure <span class="math inline">\(Q\)</span>.</p>
+<blockquote class="prop">
+<p><strong>Proposition 3.14. (Bjork)</strong> <strong>(Second Fundamental Theorem)</strong> <em>Assume that the model is arbitrage free i.e. <span class="math inline">\(Q\)</span> exist. Then the market is unique if and only if the martingale measure is unique.</em></p>
+</blockquote>
+</div>
+<div id="stochastic-discount-factors" class="section level4 hasAnchor" number="5.1.3.6">
+<h4><span class="header-section-number">5.1.3.6</span> Stochastic Discount Factors<a href="discrete-time-models.html#stochastic-discount-factors" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<blockquote class="def">
+<p><strong>Definition 3.16. (Bjork)</strong> <em>The random variable <span class="math inline">\(L\)</span> on <span class="math inline">\(\Omega\)</span> is defined by</em></p>
+<p><span class="math display">\[
+L(\omega_i)=\frac{q_i}{p_i},\hspace{20pt} i=1,...,M.
+\]</span></p>
+</blockquote>
+<blockquote class="def">
+<p><strong>Definition 3.17. (Bjork)</strong> <em>Assume the absence of arbitrage, and fix a martingale measure <span class="math inline">\(Q\)</span>. With notation as above, the <strong>stochastic discount factor</strong> (or “state price deflator”) is the random variable <span class="math inline">\(\Lambda\)</span> on <span class="math inline">\(\Omega\)</span> by</em></p>
+<p><span class="math display">\[
+\mathbf{M}(\omega)=\frac{1}{1+R}\cdot L(\omega).\tag{3.19}
+\]</span></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Proposition 3.18. (Bjork)</strong> <em>The arbitrage free price of any claim <span class="math inline">\(X\)</span> is given by the formula</em></p>
+<p><span class="math display">\[
+\Pi_0[X]=E^P[\mathbf{M}\cdot X]\tag{3.20}
+\]</span></p>
+<p><em>where <span class="math inline">\(\mathbf{M}\)</span> is a stochastic discount factor.</em></p>
+</blockquote>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="continuous-time-finance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="self-financing-portfolios.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["theory.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

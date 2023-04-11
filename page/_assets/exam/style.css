@@ -1,0 +1,275 @@
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p code {
+  white-space: inherit;
+}
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+pre code {
+  white-space: inherit;
+}
+
+
+.def {
+  padding: .5em .5em .5em 1em;
+  background: aliceblue;
+  border-left: 0.5em solid lightslategray;
+  font-size: 18px;
+}
+
+.prop {
+  padding: .75em .5em .75em 1em;
+  background: Seashell;
+  border-left: 0.5em solid IndianRed;
+  font-size: 18px;
+}
+
+
+.thm {
+  padding: .75em .5em .75em 1em;
+  background: MistyRose;
+  border-left: 0.5em solid Maroon;
+  font-size: 18px;
+}
+
+.lem {
+  padding: .75em .5em .75em 1em;
+  background: LavenderBlush;
+  border-left: 0.5em solid Maroon;
+  font-size: 18px;
+}
+
+
+/* for nested paragraphs in block quotes */
+blockquote p {
+  display: inline;
+}
+
+p {
+  font-size: 18px;
+}
+
+@font-face {
+  font-family: "Computer Modern";
+  src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+}
+.math {
+  font-size: 16px;
+  font-family: "Computer Modern", sans-serif;
+  font-style: italic;
+}
+
+.math.inline {
+  height: 100%;
+  width:auto;
+}
+.math.center {
+  height: auto;
+  display: table;
+  margin: 0 auto;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+h5 {
+  font-weight: bold;
+}
+
+.sourceCode .r pre {
+  border-radius: 5px;
+  border: 2px solid gray;
+}
+
+details {
+  background: floralwhite;
+  border-left: 0.5em solid burlywood;
+  padding: .5em .5em .5em 1em;
+  margin-bottom: 1em;
+}
+details > summary {
+  cursor: pointer;
+}
+
+.main-container {
+  padding-bottom: 150px; /*footer height*/
+}
+
+ul {
+  font-size: 18px;
+}
+
+ol {
+  font-size: 18px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+iframe {
+  width: 100%;
+  height: 800px;
+}
+.dark-mode {
+  background-color: rgb(40,40,40);
+  color: white;
+}
+.dark-mode blockquote {
+  color: black;
+}
+.dark-mode .def {
+  color: black;
+  background: LightSteelBlue;
+}
+.dark-mode .prop {
+  color: black;
+  background:#ECD9D9;
+}
+.dark-mode .lem {
+  color: black;
+  background:#ECD9D9;
+}
+.dark-mode .thm {
+  color: black;
+  background: #CBB2B1;
+}
+.dark-mode summary {
+  color: black;
+  background: #DAD6CB;
+}
+.dark-mode details {
+  color: black;
+  background: #DAD6CB;
+}
+.dark-mode details {
+  color: black;
+  background: #DAD6CB;
+}
+.dark-mode #TOC {
+  color: black;
+}
+#TOC {
+  z-index:9999;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+blockquote {
+  font-style: italic;
+  color: black;
+  padding: .5em .5em .5em 1em;
+}
+
+.dark-mode .book-body.fixed {
+  background-color: rgb(40,40,40);
+  color: white;
+}
+
+.dark-mode .book .book-body .page-wrapper .page-inner section.normal {
+  background-color: rgb(40,40,40);
+  color: white;
+}
+.dark-mode .book-summary {
+  background-color: rgb(34,34,34);
+  color: white;
+}
+
+.dark-mode .book.with-summary .book-header.fixed {
+  background-color: rgb(34,34,34);
+  color: white;
+}
+
+
+.dark-mode .book .book-summary ul.summary li a, .book .book-summary ul.summary li span {
+  color: white;
+}
+
+.dark-mode .book .book-summary ul.summary li a:hover, .book .book-summary ul.summary li.active>a {
+  color: #008cff;
+}
+.dark-mode h1 {
+  color: #ccc;
+}
+
+.dark-mode .book .book-body .page-wrapper .page-inner section.normal table tr {
+  background-color: rgb(40,40,40);
+}
+.dark-mode .book .book-body .page-wrapper .page-inner section.normal table tr:nth-child(2n) {
+  background-color: rgb(34,34,34);
+}

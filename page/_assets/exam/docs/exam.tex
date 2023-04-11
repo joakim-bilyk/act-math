@@ -1,0 +1,4012 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{amsmath,amssymb,amsfonts,mathabx}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  %\usepackage{unicode-math}
+  %\defaultfontfeatures{Scale=MatchLowercase}
+  %\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+%\usepackage{fontspec}
+%\setmainfont{Latin Modern Roman}
+%\setmathrm{Cambria Math}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+% INSERT PACKAGES
+\usepackage{imakeidx}
+\makeindex
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{wrapfig}
+\usepackage{graphics}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\pagenumbering{gobble}
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\addtocontents{title}{\protect\thispagestyle{empty}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Exam preparation},
+  pdfauthor={Joakim Bilyk},
+  pdfkeywords={probability theory, insurance mathematics, life insurance,
+non-life insurance, stochastic differential equations.},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Exam preparation}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Msc in Actuarial Mathematics}
+\author{Joakim Bilyk}
+\date{April 11, 2023}
+
+%\usepackage{setspace}\onehalfspacing
+%\AtBeginDocument{%
+ % \addtolength\abovedisplayskip{0\baselineskip}%
+ % \addtolength\belowdisplayskip{0\baselineskip}%
+ % \addtolength\abovedisplayshortskip{0\baselineskip}% play with -0.75
+ % \addtolength\belowdisplayshortskip{0\baselineskip}%play with -0.5
+%}
+
+\begin{document}
+\allowdisplaybreaks
+\setlength{\abovedisplayskip}{10pt}
+\setlength{\belowdisplayskip}{10pt}
+\setlength{\abovedisplayshortskip}{-10pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+%\maketitle
+
+
+{
+%title
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE University of Copenhagen}\\[4cm] % Name of your university/college
+\textsc{\Large Msc in Actuarial Mathematics}\\[0.5cm] % Major heading such as course name
+%\textsc{\large Assignment 1}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries \thetitle}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+\textsc{\theauthor} \\
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Date:} \\
+\textsc{\thedate} \\
+\end{flushright}
+\end{minipage}\\[2cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+%{\large \thedate}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics[width = 0.45\textwidth]{logo_ku.png}% Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+\end{titlepage}
+
+\thispagestyle{empty}
+\begin{center}
+\textbf{\large Abstract}
+\end{center}
+
+This document contain exam preparation in probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
+
+Keywords: \emph{probability theory, insurance mathematics, life insurance,
+non-life insurance, stochastic differential equations.}
+\vfill
+\pagebreak
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\fontsize{10}{12} \selectfont\nouppercase{\rightmark\hfill\leftmark}}
+\fancyhead[RO]{\fontsize{10}{12} \selectfont\nouppercase{\leftmark\hfill\rightmark}}
+\fancyfoot[LE,RO]{\hfill\thepage\hfill}
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+\hypertarget{abbreviations}{%
+\section{Abbreviations}\label{abbreviations}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3235}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1471}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5294}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+Chapter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Abbreviation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Source
+\end{minipage} \\
+\midrule()
+\endhead
+Basic Life Insurance Mathematics & & \\
+Stochastic Processes in Life Insurance Mathematics & & \\
+Life Insurance Mathematics & Asmussen & \emph{Risk and Insurance}: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). \\
+& Bladt & Notes from lectures in Liv2. \\
+Topics in Life Insurance Mathematics & Asmussen & \emph{Risk and Insurance}: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). \\
+Continuous Time Finance & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
+Basic Non-Life Insurance Mathematics & & \\
+Stochastic Processes in Life Insurance Mathematics & & \\
+Topics in Non-Life Insurance Mathematics & & \\
+Probabilistic Machine Learning & \emph{None} & Slides from lectures. \\
+Quantative Risk Management & & \\
+Measure Theory & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
+& Protter & \emph{Probability Essentials (2. edition)} by Jean Jacod and Philip Protter (2004). \\
+Random Variables & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
+& Hansen & \emph{Stochastic Processes} (2. edition) by Ernst Hansen (2021). \\
+Discrete Time Stochastic Processes & Hansen & \emph{Stochastic Processes} (2. edition) by Ernst Hansen (2021). \\
+Continuous Time Stochastic Processes & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
+Stochastic Calculus & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
+& Bladt & Notes from lectures in Liv2. \\
+Linear Algebra & Wiki & Wikipedia \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{to-do-work}{%
+\section{To-do work}\label{to-do-work}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule()
+Chapter & Note & Progress \\
+\midrule()
+\endhead
+ML & Exercises week 1 & \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{continuous-time-finance}{%
+\chapter{Continuous Time Finance}\label{continuous-time-finance}}
+
+\hypertarget{exam-201718}{%
+\section{Exam 2017/18}\label{exam-201718}}
+
+\hypertarget{problem-1}{%
+\subsection{Problem 1}\label{problem-1}}
+
+Let \(W_t\) denote a Brownian motion and let
+
+\[
+\mathcal{F}_t=\mathcal{F}_t^W=\sigma(\{W_s\ \vert\ 0\le s\le t\}).
+\]
+
+Let \(T>0\) be a given and fixed time.
+
+Let \(f(t)\) be a bounded deterministic continuous function. Define the two processes
+
+\[
+\begin{cases}
+X_t=\int_0^tf(u)\ dW_u,\\
+M^{(\lambda)}_t=\exp\left\{\lambda X_t-\frac{\lambda^2}{2}\int_0^t f^2(u)\ du\right\},
+\end{cases}
+\]
+
+where \(\lambda\in\mathbb{R}\) is a constant.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Show that \(M^{(\lambda)}\) is a martingale with \(E[M_t^{(\lambda)}]=1\).
+\end{enumerate}
+
+Let \(0<s<t\) and \(\lambda_1,\lambda_2\in \mathbb{R}\) be given and fixed.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that
+    \begin{align*}
+    M^{(\lambda_1)}_s&=E\left[\left.\frac{M^{(\lambda_1)}_sM^{(\lambda_2)}_t}{M^{(\lambda_2)}_s} \ \right\vert\ \mathcal{F}_s\right]\\
+    &=E\left[\left.\exp\left\{\lambda_1X_s+\lambda_2(X_t-X_s)-\frac{1}{2}\lambda_1^2\int_0^sf^2(u)\ du- \frac{1}{2}\lambda_2^2\int_s^tf^2(u)\ du\right\} \ \right\vert\ \mathcal{F}_s\right]
+    \end{align*}
+  \item
+    Show that \(X_s\) and \(X_t-X_s\) are normally distributed and independent.
+  \end{enumerate}
+\item
+  Compute the mean value of \(M^{(\lambda)}_T\log(M^{(\lambda)}_T)\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+First, we see that since \(X_t\) is on integral form we know that
+
+\[
+\begin{cases}
+dX_t=f(t)\ dW_t\\
+X_0=0.
+\end{cases}
+\]
+
+Hence we may represent \(M\) as \(M^{(\lambda)}_t=g(t,X_t,Y_t)\) given by
+
+\[
+g(t,x,y)=\exp\left\{\lambda x-\frac{\lambda^2}{2}y \right\},
+\]
+
+where \(Y_t=\int_0^t f^2(u)\ du\) with dynamics
+
+\[
+\begin{cases}
+dY_t=f^2(t)\ dt\\
+Y_0=0.
+\end{cases}
+\]
+
+Hence by the multidimensional Ito's formula we have the dynamics of \(M\) given by
+\begin{align*}
+dM^{(\lambda)}_t&=g_t\ dt+g_x\ dX_t+g_y\ dY_t+\frac{1}{2}g_{yy}\ (dY_t)^2+\frac{1}{2}g_{xx}\ (dX_t)^2 +f_{xy}(dX_t)(dY_t)\\
+&=0+\lambda g\ dX_t-\frac{\lambda^2}{2}g\ dY_t+0+\frac{1}{2}\lambda ^2g\ (dX_t)^2+0\\
+&=\lambda M_t^{(\lambda)} f(t)\ dW_t-\frac{1}{2}\lambda^2M_t^{(\lambda)} f^2(t)\ dt+\frac{1}{2}\lambda M_t^{(\lambda)} f^2(t)\ dt\\
+&=\lambda f(t)M_t^{(\lambda)}\ dW_t,
+\end{align*}
+And so we see that \(M\) is a martingale as it only has dynamics wrt. the Brownian motion \(W\) (assuming \(\lambda f_tM_t^{(\lambda)}\in\mathcal{L}^2\)). Furthermore we have that
+
+\[
+M_0^{(\lambda)}=g(0,X_0,Y_0)=\exp\left\{\lambda X_0-\frac{1}{2}\lambda ^2 Y_0\right\}=e^0=1
+\]
+
+and so we have \(E[M_t^{(\lambda)}]=M_0^{(\lambda)}=1\) as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{``(i)''} We have from the previous exercise
+\begin{align*}
+&\frac{M^{(\lambda_1)}_sM^{(\lambda_2)}_t}{M^{(\lambda_2)}_s}\\
+&=\exp\left\{\lambda_1 X_s-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du\right\}\exp\left\{\lambda_2 X_t-\frac{1}{2}\lambda_2^2\int_0^t f^2(u)\ du\right\}\exp\left\{\frac{1}{2}\lambda_2^2\int_0^s f^2(u)\ du-\lambda_2 X_s\right\}\\
+&=\exp\left\{\lambda_1 X_s-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du+\lambda_2 X_t-\frac{1}{2}\lambda_2^2\int_0^t f^2(u)\ du+\frac{1}{2}\lambda_2^2\int_0^s f^2(u)\ du-\lambda_2 X_s\right\}\\
+&=\exp\left\{\lambda_1 X_s+\lambda_2 (X_t-X_s)-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du-\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du\right\}
+\end{align*}
+and so the conclusion follows. \(\square\)
+
+\emph{``(ii)''} We have that from lemma 4.18 that
+
+\[
+X_s=\int_0^sf(u)\ dW_u\sim \mathcal{N}\left(0,\int_0^sf^2(u)\ dW_u\right)
+\]
+
+furthermore we have that
+
+\[
+X_t-X_s=\int_s^tf(u)\ dW_u\sim \mathcal{N}\left(0,\int_s^tf^2(u)\ dW_u\right).
+\]
+
+In regard to the independence claim we could check identity below
+
+\[
+E[e^{t_1X}e^{t_2 Y}]=E[e^{t_1X}]E[e^{t_2Y}]
+\]
+
+where \(X,Y\) are independent random variables. The above identity holds if and only if \(X\) and \(Y\) are independent. From above we have that
+
+\[
+M_s^{(\lambda_1)}=E[e^{\lambda_1X_s}e^{\lambda_2(X_t-X_s)}\ \vert\ \mathcal{F}_s]e^{-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du-\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du}
+\]
+
+and so taking expectation we have
+
+\[
+1=E[e^{\lambda_1X_s}e^{\lambda_2(X_t-X_s)}]e^{-\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du-\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du}
+\]
+Which the gives
+
+\[
+E[e^{\lambda_1X_s}e^{\lambda_2(X_t-X_s)}]=e^{\frac{1}{2}\lambda_1^2\int_0^s f^2(u)\ du+\frac{1}{2}\lambda_2^2\int_s^t f^2(u)\ du}=E[e^{\lambda_1X_s}]E[e^{\lambda_2(X_t-X_s)}]
+\]
+
+and so the conclusion is that \(X_s\) and \(X_t-X_s\) are independent. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We recall the definition of \(M_t^{(\lambda)}\) and observe that
+
+\[
+\log M_t^{(\lambda)}=\lambda X_t-\frac{1}{2}\lambda ^2\int_0^t f^2(u)\ du.
+\]
+
+Furthermore we have the dynamics of \(M^{(\lambda)}\) given by the differential form
+
+\[
+dM_t^{(\lambda)}=\lambda f(t)M_t^{(\lambda)}\ dW_t.
+\]
+
+with \(M_0^{(\lambda)}=1\). Since we know that \(M_t^{(\lambda)}\) is a martingale we have
+
+\[
+E^P[M_T^{(\lambda)}]=E^P[M_0^{(\lambda)}]=1,
+\]
+
+and so we may define a new probability measure as
+
+\[
+d\tilde{P}=M_T^{(\lambda)}\ dP
+\]
+
+on \(\mathcal{F}_T\). We then have a new Brownian motion \(\tilde{W}\) such that
+
+\[
+dW_t=\lambda f(t)\ dt + d\tilde{W}_t.
+\]
+
+We can then see
+\begin{align*}
+E^P[M_T^{(\lambda)}\log M_T^{(\lambda)}]&=\int M_T^{(\lambda)}\log M_T^{(\lambda)}\ dP=\int M_T^{(\lambda)}\log M_T^{(\lambda)} \frac{1}{M_T^{(\lambda)}}\ d\tilde{P}\\
+&=\int \log M_T^{(\lambda)}\ d\tilde{P}=E^{\tilde{P}}[\log M_T^{(\lambda)}].
+\end{align*}
+Then we can evaluate the mean value by seeing the \(X\) has representation wrt. \(\tilde{P}\) by
+
+\[
+X_t=\int_0^tf(u)\ (\lambda f(u)\ du + d\tilde{W}_u)=\lambda\int_0^tf^2(u)\ du+\int_0^tf(u)\ d\tilde{W}_u.
+\]
+
+Giving that
+\begin{align*}
+E^P[M_T^{(\lambda)}\log M_T^{(\lambda)}]&=E^{\tilde{P}}[\log M_T^{(\lambda)}]\\
+&=E^{\tilde{P}}\left[ \lambda X_T-\frac{1}{2}\lambda ^2\int_0^T f^2(u)\ du \right]\\
+&=E^{\tilde{P}}\left[ \lambda^2\int_0^Tf^2(u)\ du+\lambda\int_0^Tf(u)\ d\tilde{W}_u-\frac{1}{2}\lambda ^2\int_0^T f^2(u)\ du \right]\\
+&=\lambda E^{\tilde{P}}\left[\frac{1}{2} \lambda\int_0^Tf^2(u)\ du+\int_0^Tf(u)\ d\tilde{W}_u \right]\\
+&=\frac{1}{2} \lambda^2\int_0^Tf^2(u)\ du+\lambda E^{\tilde{P}}\left[\int_0^Tf(u)\ d\tilde{W}_u \right]\\
+&=\frac{1}{2} \lambda^2\int_0^Tf^2(u)\ du
+\end{align*}
+Since
+
+\[
+\tilde{X}_T=\int_0^Tf(u)\ d\tilde{W}_u,
+\]
+
+is a \(\tilde{P}\)-martingale. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-2}{%
+\subsection{Problem 2}\label{problem-2}}
+
+Consider a standard Black-Scholes model, that is, a model consisting of a bank account \(B_t\) with \(P\)-dynamics given by
+
+\[
+dB_t=rB_t\ dt,\ B_0=1
+\]
+
+and a stock \(S_t\) with \(P\)-dynamics given by
+
+\[
+dS_t=\alpha S_t\ dt+\sigma S_t\ d\overline{W}_t,\ S_0=s>0
+\]
+
+where \(r,\alpha\in\mathbb{R}\) and \(\sigma >0\) are constants and \(\overline{W}_t\) is a \(P\)-Brownian motion. Let \(T>0\) be a given and fixed date.
+
+Consider the derivative that at time \(T\) pays
+
+\[
+X=\max\left\{\min\left\{S_T,K_2\right\},K_1\right\},
+\]
+
+where \(0<K_1<K_2\) are constants.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Determine the arbitrage free price of derivative \(X\) at time \(t<T\).
+\end{enumerate}
+
+Consider a new derivative that at time \(T\) pays
+
+\[
+Y=(S^2_T-K^2)^+-(K^2-S^2_T)^+.
+\]
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine the arbitrage free price of derivative \(Y\) at time \(t<T\).
+  \item
+    Find a hedging portfolio for derivative \(Y\).
+  \end{enumerate}
+\end{enumerate}
+
+Let \(h(t)=(h_0(t),h_1(t))\) be a portfolio where
+
+\[
+h_0(t)=-e^{r(T-2t)+\sigma^2(T-t)}S^2(t)
+\]
+
+is the number of units in the bank account at time \(t\) and
+
+\[
+h_1(t)=2e^{(r+\sigma^2)(T-t)}S(t)
+\]
+
+is the number of shares in the stock at time \(t\). Let \(V^h(t)\) denote the associated value process.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Determine whether the portfolio \(h\) is self-financing or not.
+\item
+  Compute \(V^h(T)\).
+\end{enumerate}
+
+\textbf{Solution (a).}
+
+We see that the derivative is the bull spread given by the payout function
+
+\[
+X=
+\begin{cases}
+  K_2 & \text{if }S_T>K_2,\\
+  S_T & \text{if }K_1\le S_T\le K_2,\\
+  K_1 &\text{if }S_T< K_1.
+\end{cases}
+\]
+
+We know from exercise 10.3 that this can be replicated by holding \(K_1\) bonds, one call option with strike \(K_1\) and a short on a call with strike \(K_2\). The arbitrage free price of the derivative is then the value process of the mentioned portfolio i.e.
+
+\[
+\Pi_t[X]=K_1 e^{-r(T-t)}+c(K_1;t,T)-c(K_2;t,T),
+\]
+
+where \(c\) denotes the pricing function for a European call option (non-instructive parameters supressed). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We start by seeing that the derivative pays out
+
+\[
+Y=
+\begin{cases}
+  S_T^2-K^2 & \text{if }S_T^2\ge K^2,\\
+  -(K^2-S_T^2) &\text{if }S_T^2< K^2.
+\end{cases}
+\]
+
+hence the payout is \(Y=S_T^2-K^2=\Phi(S_T)\) where \(\Phi(s)=s^2-K^2\). That is \(Y\) is in fact a simple claim. We have from the risk neutral valueation formula 7.11 that
+\begin{align*}
+\Pi_t[Y]&=e^{-r(T-t)}E^Q_{t,s}[S_T^2-K^2]\\
+&=e^{-r(T-t)}E^Q_{t,s}[S_T^2]-e^{-r(T-t)}K^2.
+\end{align*}
+Recall that under the martingale measure \(Q\) we have that \(S_t\) is a GBM hence
+
+\[
+S_t=s\cdot \exp\left\{\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\sigma\left(W_T^Q-W_t^Q\right)\right\}
+\]
+
+then
+
+\[
+S_T^2=s^2\cdot \exp\left\{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)+2\sigma\left(W_T^Q-W_t^Q\right)\right\}.
+\]
+
+Inserting this into the risk neutral valuation formula we get
+\begin{align*}
+\Pi_t[Y]&=e^{-r(T-t)}E^Q_{t,s}[S_T^2]-e^{-r(T-t)}K^2\\
+&=e^{-r(T-t)}s^2e^{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)} E^Q\left[\exp\left\{2\sigma\left(W_T^Q-W_t^Q\right)\right\}\right]-e^{-r(T-t)}K^2\\
+&=e^{-r(T-t)}s^2e^{2\left(r-\frac{1}{2}\sigma^2\right)(T-t)}e^{\frac{1}{2}4\sigma^2(T-t)}-e^{-r(T-t)}K^2\\
+&=e^{-r(T-t)}\left(s^2e^{(2r-\sigma^2)(T-t)+\frac{1}{2}4\sigma^2(T-t)}-K^2\right)\\
+&=e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right).
+\end{align*}
+The arbitrage free price of the derivative is then given above. \(\square\)
+
+\emph{(ii)}: From theorem 8.5 we can determine a hedging portfolio with weightings
+\begin{align*}
+w_t^B&=\frac{\Pi_t-S_t\frac{\partial\Pi}{\partial s}}{\Pi_t}\\
+&=1-\frac{S_t2S_te^{-r(T-t)}e^{(2r+\sigma^2)(T-t)}}{e^{-r(T-t)}\left(S_t^2e^{(2r+\sigma^2)(T-t)}-K^2\right)}\\
+&=1-\frac{2S_t^2e^{(2r+\sigma^2)(T-t)}}{S_t^2e^{(2r+\sigma^2)(T-t)}-K^2}\\
+&=1-\frac{2}{1-K^2S_t^{-2}e^{(2r+\sigma^2)(t-T)}}\\
+w_t^S&=\frac{2}{1-K^2S_t^{-2}e^{(2r+\sigma^2)(t-T)}}.
+\end{align*}
+In absolute terms we will hold the portfolio
+\begin{align*}
+h_t^S&=2S_te^{-r(T-t)}e^{(2r+\sigma^2)(T-t)}\\
+h_t^B&=\frac{e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right)-S_th_t^S}{B_t}\\
+&=\frac{e^{-r(T-t)}\left(s^2e^{(2r+\sigma^2)(T-t)}-K^2\right)-S_th_t^S}{e^{rt}}\\
+&=e^{-rT}s^2e^{(2r+\sigma^2)(T-t)}-e^{-rT}K^2-e^{-rt}S_th_t^S.
+\end{align*}
+The portfolio above will hedge \(Y\) with probability one. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We assume no dividends and no consumption that is \(c_t=0\) and \(dD_t^i=0\) for \(i=0,1\). Then the portfolio is self-financing if and only if the value process has dynamics.
+
+\[
+h_0(t)\ dB_t+h_1(t)\ dS_t=0
+\]
+
+This is given in lemma 6.12. \textbf{THE SOLUTION HAS NOT BEEN FINISHED}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (d).}
+
+We compute \(V_T^h\) easily by inserting \(h_0\) and \(h_1\) below
+\begin{align*}
+V_T^h&=B_Th_0(T)+S_Th_1(T)\\
+&=B_T\left(-e^{r(T-2T)+\sigma^2(T-T)}S_T^2\right)+S_T\left(2e^{(r+\sigma^2)(T-T)}S_T\right)\\
+&=-S_T^2+2S_T^2=S_T^2.
+\end{align*}
+and so \(h\) hedge the payout \(\Phi(S_T)=S_T^2\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-3}{%
+\subsection{Problem 3}\label{problem-3}}
+
+Consider a two-dimensional model. The market model consist of three assets: A bank account \(B_t\) and two stocks \(S_1\) and \(S_2\). The \(P\)-dynamics of \(B_t\) is
+
+\[
+dB_t=rB_t\ dt,\ B_0=1,
+\]
+
+where \(r\in\mathbb{R}\) is a constant interest rate. The \(P\)-dynamics of \(S_1\) and \(S_2\) are given by
+\begin{align*}
+dS_1(t)&=\alpha_1S_1(t)\ dt+\sigma_1S_1(t)\ d\overline{W}_1(t),&S_1(0)=s_1>0,\\
+dS_2(t)&=\alpha_2S_2(t)\ dt+\sigma_2S_2(t)\ d\overline{W}_2(t),&S_2(0)=s_2>0,
+\end{align*}
+where \(\alpha_1,\alpha_2\in\mathbb{R}\) are constants. Moreover, \(\sigma_1>0\) is a constant and \(\sigma_2(t)=\sigma_0e^{-\gamma t}\) where \(\sigma_0>0\) and \(\gamma>0\) are constants and \(\overline{W}_1(t)\) and \(\overline{W}_2(t)\) are two independent \(P\)-Brownian motions. The filtration is the one generated by the two Brownian motions, that is, \(\mathcal{F}_t=\sigma(\overline{W}_1(s),\overline{W}_2(s)\ \vert\ 0\le s\le t)\). Let \(T>0\) be a given and fixed (expiry) date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Is the model arbitrage free?
+  \item
+    Is the model complete?
+  \end{enumerate}
+\end{enumerate}
+
+Consider the derivative that at time \(T\) pays \(X=S_1(T)S_2(T)\) and let \(F(t,s_1,s_2)\) be the pricing function of the derivative.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine the arbitrage free price of derivative \(X\) at time \(t=0\).
+  \item
+    Determine the equation satisfied by the pricing function \(F(t,s_1,s_2)\).
+  \end{enumerate}
+\end{enumerate}
+
+Consider a new derivative that at time \(T\) pays \(Y=\log(S_2(T))\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Determine the arbitrage free price of derivative \(Y\) at time \(t<T\).
+\end{enumerate}
+
+\textbf{Solution (a).}
+
+\emph{(i)}: We know that the model is arbitrage free if and only if there exist a martingale measure \(Q\). This is equivalent with finding a likelihood process \(L\) with Radon-Nikodym derivative \(\varphi\) given by the solution to the equation
+
+\[
+\sigma_t\varphi_t=r_t-\mu_t.
+\]
+
+We see that
+
+\[
+\sigma_t=
+\begin{bmatrix}
+\sigma_1 & 0\\
+0 & \sigma_0e^{-\gamma t}
+\end{bmatrix}\ \Rightarrow
+\sigma_t^{-1}=
+\begin{bmatrix}
+1/\sigma_1 & 0\\
+0 & e^{\gamma t}/\sigma_0
+\end{bmatrix}.
+\]
+
+Hence we trivially have \textbf{a solution} given by
+
+\[
+\varphi_t=\begin{bmatrix}
+1/\sigma_1 & 0\\
+0 & e^{\gamma t}/\sigma_0
+\end{bmatrix}\begin{bmatrix}
+r-\alpha_1\\
+r-\alpha_2
+\end{bmatrix}=\begin{bmatrix}
+\frac{r-\alpha_1}{\sigma_1}\\
+\frac{r-\alpha_2}{\sigma_0}e^{\gamma t}
+\end{bmatrix}.
+\]
+
+Proposition 14.1 gives now that if \(L\), given by
+
+\[
+dL_t=\varphi_t^\top L_t\ dW_t,\ L_0=1,
+\]
+
+is a martingale then the market is arbitrage free. This is true if the Novikov condition is satisfied. We have
+
+\[
+E^P\left[e^{\frac{1}{2}\int_0^T\Vert\varphi_t\Vert^2\ dt}\right]=e^{\frac{1}{2}\int_0^T\Vert\varphi_t\Vert^2\ dt}= e^{\frac{1}{2}\int_0^T(\frac{r-\alpha_1}{\sigma_1})^2+(\frac{r-\alpha_2}{\sigma_0}e^{\gamma t})^2\ dt}<\infty
+\]
+
+since of cause
+
+\[
+\int_0^T(\frac{r-\alpha_1}{\sigma_1})^2+(\frac{r-\alpha_2}{\sigma_0}e^{\gamma t})^2\ dt=T(\frac{r-\alpha_1}{\sigma_1})^2+(\frac{r-\alpha_2}{\sigma_0})^2\int_0^Te^{2\gamma t}\ dt<\infty
+\]
+
+for all \(T\ge 0\). Then the Novikov condition is satisfied and \(L\) is martingale with \(E[L_T]=1\). \(\square\)
+
+\emph{(ii)}: The model is complete if the martingale measure is unique. This is equivalent with \(Ker[\sigma_t]=\{0\}\) and since \(\sigma_t\) is invertible (diagonal) we have that the model is complete. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We may determine the price of the derivative using the risk neutral valueation formula
+
+\[
+\Pi_t[X]=E^Q\left[\left.e^{-\int_t^Tr(u)\ du}X\ \right\vert\ \mathcal{F}_t\right]
+\]
+
+Hence we have for \(t=0\) and \(S_1(0)=s_1\) and \(S_2(0)=s_2\) that
+
+\[
+\Pi_0[X]=E^Q\left[\left.e^{-\int_0^Tr(u)\ du}X\ \right\vert\ \mathcal{F}_0\right]=e^{-rT}E^Q\left[\left. S_1(T)S_2(T)\ \right\vert\ \mathcal{F}_0\right],
+\]
+
+Since we have that \(S_1\) and \(S_2\) have dynamics wrt. two independent Brownian motions we know that the price processes are independent. If we multiply by \(B(T)/B(T)\) we obtain two martingale processes under the measure \(Q\):
+\begin{align*}
+\Pi_0[X]&=e^{-rT}B(T)^2E^Q\left[\left. \frac{S_1(T)}{B(T)}\ \right\vert\ \mathcal{F}_0\right]E^Q\left[\left. \frac{S_2(T)}{B(T)}\ \right\vert\ \mathcal{F}_0\right]\\
+&=e^{-rT}e^{2rT}s_1(0)s_2(0)=e^{rT}s_1(0)s_2(0),
+\end{align*}
+and so the arbitrage free price is given above. \(\square\)
+
+\emph{(ii)}: We have from Bjork (14.31) that \(\Pi\) satisfies the PDE below
+
+\[
+\begin{cases}
+F_t+\sum_{i=1}^2rs_iF_{s_i}+\frac{1}{2}\text{tr}[\sigma_t^\top D(S)F_{ss}D(S)\sigma_t]-rF=0\\
+F(T,s_1,s_2)=\Phi(s_1,s_2)
+\end{cases}
+\]
+
+The PDE is in detail
+\begin{align*}
+&0+rS_1(t)S_2(t)+rS_2S_1+\frac{1}{2}\text{tr}
+\begin{bmatrix}
+S_1\sigma_1 & 0\\
+0 & S_2\sigma_0 e^{-\gamma t}
+\end{bmatrix}
+\begin{bmatrix}
+0 & 1\\
+1 & 0 
+\end{bmatrix}
+\begin{bmatrix}
+S_1\sigma_1 & 0\\
+0 & S_2\sigma_0 e^{-\gamma t}
+\end{bmatrix} -r\Pi_t\\
+&=2rS_1(t)S_2(t)+\frac{1}{2}\text{tr}
+\begin{bmatrix}
+S_1\sigma_1 & 0\\
+0 & S_2\sigma_0 e^{-\gamma t}
+\end{bmatrix}
+\begin{bmatrix}
+0 & S_2\sigma_0 e^{-\gamma t}\\
+S_1\sigma_1 & 0
+\end{bmatrix}\\
+&=2rS_1(t)S_2(t)+\frac{1}{2}\text{tr}
+\begin{bmatrix}
+0 & S_1S_2\sigma_0\sigma_1e^{-\gamma t}\\
+S_1S_2\sigma_0\sigma_1e^{-\gamma t} & 0
+\end{bmatrix}-r\Pi_t\\
+&=2rS_1(t)S_2(t)-r\Pi_t=0.
+\end{align*}
+or
+
+\[
+F(t,s_1,s_2)=2s_1s_2,\ F(T,s_1,s_2)=s_1s_2
+\]
+
+this ends the question. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We have the derivative \(Y=\log(S_2(T))\). By the risk neutral valuation formula we have that the arbitrage free price is given by
+
+\[
+\Pi_t[Y]=E^Q\left[\left.e^{-\int_t^Tr(u)\ du}Y\ \right\vert\ \mathcal{F}_t\right]=e^{-r(T-t)}E^Q\left[\left.\log(S_2(T))\ \right\vert\ \mathcal{F}_t\right].
+\]
+
+Under the measure \(Q\) the dynamics of \(S_2\) is that of a GBM hence
+
+\[
+d\log(S_2(t))=\left(r-\frac{1}{2}\sigma_0^2e^{-2\gamma t}\right)\ dt+\sigma_0^2e^{-2\gamma t}\ dW^Q_t,
+\]
+
+and so with the knowledge that \(S_2(t)=s_2\) we have
+\begin{align*}
+\Pi_t[Y]&=e^{-r(T-t)}E^Q\left[\left.\log(s_2)+\int_t^T\left(r-\frac{1}{2}\sigma_0^2e^{-2\gamma s}\right)\ ds + \int_t^T \sigma_0^2e^{-2\gamma t}\ dW^Q_t\ \right\vert\ \mathcal{F}_t\right]\\
+&=e^{-r(T-t)}\left[\log(s_2)+\int_t^T\left(r-\frac{1}{2}\sigma_0^2e^{-2\gamma s}\right)\ ds\right]\\
+&=e^{-r(T-t)}\left[\log(s_2)+r(T-t)-\frac{1}{2}\sigma_0^2\int_t^Te^{-2\gamma s}\ ds\right]\\
+&=e^{-r(T-t)}\left[\log(s_2)+r(T-t)+\frac{1}{4\gamma}\sigma_0\left[e^{-2\gamma s}\right]_t^T\right]\\
+&=e^{-r(T-t)}\left[\log(s_2)+r(T-t)+\frac{1}{4\gamma}\sigma_0(e^{-2\gamma T}-e^{-2\gamma t})\right].
+\end{align*}
+The arbitrage free price of the derivative is then given above. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\pagebreak
+
+\hypertarget{exam-201819}{%
+\section{Exam 2018/19}\label{exam-201819}}
+
+\hypertarget{problem-1-1}{%
+\subsection{Problem 1}\label{problem-1-1}}
+
+Let \(W(t)\) denote a Brownian motion and let \(\mathcal{F}_t=\mathcal{F}_t^W\). Let \(T>0\) be a given and fixed time.
+
+Consider the stochastic differential equation
+
+\[
+dX(t)=\alpha\ dt+\sqrt{X(t)}\ dW(t),
+\]
+
+and \(X(0)=x>0\) where \(\alpha\in\mathbb{R}\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Compute the mean value of \(X(T)\).
+  \item
+    Compute the variance of \(X(T)\).
+  \end{enumerate}
+\item
+  Find the solution of the partial differential equation
+  \begin{align*}
+    &4F_t(t,x)+8x^2F_{xx}(t,x)+3xF_x(t,x)=5F(t,x)\ \text{for}\ t<T\ \text{and}\ x>0.\\
+    &F(T,x)=x^3.
+    \end{align*}
+\end{enumerate}
+
+Let \(\widetilde{W}(t)\) be another Brownian motion such that \(W(t)\) and \(\widetilde{W}(t)\) are two independent Brownian motions. Let \(Y(t)\) and \(Z(t)\) be two martingales given by the following dynamics
+\begin{align*}
+dY(t)&=W(t)\ dW(t)+\widetilde{W}(t)\ d\widetilde{W}(t),\\
+dZ(t)&=\widetilde{W}(t)\ dW(t)-W(t)\ d\widetilde{W}(t).
+\end{align*}
+with \(Y(0)=Z(0)=0\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Show that \(M(t)=Y(t)Z(t)\) is a martingale.
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+\emph{(i)}: We start by writing \(X\) on integral form given as
+
+\[
+X(t)=x+\int_0^t\alpha\ dt+\int_0^t\sqrt{X(s)}\ dW(s).
+\]
+
+Taking expectation yields.
+
+\[
+E[X(t)]=E\left[x+\alpha t+\int_0^t\sqrt{X(s)}\ dW(s)\right]=x+\alpha t,
+\]
+
+since
+
+\[
+E\left[\int_0^t\sqrt{X(s)}\ dW(s)\right]=E\left[\int_0^0\sqrt{X(s)}\ dW(s)\right]=0.
+\]
+
+This result follows from lemma 4.10 as the process \(M_t=\int_0^t\sqrt{X(s)}\ dW(s)\) is a martingale. From this we have that \(E[X(T)]=x+\alpha T\). \(\square\)
+
+\emph{(ii)}: We have that the variance is given by
+
+\[
+Var(X(t))=E(X^2(t))-(E(X(t))^2.
+\]
+
+and so we have
+\begin{align*}
+Var(X(t))+E(X(t))^2&=E\left[\left(x+t\alpha+\int_0^t\sqrt{X(s)}\ dW(s)\right)^2\right]\\
+&=(x+\alpha t)^2+E\left[\left(\int_0^t\sqrt{X(s)}\ dW(s)\right)^2\right]+2(x+\alpha t)E\left[\int_0^t\sqrt{X(s)}\ dW(s)\right]\\
+&=(x+\alpha t)^2+E\left[\left(\int_0^t\sqrt{X(s)}\ dW(s)\right)^2\right].
+\end{align*}
+Now by setting \(Z(t)= \int_0^t\sqrt{X(s)}\ dW(s)\) we see that \(Z\) has dynamics \(dZ(t)=\sqrt{X(t)}\ dW(t)\) with \(Z(0)=0\). By Ito's formula on the variable \(f(t,Z(t))\) with \(f(t,z)=z^2\) we have
+\begin{align*}
+df(t,Z(t))&=0\ dt+2Z(t)\ dZ(t)+\frac{1}{2}2\ (dZ(t))^2\\
+&=2Z(t)\sqrt{X(t)}\ dW(t)+X(t)\ dt.
+\end{align*}
+Obviously when taking expectation on \(f(t,Z(t))\) we see that the integral part related to the Brownian motion is a martingale with mean 0 and then
+
+\[
+E[f(t,Z(t))]=E\left[\int_0^t X(s)\ ds\right].
+\]
+
+In total we have
+
+\[
+Var(X(t))=(x+\alpha t)^2+E\left[\int_0^t X(s)\ ds\right]-(x+\alpha t)^2=E\left[\int_0^t X(s)\ ds\right].
+\]
+
+Moving the expectation inside the integral then gives
+
+\[
+Var(X(t))=\int_0^t(x+\alpha s)\ ds=xt+\frac{1}{2}\alpha t^2.
+\]
+
+Inserting \(t=T\) gives the desired result. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+We see by dividing by 4 we have the PDE given by
+
+\[
+F_t+2x^2F_{xx}+\frac{3}{4}xF_x=\frac{5}{4}F
+\]
+
+hence by setting \(r=5/4\), \(\mu=3x/4\) and \(\sigma^2=4x^2\) we have the boundary value problem
+
+\[
+\begin{cases}
+F_t+\mu F_x+\frac{1}{2}\sigma ^2F_{xx}-rF=0,\\
+F(T,x)=x^3.
+\end{cases}
+\]
+
+From Feymann-Kac we know this has solution on \([0,T]\times\mathbb{R}\) given by the stochastic representation
+
+\[
+F(t,x)=e^{-r(T-t)}E_{t,x}[X_T^3],
+\]
+
+where \(X\) satisfies the SDE
+
+\[
+dX_t=\frac{3}{4}X_t\ dt+2X_t\ dW_t.
+\]
+
+Giving that \(X(t)=x\) and \(X\) is a GBM we have
+
+\[
+X_T=x\cdot e^{\left(r-\frac{1}{2}2^2\right)(T-t)+2(W_T-W_t)}=x\cdot e^{\frac{-5}{4}(T-t)+2(W_T-W_t)}.
+\]
+
+The relevant mean value is then
+\begin{align*}
+F(t,x)&=e^{-\frac{5}{4}(T-t)}E\left[x^3\cdot e^{\frac{-15}{4}(T-t)+6(W_T-W_t)}\right]\\
+&=e^{-\frac{5}{4}(T-t)}x^3e^{\frac{-15}{4}(T-t)}E\left[e^{6(W_T-W_t)}\right]\\
+&=x^3e^{\frac{-20}{4}(T-t)}e^{\frac{1}{2}6^2(T-t)}=x^3e^{-5(T-t)+18(T-t)}\\
+&=x^3e^{13(T-t)}.
+\end{align*}
+The solution is the given above. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We show that \(M\) has dynamics solely given in terms of Brownian motions. We have that \(M(t)=f(t,Y(t),Z(t))\) for \(f(t,y,z)=yz\) the dynamics given by Ito's formula:
+
+\[
+dM(t)=0\ dt+Z(t)\ dY(t)+Y(t)\ dZ(t)+(dY(t))(dZ(t))
+\]
+
+since the only second derivative not zero is \(f_{yz}=f_{zy}=1\). The product \((dY(t))(dZ(t))\) is computed first
+\begin{align*}
+(dY(t))(dZ(t))&=(W(t)\ dW(t)+\widetilde{W}(t)\ d\widetilde{W}(t))\cdot(\widetilde{W}(t)\ dW(t)-W(t)\ d\widetilde{W}(t))\\
+&=W(t)\widetilde{W}(t)\ dt-\widetilde{W}(t)W(t)\ dt=0,
+\end{align*}
+where we use that \(dW(t)d\widetilde{W}(t)=dt\) is the only non-zero term. Then we obviously have
+\begin{align*}
+dM(t)&=Z(t)\ dY(t)+Y(t)\ dZ(t)\\
+&=Z(t)W(t)\ dW(t)+Z(t)\widetilde{W}(t)\ d\widetilde{W}(t)+Y(t)\widetilde{W}(t)\ dW(t)-Y(t)W(t)\ d\widetilde{W}(t).
+\end{align*}
+Giving that \(M(t)\) is a martingale. (lemma 4.11)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-2-1}{%
+\subsection{Problem 2}\label{problem-2-1}}
+
+Consider a standard Black-Scholes model, that is, a model consisting of a bank account \(B(t)\) with \(P\)-dynamics given by
+
+\[
+dB(t)=rB(t)\ dt,
+\]
+
+with \(B(0)=1\) and a stock \(S(t)\) with \(P\)-dynamics given by
+
+\[
+dS(t)=\alpha S(t)\ dt+\sigma S(t)\ d\overline{W}(t),
+\]
+
+with \(S(0)=s>0\) and where \(r,\alpha\in\mathbb{R}\) and \(\sigma >0\) are constants and \(\overline{W}(t)\) is a \(P\)-Brownian motion. Let \(T>0\) be a given fixed (expiry) date.
+
+Let \(h(t)=\left(h_0(t),h_1(t)\right)\) be a portfolio where
+
+\[
+h_0(t)=\exp\left(\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2\right)t\right)
+\]
+
+is the number of units in the bank account at time \(t\) and
+
+\[
+h_1(t)=\frac{1}{s}\exp\left(-\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{r-\alpha}{2}-\frac{3}{8}\sigma^2\right)t\right)
+\]
+
+is the number of shares in the stock at time \(t\). Let \(V^h(t)\) denote the associated value process and let \(u(t)=\left(u_0(t),u_1(t)\right)\) denote the relative portfolio.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine whether the portfolio \(h\) is self-financing or not.
+  \item
+    Compute \(u_1(t)\).
+  \end{enumerate}
+\end{enumerate}
+
+Consider two derivatives that at time \(T\) pay \(X_1=\Phi_1(S(T))\) and \(X_2=\Phi_2(S(T))\). For \(i=1,2\), the arbitrage free price of derivative \(X_i\) is given by \(\pi_i(t)=F_i(t,S(t))\) where \(F_i(t,s)\) is the pricing function of the derivative. Assume that \(\pi_i(t)>0\). The price process \(\pi_i(t)\) has dynamics (under the \(P\)-measure) given by
+
+\[
+d\pi_i(t)=\alpha_i(t)\pi_i(t)\ dt+\sigma_i(t)\pi_i(t)\ d\overline{W}(t).
+\]
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine \(\alpha_i(t)\) and \(\sigma_i(t)\) for \(i=1,2\).
+  \item
+    Show that
+    \[
+    \frac{r-\alpha_1(t)}{\sigma_1(t)}=\frac{r-\alpha_2(t)}{\sigma_2(t)}.
+    \]
+  \end{enumerate}
+\end{enumerate}
+
+Let \(C(t,s;K,T)\) denote the Black-Scholes price at time \(t\) of an European call option with strike \(K\) and expiry date \(T\) when the current price of the underlying is \(s\). Similary, let \(P(t,s;K,T)\) denote the Black-Scholes price at time \(t\) of an European put option with strike \(K\) and expiry date \(T\) when the current price of the underlying is \(s\). Consider a new derivative that at time \(T\) pays
+
+\[
+Y=\max\left\{C(T,S(T);K,T_1),P(T,S(T);K,T_1\right\}
+\]
+
+where \(T<T_1\) is a fixed date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Determine the arbitrage free price of derivative \(Y\) at time \(t<T\). (Hint: recall \(\max(x,y)=(x+y)^+y\))
+\end{enumerate}
+
+Assume that the call option and the put option do not have the same strike prices, that is, a derivative that at time \(T\) pays
+
+\[
+\widetilde{Y}=\max\left\{C(T,S(T);K_1,T_1),P(T,S(T);K_2,T_1\right\}
+\]
+
+where the strike prices \(K_1\ne K_2\). Let \(F(t,s)\) be the pricing function of the derivative.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Determine the equation satisfied by the pricing function \(F(t,s)\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+We have that \(h\) is self-financing if and only if the equation
+
+\[
+dV^h(t)=h_0(t)\ dB(t)+h_1(t)\ dS(t)
+\]
+
+is satisfied. And so, we start by determining the dynamics of the number of assets denoted by \(h_0\) and \(h_1\). From Ito's formula we can conclude that
+\begin{align*}
+dh_0(t)&=\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2\right)h_0(t)\ dt+\frac{1}{2}\sigma h_0(t)\ dW(t)+\frac{1}{2} \frac{1}{2}\sigma \frac{1}{2}\sigma h_0 \ (d W(t))^2\\
+&=\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2\right)h_0(t)\ dt+\frac{1}{2}\sigma h_0(t)\ dW(t)+ \frac{1}{2^3}\sigma^2 h_0 \ dt\\
+&=\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2+ \frac{1}{8}\sigma^2 \right)h_0(t)\ dt+\frac{1}{2}\sigma h_0(t)\ dW(t)\\
+&=\frac{\alpha - r}{2}h_0(t)\ dt+\frac{1}{2}\sigma h_0(t)\ dW(t).
+\end{align*}
+For the number of stocks we have
+\begin{align*}
+dh_1(t)&=\left(\frac{r-\alpha}{2}+\frac{3}{8}\sigma^2\right)h_1(t)\ dt-\frac{1}{2}\sigma h_1(t)\ dW(t)+ \frac{1}{2}\frac{1}{2}\sigma\frac{1}{2}\sigma h_1(t)\ (dW(t))^2\\
+&=\left(\frac{r-\alpha}{2}+\frac{1}{2}\sigma^2\right)h_1(t)\ dt-\frac{1}{2}\sigma h_1(t)\ dW(t).
+\end{align*}
+We may derive the dynamics of the portfolio as
+\begin{align*}
+dV^h(t)&=d(h_0(t)B(t)+h_1(t)S(t))\\
+&=B(t)\ dh_0(t)+h_0(t)\ dB(t)+(dh_0(t))(dB(t))\\
+&+S(t)\ dh_1(t)+h_1(t)\ dS(t)+(dh_1(t))(dS(t))
+\end{align*}
+and so we want that
+
+\[
+(*)=B(t)\ dh_0(t)+(dh_0(t))(dB(t))+S(t)\ dh_1(t)+(dh_1(t))(dS(t))=0.
+\]
+
+Inserting the dynamics given and portfolio dynamics above we have
+\begin{align*}
+(*)&=B(t)\frac{\alpha - r}{2}h_0(t)\ dt+B(t)\frac{1}{2}\sigma h_0(t)\ dW(t)+0\\
+&+S(t)\left(\frac{r-\alpha}{2}+\frac{1}{2}\sigma^2\right)h_1(t)\ dt-S(t)\frac{1}{2}\sigma h_1(t)\ dW(t)\\
+&-\frac{1}{2}\sigma h_1(t)\sigma S(t) \ dt\\
+&=\left(B(t)\frac{\alpha - r}{2}h_0(t)-\frac{\alpha-r}{2}S(t)h_1(t)\right)\ dt\\
+&+\left(\frac{1}{2}B(t)\sigma h_0(t)-\frac{1}{2}S(t)\sigma h_1(t)\right)\ dW(t)
+\end{align*}
+We see that this is zero if \(h_0(t)B(t)=h_1(t)S(t)\). First we have
+\begin{align*}
+h_0(t)B(t)&=\exp\left(\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2\right)t\right)B(t)\\
+&=\exp\left(\frac{1}{2}\left(\alpha - r-\frac{1}{4}\sigma^2\right)t+\frac{1}{2}\sigma\overline{W}(t)\right)B(t)\\
+&=\exp\left(\frac{1}{2}\left(\alpha-\frac{1}{2}\sigma^2\right)t+\frac{1}{2}\sigma\overline{W}(t)\right)\exp\left(\frac{1}{2}\left( - r+\frac{1}{4}\sigma^2\right)t\right)B(t)\\
+&=(S(t))^{1/2}\exp\left(\left(-\frac{r}{2}+\frac{1}{8}\sigma^2\right)t\right)B(t),
+\end{align*}
+and
+\begin{align*}
+h_1(t)S(t)&=\frac{1}{s}\exp\left(-\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{r-\alpha}{2}-\frac{3}{8}\sigma^2\right)t\right)s\cdot\exp\left(\left(\alpha-\frac{1}{2}\sigma^2\right)t+\sigma\overline{W}(t)\right)\\
+&=\exp\left(\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{r+\alpha}{2}-\frac{7}{8}\sigma^2\right)t\right)\\
+&=\exp\left(\frac{1}{2}\sigma\overline{W}(t)+\frac{1}{2}\left(\alpha-\frac{2}{4}\sigma^2\right)t\right)\exp\left(\frac{1}{2}\left(r-\frac{5}{4}\sigma^2\right)t\right)\\
+&=(S(t))^{1/2}\exp\left(\left(-\frac{5}{8}\sigma^2\right)t\right)B(t)
+\end{align*}
+Which does not hold. \textbf{THIS EXERCISE SHOULD BE ABLE TO BE SOLVED..} \(\square\)
+
+\emph{(ii)}: We have that
+
+\[
+u_1(t)=\frac{h_1(t)S(t)}{V^h(t)}.
+\]
+
+Using that \(S\) is a GBM and \(B(t)=e^{rt}\) we have
+\begin{align*}
+u_1(t)&=\frac{h_1(t)S(t)}{h_1(t)S(t)+h_0(t)B(t)}\\
+&=\frac{e^{-\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{r-\alpha}{2}-\frac{3}{8}\sigma^2\right)t}e^{\left(\alpha-\frac{1}{2}\sigma^2\right)t+\sigma \overline{W}_t}}{e^{-\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{r-\alpha}{2}-\frac{3}{8}\sigma^2\right)t}e^{\left(\alpha-\frac{1}{2}\sigma^2\right)t+\sigma \overline{W}_t}+e^{\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2\right)t}e^{rt}}\\
+&=\frac{se^{\left(\frac{r-\alpha}{2}-\frac{3}{8}\sigma^2+\alpha-\frac{1}{2}\sigma^2\right)t+\frac{1}{2}\sigma \overline{W}_t}}{e^{\left(\frac{r-\alpha}{2}-\frac{3}{8}\sigma^2+\alpha-\frac{1}{2}\sigma^2\right)t+\frac{1}{2}\sigma \overline{W}_t}+e^{\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{\alpha - r}{2}-\frac{1}{8}\sigma^2+r\right)t}}\\
+&=\frac{e^{\left(\frac{r+\alpha}{2}-\frac{7}{8}\sigma^2\right)t+\frac{1}{2}\sigma \overline{W}_t}}{e^{\left(\frac{r+\alpha}{2}-\frac{7}{8}\sigma^2\right)t+\frac{1}{2}\sigma \overline{W}_t}+e^{\frac{1}{2}\sigma\overline{W}(t)+\left(\frac{\alpha + r}{2}-\frac{1}{8}\sigma^2\right)t}}\\
+&=\frac{e^{-\frac{7}{8}\sigma^2t}}{e^{-\frac{7}{8}\sigma^2t}+e^{-\frac{1}{8}\sigma^2t}}=\frac{e^{-\frac{6}{8}\sigma^2t}}{e^{-\frac{6}{8}\sigma^2t}+1}.
+\end{align*}
+\textbf{OBVIOUSLY} had the previous exercise been done correct we would have \(h_1(t)S(t)=h_0(t)B(t)\) i.e.~\(u_1(t)=\frac{1}{2}\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We know that \(\pi_i(t)=F_i(t,S(t))\) and so from Ito's formula we have the dynamics (we suppress the argument \((t,S(t))\) in the derivatives):
+\begin{align*}
+d\pi_i(t)&=\frac{\partial F_i}{\partial t}\ dt+\frac{\partial F_i}{\partial s}\ dS(t)+\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ (dS(t))^2\\
+&=\frac{\partial F_i}{\partial t}\ dt+\frac{\partial F_i}{\partial s}\ (\alpha S(t)\ dt+\sigma S(t)\ d\overline{W}(t))+\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2\ dt\\
+&=\left(\frac{\partial F_i}{\partial t}+\frac{\partial F_i}{\partial s}\alpha S(t)+\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2\right)\ dt+\frac{\partial F_i}{\partial s}\sigma S(t)\ d\overline{W}(t)\\
+&=\underbrace{\frac{\frac{\partial F_i}{\partial t}+\frac{\partial F_i}{\partial s}\alpha S(t)+\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2}{\pi_i(t)}}_{=\alpha_i(t)}\pi_i(t)\ dt+\underbrace{\frac{\frac{\partial F_i}{\partial s}\sigma S(t)}{\alpha_i(t)}}_{=\sigma_i(t)}\pi_i(t)\ d\overline{W}(t)
+\end{align*}
+as desired. \(\square\)
+
+\emph{(ii)}: We have
+\begin{align*}
+\frac{r-\alpha_i(t)}{\sigma_i(t)}&=\frac{r-\frac{\frac{\partial F_i}{\partial t}+\frac{\partial F_i}{\partial s}\alpha S(t)+\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2}{\pi_i(t)}}{\frac{\frac{\partial F_i}{\partial s}\sigma S(t)}{\alpha_i(t)}}\\
+&=\frac{r\pi_i(t)-\frac{\partial F_i}{\partial t}-\frac{\partial F_i}{\partial s}\alpha S(t)-\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2}{\frac{\partial F_i}{\partial s}\sigma S(t)}\\
+&=\frac{r\pi_i(t)-\frac{\partial F_i}{\partial t}-\frac{\partial F_i}{\partial s}r S(t)-\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2+\frac{\partial F_i}{\partial s}r S(t)-\frac{\partial F_i}{\partial s}\alpha S(t)}{\frac{\partial F_i}{\partial s}\sigma S(t)}\\
+&=\frac{\frac{\partial F_i}{\partial s}r S(t)-\frac{\partial F_i}{\partial s}\alpha S(t)}{\frac{\partial F_i}{\partial s}\sigma S(t)}=\frac{r -\alpha }{\sigma },
+\end{align*}
+where we used the Black-Scholes equation i.e.
+
+\[
+r\pi_i(t)-\frac{\partial F_i}{\partial t}-\frac{\partial F_i}{\partial s}r S(t)-\frac{1}{2}\frac{\partial^2 F_i}{\partial s^2}\ \sigma^2 S(t)^2=0
+\]
+
+for any derivative's arbitrage free pricing process. Since \(i\) is not included in the fraction above we have the desired result. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We follow the hint and see that the payout is
+\begin{align*}
+Y&=\max\left\{C(T,S(T);K,T_1),P(T,S(T);K,T_1)\right\}\\
+&=\Big(C(T,S(T);K,T_1)-P(T,S(T);K,T_1)\Big)^++P(T,S(T);K,T_1)\\
+&=\Big(C(T,S(T);K,T_1)-Ke^{-r(T_1-T)}-C(T,S(T);K,T_1)+S(T)\Big)^++P(T,S(T);K,T_1)\\
+&=\Big(S(T)-Ke^{-r(T_1-T)}\Big)^++P(T,S(T);K,T_1)\\
+&=C(T,S(T);Ke^{-r(T_1-T)},T)+P(T,S(T);K,T_1)
+\end{align*}
+Hence we can hedge this payout with a call option with strike \(Ke^{-r(T_1-T)}\) at expiry \(T\) and a put with strike \(K\) at expiry \(T_1\), that is
+
+\[
+\Pi_t[Y]=C(t,S(t);Ke^{-r(T_1-T)},T)+P(t,S(t);K,T_1)
+\]
+
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (d).}
+
+We have that the arbitrage free pricing function \(F(t,s)\) has to satisfie the Black-Scholes equation 7.10 i.e.
+\begin{align*}
+F_t+rsF_s+\frac{1}{2}\sigma ^2 s^2F_{ss}-rF=0&\\
+F(T,s)=\max\left\{C(T,s;K_1,T_1),P(T,s;K_2,T_1\right\}&.
+\end{align*}
+which may be written differently in terms of call options, stock price \(s\) and zero-coupon bonds. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-3-1}{%
+\subsection{Problem 3}\label{problem-3-1}}
+
+Consider a two-dimensional Black-Scholes model. The market model consist of three assets: A bank account \(B(t)\) and two stocks \(S_1(t)\) and \(S_2(t)\). The \(P\)-dynamics of \(B(t)\) is
+
+\[
+dB(t)=rB(t)\ dt
+\]
+
+with \(B(0)=1\) where \(r\in\mathbb{R}\) is a constant interest rate. The \(P\)-dynamics of \(S_1(t)\) and \(S_2(t)\) are given by
+\begin{align*}
+dS_1(t)&=\alpha_1S_1(t)\ dt+\sigma S_1(t)\ d\overline{W}_1(t),\\
+dS_2(t)&=\alpha_2S_2(t)\ dt+\sigma S_2(t)\ \big(d\overline{W}_1(t)+d\overline{W}_2(t)\big),
+\end{align*}
+with \(S_1(0)=s_1>0\) and \(S_2(0)=s_2>0\) where \(\alpha_1,\alpha_2\in\mathbb{R}\) and \(\sigma>0\) are constants and \(\overline{W}_1(t)\) and \(\overline{W}_2(t)\) are two independent \(P\)-Brownian motions. The filtration is the one generated by the two Brownian motions. Let \(T>0\) be a given and fixed (expiry) date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Is the model arbitrage free?
+  \item
+    Is the model complete?
+  \end{enumerate}
+\item
+  Compute the covariance of \(S_1(T)\) and \(S_2(T)\). (Hint: recall \(cov(X,Y)=E[XY]-E[X]E[Y]\)).
+\end{enumerate}
+
+Consider the derivative that at time \(T\) pays \(X=S_1(T_0)+S_2(T)\) where \(0<T_0<T\) is a fixed date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Find a hedge portfolio for derivative \(X\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+\emph{(i)}: The model is arbitrage free if and only if a martingale measure exists. That is if the equation
+
+\[
+\sigma_t\varphi_t=r-\alpha
+\]
+
+has at least one solution. We have the following market on matrix form
+
+\[
+dS_t=D(S_t)\alpha_t\ dt+D(S_t)\sigma _t\ dW_t
+\]
+
+or written out in total
+
+\[
+\begin{bmatrix}
+dS_1(t)\\
+dS_2(t)
+\end{bmatrix}
+=
+\begin{bmatrix}
+S_1(t) & 0\\
+0 & S_2(t)
+\end{bmatrix}
+\begin{bmatrix}
+\alpha_1\\
+\alpha_2
+\end{bmatrix}
+\begin{bmatrix}
+dt\\
+dt
+\end{bmatrix}
++
+\begin{bmatrix}
+S_1(t) & 0\\
+0 & S_2(t)
+\end{bmatrix}
+\begin{bmatrix}
+\sigma & 0\\
+\sigma & \sigma
+\end{bmatrix}
+\begin{bmatrix}
+d\overline{W}_1(t)\\
+d\overline{W}_2(t)
+\end{bmatrix}.
+\]
+
+Hence we want to solve
+
+\[
+\begin{bmatrix}
+\sigma & 0\\
+\sigma & \sigma
+\end{bmatrix}\begin{bmatrix}
+\varphi_1(t)\\
+\varphi_2(t)
+\end{bmatrix}=
+\begin{bmatrix}
+r-\alpha_1\\
+r-\alpha_2
+\end{bmatrix}.
+\]
+
+This is easy if \(\sigma\) is invertible. We see that we in fact have that the inverse of \(\sigma\) is
+
+\[
+\sigma_t^{-1}=\begin{bmatrix}
+1/\sigma & 0\\
+-1/\sigma & 1/\sigma
+\end{bmatrix}
+\]
+
+as we have
+
+\[
+\begin{bmatrix}
+1/\sigma & 0\\
+-1/\sigma & 1/\sigma
+\end{bmatrix}
+\begin{bmatrix}
+\sigma & 0\\
+\sigma & \sigma
+\end{bmatrix}=
+\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix}=I.
+\]
+
+Then we clearly have the solution
+
+\[
+\varphi_t=
+\begin{bmatrix}
+1/\sigma & 0\\
+-1/\sigma & 1/\sigma
+\end{bmatrix}\begin{bmatrix}
+r-\alpha_1\\
+r-\alpha_2
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{r-\alpha_1}{\sigma}\\
+\frac{-r+\alpha_1+r-\alpha_2}{\sigma}
+\end{bmatrix}=\begin{bmatrix}
+\frac{r-\alpha_1}{\sigma}\\
+\frac{\alpha_1-\alpha_2}{\sigma}
+\end{bmatrix}.
+\]
+
+By defining the likelihood process \(L_t\) as
+
+\[
+dL_t=\varphi_t^\top L_t\ d\overline{W}_t,\ L_0=1,
+\]
+
+we know from the Novikov condition that if the integral \(E^P[e^{1/2\int_0^T\Vert \varphi_t\Vert^2\ dt}]\) is finite then \(L\) is a martingale with \(E^P[L_T]=1\). We see that
+
+\[
+E^P\left[e^{\frac{1}{2}\int_0^T\Vert \varphi_t\Vert^2\ dt}\right]=E^P\left[e^{\frac{1}{2}\int_0^T \left(\frac{r-\alpha_1}{\sigma}\right)^2+\left(\frac{\alpha_1-\alpha_2}{\sigma}\right)^2\ dt}\right]=E^P\left[e^{\frac{1}{2}T \left(\frac{r-\alpha_1}{\sigma}\right)^2+\frac{1}{2}T\left(\frac{\alpha_1-\alpha_2}{\sigma}\right)^2}\right]<\infty.
+\]
+
+Hence we have found a martingale measure defined by the likelihood process \(L\) above. We conclude that the market is arbitrage free. \(\square\)
+
+\emph{(ii)}: The model is complete if the martingale measure is unique. This is equivalent with \(Ker[\sigma_t]=\{0\}\) and since \(\sigma_t\) is invertible (diagonal) we have from theorem 14.7 that the model is complete. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+We have by definition:
+
+\[
+cov(S_1(T),S_2(T))=E\left[S_1(T)S_2(T)\right]-E[S_1(T)]E[S_2(T)].
+\]
+
+Thus we set \(Z(t)=S_1(t)S_2(t)\) and evaluate the mean value of \(Z\). By Ito's formula on \(f(s_1,s_2)=s_1s_2\) we have
+\begin{align*}
+dZ(t)&=df(S_1(t),S_2(t))\\
+&=S_2(t)\ dS_1(t)+S_1(t)\ dS_2(t)+\frac{1}{2}(dS_1(t))(dS_2(t))\\
+&=S_2(t)\alpha_1(t) S_1(t)\ dt+S_2(t)\sigma S_1(t)\ d\overline{W}_1(t)\\
+&+S_1(t)\alpha_2(t) S_2(t)\ dt+S_1(t)\sigma S_2(t)\ (d\overline{W}_1(t)+d\overline{W}_2(t))\\
+&+\frac{1}{2}\sigma^2S_1(t)S_2(t)\ d\overline{W}_1(t)(d\overline{W}_1(t)+d\overline{W}_2(t))\\
+&=(\alpha_1(t)+\alpha_2(t))S_1(t) S_2(t)\ dt+2\sigma S_1(t) S_2(t)\ d\overline{W}_1(t) + \sigma S_1(t) S_2(t)\ d\overline{W}_2(t)\\
+&+\frac{1}{2}\sigma^2S_1(t)S_2(t)\ dt\\
+&=(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)Z(t)\ dt+2\sigma Z(t)\ d\overline{W}_1(t) + \sigma Z(t)\ d\overline{W}_2(t).
+\end{align*}
+Thus we have that the terms invovling the Brownian motions will vanish when takings expectation hence
+\begin{align*}
+E[Z(t)]&=Z(0)+E\left[\int_0^t(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)Z(s)\ ds\right]\\
+&=Z(0)+(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)\int_0^tE\left[Z(s)\right]\ ds.
+\end{align*}
+Then we have the dynamics of \(E[Z(t)]\) is given as
+
+\[
+dE[Z(t)]=(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)E\left[Z(t)\right]\ dt.
+\]
+
+We may then solve this using \(E[Z(0)]=Z(0)=s_1s_2\):
+
+\[
+E[Z(T)]=Z(0)e^{(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)T}=s_1s_2e^{(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)T}.
+\]
+
+Inserting in the formula for covariance we arrive at
+\begin{align*}
+cov(S_1(T),S_2(T))&=E\left[S_1(T)S_2(T)\right]-E[S_1(T)]E[S_2(T)]\\
+&=s_1s_2e^{(\alpha_1(t)+\alpha_2(t)+\frac{1}{2}\sigma^2)T}-E[S_1(T)]E[S_2(T)]\\
+&=s_1s_2e^{(\alpha_1+\alpha_2+\frac{1}{2}\sigma^2)T}-s_1e^{\alpha_1T}s_2^{\alpha_2T}\\
+&=s_1s_2e^{(\alpha_1+\alpha_2)T}\left(e^{\frac{1}{2}\sigma^2T}-1\right).
+\end{align*}
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We may look at this problem on two subintervals: \([0,T_0]\) and \((T_0,T]\). On the latter we know that the portfolio should consist of \(S_1(T_0)\) zero coupon bonds with expiry \(T\) and one position in the second stock. Hence on the interval \((T_0,T]\) the hedging portfolio is
+
+\[
+h(t)=\Big(h_0(t),h_1(t),h_2(t)\Big)=\Big(e^{-r(T-T_0)}S(T_0),0,1\Big),\ t> T_0.
+\]
+
+Hence we on the interval \([0,T_0]\) we want to replicate the derivative \(\widetilde{X}=e^{-r(T-T_0)}S(T_0)\). This is obviously easy since we should hold \(e^{-r(T-T_0)}\) of the first stock. Then we have
+
+\[
+h(t)=\begin{cases}
+\Big(0,e^{-r(T-T_0)},1\Big) &\text{for}\ t\le T_0,\\
+\Big(e^{-r(T-T_0)}S(T_0),0,1\Big) &\text{for}\ t>T_0.
+\end{cases}
+\]
+
+This then give a self-financing portfolio with value process
+
+\[
+V^h(t)=\begin{cases}
+S_1(t)e^{-r(T-T_0)}+S_2(t) &\text{for}\ t\le T_0,\\
+e^{-r(T-t)}S(T_0)+S_2(t) &\text{for}\ t>T_0.
+\end{cases}
+\]
+
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\pagebreak
+
+\hypertarget{exam-201920}{%
+\section{Exam 2019/20}\label{exam-201920}}
+
+\hypertarget{problem-1-2}{%
+\subsection{Problem 1}\label{problem-1-2}}
+
+Let \(W(t)\) denote a Brownian motion and let \(\mathcal{F}_t=\mathcal{F}_t^W\). Let \(T>0\) be a given and fixed time.
+
+Consider the two dimensional stochastic differential equation
+\begin{align*}
+dX(t)&=\frac{1}{2}X(t)\ dt+Y(t)\ dW(t),\\
+dY(t)&=\frac{1}{2}Y(t)\ dt+X(t)\ dW(t),
+\end{align*}
+with \(X(0)=0\) and \(Y(1)=1\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  Show that \((X(t),Y(t))=(\text{sinh}(W(t)),\text{cosh}(W(t)))\) solves the two-dimensional stochastic differential equation. (Hint: Recall that \(\text{sinh}(x)=\frac{1}{2}(e^x-e^{-x})\) and \(\text{cosh}(x)=\frac{1}{2}(e^x+e^{-x})\)).
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that \(M(t)=e^{-t/2}\text{cosh}(W(t))\) is a martingale.
+  \item
+    Find a constant \(z\) and a process \(h(t)\) such that
+    \[
+    \text{cosh}(W(T))=z+\int_0^Th(t)\ dW(t).
+    \]
+  \end{enumerate}
+\end{enumerate}
+
+Let \(L(t)\) be a Likelihood process and let \(dQ=L(T)dP\) be a new probability measure.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Determine the Likelihood process \(L(t)\) such that \(\text{sinh}(W(t))\) is a martingale under the probability measure \(Q\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+Assume that \(X(t)=\text{sinh}(W(t))\) and \(Y(t)=\text{cosh}(W(t))\). The relevant derivatives is then
+
+\[
+\frac{d}{dw}\text{sinh}(w)=\frac{1}{2}e^w+\frac{1}{2}e^{-w}=\text{cosh}(w),\ \frac{d^2}{dw^2}\text{sinh}(w)=\frac{d}{dw}\text{cosh}(w)=\frac{1}{2}e^w-\frac{1}{2}e^{-w}=\text{sinh}(w).
+\]
+
+That is sinus and cosinus hyperbolic are their each others derivative. Then by Ito's formula we have
+\begin{align*}
+dX(t)&=\text{cosh}(W(t))\ dW(t)+\frac{1}{2}\text{sinh}(W(t))\ (dW(t))^2\\
+&=\frac{1}{2}\text{sinh}(W(t))\ dt+\text{cosh}(W(t))\ dW(t)\\
+&=\frac{1}{2}X(t)\ dt+Y(t)\ dW(t).
+\end{align*}
+and
+\begin{align*}
+dY(t)&=\text{sinh}(W(t))\ dW(t)+\frac{1}{2}\text{cosh}(W(t))\ (dW(t))^2\\
+&=\frac{1}{2}\text{cosh}(W(t))\ dt+\text{sinh}(W(t))\ dW(t)\\
+&=\frac{1}{2}Y(t)\ dt+X(t)\ dW(t).
+\end{align*}
+And thus the result has been prooved. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: Consider the function \(f(z,y)=zy\). Then we have that \(M(t)=f(Z(t),Y(t))\) for \(Z(t)=e^{-t/2}\) hence \(M\) has dynamics given by Ito's formula:
+\begin{align*}
+dM(t)&=df(Z(t),Y(t))\\
+&=Y(t)\ dZ(t)+Z(t)\ dY(t)+(dZ(t))(dY(t))\\
+&=Y(t)\ (-\frac{1}{2}Z(t)\ dt)+Z(t)\ (\frac{1}{2}Y(t)\ dt+X(t)\ dW(t))+(-\frac{1}{2}Z(t)\ dt)(\frac{1}{2}Y(t)\ dt+X(t)\ dW(t))\\
+&=X(t)Z(t)\ dW(t).
+\end{align*}
+and so we see that pr. lemma 4.11 \(M\) is a martingale. \(\square\)
+
+\emph{(ii)}: We have from above
+\begin{align*}
+M(T)&=M(0)+\int_0^TX(t)Z(t)\ dW(t)=Z(T)\text{cosh}(W(t))
+\end{align*}
+Hence it follows that
+
+\[
+\text{cosh}(W(T))=\frac{M(0)}{Z(T)}+\int_0^T\frac{X(t)Z(t)}{Z(T)}\ dW(t).
+\]
+
+Using that the martingale has initial value
+
+\[
+M(0)=e^{-0/2}\text{cosh}(0)=1
+\]
+
+we have
+
+\[
+\text{cosh}(W(T))=e^{T/2}+\int_0^T \text{sinh}(W(t))e^{(T-t)/2}\ dW(t).
+\]
+
+In total we have \(z=e^{T/2}\) and \(h(t)=\text{sinh}(W(t))e^{(T-t)/2}\) as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We have that under the measure \(Q\) the dynamics of \(W\) is given by the Girsanov Theorem
+
+\[
+dW(t)=\varphi\ dt+dW^Q_t,
+\]
+
+where \(\varphi\) is the Girsanov kernel associated with \(L\). Then we know that \(X\) has dynamics under the \(Q\) measure:
+\begin{align*}
+dX(t)&=\frac{1}{2}X(t)\ dt+Y(t)\ (\varphi\ dt+dW^Q_t)\\
+&=\left(\frac{1}{2}X(t)+\varphi Y(t)\right)\ dt+Y(t)\ dW^Q_t
+\end{align*}
+and so we would have that \(X\) is a martingale under \(Q\) if
+
+\[
+\varphi_t=-\frac{1}{2}\frac{X(t)}{Y(t)}=-\frac{1}{2}\frac{\text{sinh}(W(t))}{\text{cosh}(W(t))}=-\frac{1}{2}\text{tanh}(W(t)).
+\]
+
+Then we can define a Likelihood process with initial condition \(L_0=1\) and dynamics \(dL_t=\varphi_tL_t\ dW(t)\) i.e.~\(L\) is the solution
+
+\[
+L_t=\exp\left\{\int_0^s-\frac{1}{2}\text{tanh}(W(s)) \ dW(t)-\frac{1}{2}\int_0^t\left(-\frac{1}{2}\text{tanh}(W(t))\right)^2 \ dW(t)\right\}> 0.
+\]
+
+We lastly show that the Novikov condition is satisfied i.e.
+\begin{align*}
+E^P\left[e^{\frac{1}{2}\int_0^T\Vert \varphi_s\Vert^2\ ds}\right]&=E^P\left[e^{\frac{1}{8}\int_0^T\text{tanh}^2(W(t))\ ds}\right]<\infty
+\end{align*}
+and so \(L\) is a \(P\)-martingale and \(L\) is a Likelihood process. We thus have found a Likelihood process such that \(X\) is a martingale under the measure \(Q\) given by \(dQ=L_T\ dP\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-2-2}{%
+\subsection{Problem 2}\label{problem-2-2}}
+
+Consider a standard Black-Scholes model, that is, a model consisting of a bank account \(B(t)\) with \(P\)-dynamics given by
+
+\[
+dB(t)=rB(t)\ dt,
+\]
+
+with \(B(0)=1\) and a stock \(S(t)\) with \(P\)-dynamics given by
+
+\[
+dS(t)=\alpha S(t)\ dt+\sigma S(t)\ d\overline{W}(t),
+\]
+
+with \(S(0)=s>0\) where \(r,\alpha\in\mathbb{R}\) and \(\sigma >0\) are constants and \(\overline{W}(t)\) is a \(P\)-Brownian motion. Let \(T>0\) be a given and fixed (expiry) date.
+
+Consider the derivative that at time \(T\) pays \(X=\min\Big[\max\Big[S(T),K_1\Big],K_2\Big]\) where \(0<K_1<K_2\) are constants. Let \(F(t,s)\) be the pricing function of the derivative.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine the equations satisfied by the pricing function \(F(t,s)\).
+  \item
+    Find a hedging portfolio for the derivative \(X\). (Hint: Draw a picture of the payoff function).
+  \end{enumerate}
+\end{enumerate}
+
+Let \(h(t)=\Big(h_0(t),h_1(t)\Big)\) be a self-financing portfolio given by
+
+\[
+h_0(t)=(1-u)\frac{V^h(t)}{B(t)},\ h_1(t)=u\frac{V^h(t)}{S(t)}
+\]
+
+where \(u\) is a constant and set \(V^h(0)=1\). Note that \(h_0(t)\) is the number of units of the bank account at time \(t\), and \(h_1(t)\) is the number of shares in the stock at time \(t\), and \(V^h(t)\) denotes the associated value process. Consider the derivative that at time \(T\) pays \(Y=\sqrt{V^h(T)}\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Determine the arbitrage free price of derivative \(Y\) at time \(t=0\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+\emph{(i)}: In the Black-Scholes model the derivatives pricing process must satisfy the boundary value problem
+\begin{align*}
+rF(t,s)&=F_t(t,s)+rsF_s(t,s)+\frac{1}{2}s^2\sigma^2(t,s)F_{ss}(t,s),\\
+F(T,s)&=\min\Big[\max\Big[s,K_1\Big],K_2\Big].
+\end{align*}
+as desired. \(\square\)
+
+\emph{(ii)}: We see that the derivative is the so-called bull-spread given by the payout
+
+\[
+X =
+\begin{cases}
+K_2 & S_T>K_2,\\
+S_T & K_1\le S_T\le K_2,\\
+K_1 & S_T<K_2.
+\end{cases}
+\]
+
+We can replicate this with a buy-and-hold strategy where we long one stock giving payout \(S_T\), shorting a call option with strike \(K_2\) giving the payout \(K_2-S_T\) on \((S_T>K_2)\) and lastly longing a put option with strike \(K_1\) giving payout \(K_1-S_T\) on \((S_T<K_1)\). Then we arrive at the desired payout.
+
+Using the put-call parity we see that we can replicate this with the following portfolio:
+
+\begin{itemize}
+\tightlist
+\item
+  Long one stock,
+\item
+  short one European call option with strike \(K_2\),
+\item
+  \(K_1\) zero-coupon bonds,
+\item
+  long one European call option with strike \(K_1\) and
+\item
+  short one stock.
+\end{itemize}
+
+Which obviously reduces to the portfolio
+
+\begin{itemize}
+\tightlist
+\item
+  short one European call option with strike \(K_2\),
+\item
+  \(K_1\) zero-coupon bonds and
+\item
+  long one European call option with strike \(K_1\).
+\end{itemize}
+
+Furthermore, we have the value process of the portfolio given by
+
+\[
+V^h_t=K_1e^{-r(T-t)}-c(K_2;t,T)+c(K_1;t,T)
+\]
+
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+We have per assumption that \(h\) is self-financing. Then we know that
+\begin{align*}
+dV^h(t)&=h_0(t)\ dB(t)+h_1(t)\ dS(t)\\
+&=h_0(t)rB(t)\ dt+h_1(t)\alpha S(t)\ dt+h_1(t)\sigma S(t)\ d\overline{W}(t)\\
+&=\left((1-u)V^h(t) r+uV^h(t)\alpha\right)\ dt+uV^h(t)\sigma\ d\overline{W}(t)\\
+&=\left((1-u) r+u\alpha\right)V^h(t)\ dt+u\sigma V^h(t)\ d\overline{W}(t).
+\end{align*}
+That is \(V^h\) is a GBM with initial condition \(V^h(0)=1\) (per assumption).Under the martingale measure \(Q\) we have the dynamics as follows
+
+\[
+dV^h(t)=rV^h(t)\ dt+u\sigma V^h(t)\ dW^Q(t)
+\]
+
+This gives that \(V^h\) takes the representation
+\begin{align*}
+V^h(t)&=V^h(0)\cdot\exp\left\{\left( r-\frac{1}{2}u^2\sigma^2\right)t+u\sigma W^Q(t)\right\}\\
+&=\exp\left\{\left( r-\frac{1}{2}u^2\sigma^2\right)t+u\sigma W^Q(t)\right\}.
+\end{align*}
+and so we have using the risk neutral valuation formula the price process
+\begin{align*}
+F(0,s)&=e^{-r(T-0)}E^Q_{0,s}\left[\sqrt{V^h(0)}\exp\left\{\frac{1}{2}\left( r-\frac{1}{2}u^2\sigma^2\right)T+\frac{1}{2}u\sigma W^Q(T)\right\}\right]\\
+&=e^{-rT}e^{\frac{1}{2}\left( r-\frac{1}{2}u^2\sigma^2\right)T}E^Q\left[\exp\left\{\frac{1}{2}u\sigma W^Q(T)\right\}\right]\\
+&=e^{-rT}e^{\frac{1}{2}\left( r-\frac{1}{2}u^2\sigma^2\right)T}e^{\frac{1}{2}(T-0)\frac{1}{4}\sigma^2 u^2}\\
+&=e^{-\frac{1}{2}\left( r+\frac{1}{4}u^2\sigma^2\right)T}.
+\end{align*}
+Hence the price of the derivative at time 0 is \(\Pi_0[Y]=e^{-\frac{1}{2}\left( r+\frac{1}{4}u^2\sigma^2\right)T}\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-3-2}{%
+\subsection{Problem 3}\label{problem-3-2}}
+
+Let \(W_1(t)\) and \(W_2(t)\) be two independent \(P\)-Brownian motions. Let the filtration \(\mathcal{F}_t\) be the one generated be the two Brownian motions.
+
+Consider a market model with two assets: A bank account \(B(t)\) and a stock \(S_1(t)\). The \(P\)-dynamics of \(B(t)\) is
+
+\[
+dB(t)=rB(t)\ dt,
+\]
+
+and \(B(0)=1\) where \(r\in\mathbb{R}\) is a constant interest rate. The \(P\)-dynamics of \(S_1(t)\) is given by
+
+\[
+dS_1(t)=\alpha_1S_1(t)\ dt + \sigma_1 S_1(t)\left(\sqrt{1-\rho^2}\ dW_1(t)+\rho\ dW_2(t)\right),
+\]
+
+and \(S_1(0)=s_1>0\) where \(\alpha_1\in\mathbb{R}\), \(\sigma >0\) and \(-1<\rho<1\) are constants. Let \(T>0\) be a given and fixed (expiry) date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Is the model arbitrage free?
+  \item
+    Is the model complete?
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that \(W_\rho(t)=\sqrt{1-\rho^2}W_1(t)+\rho W_2(t)\) is a Brownian motion. (Hint: Levy Characterization of Brownian motion).
+  \item
+    Show that \(dW_2(t)d W_\rho(t)=\rho\ dt\).
+  \end{enumerate}
+\end{enumerate}
+
+Consider the derivative that at time \(T\) pays \(X=W_\rho(T)\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Show that the arbitrage free price of derivative \(X\) is unique, that is, all choices of equivalent martingale measures produce the same arbitrage free price of derivative \(X\).
+\end{enumerate}
+
+Consider the new derivative that at time \(T\) pays \(Y=W_2(T)\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Show that different choices of equivalent martingale measures give different arbitrage free prices of derivative \(Y\).
+\end{enumerate}
+
+For the remainder of this problem, assume that the market model is extended to include a second stock with price process \(S_2(t)\). The \(P\)-dynamics of \(S_2(t)\) is given by
+
+\[
+dS_2(t)=\alpha_2S_2(t)\ dt+\sigma_2 S_2(t)\ dW_2(t),
+\]
+
+with \(S_2(0)=s_2>0\) where \(\alpha_2\in\mathbb{R}\) and \(\sigma_2>0\) are constants. The new model \((B,S_1,S_2)\) is a two-dimensional Black-Scholes model.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{4}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that the model is arbitrage free and complete.
+  \item
+    Find a hedging portfolio for derivative \(Y\).
+  \end{enumerate}
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+\emph{(i)}: By the meta theorem we should have that the market is arbitrage free but not complete since the number of random sources are greater than the underlying risky assets. We will show this by seeing that we may define the market as in chapter 14:
+
+\[
+dS_1(t)=S_t \alpha_1\ dt+S_t
+\begin{bmatrix}
+\sigma_1\sqrt{1-\rho^2} & \sigma_1\rho
+\end{bmatrix}
+\begin{bmatrix}
+dW_1(t)\\
+dW_2(t)
+\end{bmatrix}
+\]
+
+And so we are to solve the equation
+
+\[
+\begin{bmatrix}
+\sigma_1\sqrt{1-\rho^2} & \sigma_1\rho
+\end{bmatrix}
+\begin{bmatrix}
+\varphi_1(t)\\
+\varphi_2(t)
+\end{bmatrix}=r-\alpha_1
+\]
+
+which amounts to the system
+
+\[
+\sqrt{1-\rho^2}\varphi_1(t)+\rho\varphi_2(t)=\frac{r-\alpha_1}{\sigma_1}
+\]
+
+i.e.
+
+\[
+\varphi_2(t)=-\frac{\sqrt{1-\rho^2}}{\rho}\varphi_1(t)+\frac{1}{\rho}\frac{r-\alpha_1}{\sigma_1}
+\]
+
+i.e.~we have that \((\varphi_1,\varphi_2)=(\varphi,a\varphi+b)\) for some \(\varphi\in\mathbb{R}\) and \(a,b\) define as
+
+\[
+a=-\frac{\sqrt{1-\rho^2}}{\rho},\ b=\frac{1}{\rho}\frac{r-\alpha_1}{\sigma_1}.
+\]
+
+We are left to show the Novikov condition.
+
+\[
+E^P\left[e^{\frac{1}{2}\int_0^T \Vert \varphi(s)\Vert ^2\ ds}\right]=e^{\frac{1}{2}T (\varphi^2+(a\varphi+b)^2)}<\infty
+\]
+
+for any choice of \(\varphi\). Hence we may define the martingale \(L_t\) as \(dL_t=L_t\varphi(t)^\top dW(t)\) with \(L_0=1\). It follows that \(Q\) defined by \(dQ=L_TdP\) on \(\mathcal{F}_T\) is a martingale measure and so we have found a martingale. The conclusion from proposition 14.1 is that the model is arbitrage free. \(\square\)
+
+\emph{(ii)}: As \(\phi\) is chosen free we have that \(Q\) may be indexed with \(\varphi\) and so it is not unique. The conclusion from proposition 14.7 is that the model is not complete. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We know from Levy characterisation of Brownian motions that \(W\) is a Brownian motion if and only if \(W\) and \(W^2-t\) is martingales. Per definition is \(W_\rho\) a weighted sum of two martingales and so itself is a martingale. Now we see that by defining \(X_t=\sqrt{1-\rho^2}W_1(t)\) and \(Y_t=\rho W_2(t)\) we have from Ito's formula on \(f(t,x,y)=(x+y)^2-t=x^2+y^2+2xy-t\) the dynamics of \(W_\rho^2-t\) as
+\begin{align*}
+d(W_\rho^2-t)&=df(t,X_t,Y_t)\\
+&=-1\ dt+(2X_t+2Y_t)\ dX_t+(2Y_t+2X_t)\ dY_t\\
+&+2\ (dX_t)(dY_t)+\frac{1}{2}2\ (dX_t)^2+\frac{1}{2}2\ (dY_t)^2\\
+&=-dt+(2X_t+2Y_t)\ (dX_t+dY_t)+(dX_t)^2+(dY_t)^2\\
+&=-dt+\left(2\sqrt{1-\rho^2}W_1(t)+2\rho W_2(t)\right)\ \left(\sqrt{1-\rho^2}dW_1(t)+\rho\ dW_2(t)\right)+(1-\rho^2)\ dt+\rho^2\ dt\\
+&=\left(2\sqrt{1-\rho^2}W_1(t)+2\rho W_2(t)\right)\ \left(\sqrt{1-\rho^2}dW_1(t)+\rho\ dW_2(t)\right).
+\end{align*}
+And so \(W_\rho^2-t\) has only dynamics wrt. the Brownian motions. This implies that \(W_\rho^2-t\) is a martingale. By Levy characterisation of Brownian motions we have that \(W_\rho\) is a Brownian motion. \(\square\)
+
+\emph{(ii)}: We compute the product of \(W_2\) and \(W_\rho\) dynamics:
+\begin{align*}
+dW_2(t)dW_\rho(t)&=dW_2(t)\ \left(\sqrt{1-\rho^2}\ dW_1(t)+\rho\ dW_2(t)\right)\\
+&=\rho\ dt,
+\end{align*}
+as the only non-zero term is \((dW_2(t))^2=dt\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+For a choice of Girsanov kernel written in question 3.(a) we have that the dynamics under the new measure \(Q_\varphi\) is given by
+
+\[
+dW(t)=\varphi_t\ dt+dW^{Q_\varphi}(t)
+\]
+
+Then it follows that
+
+\[
+dW_\rho(t)=
+\begin{bmatrix}
+\sqrt{1-\rho^2} & \rho
+\end{bmatrix}
+\begin{bmatrix}
+\varphi\ dt+dW^{Q_\varphi}_1(t)\\
+(a\varphi+b)\ dt+dW^{Q_\varphi}_2(t)
+\end{bmatrix}
+\]
+
+Then we have that
+\begin{align*}
+W_\rho(T)&=\sqrt{1-\rho^2}\left(\varphi\ T+W^{Q_\varphi}_1(T)\right)+\rho\left((a\varphi+b)\ T+dW^{Q_\varphi}_2(T)\right)\\
+&=\sqrt{1-\rho^2}\left(\varphi T+W^{Q_\varphi}_1(T)\right)+\rho\left(\left(-\frac{\sqrt{1-\rho^2}}{\rho}\varphi+\frac{1}{\rho}\frac{r-\alpha_1}{\sigma_1}\right)T+dW^{Q_\varphi}_2(T)\right)\\
+&=\sqrt{1-\rho^2}\varphi T+\rho\left(-\frac{\sqrt{1-\rho^2}}{\rho}\varphi+\frac{1}{\rho}\frac{r-\alpha_1}{\sigma_1}\right)T+\sqrt{1-\rho^2}W^{Q_\varphi}_1(T)+\rho dW^{Q_\varphi}_2(T)\\
+&=\left(\sqrt{1-\rho^2}\varphi-\sqrt{1-\rho^2}\varphi+\frac{r-\alpha_1}{\sigma_1}\right)T+\sqrt{1-\rho^2}W^{Q_\varphi}_1(T)+\rho dW^{Q_\varphi}_2(T)\\
+&=\left(\frac{r-\alpha_1}{\sigma_1}\right)T+\sqrt{1-\rho^2}W^{Q_\varphi}_1(T)+\rho dW^{Q_\varphi}_2(T).
+\end{align*}
+Hence under any choice of \(\varphi\) the expected value under the measure \(Q_\varphi\) is the same and so the arbitrage free price og the derivative \(X\) is unique. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (d).}
+
+We have that under the \(Q_\varphi\) the dynamics of \(W_2\) is given by
+
+\[
+dW_2(t)=(a\varphi+b)\ dt+dW^{Q_\varphi}_2(t)
+\]
+
+Then we have
+
+\[
+W_2(T)=(a\varphi+b)\ T+W^{Q_\varphi}_2(T),
+\]
+
+and so it clearly follows that the price does indeed depend on \(\varphi\) and so the derivative does not have an unique arbitrage free price. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (e).}
+
+\emph{(i)}: We follow along the lines of the question a. We have now the market with dynamics
+
+\[
+dS(t)=
+\begin{bmatrix}
+dS_1(t)\\
+dS_2(t)
+\end{bmatrix}
+=
+\begin{bmatrix}
+S_1(t) &0 \\
+0& S_2(t)
+\end{bmatrix}
+\begin{bmatrix}
+\alpha_1\\
+\alpha_2
+\end{bmatrix}
+\ dt+
+\begin{bmatrix}
+S_1(t) &0 \\
+0& S_2(t)
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_1\sqrt{1-\rho^2} & \sigma_1\rho\\
+0&\sigma_2
+\end{bmatrix}
+\begin{bmatrix}
+dW_1(t)\\
+dW_2(t)
+\end{bmatrix}.
+\]
+
+Then the equation to solve is
+
+\[
+\begin{bmatrix}
+\sigma_1\sqrt{1-\rho^2} & \sigma_1\rho\\
+0&\sigma_2
+\end{bmatrix}
+\begin{bmatrix}
+\varphi_1(t)\\
+\varphi_2(t)
+\end{bmatrix}=
+\begin{bmatrix}
+r-\alpha_1\\
+r-\alpha_2
+\end{bmatrix}.
+\]
+
+Clearly \(\sigma\) is invertible as
+
+\[
+\text{det}(\sigma)=\sigma_1\sigma_2\sqrt{1-\rho^2}\ne 0.
+\]
+
+Furthermore, the inverse is given by
+
+\[
+\sigma^{-1}=\begin{bmatrix}
+\sigma_1\sqrt{1-\rho^2} & \sigma_1\rho\\
+0&\sigma_2
+\end{bmatrix}^{-1}=
+\begin{bmatrix}
+\frac{1}{\sigma_1\sqrt{1-\rho^2}} & -\frac{\rho^2}{\sigma_2\sqrt{1-\rho^2}}\\
+0 & \frac{1}{\sigma_2}
+\end{bmatrix}.
+\]
+
+We then have that the Girsanov kernel is given by
+
+\[
+\varphi=
+\begin{bmatrix}
+\frac{1}{\sigma_1\sqrt{1-\rho^2}} & -\frac{\rho^2}{\sigma_2\sqrt{1-\rho^2}}\\
+0 & \frac{1}{\sigma_2}
+\end{bmatrix}
+\begin{bmatrix}
+r-\alpha_1\\
+r-\alpha_2
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{r-\alpha_1}{\sigma_1\sqrt{1-\rho^2}} -\frac{\rho^2(r-\alpha_1)}{\sigma_2\sqrt{1-\rho^2}}\\
+\frac{r-\alpha_2}{\sigma_2}
+\end{bmatrix}.
+\]
+
+The Novikov condition is clearly satisfied and so the market is arbitrage free. Since the matrix \(\sigma\) is invertible we have that \(\text{ker}(\sigma)=\{0\}\) and so the market is complete. \(\square\)
+
+\emph{(ii)}: Under the measure \(Q\) given by the Girsnanov kernel in the above we have that
+
+\[
+dW_2(t)=\frac{r-\alpha_2}{\sigma_2}\ dt+dW^Q_2(t)
+\]
+
+and so the arbitrage free price is given by the risk neutral valuation formula.
+\begin{align*}
+\Pi_t[Y]&=e^{-r(T-t)}E^Q_{t,s}\left[W_2[T]\right]\\
+&=e^{-r(T-t)}E^Q\left[\frac{r-\alpha_2}{\sigma_2} T+W_2^Q[T]-W_2^Q[t]+W_2^Q[t]\right]\\
+&=e^{-r(T-t)}\left(\frac{r-\alpha_2}{\sigma_2} T+W_2^Q(t)\right)
+\end{align*}
+On the assumption \(S_2(t)=s_2\) we have
+\begin{align*}
+s_2=S_2(0)\exp\left\{\left(r-\frac{1}{2}\sigma_2^2\right)t+\sigma_2 W_2^Q(t)\right\}\iff W_2^Q(t)=\frac{1}{\sigma_2}\log\frac{s_2}{S_2(0)}-\frac{1}{\sigma_2}\left(r-\frac{1}{2}\sigma_2^2\right)t
+\end{align*}
+and so
+\begin{align*}
+\Pi_t[Y]&=e^{-r(T-t)}\left(\frac{r-\alpha_2}{\sigma_2} T+\frac{1}{\sigma_2}\log\frac{s_2}{S_2(0)}-\frac{1}{\sigma_2}\left(r-\frac{1}{2}\sigma_2^2\right)t\right)
+\end{align*}
+And so we see that we have to hold the following portfolio to hedge the derivative
+\begin{align*}
+h_1(t)&=\frac{\partial \Pi_t[Y]}{\partial s_1}(t,S_1,S_2)=0,\\
+h_2(t)&=\frac{\partial \Pi_t[Y]}{\partial s_2}(t,S_1,S_2)\\
+&=e^{-r(T-t)}\frac{1}{\sigma_2S_2}\\
+h_0(t) &=\frac{1}{B(t)}\left(\Pi_t[Y]-S_1\frac{\partial \Pi_t[Y]}{\partial s_1}(t,S_1,S_2)-S_2\frac{\partial \Pi_t[Y]}{\partial s_2}(t,S_1,S_2)\right) \\
+&=\frac{1}{B(t)}\left(e^{-r(T-t)}\left(\frac{r-\alpha_2}{\sigma_2} T+\frac{1}{\sigma_2}\log\frac{s_2}{S_2(0)}-\frac{1}{\sigma_2}\left(r-\frac{1}{2}\sigma_2^2\right)t\right)-e^{-r(T-t)}\frac{1}{\sigma_2}\right)\\
+&=\frac{1}{B(t)}e^{-r(T-t)}\frac{1}{\sigma_2}\left((r-\alpha_2) T+\log\frac{s_2}{S_2(0)}-\left(r-\frac{1}{2}\sigma_2^2\right)t-1\right).
+\end{align*}
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\pagebreak
+
+\hypertarget{exam-202021}{%
+\section{Exam 2020/21}\label{exam-202021}}
+
+\hypertarget{problem-1-3}{%
+\subsection{Problem 1}\label{problem-1-3}}
+
+Let \(W(t)\) denote a Brownian motion and let \(\mathcal{F}_t\) be the filtration made by the Browniam motion. Let \(T>0\) be a given and fixed time.
+
+Consider the stochastic differential equation
+
+\[
+dX(t)=\mu X(t)\ dt+\sigma\sqrt{X(t)}\ dW(t),
+\]
+
+with \(X(0)=1\) where \(\mu\in \mathbb{R}\) and \(\sigma >0\) are constants.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Find a constant \(b\ne 0\) such that the process \(M(t)=e^{-bX(t)}\) is a martingale.
+  b
+  i. Compute the mean value of \(X(T)\).
+  ii. Compute the variance of \(X(T)\) for \(\mu=0\).
+\end{enumerate}
+
+Consider the process \(Y(t)=e^{W(t)-t/2}\). Let \(L(t)\) be a Likelihood process and let \(dQ=L(T)dP\) be a new probability measure.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Determine the Likelihood process \(L(t)\) such that the process \(1/Y(t)\) is a martingale under the probability measure \(Q\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+We have from Ito's formula that the stochastic process \(M(t)=e^{-bX(t)}=f_b(t,X(t))\) with \(f_b(t,x)=e^{-bx}\) has dynamics
+\begin{align*}
+dM(t)&=df(t,X(t))\\
+&=0\ dt-bM(t)\ dX(t)+\frac{1}{2}b^2M(t)\ (dX(t))^2\\
+&=-bM(t)\mu X(t)\ dt-bM(t)\sigma \sqrt{X(t)}\ dW(t)+\frac{1}{2}b^2M(t)\sigma^2 X(t)\ dt.
+\end{align*}
+and so it clearly follow that \(M\) is a martingale if
+
+\[
+-bM(t)\mu X(t)+\frac{1}{2}b^2M(t)\sigma^2 X(t)=0.
+\]
+
+Isolating \(b\) yields
+
+\[
+b\left(\frac{1}{2}b M(t)\sigma^2 X(t)-M(t)\mu X(t)\right)=0\iff b\in\left\{0,2\frac{M(t)\mu X(t)}{M(t)\sigma^2 X(t)}\right\}=\left\{0,2\frac{\mu }{\sigma^2 }\right\}.
+\]
+
+Hence the non-trivial choice og \(b\) is \(b=2\mu/\sigma^2\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We start by seeing that
+
+\[
+X(t)=X(0)+\mu\int_0^t X(s)\ ds+\sigma\int_0^t\sqrt{X(s)}\ dW(s).
+\]
+
+Using that \(X(0)=1\) and that the last term is a martingale with mean 0 we have
+
+\[
+E[X(t)]=1+\mu\int_0^tE[X(s)]\ ds,
+\]
+
+that is, \(E[X(t)]\) satisfies the differential equation
+
+\[
+dE[X(t)]=\mu E[X(t)]\ dt,\ E[X(0)]=1.
+\]
+
+Then we have that the mean value is the solution to the above equation i.e.
+
+\[
+E[X(t)]=E[X(0)]e^{\mu t}=e^{\mu t}
+\]
+
+hence
+
+\[
+E[X(T)]=e^{\mu T}
+\]
+
+as desired. \(\square\)
+
+\emph{(ii)}: We assume that \(\mu =0\) and so \(E[X(T)]=1\). Furthermore, by definition we have
+
+\[
+\text{Var}[X(T)]=E[X(T)^2]-(E[X(T)])^2=E[X(T)^2]-1.
+\]
+
+We follow along the lines of \emph{(i)} when computing the second moment of \(X(T)\). We have by Ito's formula on \(Z(t)=X(t)^2=f(t,X(t))\) with \(f(t,x)=x^2\):
+\begin{align*}
+dZ(t)&=df(t,X(t))\\
+&=0\ dt+ 2X(t)\ dX(t)+\frac{1}{2}2\ (dX(t))^2\\
+&=2\mu (X(t))^2 \ dt+\sigma (X(t))^{3/2}\ dW(t)+\sigma^2 X(t)\ dt\\
+&=\left(2\mu Z(t)+\sigma^2 \sqrt{Z(t)}\right)\ dt +\sigma (Z(t))^{3/4}\ dW(t)\\
+&=\sigma^2 \sqrt{Z(t)}\ dt +\sigma (Z(t))^{3/4}\ dW(t)
+\end{align*}
+This implies that
+
+\[
+Z(t)=Z(0)+\int_0^t\sigma^2 \sqrt{Z(s)}\ ds+\int_0^t\sigma (Z(s))^{3/4}\ dW(s).
+\]
+
+Taking expectation and using \(Z(0)=X(0)^2=1\):
+\begin{align*}
+E[Z(t)]&=1+\int_0^t\sigma^2 E\left[\sqrt{Z(s)}\right]\ ds=1+\int_0^t\sigma^2 E\left[X(s)\right]\ ds\\
+&=1+\sigma^2\int_0^t e^{\mu s}\ ds=1+\sigma^2\int_0^t\ ds\\
+&=1+\sigma^2t
+\end{align*}
+hence we have the varince
+
+\[
+\text{Var}[X(T)]=1+\sigma^2T-1=\sigma^2T
+\]
+
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+If \(L\) is a Likelihood proces then \(dQ=L(T)dP\) determines a martingale measure under which
+
+\[
+dW(t)=\varphi(t)\ dt+dW^Q(t).
+\]
+
+We futhermore have that \(Z(t)=1/Y(t)\) has \(P\) dynamics given by
+\begin{align*}
+dZ(t)&=d(e^{t/2-W(t)})\\
+&=\frac{1}{2}Z(t)\ dt-Z(t)\ dW(t)+\frac{1}{2}Z(t)\ (dW(t))^2\\
+&=\frac{1}{2}Z(t)\ dt-Z(t)\ dW(t)+\frac{1}{2}Z(t)\ dt\\
+&=Z(t)\ dt-Z(t)\ dW(t)
+\end{align*}
+and so under \(Q\) we have from Girsanov theorem
+\begin{align*}
+dZ(t)&=Z(t)\ dt-Z(t)\ (\varphi(t)\ dt+dW^Q(t))\\
+&=Z(t)\ dt-Z(t)\varphi(t)\ dt+Z(t)\ dW^Q(t)\\
+&=(1-\varphi(t))Z(t)\ dt+Z(t)\ dW^Q(t)
+\end{align*}
+and so we see that \(\varphi =1\) if \(Z\) are to be a martingale under \(Q\) i.e.~\(Q=P\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\#\#\# Problem 2
+
+Consider a standard Black-Scholes model, that is, a model consisting of a bank account \(B(t)\) with \(P\)-dynamics given by
+
+\[
+dB(t)=rB(t)\ dt,
+\]
+
+with \(B(0)=1\) and a stock \(S(t)\) with \(P\)-dynamics given by
+
+\[
+dS(t)=\alpha S(t)\ dt+\sigma S(t)\ d\overline{W}(t),
+\]
+
+with \(S(0)=s>0\) and where \(r,\alpha\in\mathbb{R}\) and \(\sigma >0\) are constants and \(\overline{W}(t)\) is a \(P\)-Brownian motion. Let \(T>0\) be a given fixed (expiry) date.
+
+Consider the derivative that at time \(T\) pays
+
+\[
+X=\begin{cases}
+0 & S(T)\le K,\\
+K-S(T) & K<S(T)\le K+\Delta,\\
+S(T)-K-2\Delta & K+\Delta<S(T)\le K+3\Delta,\\
+\Delta & S(T)> K+3\Delta,
+\end{cases}
+\]
+
+where \(K>0\) and \(\Delta>0\) are constants.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine the arbitrage free price of derivative \(X\) at time \(t<T\).
+  \item
+    Determine the equations satisfied by the pricing function of derivative \(X\).
+  \end{enumerate}
+\end{enumerate}
+
+Consider a new derivative that at time \(T\) pays \(Y=\left(S(T_0)-S(T)\right)^+\) where \(0<T_0<T\) is a fixed date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that the arbitrage free price of \(Y\) at time \(t=T_0\) is given by \(\Pi_{T_0}(Y)=pS(T_0)\) where \(p\) is independent of the stock price.
+  \item
+    Determine the arbitrage free price of derivative \(Y\) at time \(t<T_0\).
+  \end{enumerate}
+\end{enumerate}
+
+Consider another derivative that at time \(T\) pays \(\tilde{Y}=\left(S(T)-S(T_0)\right)^+\) and let \(\Pi_t(\tilde{Y})\) be the arbitrage free price of \(\tilde{Y}\) at time \(t<T\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Determine \(\Pi_t(Y)-\Pi_t(\tilde{Y})\) at time \(t<T\).
+\end{enumerate}
+
+Consider a derivative that at time \(T\) pays \(Z=\left(\int_0^T \log(S(t))\right)^2\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{3}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that \(\int_0^t W(u)\ du=\int_0^t(t-u)\ dW(u)\).
+  \item
+    Determine the arbitrage free price of derivative \(Z\) at time \(t=0\).
+  \end{enumerate}
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+\emph{(i)}: We search for a replicating buy-and-hold portfolio that hedges \(X\). We see that we have the following inequality
+
+\[
+K<K+\Delta<K+3\Delta
+\]
+
+We have that the payout should be zero below the price \(K>0\). We start by cosidering a short position in a European call option with strike \(K\) giving the payout \(K-S_T\) on \((S_T>K)\). Then on the event \((S_T>K+\Delta)\) we nee an additional
+
+\[
+S_T-K-2\Delta-(K-S_T)=2S_T-2K-2\Delta=2(S_T-(K+\Delta))
+\]
+
+i.e.~the payot of two European call options with strike \(K+\Delta\). Then on the event (\(S_T>K+3\Delta\)) we then need the additional payout
+
+\[
+\Delta-(S_T-K-2\Delta)=-S_T+K+3\Delta=-(S_T-(K+3\Delta))
+\]
+
+Which can be replicated with one short position on a European call option with strike \(K+3\Delta\). Then the portfolio is in total
+
+\begin{itemize}
+\tightlist
+\item
+  Short one European call option with strike \(K\),
+\item
+  Long two European call option with strike \(K+\Delta\),
+\item
+  Short one European call option with strike \(K+3\Delta\).
+\end{itemize}
+
+We check that the portfolio indeed does replicate \(X\).
+
+\[
+X=\begin{cases}
+0+0+0=0 & S_T\le K,\\
+-(S_T-K)+0+0=K-S_T & K<S_T\le K+\Delta,\\
+-(S_T-K) +2(S_T-(K+\Delta)) + 0 = S_T-K-2\Delta & K+\Delta < S_T \le K + 3\Delta,\\
+-(S_T-K) +2(S_T-(K+\Delta)) - (S_T-(K+3\Delta))= \Delta& S_T>K+3\Delta.
+\end{cases}
+\]
+
+as desired. Then we have that the arbitrage free price is given by the value process of the above portfolio i.e.
+
+\[
+\Pi_t[X]=V_t^h=-c(K;t,T)+2c(K+\Delta;t,T)-c(K+3\Delta;t,T)
+\]
+
+where \(c\) denotes the pricing function for the European call option. \(\square\)
+
+\emph{(ii)}: We have from the Black-Scholes equation 7.10 that the pricing function must satisfy
+
+\[
+rF(t,s)=F_t(t,s)+rsF_s(t,s)+\frac{1}{2}s^2\sigma^2 F_{ss}(t,s)
+\]
+
+with condition \(F(T,s)=X\) where \(X\) is given in the problem formulation. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We see that at time \(t=T_0\) the payout is a simple claim in that \(S(T_0)\) is \(\mathcal{F}_{T_0}\)-measurable. Furthermore, we see that the payout is the same as a European put option with strike \(K=S(T_0)\). Such a derivative may be hedged with \(S(T_0)\) zero-coupon bonds, one call options with the same strike and a short position in the underlying stock. The price is then, in detail, given as.
+\begin{align*}
+\Pi_{T_0}[Y]&=S(T_0)e^{-r(T-T_0)}+c(S(T_0);T_0,T)-S(T_0)\\
+&=S(T_0)\left(e^{-r(T-T_0)}-1\right)+S(T_0)N(d_1(T_0,S(T_0)))-e^{-r(T-T_0)}S(T_0)N(d_2(T_0,S(T_0)))\\
+&=S(T_0)\left\{e^{-r(T-T_0)}-1+N(d_1(T_0,S(T_0)))-e^{-r(T-T_0)}N(d_2(T_0,S(T_0)))\right\}\\
+&=S(T_0)p.
+\end{align*}
+where we set
+
+\[
+p=e^{-r(T-T_0)}-1+N(d_1(T_0,S(T_0)))-e^{-r(T-T_0)}N(d_2(T_0,S(T_0))).
+\]
+
+We simply now need to show that this does indeed not depend on \(S(T_0)\). We see that if the components \(d_1\) and \(d_2\) does not depend on \(S(T_0)\) we are done. We have
+\begin{align*}
+d_1(T_0,S(T_0))&=\frac{1}{\sigma\sqrt{T-T_0}}\left(\log\left(\frac{S(T_0)}{S(T_0)}\right)+\left(r+\frac{1}{2}\sigma^2\right)(T-T_0)\right)\\
+&=\frac{1}{\sigma\sqrt{T-T_0}}\left(r+\frac{1}{2}\sigma^2\right)(T-T_0).
+\end{align*}
+and so \(d_1\) does not depend on \(S(T_0)\). This by extension means that \(d_2\) as well does not depend on \(S(T_0)\) as \(d_2(t,s)=d_1(t,s)-\sigma\sqrt{T-t}\). \(\square\)
+
+\emph{(ii)}: As \(p\) does not depend on \(S(T_0)\) we would have that a portfolio consiting og \(p\) stocks would have the desired payout at time \(t=T_0\) to finance the portfolio on \([T_0,T]\). Hence we have the pricing process on \(t<T_0\) given as \(\Pi_t[Y]=pS(t)\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We hope that there exists a \(\tilde{p}\) such that \(\Pi_{T_0}[\widetilde{Y}]=\tilde{p}X\) and \(\tilde{p}\) does not depend on \(X\), where \(X\) is the payout of a buy-and-hold portfolio. We have that the payout is hedged by a call option with strike \(S(T_0)\) on \([T_0,T]\) i.e.
+\begin{align*}
+\Pi_{T_0}[\widetilde{Y}]&=S(T_0)N(d_1(T_0,S(T_0)))-e^{-r(T-T_0)}S(T_0)N(d_2(T_0,S(T_0)))\\
+&=S(T_0)\left\{N(d_1(T_0,S(T_0)))-e^{-r(T-T_0)}N(d_2(T_0,S(T_0)))\right\}\\
+&=S(T_0)\tilde{p}.
+\end{align*}
+for \(t\in[T_0,T]\). Per 2.a we know that \(\tilde{p}\) does not depend on \(S(T_0)\) and so we have the pricing process \(\Pi_t[\widetilde{Y}]=\tilde{p}S(t)\) on \(t<T_0\). Then we simply have
+
+\[
+\Pi_t[Y]-\Pi_t[\widetilde{Y}]=(p-\tilde{p})S(t)
+\]
+
+by inserting \(p\) and \(\tilde{p}\) we have
+
+\[
+\Pi_t[Y]-\Pi_t[\widetilde{Y}]=(e^{-r(T-T_0)}-1)S(t)
+\]
+
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (d).}
+
+\textbf{THE FOLLOWING WAS AN ATTEMPT AT CALCULATING THE INTEGRALS RIGOURESLY.} It did not turn out well.. After \emph{``END OF TRY''} below the solution is given..
+
+We start by calculating the right hand side. We see that \((t-s)\) is approximated on \([0,t]\) with the following sequence of simple functions:
+
+\[
+g^n(s)=\sum_{i=0}^{n-1}1_{[i\cdot t/n,(i+1)t/n]}(s)(t-t_i).
+\]
+
+Obviously, we have
+
+\[
+\int_0^t(g^n(s)-(t-s))^2\ ds=\int_0^t \sum_{i=0}^{n-1}1_{[i\cdot t/n,(i+1)t/n]}(s-t_i)^2\ ds=\sum_{i=0}^{n-1}\int_{i\cdot t/n}^{(i+1)\cdot t/n}(s-t_i)^2\ ds\to 0.
+\]
+
+We then define the integral as follows
+\begin{align*}
+\int_0^t(t-u)\ dW(u)&=\lim_{n\to \infty}\left\{\int_0^tg^n(s)\ dW(s)\right\}\\
+&=\lim_{n\to \infty}\left\{\int_0^t \sum_{i=0}^{n-1}1_{[i\cdot t/n,(i+1)t/n]}(s)(t-t_i)\ dW(s)\right\}\\
+&=\lim_{n\to \infty}\left\{\sum_{i=0}^{n-1}\int_{i\cdot t/n}^{(i+1)\cdot t/n} (t-t_i)\ dW(s)\right\}\\
+&=\lim_{n\to \infty}\left\{\sum_{i=0}^{n-1} (t-t_i)\ \left(W\left(\frac{(i+1)\cdot t}{n}\right)-W\left(\frac{i\cdot t}{n}\right)\right)\right\}\\
+&=t-t\lim_{n\to \infty}\left\{\frac{1}{n}\sum_{i=0}^{n-1} i \left(W\left(\frac{(i+1)\cdot t}{n}\right)-W\left(\frac{i\cdot t}{n}\right)\right)\right\}.
+\end{align*}
+If we define the random varible inside \(\lim\) as \(S_n\) we see that
+\begin{align*}
+E[S_n]&=\frac{1}{n}\sum_{i=0}^{n-1}iE\left(W\left(\frac{(i+1)\cdot t}{n}\right)-W\left(\frac{i\cdot t}{n}\right)\right)\\
+&=\frac{1}{n}\sum_{i=0}^{n-1}i\cdot0=0.
+\end{align*}
+and
+\begin{align*}
+E[(S_n)^2]&=\frac{1}{n^2}\sum_{j=0}^{n-1}\sum_{i=0}^{n-1}ijE\left\{\left(W\left(\frac{(i+1)\cdot t}{n}\right)-W\left(\frac{i\cdot t}{n}\right)\right)\left(W\left(\frac{(j+1)\cdot t}{n}\right)-W\left(\frac{j\cdot t}{n}\right)\right)\right\}\\
+&=\frac{1}{n^2}\sum_{i=0}^{n-1}i^2E\left\{\left(W\left(\frac{(i+1)\cdot t}{n}\right)-W\left(\frac{i\cdot t}{n}\right)\right)^2\right\}\\
+&=\frac{1}{n^2}\sum_{i=0}^{n-1}i^2\left\{\frac{(i+1)\cdot t}{n}-\frac{i\cdot t}{n}\right\}\\
+&=\frac{t}{n^3}\sum_{i=0}^{n-1}i^2=\frac{t}{n^3}\frac{1}{6} (n-1) n ( 2 n-1)\\
+&=\frac{t}{6n^2}(n-1) ( 2 n-1)=\frac{t}{6n^2}(2n^2-n-2n+1)\\
+&=\frac{t}{3}-\frac{t}{2n}+\frac{t}{6n^2}\to \frac{t}{3}\\
+\end{align*}
+\textbf{END OF TRY.}
+
+\emph{(i)}: We start by calculating the dynamics of \(X(u)=(t-u)W(u)\). We use Ito's formula
+\begin{align*}
+dX(u)&=-W(u)\ du+(t-u)\ dW(u)
+\end{align*}
+and so
+
+\[
+X(t)=0=-\int_0^t W(s)\ ds+\int_0^t(t-s)\ dW(s).
+\]
+
+Rearranging give the desired result. \(\square\)
+
+\emph{(ii)}: We have that under the \(Q\)-measure \(S\) is a GBM and under assumption \(S(0)=s\) we have
+
+\[
+S(t)=s\exp\left\{\left(r-\frac{1}{2}\sigma^2\right)t - \sigma W^Q(t)\right\}
+\]
+
+hence we see that
+
+\[
+\log S(t)=\log(s)+\left(r-\frac{1}{2}\sigma^2\right)t - \sigma W^Q(t).
+\]
+
+Integrating from \(t=0\) to \(t=T\) gives
+\begin{align*}
+\int_0^T \log S(t)\ dt&=\log(s)T+\left(r-\frac{1}{2}\sigma^2\right)\int_0^T t\ dt-\sigma\int_0^T W^Q(t)\ dt\\
+&=\log(s)T+\frac{1}{2}\left(r-\frac{1}{2}\sigma^2\right)T^2-\sigma\int_0^T (T-t)\ dW^Q(t)
+\end{align*}
+using 2.d(i). We recall that from lemma 4.18 that
+
+\[
+\sigma\int_0^T (T-t)\ dW^Q(t)\sim \mathcal{N}\left(0,\sigma^2\int_s^t(T-t)^2\ dt\right).
+\]
+
+Using this we have that
+
+\[
+\int_0^T \log S(t)\ dt\sim\mathcal{N}\left(\log(s)T+\frac{1}{2}\left(r-\frac{1}{2}\sigma^2\right)T^2,\sigma^2\int_s^t(T-t)^2\ dt\right).
+\]
+
+Using the risk neutral valueation formula we have
+\begin{align*}
+\Pi_0[Z]&=e^{-rT}E^Q\left(\left(\int_0^T \log S(t)\ dt\right)^2\right)\\
+&=e^{-rT}\left(\text{Var}^Q\left(\int_0^T \log S(t)\ dt\right)-E^Q\left(\int_0^T \log S(t)\ dt\right)^2\right)\\
+&=e^{-rT}\left(\sigma^2\int_s^t(T-t)^2\ dt-\log^2(s)T^2-\frac{1}{4}\left(r-\frac{1}{2}\sigma^2\right)^2T^4-\log(s)T\left(r-\frac{1}{2}\sigma^2\right)T^2\right)\\
+&=e^{-rT}\left(\sigma^2\frac{T^3}{3}-\log^2(s)T^2-\frac{1}{4}\left(r-\frac{1}{2}\sigma^2\right)^2T^4-\log(s)T\left(r-\frac{1}{2}\sigma^2\right)T^2\right)
+\end{align*}
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-3-3}{%
+\subsection{Problem 3}\label{problem-3-3}}
+
+Consider a two-dimensional Black-Scholes model. The market model consist of three assets: A bank account \(B(t)\) and two stocks \(S_1(t)\) and \(S_2(t)\). The \(P\)-dynamics of \(B(t)\) is
+
+\[
+dB(t)=rB(t)\ dt
+\]
+
+with \(B(0)=1\) where \(r\in\mathbb{R}\) is a constant interest rate. The \(P\)-dynamics of \(S_1(t)\) and \(S_2(t)\) are given by
+\begin{align*}
+dS_1(t)&=\mu_1S_1(t)\ dt+\sigma_1 S_1(t)\ dW(t),\\
+dS_2(t)&=\mu_2S_2(t)\ dt+\sigma_2 S_2(t)\ dW(t),
+\end{align*}
+with \(S_1(0)=s_1>0\) and \(S_2(0)=s_2>0\) where \(\mu_1,\mu_2\in\mathbb{R}\) and \(\sigma_1,\sigma_2>0\) are constants and \(W(t)\) are a \(P\)-Brownian motions. The filtration is the one generated by the Brownian motion. Let \(T>0\) be a given and fixed (expiry) date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Show that the model is arbitrage free and complete if \(\sigma_2(\mu_1-r)=\sigma_1(\mu_2-r)\).
+\end{enumerate}
+
+For the remainder of this problem assume that \(\sigma_2(\mu_1-r)=\sigma_1(\mu_2-r)\).
+
+Let \(h(t)=(h_0(t),h_1(t),h_2(t))=((\sigma_1-\sigma_2)/B(t),\sigma_2/S_1(t),1-(\sigma_1/S_2(t)))\) be a portfolio where \(h_0\) is the number of units in the bank account at time \(t\), \(h_i\) for \(i=1,2\) is the number of shares held in the two stocks.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Determine wether the portfolio \(h\) is self-financing or not.
+\end{enumerate}
+
+Consider the derivative that at time \(T\) pays \(X=S_1(T)/S_2(T)\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Find a hedging portfolio for derivative \(X\).
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+We see that we are searching for a unique Girsanov kernel. This amounts to solving
+
+\[
+\sigma_t\varphi_t=r-\mu
+\]
+
+or on matrix form
+
+\[
+\begin{bmatrix}
+\sigma_1 \\
+\sigma_2
+\end{bmatrix}
+\varphi_t=
+\begin{bmatrix}
+r-\mu_1\\
+r-\mu_2
+\end{bmatrix}.
+\]
+
+The linear equation system is then
+\begin{align*}
+\sigma_1\varphi(t)=r-\mu_1,\ \sigma_2\varphi(t)=r-\mu_2
+\end{align*}
+Hence
+
+\[
+\varphi=\frac{r-\mu_1}{\sigma_1}=\frac{r-\mu_2}{\sigma_2}.
+\]
+
+Which holds if and only if \(\sigma_2(r-\mu_1)=\sigma_1(r-\mu_2)\). Then if this equation holds we have that the Girsanov kernel exists and is unique. The Novikov condition is furthermore satsified and so it follows that the model is arbitrage free and unique. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+We have that the portfolio is self-financing if and only if
+
+\[
+dV_t^h=h_0(t)\ dB(t)+h_1(t)\ dS_1(t)+h_2(t)\ dS_2(t).
+\]
+
+Calculating we have
+\begin{align*}
+dV^h(t)&=\frac{\sigma_1-\sigma_2}{B(t)}\ dB(t)+\frac{\sigma_2}{S_1(t)}\ dS_1+\frac{S_2(t)-\sigma_1}{S_2(t)}\ dS_2(t)\\
+&=(\sigma_1-\sigma_2)r\ dt+\sigma_2\mu_1\ dt+\sigma_1\sigma_2\ dW(t)+(S_2(t)-\sigma_1)\mu_2\ dt+(S_2(t)-\sigma_1)\sigma_2\ dW(t)\\
+&=(\sigma_1r-\sigma_2r+\sigma_2\mu_1-\sigma_1\mu_2)\ dt+S_2(t)\mu_2\ dt+S_2(t)\sigma_2dW(t)\\
+&=(\underbrace{\sigma_2(\mu_1-r)-\sigma_1(\mu_2-r)}_{=0})\ dt+S_2(t)\mu_2\ dt+S_2(t)\sigma_2dW(t)\\
+&=S_2(t)\mu_2\ dt+S_2(t)\sigma_2dW(t)=dS_2(t)
+\end{align*}
+Furthermore, we see that
+\begin{align*}
+V^h(t)&=\frac{\sigma_1-\sigma_2}{B(t)}\ B(t)+\frac{\sigma_2}{S_1(t)}\ S_1+\frac{S_2(t)-\sigma_1}{S_2(t)}\ S_2(t)\\
+&=\sigma_1-\sigma_2+\sigma_2+S_2(t)-\sigma_1=S_2(t).
+\end{align*}
+This is consistent with the self-financing condition above as \(dV^h(t)=dS_2(t)\). We conclude that \(h\) is self-financing. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We know that under the measure \(Q\) both \(S_1\) and \(S_2\) are GBM with
+
+\[
+S_i(t)=s_i\exp\left\{\left(r-\frac{1}{2}\sigma_i^2\right)(T-t)+\sigma_i (W^Q(T)-W^Q(t))\right\}
+\]
+
+for \(i=1,2\) under assumption that \(S_1(t)=s_1\) and \(S_2(t)=s_2\). Then we have that \(X\) pays out
+\begin{align*}
+X&=\frac{s_1}{s_2}\exp\left\{\frac{1}{2}\left(\sigma_2^2-\sigma_1^2\right)(T-t)+(\sigma_1-\sigma_2) (W^Q(T)-W^Q(t))\right\}.
+\end{align*}
+Using the risk neutral valueation formula we have the price
+\begin{align*}
+\Pi_t[X]&=e^{-r(T-t)}E^Q\left[\frac{s_1}{s_2}\exp\left\{\frac{1}{2}\left(\sigma_2^2-\sigma_1^2\right)(T-t)+(\sigma_1-\sigma_2) (W^Q(T)-W^Q(t))\right\}\right]\\
+&=e^{-r(T-t)}\frac{s_1}{s_2}e^{\frac{1}{2}\left(\sigma_2^2-\sigma_1^2\right)(T-t)}E^Q\left[\exp\left\{(\sigma_1-\sigma_2) (W^Q(T)-W^Q(t))\right\}\right]\\
+&=\frac{s_1}{s_2}e^{-r(T-t)+\frac{1}{2}\left(\sigma_2^2-\sigma_1^2\right)(T-t)}e^{\frac{1}{2}(T-t)(\sigma_1-\sigma_2)^2}\\
+&=\frac{s_1}{s_2}e^{-r(T-t)+\frac{1}{2}\left(\sigma_2^2-\sigma_1^2\right)(T-t)+\frac{1}{2}(T-t)(\sigma_1-\sigma_2)^2}\\
+&=\frac{s_1}{s_2}e^{-r(T-t)+\frac{1}{2}\left(2\sigma_2^2-2\sigma_1\sigma_2\right)(T-t)}.
+\end{align*}
+We now may hedge this derivative with
+\begin{align*}
+h_1(t)&=\frac{\partial \Pi_t[Y]}{\partial s_1}(t,S_1(t),S_2(t))\\
+&=\frac{1}{S_2(t)}e^{-r(T-t)+\frac{1}{2}\left(2\sigma_2^2-2\sigma_1\sigma_2\right)(T-t)}\\
+h_2&=\frac{\partial \Pi_t[Y]}{\partial s_2}(t,S_1(t),S_2(t))\\
+&=-\frac{S_1(t)}{S_2(t)^2}e^{-r(T-t)+\frac{1}{2}\left(2\sigma_2^2-2\sigma_1\sigma_2\right)(T-t)}\\
+h_0&=\frac{1}{B(t)}\left(\Pi_t[Y]-S_1(t)h_1(t)-S_2(t)h_2(t)\right)\\
+&=e^{-rt}e^{-r(T-t)+\frac{1}{2}\left(2\sigma_2^2-2\sigma_1\sigma_2\right)(T-t)}\left(\frac{S_1(t)}{S_2(t)}-S_1(t)\frac{1}{S_2(t)}+S_2(t)\frac{S_1(t)}{S_2(t)^2}\right)\\
+&=e^{-rt}e^{-r(T-t)+\frac{1}{2}\left(2\sigma_2^2-2\sigma_1\sigma_2\right)(T-t)}\frac{S_1(t)}{S_2(t)}=e^{-rt}\Pi_t[Y].
+\end{align*}
+as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\pagebreak
+
+\hypertarget{exam-202122}{%
+\section{Exam 2021/22}\label{exam-202122}}
+
+\hypertarget{problem-1-4}{%
+\subsection{Problem 1}\label{problem-1-4}}
+
+Let \(W_t\) denote a Brownian motion and let
+
+\[
+\mathcal{F}_t=\mathcal{F}_t^W=\sigma(\{W_s\ \vert\ 0\le s\le t\}).
+\]
+
+Let \(T>0\) be a given and fixed time.
+
+Consider the partial differential equation
+\begin{align*}
+&F_t(t,x)+\mu F_x(t,x)+\frac{1}{2}\sigma^2 F_{xx}(t,x)=0,\\
+&F(T,x)=e^{\lambda x}
+\end{align*}
+where \(\mu\in\mathbb{R}\), \(\sigma>0\) and \(\lambda \in \mathbb{R}\) are constants.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Find the solution of the partial differential equation.
+\end{enumerate}
+
+Consider the stochastic differential equation
+
+\[
+dX(t)=\left(\frac{1}{2}X(t)+\sqrt{1+X^2(t)}\right)\ dt+\sqrt{1+X^2(t)}\ dW(t)
+\]
+with \(X(0)=0\) and let \(\text{sinh}^{-1}(x)=\log\left(x+\sqrt{1+x^2}\right)\) for \(x\in\mathbb{R}\) be the inverse hyperbolic sine.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Compute the dynamics of \(Y(t)=\text{sinh}^{-1}(X(t))\).
+  \item
+    Derive the explicit solution of the stochastic differential equation.
+  \end{enumerate}
+\end{enumerate}
+
+Consider the process \(M(t)=e^{2t}\left(\cos(W(t))^2-\frac{1}{2}\right)\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Show that \(M(t)\) is a martingale.
+  \item
+    Find a cosntant \(z\) and a process \(h(t)\) such that
+    \[
+    \cos(W(T))^2=z+\int_0^T h(t)\ dW(t).
+    \]
+  \end{enumerate}
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+We see that the problem is a boundary value problem with parameters as in proposition 5.6 with \(r=0\). Then we know from Feymann-Kac that the solutions has stochastic representation
+
+\[
+F(t,x)=e^{-r(T-t)}E_{t,x}[e^{\lambda X(T)}],
+\]
+
+where \(X\) is a stochastic process with
+
+\[
+dX(t)=\mu\ ds+\sigma\ dW(s),
+\]
+
+where \(W\) is a Brownian motion. The dynamics of \(Z(t)=e^{\lambda X(t)}=f(t,X(t))\) for \(f(t,x)=e^{\lambda x}\) is given by Ito's formula:
+\begin{align*}
+dZ(t)&=0\ dt+\lambda Z(t)\ dX(t)+\frac{1}{2}\lambda^2Z(t)\ (dX(t))^2\\
+&=\lambda \mu Z(t)\ dt + \lambda \sigma Z(t)\ dW(t)+\frac{1}{2}\lambda^2\sigma^2\ dt\\
+&=\left(\lambda\mu+\frac{1}{2}\lambda^2\mu^2\right)Z(t)\ dt + \lambda\sigma Z(t)\ dW(t).
+\end{align*}
+That is, \(Z\) is a GBM. Under assumption \(X(t)=x\) we therefore have
+\begin{align*}
+Z(T)&=Z(t)\exp\left\{\left(\lambda\mu+\frac{1}{2}\lambda^2\mu^2-\frac{1}{2}\lambda^2\mu^2\right)(T-t)+\lambda \sigma(W(T)-W(t))\right\}\\
+&=e^{\lambda x}\exp\left\{\lambda\mu(T-t)+\lambda \sigma(W(T)-W(t))\right\}.
+\end{align*}
+Therefore the solution to the PDE is
+\begin{align*}
+F(t,x)&=e^{-r(T-t)}E_{t,x}[e^{\lambda X(T)}]\\
+&=E\left[e^{\lambda x}\exp\left\{\lambda\mu(T-t)+\lambda \sigma(W(T)-W(t))\right\}\right]\\
+&=e^{\lambda x+\lambda\mu(T-t)}E\left[\exp\left\{\lambda \sigma(W(T)-W(t))\right\}\right]\\
+&=e^{\lambda x+\lambda\mu(T-t)}e^{\frac{1}{2}(T-t)\lambda^2\sigma^2}\\
+&=e^{\lambda x+\left(\lambda\mu+\frac{1}{2}\lambda^2\sigma^2\right)(T-t)}.
+\end{align*}
+As desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+\emph{(i)}: We start by setting \(Z(t)=X(t)+\sqrt{1+X^2(t)}\) and see that \(Z\) has dynamics from Ito's formula
+\begin{align*}
+dZ(t)&=\left(1+X(t)\frac{1}{\sqrt{1+X^2(t)}}\right)\ dX(t)+\frac{1}{2}\left(\frac{\sqrt{1+X^2(t)}-X^2(t)\frac{1}{\sqrt{1+X^2(t)}}}{1+X^2(t)}\right)\ (dX(t))^2\\
+&=\left(1+X(t)\frac{1}{\sqrt{1+X^2(t)}}\right)\left(\frac{1}{2}X(t)+\sqrt{1+X^2(t)}\right)\ dt + \left(1+X(t)\frac{1}{\sqrt{1+X^2(t)}}\right)\sqrt{1+X^2(t)}\ dW(t)\\
+&+\frac{1}{2}\left(\sqrt{1+X^2(t)}-X^2(t)\frac{1}{\sqrt{1+X^2(t)}}\right)\ dt\\
+&=\left(\frac{1}{2}X(t)+\sqrt{1+X^2(t)}+\frac{1}{2}X^2(t)\frac{1}{\sqrt{1+X^2(t)}}+X(t)\right)\ dt + \left(\sqrt{1+X^2(t)}+X(t)\right)\ dW(t)\\
+&+\frac{1}{2}\left(\sqrt{1+X^2(t)}-X^2(t)\frac{1}{\sqrt{1+X^2(t)}}\right)\ dt\\
+&=\left(\frac{3}{2}X(t)+\frac{3}{2}\sqrt{1+X^2(t)}\right)\ dt + Z(t)\ dW(t)\\
+&=\frac{3}{2}Z(t)\ dt+Z(t)\ dW(t).
+\end{align*}
+Hence we have \(Y(t)=\log(Z(t))\) with dynamics
+\begin{align*}
+dY(t)&=\frac{1}{Z(t)}\ dZ(t)-\frac{1}{2}\frac{1}{Z^2(t)}\ (dZ(t))^2\\
+&=\frac{3}{2}\ dt+ dW(t)-\frac{1}{2}\ dt\\
+&=dt+dW(t).
+\end{align*}
+as desired. \(\square\)
+
+\emph{(ii)}: From above we have that
+
+\[
+Y(t)=Y(0)+t+\int_0^tdW(s)=\log(X(0)+\sqrt{1+X^2(0)})+t+\int_0^tdW(s)=t+\int_0^t dW(s).
+\]
+
+Notice that \(Y\sim\mathcal{N}\left(t,t\right)\) per. lemma 4.18. Hence
+
+\[
+X(t)=\text{sinh}(Y(t))=\frac{1}{2}(e^{Y(t)}-e^{-Y(t)})=\frac{1}{2}(e^{t}e^{\int_0^t dW(s)}-e^{-t}e^{-\int_0^t dW(s)})\stackrel{d}{=}\frac{1}{2}(N_1-N_2)
+\]
+
+where \(N_1\) and \(N_2\) are lognormal distributed with respectively \(\mu_1=t\) and \(\mu_2=-t\) and \(\sigma^2_1=\sigma^2_2=t\) as desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+\emph{(i)}: We set \(X(t)=e^{2t}\) and \(Y(t)=\text{cos}^2(W(t))-\frac{1}{2}\). Notice that we have the following derivatives:
+
+\[
+\frac{d}{dt}(\text{cos}^2(t))=2\text{cos}(t)\frac{d}{dt}(\text{cos}(t))=2\text{cos}(t)(-\text{sin}(t))=-2\text{cos}(t)\text{sin}(t)
+\]
+
+and
+\begin{align*}
+\frac{d^2}{dt^2}(\text{cos}^2(t))&=-2\left[-\text{sin}^2(t)+\text{cos}^2(t)\right]=2(\text{sin}^2(t)-\text{cos}^2(t))\\
+&=2(\text{sin}^2(t)-\text{cos}^2(t)+\text{cos}^2(t)-\text{cos}^2(t))\\
+&=2(1-\text{cos}^2(t)-\text{cos}^2(t))\\
+&=2-4\text{cos}^2(t).
+\end{align*}
+Therefore by Ito's formula we have
+\begin{align*}
+dX(t)&=2X(t)\ dt\\
+dY(t)&=-2\text{cos}(W(t))\text{sin}(W(t))\ dW(t)+\frac{1}{2}(2-4\text{cos}^2(t))\ (dW(t))^2\\
+&=(1-2\text{cos}^2(t))\ dt-2\text{cos}(W(t))\text{sin}(W(t))\ dW(t)\\
+&=-2\left(\text{cos}^2(t)-\frac{1}{2}\right)\ dt-2\text{cos}(W(t))\text{sin}(W(t))\ dW(t)\\
+&=-2Y(t)\ dt-2\text{cos}(W(t))\text{sin}(W(t))\ dW(t).
+\end{align*}
+Then we have the dynamics of \(M\) given by
+\begin{align*}
+dM(t)&=Y(t)\ dX(t)+X(t)\ dY(t)+\frac{1}{2}(dX(t))(dY(t))\\
+&=2Y(t)X(t)\ dt-2X(t)Y(t)\ dt-2X(t)\text{cos}(W(t))\text{sin}(W(t))\ dW(t)\\
+&=-2X(t)\text{cos}(W(t))\text{sin}(W(t))\ dW(t).
+\end{align*}
+Hence \(M\) is a martingale per corollary 4.9. \(\square\)
+
+\emph{(ii)}: We have from the above that
+\begin{align*}
+M(T)&=M(0)+\int_0^T-2X(t)\text{cos}(W(t))\text{sin}(W(t))\ dW(t)\\
+&=\frac{1}{2}+\int_0^T-2e^{2t}\text{cos}(W(t))\text{sin}(W(t))\ dW(t)\\
+&=e^{2T}\left(\text{cos}^2(W(T))-\frac{1}{2}\right).
+\end{align*}
+We can then rewrite as
+\begin{align*}
+\text{cos}^2(W(T))&=e^{-2T}M(T)+\frac{1}{2}\\
+&=\frac{1+e^{-2T}}{2}+\int_0^T-2e^{-2(T-t)}\text{cos}(W(t))\text{sin}(W(t))\ dW(t)
+\end{align*}
+hence we have \(z=\frac{1+e^{-2T}}{2}\) and \(h(t)=-2e^{-2(T-t)}\text{cos}(W(t))\text{sin}(W(t))\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\hypertarget{problem-2-3}{%
+\subsection{Problem 2}\label{problem-2-3}}
+
+Let \(W_1(t)\) and \(W_2(t)\) be two independent \(P\)-Brownian motions. Let the filtration \(\mathcal{F}\) be the one generated by the two Brownian motions.
+
+Consider an arbitrage free and complete Black-Scholes model. The model consists of three assets: A Bank account \(B(t)\) and two stocks \(S_1(t)\) and \(S_2(t)\). The \(P\)-dynamics of \(B(t)\) is
+
+\[
+dB(t)=rB(t)\ dt,
+\]
+
+with \(B(0)=1\) and \(r\in\mathbb{R}\) is a constant interest rate. The \(P\)-dynamics of \(S_1(t)\) and \(S_2(t)\) are given by
+\begin{align*}
+dS_1(t)&=\mu_1S_1(t)\ dt+\sigma_1 S_1(t)\ dW_1(t),\\
+dS_1(t)&=\mu_2S_2(t)\ dt+\sigma_2 S_2(t)\ dW_2(t),
+\end{align*}
+where \(\mu_1,\mu_2\in\mathbb{R}\) and \(\sigma_1,\sigma_2>0\) are constants. Let \(T>0\) be a given and fixed expiry date.
+
+Let \(h(t)=(h_0(t),h_1(t),h_2(t))\) denote a portfolio where \(h_0(t)\) is the number of units of the bank account at time \(t\), \(h_1(t)\) is the number of shares in stock \(S_1(t)\) at time \(t\), and \(h_2(t)\) is the number of shares in stock \(S_2(t)\) at time \(t.\) Let \(V^h(t)\) denote the associated value process.
+
+Consider the portfolio \(h(t)=(h_0(t),h_1(t),h_2(t))\) given by
+
+\[
+h_0(t)=(S_2(t)-1)/B(t),\ h_1(t)=0,\ h_2(t)=1/S_2(t).
+\]
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Determine wether the portfolio \(h\) is self-financing or not.
+\end{enumerate}
+
+Consider a new self-financing portfolio \(h(t)=(h_0(t),h_1(t),h_2(t))\) given by
+
+\[
+h_0(t)=0,\ h_1(t)=(1-u)\frac{V^h(t)}{S_1(t)},\ h_2(t)=u\frac{V^h(t)}{S_2(t)}.
+\]
+
+where \(u\) is a constant and set \(V^h(0)=1\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Determine \(u\) such that the two processes \(S_1(t)/V^h(t)\) and \(S_2(t)/V^h(t)\) both are martingales.
+\end{enumerate}
+
+Consider the derivative that at time \(T\) pays
+
+\[
+X=
+\begin{cases}
+K & S_1(T)\le K,\\
+S_1(T) & K<S_1(T)\le 2K\\
+2K & S_1(T)>2K
+\end{cases}
+\]
+
+where \(K>0\) is constant.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Find a hedging portfolio for derivative \(X\).
+\end{enumerate}
+
+Consider the derivative that a time \(T\) pays \(Y=\left(\sqrt{S_2(T)}-K\right)^+\), where \(K>0\) is a constant. Let \(F(t,s_2)\) be the pricing function of the derivative.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{3}
+\item
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    Determine the equation satisfied by the pricing function \(F(t,s_2)\).
+  \item
+    Determine the arbitrage free price of derivative \(Y\) at time \(t<T\).
+  \end{enumerate}
+\end{enumerate}
+
+Consider the derivative that at time \(T\) pays \(Z=\int_{T_0}^T(S_1(t)-S_2(T_0))\ dt\) where \(0<T_0<T\) is a fixed date.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Determine the arbitrage free price of derivative \(Z\) at time \(t<T_0\). (Hint: you might use Fubini for conditional expectation: \(E[\int_a^b X(u)\ dy\ \vert\ \mathcal{F}]=\int_a^bE[X(u)\ \vert\ \mathcal{F}]\)).
+\end{enumerate}
+
+For the remainder of this problem, assume that the market model is extended to include a third stock with price process \(S_3(t)\). The \(P\)-dynamics of \(S_3(t)\) is given by
+
+\[
+dS_3(t)=\mu_3 S_3(t)\ dt+\sigma_3 S_3(t)\ dW_2(t),
+\]
+
+where \(\mu_3\in\mathbb{R}\) and \(\sigma_3>0\) are constants. The new model \((B,S_1,S_2,S_3)\) is a three-dimensional Black-Scholes model.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Compute the covariance of \(S_i(T)\) and \(S_j(T)\) for \(i,j=1,2,3\) and \(i\ne j\). (Hint: recall \(\text{cov}(X,Y)=E[XY]-E[X]E[Y]\)).
+\end{enumerate}
+
+Set \(r=0.01,\) \(\mu_1=0.04\), \(\mu_2=0.05\), \(\sigma_1=0.15\), \(\sigma_2=0.20\) and \(\sigma_3=0.25\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Determine the value of \(\mu_3\) such that the model is arbitrage free and complete.
+\end{enumerate}
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (a).}
+
+From lemma 6.12 we have that \(h\) is self-financing if and only if
+
+\[
+dV^h(t)=h_0(t)\ dB(t)+h_1(t)\ dS_1(t)+h_2(t)\ dS_2(t)=(*).
+\]
+
+We see by inserting \(h\) and the dynamics of the price processes that
+\begin{align*}
+(*)&=\frac{S_2(t)-1}{B(t)}\ dB(t)+0\ dS_1(t)+\frac{1}{S_2(t)}\ dS_2(t)\\
+&=(S_2(t)-1)r\ dt+\mu_2\ dt+\sigma_2\ dW_2(t)\\
+&=\left(S_2(t)r-r+\mu_2\right)\ dt+\sigma_2 dW_2(t).
+\end{align*}
+We calculate the dynamics of the value process by seeing that
+
+\[
+V^h(t)=\frac{S_2(t)-1}{B(t)}B(t)+0S_1(t)+\frac{1}{S_2(t)}S_2(t)=S_2(t)-1+1=S_2(t).
+\]
+
+hence we have
+
+\[
+dV^h(t)=dS_2(t)\ne(*)
+\]
+
+hence \(h\) is not self-financing. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (b).}
+
+By assumption we have that \(h\) is self-financing. That means per lemma 6.12 that
+\begin{align*}
+dV^h(t)&=h_0(t)\ dB(t)+h_1(t)\ dS_1(t)+h_2(t)\ dS_2(t)\\
+&=(1-u)\frac{1}{S_1(t)}V^h(t)\ dS_1(t)+u\frac{1}{S_2(t)}V^h(t)\ dS_2(t)\\
+&=(1-u)V^h(t)\ (\mu_1 \ dt+\sigma_1\ dW_1(t))+uV^h(t)\ \ (\mu_2 \ dt+\sigma_2\ dW_2(t))\\
+&=V^h(t)\left((1-u)\mu_1+u\mu_2\right)\ dt+V^h(t)\left((1-u)\sigma_1\ dW_1(t)+u\sigma_2\ dW_2(t)\right)
+\end{align*}
+Then we know that \(V^h\) is the following solution
+
+Then we have by Ito's formula that
+\begin{align*}
+d\left(\frac{S_1(t)}{V^h(t)}\right)&=\frac{1}{V^h(t)}\ dS_1(t)-\frac{S_1(t)}{V^h(t)^2}\ dV^h(t)-\frac{1}{V^h(t)^2}(dS_1(t))(dV^h(t))+\frac{1}{2}2\frac{S_1(t)}{V^h(t)^3}\ (dV^h(t))^2\\
+&=\mu_1\frac{S_1(t)}{V^h(t)}\ dt+\sigma_1 \frac{S_1(t)}{V^h(t)}\ dW_1(t)-\frac{S_1(t)}{V^h(t)}((1-u)\mu_1+u\mu_2)\ dt\\
+&-\frac{S_1(t)}{V^h(t)}(1-u)\sigma_1\ dW_1(t)+\frac{S_1(t)}{V^h(t)}u\sigma_2\ dW_2(t)\\
+&-\frac{S_1(t)}{V^h(t)}(1-u)\sigma_1^2\ dt+\frac{S_1(t)}{V^h(t)}(1-u)^2\sigma_1^2\ dt+\frac{S_1(t)}{V^h(t)}u^2\sigma_2^2\ dt
+\end{align*}
+As we need the process to have zero local drift i.e.~zero \(dt\)-term we thus HAVE the relevant equation:
+\begin{align*}
+0&=\frac{S_1(t)}{V^h(t)}\left\{\mu_1-(1-u)\mu_1-u\mu_2-(1-u)\sigma_1^2+(1-u)^2\sigma_1^2+u^2\sigma_2^2\right\}
+\end{align*}
+or equivalently
+\begin{align*}
+0&=\mu_1-(1-u)\mu_1-u\mu_2-(1-u)\sigma_1^2+(1-u)^2\sigma_1^2+u^2\sigma_2^2\\
+&=\mu_1-\mu_1+u\mu_1-u\mu_2-\sigma_1^2+u\sigma_1^2+\sigma_1^2+u^2\sigma_1^2-2u\sigma_1^2+u^2\sigma_2^2\\
+&=u\mu_1-u\mu_2-u\sigma_1^2+u^2\sigma_1^2+u^2\sigma_2^2\\
+&=u(\mu_1-\mu_2-\sigma_1^2+u\sigma_1^2+u\sigma_2^2)
+\end{align*}
+hence
+
+\[
+u=\begin{cases}
+0,\\
+\frac{\mu_2+\sigma_1^2-\mu_1}{\sigma_1^2+\sigma_2^2}.
+\end{cases}
+\]
+
+Likewise can one show that the dynamics of \(S_2/V^h\) does indeed lead to the same \(u\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (c).}
+
+We see that the payout is the bull-spread with strikes \(K\) and \(2K\). This derivative is replicated by the buy-and-hold strategy
+
+\begin{itemize}
+\tightlist
+\item
+  Long one of the underlying stock,
+\item
+  Short one European call option with strike \(2K\),
+\item
+  Long one European put option with strike \(K\).
+\end{itemize}
+
+From the put-call parity we may replicate the put option with \(K\) zero-coupon bonds, one call option with the same strike and one short in the underlying. Thus we have the portfolio.
+
+\begin{itemize}
+\tightlist
+\item
+  Short one European call option with strike \(2K\),
+\item
+  \(K\) zero-coupon bonds and
+\item
+  Long one European call option with strike \(K\).
+\end{itemize}
+
+Notice, that no position is made in the underlying. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (d).}
+
+\emph{(i)}: We have that the derivative must satisfy the PDE,
+\begin{align*}
+rF(t,s_2)&=F_t(t,s_2)+rs_2F_{s_2}(t,s_2)+\frac{1}{2}\sigma_2^2s_2^2F_{s_2s_2}(t,s_2)\\
+F(T,s_2)&=\Phi(s_2)=(\sqrt{s_2}-K)^+.
+\end{align*}
+\emph{(ii)}: In the Black-Scholes we have that the price is given by the risk neutral valuation formula.
+\begin{align*}
+F(t,s_2)&=e^{-r(T-t)}E^Q_{t,s_2}\left[\Phi(S_2(T))\right]=e^{-r(T-t)}E^Q_{t,s_2}\left[\left(\sqrt{S_2(T)}-K\right)^+\right].
+\end{align*}
+Under the measure \(Q\) with initial condition \(S_2(t)=s_2\) we have that \(S_2\) is a GBM i.e.
+
+\[
+S_2(T)=s_2\exp\left\{\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)+\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}
+\]
+
+hence
+
+\[
+\sqrt{S_2(T)}=\sqrt{s_2}\exp\left\{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)+\frac{1}{2}\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}.
+\]
+
+We then have
+\begin{align*}
+F(t,s_2)&=e^{-r(T-t)}E^Q\left[\left(\sqrt{s_2}\exp\left\{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)+\frac{1}{2}\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}-K\right)^+\right]\\
+&=e^{-r(T-t)}E^Q\left[\left(\sqrt{s_2}\exp\left\{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)+\frac{1}{2}\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}-K\right)1_{\sqrt{S_2(T)}\ge K}\right]\\
+&=e^{-r(T-t)}E^Q\left[\sqrt{s_2}\exp\left\{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)+\frac{1}{2}\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}1_{\sqrt{S_2(T)}\ge K}\right]\\
+&-e^{-r(T-t)}KE^Q\left[1_{\sqrt{S_2(T)}\ge K}\right]
+\end{align*}
+The event \((\sqrt{S_2(T)}\ge K)\) is in terms of the increments of the \(Q\)-Brownian motion given as
+\begin{align*}
+\sqrt{s_2}\exp\left\{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)+\frac{1}{2}\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}&\ge K\\
+d_1(t,T):=\frac{1}{\sigma_2\sqrt{T-t}}\left(1\log(K)-\log(s_2)-\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)\right)&\le \frac{1}{\sqrt{T-t}}\left(W_2^Q(T)-W_2^Q(t)\right)
+\end{align*}
+Then the above pricing function is given in terms of the above
+\begin{align*}
+F(t,s_2)&=e^{-r(T-t)}\sqrt{s_2}e^{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)}E^Q\left[\exp\left\{\frac{1}{2}\sigma_2(W_2^Q(T)-W_2^Q(t))\right\}1_{d_1(t,T)\le \frac{1}{\sqrt{T-t}}\left(W_2^Q(T)-W_2^Q(t)\right)}\right]\\
+&-e^{-r(T-t)}KE^Q\left[1_{d_1(t,T)\le X}\right]\\
+&=e^{-r(T-t)}\sqrt{s_2}e^{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)}E^Q\left[e^{\frac{1}{2}\sigma_2\sqrt{T-t}X}1_{d_1(t,T)\le X}\right]\\
+&-e^{-r(T-t)X}KP\left(X\le d_1(t,T)\right),
+\end{align*}
+where \(X\sim\mathcal{N}(0,1)\). Recall from \emph{``remark on Black-Scholes formula''} we have that
+
+\[
+E^Q\left[e^{\frac{1}{2}\sigma_2\sqrt{T-t}X}1_{d_1(t,T)\le X}\right]=e^{\frac{1}{8}\sigma_2^2(T-t)}N\left[\frac{1}{2}\sigma_2-d_1(t,T)\right]
+\]
+
+where \(N\) is the distribution of a standard normal random variabel. Hence we have
+\begin{align*}
+F(t,s_2)&=e^{-r(T-t)}\sqrt{s_2}e^{\frac{1}{2}\left(r-\frac{1}{2}\sigma_2^2\right)(T-t)}e^{\frac{1}{8}\sigma_2^2(T-t)}N\left[\frac{1}{2}\sigma_2-d_1(t,T)\right]\\
+&-e^{-r(T-t)X}KN\left[-d_1(t,T)\right]\\
+&=\sqrt{s_2}e^{\left(-\frac{1}{2}r-\frac{1}{8}\sigma_2^2\right)(T-t)}N\left[\frac{1}{2}\sigma_2-d_1(t,T)\right]e^{-r(T-t)X}KN\left[-d_1(t,T)\right]
+\end{align*}
+The arbitrage free price og the derivative is then \(\Pi_t[Y]=f(t,S_2(t))\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (e).}
+
+We have using Fubini for conditional expectation
+\begin{align*}
+E^Q_{t,s_1,s_2}\left[Z\right]&=E^Q\left[\left.\int_{T_0}^T(S_1(t)-S_2(T_0))\ ds \ \right\vert\ S_1(t)=s_1,S_2(t)=s_2\right]\\
+&=\int_{T_0}^TE^Q\left[\left.S_1(t)-S_2(T_0) \ \right\vert\ S_1(t)=s_1,S_2(t)=s_2\right]\ ds\\
+&=\int_{T_0}^T s_1e^{\left(r-\frac{1}{2}\sigma_1^2\right)(s-t)} -s_2e^{\left(r-\frac{1}{2}\sigma^2\right)(T_0-t)} \ ds\\
+&=s_1e^{-\left(r-\frac{1}{2}\sigma_1^2\right)t}\int_{T_0}^T e^{\left(r-\frac{1}{2}\sigma_1^2\right)s}\ ds-s_2(T-T_0)e^{\left(r-\frac{1}{2}\sigma^2\right)(T_0-t)}\\
+&=s_1\frac{e^{-\left(r-\frac{1}{2}\sigma_1^2\right)t}}{r-\frac{1}{2}\sigma_1^2}\left( e^{\left(r-\frac{1}{2}\sigma_1^2\right)T}- e^{\left(r-\frac{1}{2}\sigma_1^2\right)T_0}\right)-s_2(T-T_0)e^{\left(r-\frac{1}{2}\sigma^2\right)(T_0-t)}\\
+&=s_1\left(r-\frac{1}{2}\sigma_1^2\right)^{-1}\left( e^{\left(r-\frac{1}{2}\sigma_1^2\right)(T-t)}- e^{\left(r-\frac{1}{2}\sigma_1^2\right)(T_0-t)}\right)-s_2(T-T_0)e^{\left(r-\frac{1}{2}\sigma^2\right)(T_0-t)}.
+\end{align*}
+Then using the risk neutral valuation formula we have
+\begin{align*}
+\Pi_t[Z]&=F(t,S_1(t),S_2(t))\\
+&=e^{-r(T-t)}S_1(t)\left(r-\frac{1}{2}\sigma_1^2\right)^{-1}\left( e^{\left(r-\frac{1}{2}\sigma_1^2\right)(T-t)}- e^{\left(r-\frac{1}{2}\sigma_1^2\right)(T_0-t)}\right)\\
+&-e^{-r(T-t)}S_2(t)(T-T_0)e^{\left(r-\frac{1}{2}\sigma^2\right)(T_0-t)}.
+\end{align*}
+As desired. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (f).}
+
+Using that \(S_i\) is a GBM we have for \(j\ne i=1\):
+\begin{align*}
+E[S_i(T)S_j(T)]&=s_is_jE\left\{e^{\left(\mu_i-\frac{1}{2}\sigma_i^2\right)t+\sigma_i W_i(t)}e^{\left(\mu_j-\frac{1}{2}\sigma_j^2\right)t+\sigma_j W_j(t)}\right\}\\
+&=s_is_jE\left\{e^{\left(\mu_i-\frac{1}{2}\sigma_i^2\right)t+\sigma_i W_i(t)}\right\}E\left\{e^{\left(\mu_j-\frac{1}{2}\sigma_j^2\right)t+\sigma_j W_j(t)}\right\}\\
+&=s_is_je^{\left(\mu_i-\frac{1}{2}\sigma_i^2\right)t}e^{\left(\mu_j-\frac{1}{2}\sigma_j^2\right)t}E\left\{e^{\sigma_i W_i(t)}\right\}E\left\{e^{\sigma_j W_j(t)}\right\}\\
+&=s_is_je^{\left(\mu_i+\mu_j-\frac{1}{2}(\sigma_i^2+\sigma_j^2)\right)t}e^{\frac{1}{2}t\sigma_i^2}e^{\frac{1}{2}t\sigma_j^2}\\
+&=s_is_je^{\left(\mu_i+\mu_j\right)t}=E[S_i(T)]E[S_j(T)].
+\end{align*}
+using that \(W_i\) and \(W_j\) are independent and the moment generating function for a normal random variable. Hence \(\text{Cov}_{i,j}(S_i(T)S_j(T))=0\) when \(i\) or \(j\) is one and \(i\ne j\). For \(i=2\) and \(j=3\) we have
+\begin{align*}
+E[S_2(T)S_3(T)]&=s_is_jE\left\{e^{\left(\mu_2-\frac{1}{2}\sigma_2^2\right)t+\sigma_i W_2(t)}e^{\left(\mu_3-\frac{1}{2}\sigma_3^2\right)t+\sigma_3 W_2(t)}\right\}\\
+&=s_2s_3e^{\left(\mu_2+\mu_3-\frac{1}{2}(\sigma_2^2+\sigma_3^2)\right)t}E\left\{e^{\sigma_3 W_2(t)}e^{\sigma_3 W_2(t)}\right\}\\
+&=s_2s_3e^{\left(\mu_2+\mu_3-\frac{1}{2}(\sigma_2^2+\sigma_3^2)\right)t}E\left\{e^{(\sigma_2 +\sigma_3 )W_2(t)}\right\}\\
+&=s_2s_3e^{\left(\mu_2+\mu_3-\frac{1}{2}(\sigma_2^2+\sigma_3^2)\right)t}e^{\frac{1}{2}t(\sigma_2 +\sigma_3 )^2}\\
+&=s_2s_3e^{\left(\mu_2+\mu_3-\frac{1}{2}(\sigma_2^2+\sigma_3^2)\right)t+\frac{1}{2}t(\sigma_2^2 +\sigma_3^2+2\sigma_2\sigma3 )}\\
+&=s_2s_3e^{\left(\mu_2+\mu_3-\sigma_2\sigma3\right)t}
+\end{align*}
+hence we have
+\begin{align*}
+\text{Cov}[S_2(T)S_3(T)]&=s_2s_3e^{\left(\mu_2+\mu_3-\sigma_2\sigma3\right)t}-s_2s_3e^{(\mu_2+\mu_3)t}\\
+&=s_2s_3e^{(\mu_2+\mu_3)t}\Big(e^{\sigma_2\sigma3t}-1\Big).
+\end{align*}
+Then the covarince matrix is on the from
+
+\[
+\text{Cov}(S(T))=
+\begin{bmatrix}
+* & 0 & 0\\
+0 & * & s_2s_3e^{(\mu_2+\mu_3)t}\Big(e^{\sigma_2\sigma3t}-1\Big)\\
+0 & s_2s_3e^{(\mu_2+\mu_3)t}\Big(e^{\sigma_2\sigma3t}-1\Big) & *
+\end{bmatrix}.
+\]
+
+In the above the * is simply \(\text{Var}(S_i(T))\). \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\textbf{Solution (g).}
+
+The model is arbitrage free and complete if the Girsanov kernel is unique (and exists). We have as usual the equation:
+\begin{align*}
+\sigma \varphi=r-\mu
+\end{align*}
+or on matrix form
+\begin{align*}
+\begin{bmatrix}
+\sigma_1 & 0\\
+0 & \sigma_2\\
+0 & \sigma_3
+\end{bmatrix}
+\begin{bmatrix}
+\varphi_1\\
+\varphi_2
+\end{bmatrix}=
+\begin{bmatrix}
+r- \mu_1 \\
+r- \mu_2\\
+r-\mu_3
+\end{bmatrix}
+\end{align*}
+hence \(\varphi =\frac{r-\mu_1}{\sigma_1}\) and
+
+\[
+\varphi_2=\frac{r-\mu_2}{\sigma_2}=\frac{r-\mu_3}{\sigma_3}.
+\]
+
+For \(\varphi\) to be unique the above must hold i.e.
+
+\[
+\mu_3=r-\frac{r-\mu_2}{\sigma_2}\sigma_3.
+\]
+
+Inserting the values of \(r,\mu_2,\sigma_2,\sigma_3\) we have
+
+\[
+\mu_3=0.01-\frac{0.01-0.05}{0.20}\cdot 0.25=0.06
+\]
+
+as desired. It is now left to show that the Novikov condition is satisfied. This is trivially true since \(\varphi\) is constant and deterministic. \(\square\)
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}\\
+\pagebreak
+
+\hypertarget{exam-202223}{%
+\section{Exam 2022/23}\label{exam-202223}}
+
+Some content
+
+\hypertarget{topics-in-life-insurance-mathematics}{%
+\chapter{Topics in Life Insurance Mathematics}\label{topics-in-life-insurance-mathematics}}
+
+\hypertarget{question-1-interest-and-mortality-rate-models}{%
+\section{Question 1: Interest and mortality rate models}\label{question-1-interest-and-mortality-rate-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Introduce the spot short rate \(\{r(t)\}_{t\ge 0}\) and the accumulator
+  \begin{align*}
+    B_t=e^{\int_0^tr(v)\ dv}
+    \end{align*}
+\item
+  Define the Zero-coupon bond \(B(t,T)\) via the \(\mathbb Q\)-martingale \(B(t,T)/B_t\).
+\item
+  Derive the dynamics of \(m(t)=B(t,T)/B_t\) via \(p(t,r(t))=B(t,T)\)
+\item
+  Establish the Term structure equation
+\item
+  Consider the affine model family
+  \begin{align*}
+    p(t,r)=e^{f(t)r+g(t)}
+    \end{align*}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Derive the derivatives of \(f\) and \(g\) and boundary condition
+  \item
+    Give an example with the Vasicek model
+    \begin{align*}
+    \alpha(t,r)=(a-br),\qquad \sigma(t,r)=\sigma^2
+    \end{align*}
+  \item
+    Solve for \(r\).
+  \end{itemize}
+\end{itemize}
+
+\newpage
+
+\hypertarget{question-2-matrix-approach-to-life-insurance-models}{%
+\section{Question 2: Matrix-approach to life insurance models}\label{question-2-matrix-approach-to-life-insurance-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Define markov process \(Z(t)\) for both markov jump interest rates and policy markov process
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arrange states in \(Z(t)=(Z_b(t),Z_r(t))\) in grid via \(k\mapsto k(i,j) = (i-1)p_r+j\)
+  \end{itemize}
+\item
+  Define payments in terms of \(\mathbf B\) and \(\Delta (\mathbf b(t))\) in \(Z\) terms.
+\item
+  Define transition rates \(\mathbf \Lambda(t)=\mathbf \Lambda_1(t)+\mathbf \Lambda_2(t)\).
+\item
+  Define rewards \(\mathbf R(t)=\mathbf \Lambda_1(t)\bullet \mathbf B(t)+\Delta(\mathbf b(t))\).
+\item
+  Define statewise reserves \(\mathbf V\)
+\item
+  Show the theorem
+  \begin{align*}
+    \mathbf V(s,t)=\int_s^t \mathbf D(s,u)\mathbf R(u)\mathbf P(u,t)\ du
+    \end{align*}
+  by showing it holds for all \(i,j\).
+\item
+  If time write Thiele's differential equations.
+\end{itemize}
+
+\newpage
+
+\hypertarget{question-3-unit-linked-life-insurance-models}{%
+\section{Question 3: Unit-linked life insurance models}\label{question-3-unit-linked-life-insurance-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Briefly say that the setting is the Black Scholes model. With \(S\) and \(Z\) as independent stochastic processes.
+\item
+  Define the payment process \(A\) given by
+  \begin{align*}
+    dA(t)&=a^{Z(t)}(t)\ dt+\Delta A^{Z(t)}(t)+\sum_{k:k\ne Z(t-)}a^{Z(t-)k}(t)dN^k
+    \end{align*}
+\item
+  Define the capital process \(X\) as the
+  \begin{align*}
+    dX(t)&=rX(t)\ dt+\sigma \pi(t,X(t))X(t)\ dW^{\mathbb Q}(t)\\
+    &-dA^{Z(t)}(t,X(t-))\\
+    &-\sum_{k:k\ne Z(t-)}\lambda_{Z(t-)k}\Big(\chi^k(t,X(t-)+a^{Z(t-)k}(t,X(t-))-X(t-)\Big)\ dt\\
+    &-\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\ dN^k(t)
+    \end{align*}
+\item
+  \(A\) governs the capital allocation and \(B\) is the actual payments between both parties. Perhaps define \(B\) or say it is define just like \(A\).
+\item
+  I will establish a PDE that the reserve satisfies \(V\) is based on \(B\) and \(\mathbb P\otimes \mathbb Q\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Start by constructing the martingale \(m\)
+  \item
+    Explain the structure of the proof: 1) Set \(dt=0\) and 2) identify gluing.
+  \item
+    Derive dynamics of \(m\)
+  \item
+    Insert \(X(t)=\chi^k(t,X(t-))\) on \(Z(t)=k\) and \(Z(t-)\ne k\).
+  \item
+    Use compensators to get all \(dt\)-terms
+  \item
+    Rearrange
+  \item
+    Remember payments \(\Delta A\) and \(\Delta B\) in the jumps (glueing)
+  \end{itemize}
+\end{itemize}
+
+\textbf{Notes.} Remember that \(W\) has \(\mathbb Q\) dynamics
+\begin{align*}
+dW(t)=dW^\mathbb Q(t)+\frac{r-\mu}{\sigma}\ dt
+\end{align*}
+hence
+\begin{align*}
+dX(t)&=((\mu-r)\pi(t,X(t))+r)X(t)\ dt+\pi(t,X(t))\sigma X(t)\ dW(t)+...\\
+&=(\color{red}{(\mu-r)\pi(t,X(t))}+r)X(t)\ dt+\pi(t,X(t))\sigma X(t)\ dW^\mathbb Q+\color{red}{(r-\mu)\pi(t,X(t))}X(t)\ dt+...\\
+&=rX(t)\ dt+\pi(t,X(t))\sigma X(t)\ dW^\mathbb Q+...
+\end{align*}
+
+\newpage
+
+\hypertarget{question-4-with-profit-life-insurance-models}{%
+\section{Question 4: With-profit life insurance models}\label{question-4-with-profit-life-insurance-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Briefly, explains the setup with first order basis and where there are equivalence.
+\item
+  Define \(B\) and \(D\) and explain the role of \(D\).
+\item
+  Decompose the balance with assets \(Y_0\) and \(V^*\) evolving with
+  \begin{align*}
+    Y_0(t)=\int_0^t\frac{G(t)}{G(s)}d(-(B+D)(s))
+    \end{align*}
+\item
+  Derive the dynamics of the surplus \(Y(t)=Y_0(t)-V^*(t)\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Choose that \(q\) amount of the surplus is invested in \(S\).
+    \begin{align*}
+    q(t)=\pi(t,Y(t))Y(t)/Y_0(t)
+    \end{align*}
+  \item
+    Derive \(dY_0\) and \(dV^*\).
+  \item
+    Combine and obtain \(dY\)
+  \item
+    Identify \(R\) and \(C\).
+  \end{itemize}
+\item
+  Find a unit-link type PDE
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Assume only rate contributions and dividends (and lump sum at the end)
+  \item
+    Compare \(dY\) to \(dX\) in unit-link and see that \(A=D-C\)
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{quantative-risk-management}{%
+\chapter{Quantative Risk Management}\label{quantative-risk-management}}
+
+\hypertarget{emne-1-risk-measures}{%
+\section{Emne 1: Risk measures}\label{emne-1-risk-measures}}
+
+\begin{itemize}
+\tightlist
+\item
+  Risk measures, axioms, theoretical properties of VaR and ES,loss r.v.'s and operators.
+\item
+  Forelæsning 21/11, 23/11
+\item
+  Introduktion: Definition af risk measure (axiomerne), inverse fordelinger, hvad beskriver et risk measure
+\item
+  Bevis: VaR opfylder ikke axiomerne. ES udregninerne med tegning i Rias hæfte (uge 1 punkt 2).
+\item
+  Eksempel: VaR i Black Scholes model.
+\end{itemize}
+
+\hypertarget{emne-2-var-and-es}{%
+\section{Emne 2: VaR and ES}\label{emne-2-var-and-es}}
+
+\begin{itemize}
+\tightlist
+\item
+  VaR and ES: calculational methods (Var-Cov methods, empirical methods, confidence intervals, Monte Carlo andimportance sampling, bootstrap).
+\item
+  Forelæsning 23/11, 28/11
+\item
+  Indtroduktion: Definition af VaR og ES.
+\item
+  Bevis: udlede emperisk VaR, ES og confidence bounds (Hav afleveringen i baghovedet som motivation for andre metoder)
+\item
+  Diskussion: Forskellige måder at simulere på (Monte Carlo, importance sampling/rare event simulation), da vi ikke har nok data i halen.
+\end{itemize}
+
+\hypertarget{emne-3-evt}{%
+\section{Emne 3: EVT}\label{emne-3-evt}}
+
+\begin{itemize}
+\tightlist
+\item
+  Extreme value theory (and its general relationship to problems in risk management).
+\item
+  Forelæsning 30/11.
+\item
+  Introduktion: Tale om hvad det vil sige at være regularly eller slowly varying.
+\item
+  Bevis: Udlede Hill's estimator (Karamata's thm)
+\item
+  Risk management afslutning: Hvordan vil man aflæse et Hill plot (fortolkning). Diskussion om forskelle/ligheder til POT (bruges begge til at bestemme tail index alfa).
+\end{itemize}
+
+\hypertarget{emne-4-elliptical-distributions}{%
+\section{Emne 4: Elliptical distributions\}}\label{emne-4-elliptical-distributions}}
+
+\begin{itemize}
+\tightlist
+\item
+  Elliptical distributions.
+\item
+  Forelæsning 5/12, 7/12
+\item
+  Introduktion: spheriske og eliptiske fordelinger. (Karakteristiske funktioner)
+\item
+  Bevis: Konstruktion af elliptisk ud fra sfærisk (og deres egenskaber). Proposition ALLE TO VEJE (Amalies noter).
+\item
+  Risk management afslutning: disadvantage of elliptical dist.: all coordinates have same dist, application in portfolio investment
+\end{itemize}
+
+\hypertarget{emne-5-copulas-i}{%
+\section{Emne 5: Copulas I}\label{emne-5-copulas-i}}
+
+\begin{itemize}
+\tightlist
+\item
+  Basics, Sklar's Theorem, measures of dependence, statistical fitting to data.
+\item
+  Forelæsning 7/12, 12/12, 19/12
+\item
+  Introduktion: Defintion af copula, egenskaber af generalisede inverse, tegning
+\item
+  Bevis: Sklar's Theorem
+\item
+  Afslutning: Fitting copulas to data (correlation, tail dependence) -\textgreater{} Tail dependence (upper tail), (kendall's tau, spearmans rho)
+\end{itemize}
+
+\hypertarget{emne-6-copulas-ii}{%
+\section{Emne 6: Copulas II}\label{emne-6-copulas-ii}}
+
+\begin{itemize}
+\tightlist
+\item
+  Examples (e.g.~Gaussian, elliptical, t, Archimedean, simulating Archimedean copulas), Frechet bounds.
+\item
+  Forelæsning 12/12, 14/12
+\item
+  Introduktion: Definition af copula, klasser af copula, tegning. Eksempel med Archimedean copulas (Clayton, Frank, Gumbel) og udledning af én (med definition af archimeadean copula).
+\item
+  Bevis: Frechet bounds i begge ender. (Amalies noter)
+\item
+  Eksempel: comonotonicity/counter monotonicity, (generelt bound, gælder for alle copulas)
+\end{itemize}
+
+\hypertarget{emne-7-credit-risk-i}{%
+\section{Emne 7: Credit Risk I}\label{emne-7-credit-risk-i}}
+
+\begin{itemize}
+\tightlist
+\item
+  Merton's model and its extensions (i.e.~KMV, multidimensional Merton)
+\item
+  Forelæsning 21/12, 4/1
+\item
+  Introduktion: Definition of credit risk. Different types of methods to describe credit risk (Merton, mundtligt), factor models
+\item
+  Bevis: Merton model and -DD. Extension to multivariate Merton.
+\item
+  Perspektiver: VaR, factor models (common factors and firm-specific factors).
+\end{itemize}
+
+\hypertarget{emne-8-credit-risk-ii}{%
+\section{Emne 8: Credit Risk II}\label{emne-8-credit-risk-ii}}
+
+\begin{itemize}
+\tightlist
+\item
+  Portfolio credit risk management; ``reduced form models'' including the various mixture models
+\item
+  Forelæsning 2/1, 4/1
+\item
+  Introduktion: Definition of credit risk. Different methods to describe credit risk, i.e.~Merton and reduced form (probit normal, bernoulli, beta mixture, poisson mixture)
+\item
+  Bevis: Probit normal mixture model and its VaR, Basel formula with Vasicek LLN.
+\item
+  Afslutning: Sammenligning af modeller.
+\item
+  Perspektivering til operational risk.
+\end{itemize}
+
+\hypertarget{probabilistic-machine-learning}{%
+\chapter{Probabilistic Machine Learning}\label{probabilistic-machine-learning}}
+
+\hypertarget{part-one}{%
+\section{Part one}\label{part-one}}
+
+In the first part of the exam one draws a topic. The student must breifly explain the topics and at least include one proof.
+
+\hypertarget{question-1-linear-models-with-penalization}{%
+\subsection{Question 1: Linear models with penalization}\label{question-1-linear-models-with-penalization}}
+
+\begin{itemize}
+\tightlist
+\item
+  Define model framework:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Squared loss \(L(y_1,y_2)=(y_1-y_2)^2\)
+  \item
+    Regression \(Y\in \mathbb R\)
+  \item
+    Assume linear model i.e.~\(m^*(X)=\mathbb E[Y\ \vert\ X]=X^\top \beta^*\)
+  \end{itemize}
+\item
+  Show that the excess risk is
+  \begin{align*}
+    R(\hat m)-r(m^*)=\Vert \Sigma^{1/2}(\hat\beta - \beta^*)\Vert_2^2
+    \end{align*}
+\item
+  Use this to show the excess risk of the least square estimator
+\end{itemize}
+
+\hypertarget{question-2-nonparametrics}{%
+\subsection{Question 2: Nonparametrics}\label{question-2-nonparametrics}}
+
+\begin{itemize}
+\tightlist
+\item
+  Define model framework:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Squared loss \(L(y_1,y_2)=(y_1-y_2)^2\)
+  \item
+    Regression \(Y\in \mathbb R\)
+  \item
+    Assume continuous Bayes rule i.e.~\(m^*(X)=\mathbb E[Y\ \vert\ X]=X^\top \beta^*\)
+    \begin{align*}
+    m^\ast(x)\in \mathcal G_L = \{m: \mathbb R^p \mapsto \mathbb R\ |\ m \ \text{is L-Lipschitz continuous}\}
+    \end{align*}
+    Define what \(L\)-Lipschitz contnuous functions are.
+  \end{itemize}
+\item
+  Define linear smoothers
+  \begin{align*}
+    m(x)=\sum_{i=1}^nw_i(x) Y_i
+    \end{align*}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Consider the KNN estimator with \(w_i(x)=\frac{1}{k}1_{\{[0,\Vert x-X_i\Vert_k\}}(\Vert x-X_i\Vert)\) explain subscript
+  \item
+    Derive an upper bound for the excess risk of KNN
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{question-3-additive-models}{%
+\subsection{Question 3: Additive models}\label{question-3-additive-models}}
+
+\begin{itemize}
+\tightlist
+\item
+  Additive models assume
+  \begin{align*}
+    m(x)=m_1(x_1)+...+m_p(x_p)
+    \end{align*}
+  so the effects are independent.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Hence the parameters grow linearly where they grow exponentially in interactive models.
+  \end{itemize}
+\item
+  Define splines
+\item
+  Transform \(X\) and show that
+  \begin{align*}
+    \hat\beta = (\mathbf G^\top \mathbf G)^{-1}\mathbf G^\top \mathbf Y
+    \end{align*}
+\item
+  Show that in the penalized case the solution is a special case of ridge regression
+\end{itemize}
+
+\hypertarget{question-4-model-explanation-and-fairness}{%
+\subsection{Question 4: Model explanation and fairness}\label{question-4-model-explanation-and-fairness}}
+
+\hypertarget{part-two}{%
+\section{Part two}\label{part-two}}
+
+In the second part of the exam one draws an algorithm. The student must explain the algorithm and be prepared to defend why it works and in which circumstances it is prefered.
+
+\hypertarget{question-1-backfitting}{%
+\subsection{Question 1: Backfitting}\label{question-1-backfitting}}
+
+\begin{itemize}
+\tightlist
+\item
+  A method of fitting an additive model
+  \begin{align*}
+    Y=\alpha +\sum_{i=1}^pm^*_i(X_i)+\varepsilon
+    \end{align*}
+\end{itemize}
+
+The algorithm:
+
+\begin{itemize}
+\tightlist
+\item
+  Initialize with
+  \begin{align*}
+    \hat \alpha = \frac{1}{n}\sum_{i=1}^n Y_i,\qquad\forall j=1,...,p\ :\ \hat m_j\equiv 0
+    \end{align*}
+\item
+  For \(j=1,...,p\) do
+
+  \begin{enumerate}
+  \def\labelenumi{(\alph{enumi})}
+  \tightlist
+  \item
+    Calculate
+    \begin{align*}
+    \tilde Y_j=Y-\alpha-\sum_{k:k\ne j}\hat m_k(X_{k})
+    \end{align*}
+  \item
+    Smooth an estimator
+    \begin{align*}
+    \hat m_j(x_j)=\text{Smooth}(X_j,\tilde Y_j)
+    \end{align*}
+  \item
+    Center smoother
+    \begin{align*}
+    \hat m_j(x_j)=\hat m_j(x_j)-\frac{1}{n}\sum_{i=1}^n \hat m_j(X_{ij})
+    \end{align*}
+  \end{enumerate}
+\item
+  The estimator is
+  \begin{align*}
+    \hat m(x)=\hat\alpha + \sum_{j=1}^p\hat m_j(x_j)
+    \end{align*}
+\end{itemize}
+
+\hypertarget{question-2-cart-algorithm}{%
+\subsection{Question 2: CART algorithm}\label{question-2-cart-algorithm}}
+
+\begin{itemize}
+\tightlist
+\item
+  A method of constructing a binary classification or regression tree \(T\).
+\end{itemize}
+
+The algorithm:
+
+\begin{itemize}
+\tightlist
+\item
+  Choose loss function \(Q\) and a threshold \(q\).
+\item
+  Initialize tree as \(T=\{\mathcal X\}\).
+\item
+  For a node \(R\) define
+  \begin{align*}
+    Q_n(R)=\sum_{i : X_{i\cdot} \in R}\left( Y_i - \frac{1}{\vert R\vert}\sum_{k : X_{k\cdot}\in R} Y_k\right)^2
+    \end{align*}
+\item
+  Define \(\mathcal R_q=\{R\in T : C(R)>c\}\) for some criteria function \(C : \mathbb X\to\mathbb R_+\) and \(c>0\). While \(\mathcal R_q\ne \emptyset\) choose some \(R\in \mathcal R_q\) and do:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For all predictors \(j=1,...,p\) do:
+
+    \begin{enumerate}
+    \def\labelenumi{(\alph{enumi})}
+    \tightlist
+    \item
+      Define
+      \begin{align*}
+      R(j)=\{x_j\ \vert\ \exists (x_1,...,x_{j-1},x_{j+1},...,x_p)\ s.t.\ (x_1,...,x_{j-1},x_j,x_{j+1},...,x_p)\in R \}
+      \end{align*}
+    \item
+      Define for each \(s_j\in R(j)\)
+      \begin{align*}
+      R^+(j,s_j)=\{x\in R\ \vert\ x_j> s_j\},\qquad R^-(j,s_j)=\{x\in R\ \vert\ x_j\le s_j\}
+      \end{align*}
+    \item
+      Define the set \(\overline R=\{(j,s_j)\ \vert\ s_j\in R(j)\}\).
+    \item
+      Split the node \(R\) into \(R^+(j^*,s^*)\) and \(R^-(j^*,s^*)\) for
+      \begin{align*}
+      (j^*,s^*)=\underset{s_j\in \overline R}{\text{arg min}}\left\{ Q_n(R^+(j,s_j))+Q_n(R^-(j,s_j))\right\}
+      \end{align*}
+    \item
+      Update tree \(T=(T\setminus \{R\})\cup \{R^+(j^*,s^*),R^-(j^*,s^*)\}\).
+    \end{enumerate}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{question-3-alpha-pruning}{%
+\subsection{Question 3: Alpha-pruning}\label{question-3-alpha-pruning}}
+
+\begin{itemize}
+\tightlist
+\item
+  Growing a tree \(T_{\max}\) may lead to overfit. Solution: pruning branches.
+\item
+  Context: We have a objective risk measure \(R\) based on \(Q_n\) which favors smaller nodes/branches. Where
+  \begin{align*}
+    R(T_t)=\sum_{t'\in \tilde T_t}Q_n(t')
+    \end{align*}
+  with \(T_t\) being the branch with root \(t\) and \(\tilde T_t\) is the terminal nodes in \(T_t\). We penalizes the size of branch by
+  \begin{align*}
+    \widetilde R_\alpha(T_t)=R(T_t)+\alpha \vert T_t\vert
+    \end{align*}
+  where \(\vert T_t\vert\) is the number of terminal leaves in \(T_t\) (a tree can be a single leaf \(\tilde T_t=\{R\}\)).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For any note \(t\) and a branch \(T_t\) we have \(\widetilde R_\alpha(T_t)<\widetilde R_\alpha(t)\) for \(\alpha\) small and \(\frac{\partial}{\partial \alpha}\widetilde R_\alpha(T)=\vert T\vert\) hence grows faster for the branch.
+  \item
+    For some \(\alpha\) we have \(\widetilde R_\alpha(T_t)=\widetilde R_\alpha(t)\)
+  \item
+    We can gather a sequence \(0=\alpha_0<\alpha_1<...<\alpha_{\max}\) with \(T_0\supset T_1\supset ... \supset T_{\max}\) and define the mapping \(\alpha \mapsto T_{n,\alpha}\) via the sequence.
+  \end{itemize}
+\end{itemize}
+
+The algorithm
+
+\begin{itemize}
+\tightlist
+\item
+  Set \(k=0\). Initiate by pruning all terminal leaf pairs with
+  \begin{align*}
+    R(t)=R(t_L)+R(t_R)
+    \end{align*}
+  The first pair \((\alpha_0,T_0)=(0,T_n-t')\) where \(t'\) is the terminal nodes satisfying the above.
+\item
+  While \(\vert T_k\vert >1\) do:
+
+  \begin{enumerate}
+  \def\labelenumi{(\alph{enumi})}
+  \tightlist
+  \item
+    For all \(t\in T_k\) we can find the smallest \(\alpha\) such that \(R_\alpha(t)=R_\alpha(T_t)\) and define
+    \begin{align*}
+    g(t)=\frac{R(t)-R(T_t)}{\vert T_t\vert -1}
+    \end{align*}
+  \item
+    The next \(\alpha_{k+1}\) is then
+    \begin{align*}
+    \alpha_{k+1}=\underset{t\in T_k}{\text{arg min}}(g(t)).
+    \end{align*}
+  \item
+    Prune all terminal notes in \(T_t\) where \(g(t)=\alpha_{k+1}\).
+  \item
+    Collect the pruned tree and the \(\alpha\) in \((\alpha_{k+1},T_{k+1})\).
+  \item
+    Set \(k=k+1\).
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{question-4-gradient-boosting-machine}{%
+\subsection{Question 4: Gradient Boosting Machine}\label{question-4-gradient-boosting-machine}}
+
+We construct an estimator by improving on the previous for an amount of iterations.
+
+\begin{itemize}
+\tightlist
+\item
+  Initialize with
+  \begin{align*}
+    m^{(0)}(x)=\underset{m\in \mathcal G}{\text{arg min}}\sum_{i=1}^n L(Y_i,m(X_i)).
+    \end{align*}
+\item
+  For \(b= 1,..., B\) do
+
+  \begin{enumerate}
+  \def\labelenumi{(\alph{enumi})}
+  \tightlist
+  \item
+    Calculate the derivative
+    \begin{align*}
+    g_{ib}=-\left.\frac{\partial L(Y_i,y)}{\partial y}\right\vert_{y=m^{(b-1)}(X_i)}
+    \end{align*}
+  \item
+    Train \(\gamma_b\) on \(\{X,g_b\}\)
+  \item
+    Search for optimal learning rate
+    \begin{align*}
+    \alpha_b=\underset{\alpha}{\text{arg min}}\sum_{i=1}^n L(Y_i,m^{(b-1)}(X_i) +\alpha\gamma_b(X_i)).
+    \end{align*}
+  \item
+    Update
+    \begin{align*}
+    m^{(b)}(x)=m^{(b)}(x) + \alpha_b\gamma_b(x)
+    \end{align*}
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{question-5-neural-network}{%
+\subsection{Question 5: Neural Network}\label{question-5-neural-network}}
+
+Neural networks are defined by the amount of layers and the activation functions \(\{g_k\}_{k=0,...,l}\) where \(l\) is the number of hidden layers.
+
+The estimator is
+
+\[
+\hat m(x)=g^{(l)}\left(\beta^{(l)}_0+\beta^{(l)\top}g^{(l-1)}\left(\beta^{(l-2)}_0+\beta^{(l-2)\top}g^{(l-2)}\left(...\right)\right) \right)
+\]
+
+or
+
+\[
+\hat m (x)=\left(g^{(l)}\circ \beta^{(l)}\circ g^{(l-1)}\circ \cdots \circ g^{(0)} \circ\beta^{(0)}\right)(x)
+\]
+
+Backpropogation and Gradient decent:
+
+\begin{itemize}
+\tightlist
+\item
+  Assume \(l=1\).
+\item
+  We initialize \(\beta^{(k)}=(1,...,1)^\top\) for \(k=0,1\).
+\item
+  We set \(b=0\) and
+  \begin{align*}
+    \hat m^{(b)}(\beta^{(0),b},\beta^{(1),b};x)=g^{(1)}\left(\beta^{(1),b}_0 + \sum_{k=1}^{K}\beta_k^{(1),b}g^{(0)}\left(\beta^{(0),b}_0+\sum_{i=1}^n\beta^{(0),b}_ix_i\right)\right)
+    \end{align*}
+\item
+  For \(b=1,...,B\) do
+
+  \begin{enumerate}
+  \def\labelenumi{(\alph{enumi})}
+  \tightlist
+  \item
+    Calculate for \(k=0,1\)
+    \begin{align*}
+    \rho_{ib}^{(k)}=-\left.\frac{\partial L(Y_i,y)}{\partial \beta^{(k)}}\right\vert_{y=\hat m^{(b-1)}(X_i)}
+    \end{align*}
+    and define
+    \(\rho_{b}^{(k)}=\frac{1}{n}\sum_{i=1}^n\rho_{ib}^{(k)}\).
+  \item
+    Optional: Calculate optimal decent for \(k=0,1\):
+    \begin{align*}
+    \gamma_{b}=\underset{\gamma \in (0,\infty)^{l+1}}{\text{arg min}}\sum_{i=1}^n L(Y_i,m(\beta^{(0),b-1}+\gamma_0\rho_b^{(0)},\beta^{(1),b-1}+\gamma_1\rho_b^{(1)},X_i)).
+    \end{align*}
+    else simply define learning rate \(\gamma_b^{(k)}=\gamma\) always.
+  \item
+    Update estimator with \(\beta^{(k),b}=\beta^{(k),b-1}+\gamma_{b}^{(k)}\rho_b^{(k)}\).
+  \end{enumerate}
+\item
+  Return \(\hat m(x)=\hat m^{(B)}(x)\).
+\end{itemize}
+
+\hypertarget{question-6-tree-shap}{%
+\subsection{Question 6: Tree SHAP}\label{question-6-tree-shap}}
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}
