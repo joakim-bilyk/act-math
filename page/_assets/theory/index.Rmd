@@ -1,22 +1,20 @@
 --- 
-title: "Complete Theory"
-subtitle: "Msc in Actuarial Mathematics"
+document-type: "Lecture Notes"
+title: "Mathematics of the Actuarial Sciences"
+subtitle: "A comprehensive outline of actuarial maths"
 author: "Joakim Bilyk"
 date: '`r stringr::str_to_sentence(format(Sys.time(), "%B %d, %Y"))`'
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
+bibliography: book.bib
+url: "joakim-bilyk.github.io/books/theory"
+preface: |
+  This document contain a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
 keywords: |
   probability theory, insurance mathematics, life insurance,
   non-life insurance, stochastic differential equations.
-abstract: |
-  This document contain a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
-header-includes:
-  - \usepackage{subfig}
-  - \usepackage{float}
-link-citations: yes
+description: |
+  This is a description of the document.
 ---
 
 ```{r, setup,include=FALSE}
@@ -99,16 +97,16 @@ Below is given the abbreviations used when referencing to books:
 
 | Chapter | Abbreviation | Source |
 | :---------- | :---- | :----------------- |
-| Basic Life Insurance Mathematics |  | |
-| Stochastic Processes in Life Insurance Mathematics |  | |
+| Basic Life Insurance Mathematics | Ragnar | *Basic Life Insurance Mathematics* by Ragnar Norberg (2002) |
+| Stochastic Processes in Life Insurance Mathematics | Lund | *Stochastic Processes in Life Insurance*: The Dynamic Approach by Jesper Lund Pedersen (2022)|
 | Topics in Life Insurance Mathematics  | Asmussen | *Risk and Insurance*: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). |
 | | Bladt | Notes from lectures in Liv2. |
 | Continuous Time Finance | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
-| Basic Non-Life Insurance Mathematics |  | |
-| Stochastic Processes in Life Insurance Mathematics |  | |
-| Topics in Non-Life Insurance Mathematics | | |
+| Basic Non-Life Insurance Mathematics | Mikosch | *Non-Life Insurance Mathematics* by Thomas Mikosch (2006). |
+| Stochastic Processes in Life Insurance Mathematics | Schmidli | *Lecture Notes on FM2* by Hanspeter Schmidli. |
+| Topics in Non-Life Insurance Mathematics | Paulsen | *Non-life Insurance* by Jostein Paulsen (2023) |
 | Probabilistic Machine Learning | *None* | Slides from lectures. |
-| Quantative Risk Management | | |
+| Quantative Risk Management | McNeil | *Quantitative Risk Management* by McNeil. (2015) |
 | Measure Theory | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
 | | Protter | *Probability Essentials (2. edition)* by Jean Jacod and Philip Protter (2004). |
 | Random Variables | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
@@ -121,18 +119,48 @@ Below is given the abbreviations used when referencing to books:
 
 ## To-do reading
 
-| Chapter | Note | Progress |
-| :------ |  :-- | :------- |
-| Liv2 | Matrix representation | 4 and later |
-| | Chapter 6 | Remember handouts |
-| | Chapter 7 | Remember handouts |
-| ML | Make outlines for exam | |
-| QRM | Finish risk measures | |
-| StokLiv | Week 1| |
-| StokLiv | Week 2| |
-| SkadeStok | Week 1 | |
-| SkadeStok | Week 2 | |
-| Liv1 | Week 1 | |
-| Liv1 | Week 2 | |
-| Nonlife1 | Week 1 | |
-| Nonlife1 | Week 2 | |
+| Week | Course | Chapter | X |
+| :--- |  :---- | :------ | :--: |
+| 1 | QRM       | Finish risk measures                  | |
+|   | Liv1      | Chapter 1-3                           | |
+|   | StokLiv   | Chapter 1-4                           | |
+|   | ProjLiv   | Buchardt & Moeller (2015)             | |
+|   | Skade1    | Chapter 1-2.1                         | |
+|   | SkadeStok | Chapter 1-2 (Schmidli)                | |
+|   | Skade2    | Chapter 1-7 (uden 6), kursorisk       | |
+| 2 | QRM       | Extreme value theory with heavy tails; Hill estimator; POT method.            | |
+|   | Liv1      | Chapter 4                             | |
+|   | StokLiv   | Chapter 6-11                          | |
+|   | ProjLiv   | Buchardt, Furrer, Sandqvist (2023)    | |
+|   | Skade1    | Chapter 2.2-2.3                       | |
+|   | SkadeStok | Chapter 3 (Schmidli)                  | |
+|   | Skade2    | TBD                                   | |
+| 3 | QRM       | Multivariate distributions and dependence. Elliptical distributions; copula | |
+|   | Liv1      | Chapter 5-6                           | |
+|   | StokLiv   | Chapter 12, 14-16                     | |
+|   | ProjLiv   | TBD                                   | |
+|   | Skade1    | Chapter 3.1-3.2                       | |
+|   | SkadeStok | Notes on stochastic investments       | |
+|   | Skade2    | TBD                                   | |
+| 4 | QRM       | Credit risk modelling                 | |
+|   | Liv1      | Chapter 7                             | |
+|   | StokLiv   | Chapter 17-18                         | |
+|   | ProjLiv   | TBD                                   | |
+|   | Skade1    | Chapter 3.3-3.4                       | |
+|   | SkadeStok | Claims reserving                      | |
+|   | Skade2    | TBD                                   | |
+| 5 | QRM       | Models for operational risk.          | |
+|   | Liv1      | Chapter 10                            | |
+|   | StokLiv   | Chapter 20-22                         | |
+|   | ProjLiv   | TBD                                   | |
+|   | Skade1    | Chapter 4                             | |
+|   | Skade2    | TBD                                   | |
+| 6 | StokLiv   | Chapter 23                            | |
+|   | ProjLiv   | TBD                                   | |
+|   | Skade1    | Chapter 5                             | |
+|   | Skade2    | TBD                                   | |
+| 7 | StokLiv   | Chapter 24                            | |
+|   | ProjLiv   | TBD                                   | |
+|   | Skade1    | Chapter 6                             | |
+|   | Skade2    | TBD                                   | |
+

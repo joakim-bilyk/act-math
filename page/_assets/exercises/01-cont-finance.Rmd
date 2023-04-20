@@ -618,15 +618,12 @@ Q_n=\sum_{k=1}^n \Delta W_1(t_k)\cdot \Delta W_2(t_k).
 $$
 
 Show that $Q_n\to 0$ in $L^2$, i.e. show that
-
-$$
+\begin{align*}
 E[Q_n]=0,\\
 Var[Q_n]\to 0.
-$$
-
+\end{align*}
 <details>
 <summary>**Solution.**</summary>
-
 We wish to show the statement
 
 $$
@@ -980,12 +977,10 @@ C_{1,1}&=\sigma_{1,1}^2+\sigma_{1,2}^2 = \sigma^2,\\
 C_{2,2}&=\sigma_{2,2}^2+\sigma_{2,1}^2=\delta^2.
 \end{align*}
 and obviously $r=0$ and $\Phi(x,y)=xy$. From proposition 5.8 we then have that $F$ has stochastic representation:
-
-$$
+\begin{align*}
 F(t,x,y)=e^{-r(T-t)}E^Q[\Phi(X_T,Y_T)\ \vert\ X_t=x,Y_t=y]\\
 =E^Q[X_TY_T\ \vert\ X_t=x,Y_t=y]
-$$
-
+\end{align*}
 Having given the $C$ matrix we have the following
 
 $$
@@ -1003,18 +998,16 @@ $$
 Hence in the stochastic representation $X$ and $Y$ has dynamics
 
 $$
-\left\{
-\begin{matrix}
+\begin{cases}
 dX_t=\sigma\ dW_t\\
 dY_t=\delta\ dV_t.
-\end{matrix}
-\right.
+\end{cases}
 $$
 
 where $W$ and $B$ are independent Brownian motions. In particular we have that $X$ and $Y$ are maringales and independent i.e.
 
 $$
-F(t,x,y)=E^Q_{X_t=x}[X_T]\cdot E^Q_{Y_t=y}[Y_T]=xy.
+F(t,x,y)=E_{X_t=x}^Q[X_T]\cdot E_{Y_t=y}^Q[Y_T]=xy.
 $$
 
 And so we arrive at the desired result. $\square$
@@ -1372,12 +1365,10 @@ E^Q\left[e^{\beta\sigma(W_T^Q-W_t^Q)}\right]=e^{0\cdot 1+(T-t)(\beta\sigma)^2/2}
 $$
 
 Combining these two equations yields
-
-$$
+\begin{align*}
 \log \Pi_t=-r(T-t)+\beta\log s+\beta\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\beta^2\sigma^2\frac{T-t}{2}\\
 =-r(T-t)+\beta\log s+\left(\beta r+\frac{1}{2}\sigma^2\beta(\beta-1)\right)(T-t).
-$$
-
+\end{align*}
 We arrive at the arrived result. $\square$
 
 </details>

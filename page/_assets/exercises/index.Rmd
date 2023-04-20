@@ -1,22 +1,20 @@
 --- 
-title: "Exercises"
-subtitle: "Msc in Actuarial Mathematics"
+document-type: "Exercises Notes"
+title: "Mathematics of the Actuarial Sciences"
+subtitle: "A comprehensive outline of actuarial maths"
 author: "Joakim Bilyk"
 date: '`r stringr::str_to_sentence(format(Sys.time(), "%B %d, %Y"))`'
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
+bibliography: book.bib
+url: "joakim-bilyk.github.io/books/exercises"
+preface: |
+  This document contain a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
 keywords: |
   probability theory, insurance mathematics, life insurance,
   non-life insurance, stochastic differential equations.
-abstract: |
-  This document contain exercises in probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
-header-includes:
-  - \usepackage{subfig}
-  - \usepackage{float}
-link-citations: yes
+description: |
+  This is a description of the document.
 ---
 
 ```{r, setup,include=FALSE}

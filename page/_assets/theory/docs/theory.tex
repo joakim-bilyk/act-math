@@ -1,41 +1,66 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
-\PassOptionsToPackage{hyphens}{url}
-%
-\documentclass[
-]{book}
-\usepackage{amsmath,amssymb,amsfonts,mathabx}
-\usepackage{lmodern}
+\documentclass[a4paper,12pt,openany]{book}
+
+%PACKAGES
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathabx}
+\usepackage{eso-pic}
+\usepackage{graphicx}
+\usepackage[absolute]{textpos}
+\usepackage{hyperref}
+\usepackage{imakeidx}
+\makeindex
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{wrapfig}
+\usepackage{graphics}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\pagenumbering{gobble}
+\usepackage[english]{babel}
+\addto{\captionsenglish}{%
+  \renewcommand{\bibname}{References}
+}
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\addtocontents{title}{\protect\thispagestyle{empty}}
+\usepackage{setspace} % Package for linespacing
+\usepackage{tabularx} % Package for table
+\usepackage{lmodern} 
+\usepackage[T1]{fontenc}
+\usepackage{lipsum}
+\usepackage{booktabs}
+\usepackage{subfig}
+ \usepackage{float}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage[document]{ragged2e}
+%\usepackage{natbib}
+%\usepackage{biblatex}
+
+%DEFINITIONS
+\definecolor{KUrod}{RGB}{144,26,30}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
 \usepackage{iftex}
-\ifPDFTeX
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  %\usepackage{unicode-math}
-  %\defaultfontfeatures{Scale=MatchLowercase}
-  %\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-%\usepackage{fontspec}
-%\setmainfont{Latin Modern Roman}
-%\setmathrm{Cambria Math}
-\fi
+
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{microtype.sty}{% use microtype if available
   \usepackage[]{microtype}
   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
-\usepackage{xcolor}
+
+
+
+
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -76,8 +101,10 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
+
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -86,18 +113,6 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-% INSERT PACKAGES
-\usepackage{imakeidx}
-\makeindex
-\usepackage{graphicx}
-\usepackage[margin=1in]{geometry}
-\usepackage{wrapfig}
-\usepackage{graphics}
-\usepackage{titling}
-\usepackage{fancyhdr}
-\pagenumbering{gobble}
-\addtocontents{toc}{\protect\thispagestyle{empty}}
-\addtocontents{title}{\protect\thispagestyle{empty}}
 
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -111,144 +126,107 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+
+
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+ \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\usepackage{booktabs}
-\usepackage{subfig}
-\usepackage{float}
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\usepackage[]{natbib}
-\bibliographystyle{plainnat}
+
+
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
-\hypersetup{
-  pdftitle={Complete Theory},
-  pdfauthor={Joakim Bilyk},
-  pdfkeywords={probability theory, insurance mathematics, life insurance,
-non-life insurance, stochastic differential equations.},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-
-\title{Complete Theory}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Msc in Actuarial Mathematics}
-\author{Joakim Bilyk}
-\date{April 11, 2023}
-
-%\usepackage{setspace}\onehalfspacing
-%\AtBeginDocument{%
- % \addtolength\abovedisplayskip{0\baselineskip}%
- % \addtolength\belowdisplayskip{0\baselineskip}%
- % \addtolength\abovedisplayshortskip{0\baselineskip}% play with -0.75
- % \addtolength\belowdisplayshortskip{0\baselineskip}%play with -0.5
-%}
 
 \begin{document}
-\allowdisplaybreaks
-\setlength{\abovedisplayskip}{10pt}
-\setlength{\belowdisplayskip}{10pt}
-\setlength{\abovedisplayshortskip}{-10pt}
-\setlength{\belowdisplayshortskip}{0pt}
 
-%\maketitle
-
-
-{
-%title
-\begin{titlepage}
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
-
-\center % Center everything on the page
- 
-%----------------------------------------------------------------------------------------
-%	HEADING SECTIONS
-%----------------------------------------------------------------------------------------
-
-\textsc{\LARGE University of Copenhagen}\\[4cm] % Name of your university/college
-\textsc{\Large Msc in Actuarial Mathematics}\\[0.5cm] % Major heading such as course name
-%\textsc{\large Assignment 1}\\[0.5cm] % Minor heading such as course title
-
-%----------------------------------------------------------------------------------------
-%	TITLE SECTION
-%----------------------------------------------------------------------------------------
-
-\HRule \\[0.4cm]
-{ \huge \bfseries \thetitle}\\[0.4cm] % Title of your document
-\HRule \\[1.5cm]
- 
-%----------------------------------------------------------------------------------------
-%	AUTHOR SECTION
-%----------------------------------------------------------------------------------------
-
-\begin{minipage}{0.4\textwidth}
-\begin{flushleft} \large
-\emph{Author:}\\
-\textsc{\theauthor} \\
-\end{flushleft}
-\end{minipage}
-~
-\begin{minipage}{0.4\textwidth}
-\begin{flushright} \large
-\emph{Date:} \\
-\textsc{\thedate} \\
-\end{flushright}
-\end{minipage}\\[2cm]
-
-% If you don't want a supervisor, uncomment the two lines below and remove the section above
-%\Large \emph{Author:}\\
-%John \textsc{Smith}\\[3cm] % Your name
-
-%----------------------------------------------------------------------------------------
-%	DATE SECTION
-%----------------------------------------------------------------------------------------
-
-%{\large \thedate}\\[2cm] % Date, change the \today to a set date if you want to be precise
-
-%----------------------------------------------------------------------------------------
-%	LOGO SECTION
-%----------------------------------------------------------------------------------------
-
-\includegraphics[width = 0.45\textwidth]{logo_ku.png}% Include a department/university logo - this will require the graphicx package
- 
-%----------------------------------------------------------------------------------------
-
-\vfill % Fill the rest of the page with whitespace
-\end{titlepage}
-
+%Cover
 \thispagestyle{empty}
-\begin{center}
-\textbf{\large Abstract}
-\end{center}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{KU-logo.pdf}}
+
+\begin{textblock}{12}(1.5,10.4) \noindent\fontsize{20}{20}\selectfont \textbf{Lecture Notes}
+\end{textblock}
+
+\begin{textblock}{12}(1.5,11.0) \noindent\fontsize{14}{14}\selectfont Joakim Bilyk
+\end{textblock}
+
+\begin{textblock}{12}(1.5,11.9)
+\noindent\fontsize{20}{20}\selectfont \textbf{Mathematics of the Actuarial Sciences}
+\end{textblock}
+
+\begin{textblock}{12}(1.5,12.5)
+    \noindent\fontsize{14}{14}\selectfont A comprehensive outline of actuarial maths
+\end{textblock}
+
+\begin{textblock}{12}(1.5,13.7)
+\noindent\fontsize{11}{11}\selectfont Date: April 20, 2023
+\end{textblock}
+
+\hspace{1pt}
+\newpage
+
+\onehalfspacing
+%Short description
+\thispagestyle{empty}
+\noindent
+
+This is a description of the document.
+
+\newpage
+
+%Inside cover
+\thispagestyle{empty}
+
+\begin{textblock}{12}(2,2)
+\noindent\fontsize{20}{20}\selectfont Joakim Bilyk
+\end{textblock}
+
+\begin{textblock}{12}(2,4)
+\noindent\fontsize{35pt}{40pt}\selectfont Mathematics of the Actuarial Sciences\\
+\fontsize{20pt}{40pt}\selectfont \emph{A comprehensive outline of actuarial maths}
+\end{textblock}
+
+\begin{textblock}{12}(2,14.2)
+\noindent\fontsize{16}{11}\selectfont \emph{\href{https://joakim-bilyk.github.io/books/theory}{Online version}}
+\end{textblock}
+
+\hspace{1pt}
+\newpage
+
+\chapter*{Preface}
 
 This document contain a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
 
-Keywords: \emph{probability theory, insurance mathematics, life insurance,
+\vspace{5pt}
+\noindent Keywords: \emph{probability theory, insurance mathematics, life insurance,
 non-life insurance, stochastic differential equations.}
-\vfill
-\pagebreak
 
-\setcounter{tocdepth}{3}
-\tableofcontents
-}
-\thispagestyle{empty}
 \newpage
+
+\begin{spacing}{1}
+\tableofcontents
+\end{spacing}
+
+\newpage
+
 \setcounter{page}{1}
 \pagenumbering{arabic}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[LE]{\fontsize{10}{12} \selectfont\nouppercase{\rightmark\hfill\leftmark}}
-\fancyhead[RO]{\fontsize{10}{12} \selectfont\nouppercase{\leftmark\hfill\rightmark}}
-\fancyfoot[LE,RO]{\hfill\thepage\hfill}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[LE]{\fontsize{11}{12} \selectfont\nouppercase{\thepage}}
+\fancyhead[RE]{\fontsize{11}{12} \selectfont\nouppercase{\leftmark}}
+\fancyhead[LO]{\fontsize{11}{12} \selectfont\nouppercase{\rightmark}}
+\fancyhead[RO]{\fontsize{11}{12} \selectfont\nouppercase{\thepage}}
+\allowdisplaybreaks
+\setlength{\abovedisplayskip}{10pt}
+\setlength{\belowdisplayskip}{10pt}
+\setlength{\abovedisplayshortskip}{-12pt}%fra -10
+\setlength{\belowdisplayshortskip}{0pt}
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
@@ -271,16 +249,16 @@ Source
 \end{minipage} \\
 \midrule()
 \endhead
-Basic Life Insurance Mathematics & & \\
-Stochastic Processes in Life Insurance Mathematics & & \\
+Basic Life Insurance Mathematics & Ragnar & \emph{Basic Life Insurance Mathematics} by Ragnar Norberg (2002) \\
+Stochastic Processes in Life Insurance Mathematics & Lund & \emph{Stochastic Processes in Life Insurance}: The Dynamic Approach by Jesper Lund Pedersen (2022) \\
 Topics in Life Insurance Mathematics & Asmussen & \emph{Risk and Insurance}: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). \\
 & Bladt & Notes from lectures in Liv2. \\
 Continuous Time Finance & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
-Basic Non-Life Insurance Mathematics & & \\
-Stochastic Processes in Life Insurance Mathematics & & \\
-Topics in Non-Life Insurance Mathematics & & \\
+Basic Non-Life Insurance Mathematics & Mikosch & \emph{Non-Life Insurance Mathematics} by Thomas Mikosch (2006). \\
+Stochastic Processes in Life Insurance Mathematics & Schmidli & \emph{Lecture Notes on FM2} by Hanspeter Schmidli. \\
+Topics in Non-Life Insurance Mathematics & Paulsen & \emph{Non-life Insurance} by Jostein Paulsen (2023) \\
 Probabilistic Machine Learning & \emph{None} & Slides from lectures. \\
-Quantative Risk Management & & \\
+Quantative Risk Management & McNeil & \emph{Quantitative Risk Management} by McNeil. (2015) \\
 Measure Theory & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
 & Protter & \emph{Probability Essentials (2. edition)} by Jean Jacod and Philip Protter (2004). \\
 Random Variables & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
@@ -296,36 +274,103 @@ Linear Algebra & Wiki & Wikipedia \\
 \hypertarget{to-do-reading}{%
 \section{To-do reading}\label{to-do-reading}}
 
-\begin{longtable}[]{@{}lll@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3500}}
+  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2000}}@{}}
 \toprule()
-Chapter & Note & Progress \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Week
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Course
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Chapter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+X
+\end{minipage} \\
 \midrule()
 \endhead
-Liv2 & Matrix representation & 4 and later \\
-& Chapter 6 & Remember handouts \\
-& Chapter 7 & Remember handouts \\
-ML & Make outlines for exam & \\
-QRM & Finish risk measures & \\
-StokLiv & Week 1 & \\
-StokLiv & Week 2 & \\
-SkadeStok & Week 1 & \\
-SkadeStok & Week 2 & \\
-Liv1 & Week 1 & \\
-Liv1 & Week 2 & \\
-Nonlife1 & Week 1 & \\
-Nonlife1 & Week 2 & \\
+1 & QRM & Finish risk measures & \\
+& Liv1 & Chapter 1-3 & \\
+& StokLiv & Chapter 1-4 & \\
+& ProjLiv & Buchardt \& Moeller (2015) & \\
+& Skade1 & Chapter 1-2.1 & \\
+& SkadeStok & Chapter 1-2 (Schmidli) & \\
+& Skade2 & Chapter 1-7 (uden 6), kursorisk & \\
+2 & QRM & Extreme value theory with heavy tails; Hill estimator; POT method. & \\
+& Liv1 & Chapter 4 & \\
+& StokLiv & Chapter 6-11 & \\
+& ProjLiv & Buchardt, Furrer, Sandqvist (2023) & \\
+& Skade1 & Chapter 2.2-2.3 & \\
+& SkadeStok & Chapter 3 (Schmidli) & \\
+& Skade2 & TBD & \\
+3 & QRM & Multivariate distributions and dependence. Elliptical distributions; copula & \\
+& Liv1 & Chapter 5-6 & \\
+& StokLiv & Chapter 12, 14-16 & \\
+& ProjLiv & TBD & \\
+& Skade1 & Chapter 3.1-3.2 & \\
+& SkadeStok & Notes on stochastic investments & \\
+& Skade2 & TBD & \\
+4 & QRM & Credit risk modelling & \\
+& Liv1 & Chapter 7 & \\
+& StokLiv & Chapter 17-18 & \\
+& ProjLiv & TBD & \\
+& Skade1 & Chapter 3.3-3.4 & \\
+& SkadeStok & Claims reserving & \\
+& Skade2 & TBD & \\
+5 & QRM & Models for operational risk. & \\
+& Liv1 & Chapter 10 & \\
+& StokLiv & Chapter 20-22 & \\
+& ProjLiv & TBD & \\
+& Skade1 & Chapter 4 & \\
+& Skade2 & TBD & \\
+6 & StokLiv & Chapter 23 & \\
+& ProjLiv & TBD & \\
+& Skade1 & Chapter 5 & \\
+& Skade2 & TBD & \\
+7 & StokLiv & Chapter 24 & \\
+& ProjLiv & TBD & \\
+& Skade1 & Chapter 6 & \\
+& Skade2 & TBD & \\
 \bottomrule()
 \end{longtable}
 
 \hypertarget{basic-life-insurance-mathematics}{%
 \chapter{Basic Life Insurance Mathematics}\label{basic-life-insurance-mathematics}}
 
-Noget indhold
+\hypertarget{paymentstreams-interest-and-mortality}{%
+\section{Paymentstreams, interest and mortality}\label{paymentstreams-interest-and-mortality}}
+
+\hypertarget{insurance-of-a-single-life}{%
+\section{Insurance of a single life}\label{insurance-of-a-single-life}}
+
+\hypertarget{expenses}{%
+\section{Expenses}\label{expenses}}
+
+\hypertarget{multi-life-insurances}{%
+\section{Multi-life insurances}\label{multi-life-insurances}}
+
+\hypertarget{markov-chains-in-life-insurance}{%
+\section{Markov chains in life insurance}\label{markov-chains-in-life-insurance}}
+
+\hypertarget{safety-loadings-and-bonus}{%
+\section{Safety loadings and bonus}\label{safety-loadings-and-bonus}}
 
 \hypertarget{stochastic-processes-in-life-insurance-mathematics}{%
 \chapter{Stochastic Processes in Life Insurance Mathematics}\label{stochastic-processes-in-life-insurance-mathematics}}
 
-Noget indhold
+\hypertarget{lebesgue-stieltjes-calculus}{%
+\section{Lebesgue-Stieltjes calculus}\label{lebesgue-stieltjes-calculus}}
+
+\hypertarget{stochastic-processes}{%
+\section{Stochastic processes}\label{stochastic-processes}}
+
+\hypertarget{life-insurance-models}{%
+\section{Life insurance models}\label{life-insurance-models}}
+
+\hypertarget{introduction-to-survival-and-event-history-analysis}{%
+\section{Introduction to survival and event history analysis}\label{introduction-to-survival-and-event-history-analysis}}
 
 \hypertarget{topics-in-life-insurance-mathematics}{%
 \chapter{Topics in Life Insurance Mathematics}\label{topics-in-life-insurance-mathematics}}
@@ -2916,6 +2961,27 @@ V^{(j,p)}_t(t)&=rV^{(j,p)}(t)-b^{(j,p)}(t)\\
 V^{(j,p)}(t-)&=V^{(j,p)}(t)+\Delta B^{(j,p)}(t).
 \end{align*}
 
+\hypertarget{projects-in-the-mathematics-of-life-insurance}{%
+\chapter{Projects in the Mathematics of Life Insurance}\label{projects-in-the-mathematics-of-life-insurance}}
+
+\hypertarget{cash-flows-markov-models-and-policyholder-behavior}{%
+\section{Cash flows, Markov models, and policyholder behavior}\label{cash-flows-markov-models-and-policyholder-behavior}}
+
+\hypertarget{transaction-time-modeling}{%
+\section{Transaction time modeling}\label{transaction-time-modeling}}
+
+\hypertarget{parametric-estimation-in-markov-models}{%
+\section{Parametric estimation in Markov models}\label{parametric-estimation-in-markov-models}}
+
+\hypertarget{non-parametric-estimation-in-markov-models}{%
+\section{Non-parametric estimation in Markov models}\label{non-parametric-estimation-in-markov-models}}
+
+\hypertarget{non-markov-modeling}{%
+\section{Non-Markov modeling}\label{non-markov-modeling}}
+
+\hypertarget{outlook}{%
+\section{Outlook}\label{outlook}}
+
 \hypertarget{continuous-time-finance}{%
 \chapter{Continuous Time Finance}\label{continuous-time-finance}}
 
@@ -2995,8 +3061,6 @@ That is \(h\) is an deterministic money-machine where we at least never loose an
 d\le (1+R)\le u.\tag{2.1}
 \]
 
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-
 \textbf{Proof.}
 
 The statement is proofed by contradiction. Assume that \(d>1+R\) holds. Then by definition \(u>d>1+R\). Notice that any portfolio satisfying \(V_0^h=0\) must satisfy
@@ -3013,7 +3077,6 @@ V_1^h=-ys\cdot(1+R)+y\cdot s\cdot Z=ys(Z-1-R)
 
 However since \(Z\ge d\) we have \(Z-(1+R)\ge 0\) and therefore an arbitrage (for \(y>0\)). The other inequality \(1+R>u\) follows analog steps. Simply choose some \(y<0\) and the result follows. \(\blacksquare\)
 
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
 From inequality (2.1) we see that since \(1+R\) is between \(u\) and \(d\) we may find a pair \(q_d,q_u\ge 0\) with \(q_d+q_u=1\) such that
 
 \[
@@ -3109,8 +3172,6 @@ and the explicit expressions for \(q_u\) and \(q_d\) are given in proposition 2.
 x&=\frac{1}{1+R}\cdot\frac{u\Phi(d)-d\Phi(u)}{u-d},\tag{2.6}\\
 y&=\frac{1}{s}\cdot\frac{\Phi(u)-\Phi(d)}{u-d}.\tag{2.7}
 \end{align*}
-
-\newpage
 
 \hypertarget{multi-period-model}{%
 \subsection{Multi-period model}\label{multi-period-model}}
@@ -3294,8 +3355,6 @@ We follow an analog example as the one after proposition 2.24. Let \(K=90\) and 
 Since we know that \(K\) must meaningfully range in \([0,121]\) we could try to calculate the price of the contingent claim at time \(t=0\) for all integers in this interval. We see that the price range between \(S_0\) and 0 as expected. One can also see that the price changes slope at the prices 99 and 121 as the function is linear in \(\Phi\) and som realisations loose any effect on the price when the strike is higher than the outcome. \(\square\)
 
 \textbf{Proposition 2.26. (Bjork)} \emph{The condition \(d<(1+R)<u\) is necessary and sufficient condition for absence of arbitrage.}
-
-\newpage
 
 \hypertarget{generelised-one-period-model}{%
 \subsection{Generelised one-period model}\label{generelised-one-period-model}}
@@ -3513,8 +3572,6 @@ L(\omega_i)=\frac{q_i}{p_i},\hspace{20pt} i=1,...,M.
 
 \emph{where \(\mathbf{M}\) is a stochastic discount factor.}
 
-\pagebreak
-
 \hypertarget{self-financing-portfolios}{%
 \section{Self-financing portfolios}\label{self-financing-portfolios}}
 
@@ -3693,8 +3750,6 @@ h_t^i=\frac{q_t^iZ_t}{S_t^i}.\tag{6.25}
 
 \emph{Then the value process \(V^h\) is given by \(V^h=Z\), the pair \((h,c)\) is self-financing, and the corresponding relative portfolio \(w\) is given by \(w=q\).}
 
-\newpage
-
 \hypertarget{black-scholes-pde}{%
 \section{Black-Scholes PDE}\label{black-scholes-pde}}
 
@@ -3854,8 +3909,6 @@ d_1(t,s)&=\frac{1}{\sigma \sqrt{T-t}}\left(\log\left(\frac{s}{K}\right)+\left(r+
 d_2(t,s)&=d_1(t,s)-\sigma\sqrt{T-t}.\tag{7.54}
 \end{align*}
 
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-
 \textbf{Proof.}
 
 We let the market be given in terms of the price processes \(S\) and \(B\) with dynamics.
@@ -3938,8 +3991,6 @@ F(t,s)&=e^{-r(T-t)}\left(sE\left[e^{Z_T}1_{Z_T\ge \log\left(\frac{K}{s}\right)}\
 &=sN(d_1(s,t))-e^{-r(T-t)}K N\left(d_2(s,t)\right),
 \end{align*}
 as desired. \(\blacksquare\)
-
-\newpage
 
 \hypertarget{completeness-and-hedging}{%
 \section{Completeness and Hedging}\label{completeness-and-hedging}}
@@ -4146,8 +4197,6 @@ dX_t=\left\{\mu(t,x)-\lambda(t,x)\sigma(t,x)\right\}F_x(t,x)+\sigma(t,x)\ dW^Q_t
 
 \emph{where \(W^Q\) is a \(Q\)-Brownien motion.}
 
-\newpage
-
 \hypertarget{parity-relations}{%
 \section{Parity relations}\label{parity-relations}}
 
@@ -4225,8 +4274,6 @@ For the call option in particular we have the following derivatives.
 \Theta&=-\frac{s\varphi(d_1)\sigma}{2\sqrt{T-t}}-rKe^{-r(T-t)}N(d_2),\tag{10.20}\\
 \mathcal{V}&=s\varphi(d_1)\sqrt{T-t}\tag{10.21}.
 \end{align*}
-
-\newpage
 
 \hypertarget{fundamental-pricing-theorem-i-and-ii}{%
 \section{Fundamental pricing theorem I and II}\label{fundamental-pricing-theorem-i-and-ii}}
@@ -4588,8 +4635,6 @@ dS_t^i=S_t^ir_t\ dt+S_t^i \sigma_t^i\ dW_t^Q,\tag{11.54}
     \]
 \end{enumerate}
 
-\newpage
-
 \hypertarget{mathematics-of-the-martingale-approach}{%
 \section{Mathematics of the martingale approach}\label{mathematics-of-the-martingale-approach}}
 
@@ -4742,8 +4787,6 @@ We furthermore have the Levy characterisation of a Brownian motion.
 
 \textbf{Theorem. (Remark FinKont)} \textbf{(Levy Characterisation of Brownian motion)}\index{Levy Characterisation of Brownian motion} \emph{Let \(X_t\) be an Ito process with \(X_0=0\). Then \(X_t\) is a Brownian motion if and only if the two processes \(X_t\) and \(X_t^2-t\) are continuous martingales.}
 
-\newpage
-
 \hypertarget{black-scholes-model---martingale-approach}{%
 \section{Black-Scholes model - martingale approach}\label{black-scholes-model---martingale-approach}}
 
@@ -4872,8 +4915,6 @@ F(T,s)&=\Phi(s).\tag{13.16}
 \[
 V_t=F(t,S_t).
 \]
-
-\newpage
 
 \hypertarget{multidimensional-models}{%
 \section{Multidimensional models}\label{multidimensional-models}}
@@ -5078,12 +5119,41 @@ d\mathbf{M}_t=-r_t\mathbf{M}_t\ dt-\mathbf{M}_t\lambda_t^\top\ dW_t.\tag{14.40}
 \hypertarget{basic-non-life-insurance-mathematics}{%
 \chapter{Basic Non-Life Insurance Mathematics}\label{basic-non-life-insurance-mathematics}}
 
-Noget indhold
+\hypertarget{the-basic-model}{%
+\section{The Basic Model}\label{the-basic-model}}
+
+\hypertarget{models-for-the-claim-number-process}{%
+\section{Models for the Claim Number Process}\label{models-for-the-claim-number-process}}
+
+\hypertarget{the-total-claim-amount}{%
+\section{The Total Claim Amount}\label{the-total-claim-amount}}
+
+\hypertarget{ruin-theory}{%
+\section{Ruin Theory}\label{ruin-theory}}
+
+\hypertarget{bayes-estimation}{%
+\section{Bayes Estimation}\label{bayes-estimation}}
+
+\hypertarget{linear-bayes-estimation}{%
+\section{Linear Bayes Estimation}\label{linear-bayes-estimation}}
 
 \hypertarget{stochastic-processes-in-non-life-insurance-mathematics}{%
 \chapter{Stochastic Processes in Non-Life Insurance Mathematics}\label{stochastic-processes-in-non-life-insurance-mathematics}}
 
-Noget indhold
+\hypertarget{preliminaries}{%
+\section{Preliminaries}\label{preliminaries}}
+
+\hypertarget{the-cramer-lundberg-model}{%
+\section{The Cramer-Lundberg model}\label{the-cramer-lundberg-model}}
+
+\hypertarget{the-renewal-risk-model}{%
+\section{The renewal risk model}\label{the-renewal-risk-model}}
+
+\hypertarget{modern-ruin-theory}{%
+\section{Modern ruin theory}\label{modern-ruin-theory}}
+
+\hypertarget{claims-reserving}{%
+\section{Claims reserving}\label{claims-reserving}}
 
 \hypertarget{topics-in-non-life-insurance-mathematics}{%
 \chapter{Topics in Non-Life Insurance Mathematics}\label{topics-in-non-life-insurance-mathematics}}
@@ -7735,7 +7805,7 @@ Reminder: Why interpretability.
 
 Partial dependence plots are popular post-hoc global explanations
 
-\textbf{Definition.} \emph{(Partial dependence plots Friedman 2001)} Given an estimator \(\hat m_n\) and a target subset \(S\subset \{1,\dots,p\}\), the partial dependence plot \citep{}, \(\xi_S\), is defined as
+\textbf{Definition.} \emph{(Partial dependence plots Friedman 2001)} Given an estimator \(\hat m_n\) and a target subset \(S\subset \{1,\dots,p\}\), the partial dependence plot, \(\xi_S\), is defined as
 
 \[
 \xi_S(x_S)= \int \hat m_n(x) \hat p_{-S}(x_{-S})\mathrm dx_{-S}.
@@ -8094,6 +8164,22 @@ So VaR adhere to translation.
 \emph{Positive homogeneity:}
 
 \emph{Monotonicity:}
+
+\hypertarget{extreme-value-theory}{%
+\section{Extreme value theory}\label{extreme-value-theory}}
+
+\hypertarget{elliptical-distributions-and-copulas}{%
+\section{Elliptical distributions and copulas}\label{elliptical-distributions-and-copulas}}
+
+\hypertarget{credit-risk-modelling}{%
+\section{Credit risk modelling}\label{credit-risk-modelling}}
+
+\hypertarget{models-for-operational-risk}{%
+\section{Models for operational risk}\label{models-for-operational-risk}}
+
+\hypertarget{appendix-appendix}{%
+\appendix}
+
 
 \hypertarget{measure-theory}{%
 \chapter{Measure theory}\label{measure-theory}}
@@ -8820,8 +8906,6 @@ Furthermore the theorem give rise to a measure for dependence i.e.~the \textbf{c
 \end{align*}
 with Cov\((X,Y)\ne 0\) if and only if \(X\) and \(Y\) are dependent. With Cov\((X,Y)=0\) the test is inconlusive. However independence implies Cov\((X,Y)=0\).
 
-\newpage
-
 \hypertarget{conditional-expectation}{%
 \section{Conditional expectation}\label{conditional-expectation}}
 
@@ -8962,8 +9046,6 @@ E[(X-Z)^2]=E\left[(X-E[X\vert\mathcal{G}])^2\right]+E\left[(E[X\vert\mathcal{G}]
 
 Now since \(X\) is given the term \(E\left[(X-E[X\vert\mathcal{G}])^2\right]\) is simply a constant not depending on the choice og \(Z\). The optimal choice of \(Z\) is then \(E[X\vert\mathcal{G}]\) since this minimizes the second term. The statement is then proved.
 
-\newpage
-
 \hypertarget{independence}{%
 \section{Independence}\label{independence}}
 
@@ -9090,8 +9172,6 @@ Now since \(X\) is given the term \(E\left[(X-E[X\vert\mathcal{G}])^2\right]\) i
     \sum_{n=1}^\infty P(A_n)<\infty \iff P(A_n\text{ i.o.})=0.
 \end{align*}
 
-\newpage
-
 \hypertarget{moment-generating-function}{%
 \section{Moment generating function}\label{moment-generating-function}}
 
@@ -9118,8 +9198,6 @@ E\left[e^{\lambda_1X+\lambda_2Y}\right]=\psi_X(\lambda_1)\psi_Y(\lambda_2)
 \]
 
 \emph{for \(\vert\lambda_i\vert<h\) for \(i=1,2\) for some \(h>0\), then \(X\) and \(Y\) are independent random variables.}
-
-\newpage
 
 \hypertarget{standard-distributions}{%
 \section{Standard distributions}\label{standard-distributions}}
@@ -9281,8 +9359,6 @@ One might also define \(Y=\sum_{n=1}^\infty 1_{A_n}\) and realise that \((A_n\ \
 \begin{align*}
     \left(\int_\Omega \vert fg\vert^1\ dP\right)^1\le \left(\int_\Omega \vert f\vert^p\ dP\right)^{1/p}\left(\int_\Omega \vert g\vert^q\ dP\right)^{1/q}
 \end{align*}
-
-\pagebreak
 
 \hypertarget{sums-and-average-processes}{%
 \subsection{Sums and average processes}\label{sums-and-average-processes}}
@@ -10344,8 +10420,6 @@ As one can see from the simulated sample path on the right, the Brownian motion 
 
 \textbf{Theorem 4.2. (Bjork)} \emph{A Brownian motions trajectory \(t\mapsto W_t\) is with probability one nowhere differential, and it has locally infinite total variation.}
 
-\newpage
-
 \hypertarget{filtration}{%
 \section{Filtration}\label{filtration}}
 
@@ -10364,8 +10438,6 @@ Obviously, we may introduce the \textbf{natural filtration}\index{natural filtra
 \]
 
 Indeed, \(X_t\) is adapted to this filtration.
-
-\newpage
 
 \hypertarget{martingale}{%
 \section{Martingale}\label{martingale}}
@@ -10707,7 +10779,6 @@ d \Big(f^{Z(t)}(t,X(t))\Big)&=rX(t)\ dt+\sigma X(t)\ dW^\mathbb Q(t)\\
 &+\Delta X^{Z(t)}(t)\ne dX(t)
 \end{align*}
 And so we are left with an extra term \(\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt\), where we should simply have had \(dX(t)\) that is without the term \(\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-X(t-)\Big)\lambda_{Z(t-)k}(t)\ dt\).
-\pagebreak
 
 \hypertarget{correlated-brownian-motions}{%
 \subsection{Correlated Brownian motions}\label{correlated-brownian-motions}}
@@ -10715,13 +10786,11 @@ And so we are left with an extra term \(\sum_{k:k\ne Z(t-)}\Big(\chi^k(t,X(t-))-
 In the previous section the \(d\)-dimensional Brownian was assumed to have independent Brownian motions. However we may instead consider a variation where we have some dependence between the Brownian motions.
 
 This section has not been finished.
-\pagebreak
 
 \hypertarget{discrete-stochastic-integrals}{%
 \section{Discrete Stochastic Integrals}\label{discrete-stochastic-integrals}}
 
 This section has not been finished.
-\pagebreak
 
 \hypertarget{stochastic-differential-equations}{%
 \section{Stochastic Differential Equations}\label{stochastic-differential-equations}}
@@ -11314,23 +11383,20 @@ We have an easy propositions regarding diagonal matrices.
 A^{-1}=\text{diag}(A_{11}^{-1},...,A_{nn}^{-1}).
 \]
 
-\hypertarget{coding}{%
-\chapter{Coding}\label{coding}}
-
-\hypertarget{r-packages}{%
-\section{R-Packages}\label{r-packages}}
-
-\hypertarget{mlr3}{%
-\subsection{mlr3}\label{mlr3}}
-
-This short introduction to the \texttt{mlr3} package is based on the official documentation and introduction \href{https://mlr3book.mlr-org.com}{book} and exercises done in the course Machine Learning in Non-Life Insurance.
-
-We start by installing the package \texttt{mlr3verse} containing all of the importatant packages.
+\newpage
+\nocite{*}
+\phantomsection
+\addcontentsline{toc}{chapter}{References}
+\bibliographystyle{ieeetr}
+\begin{spacing}{1}
+\bibliography{book.bib}
+\end{spacing}
 
 \newpage
-
+\phantomsection
+\addcontentsline{toc}{chapter}{Index}
+\begin{spacing}{1}
 \printindex
-
-  \bibliography{book.bib,packages.bib}
+\end{spacing}
 
 \end{document}

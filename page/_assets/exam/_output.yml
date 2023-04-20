@@ -12,10 +12,8 @@ bookdown::gitbook:
         <li><a href="https://joakim-bilyk.github.io/index.html">Back to main site</a></li>
     download: ["pdf"]
 bookdown::pdf_book:
-  includes:
-    in_header: preamble.tex
   latex_engine: xelatex
   citation_package: natbib
   keep_tex: yes
-  template: my-template.tex
+  template: book-template.tex
   toc_depth: 4

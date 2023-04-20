@@ -1,0 +1,103 @@
+# Continuous Time Stochastic Processes
+
+## Brownian Motion
+
+<blockquote class = "def">
+
+**Definition 4.1. (Bjork)** _A stochastic process $W$ is called a **Brownian motion**\index{Brownian motion} or **Wiener process**\index{Wiener process} if the following conditions hold_
+
+ 1. $W_0=0$.
+ 2. _The process $W$ has independent increments, i.e. if $r<s\le t< u$ then $W_u-W_t$ and $W_s-W_r$ are independent random variables._
+ 3. _For $s<t$ the random variable $W_t-W_s$ has the Gaussian distribution $\mathcal{N}(0,t-s)$._
+ 4. _$W$ has continuous trajectories i.e. $s\mapsto W(s;\omega)$ i continuous for all $\omega \in\Omega$._
+
+</blockquote>
+
+```{r}
+#Example of trajectory for BM
+set.seed(1)
+t <- 0:1000
+N <- rnorm(
+  n = length(t)-1, #initial value = 0
+  mean = 0, #incements mean = 0
+  sd = sqrt(t[2:length(t)] - t[1:(length(t)-1)]) #increment sd = sqrt(t-s)
+)
+W <- c(0,cumsum(N))
+```
+```{r,echo=FALSE,include=TRUE,out.width="75%",fig.align='center'}
+p <- data.frame(t = t, W = W) %>%
+  ggplot() +
+  geom_line(aes(x=t,y=W)) +
+  labs(title = "Realisation of a Brownian motion") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 15),
+        title = element_text(size = 18)) +
+  theme_custom()
+ggsave("figures/BM_sim.png",bg='transparent',plot = p, height = 1080,width = 1620, units="px")
+knitr::include_graphics("figures/BM_sim.png")
+```
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{figures/BM_sim.png}
+  \end{center}
+\end{figure}
+
+As one can see from the simulated sample path on the right, the Brownian motion is rather irratic. In fact, the process varies infinitely on any interval with length greater than 0. This gives some of the characteristics of the process including that: $W$ is continuous and $W$ is non-differential everywhere. This irratic behaviour is summed up in the theorem.
+
+
+<blockquote class = "thm">
+
+**Theorem 4.2. (Bjork)** _A Brownian motions trajectory $t\mapsto W_t$ is with probability one nowhere differential, and it has locally infinite total variation._
+
+</blockquote>
+
+## Filtration
+
+Filtrations\index{Filtration} is widely used in stochastic processes, as they allow for the concept of knowledge/information. This is useful when considering mean-values of future states but in an increasing information setting. For this we introduce the term adapted processes.
+
+<blockquote class = "def">
+
+**Definition B.17. (Bjork)** **(Adapted process)**\index{Adapted process} _Let $(\mathcal{F}_t)_{t\ge 0}$ be a filtration on the probability space $(\mathcal{F}_t)_{t\ge 0}$. Furthermore, let $(X_t)_{t\ge 0}$ be a stochastic process on the same space. We say that $X_t$ is adapted to the filtration $\mathbf{F}$ if_
+
+$$
+X_t\ \text{ is }\ \mathcal{F}_t-\text{measurable},\hspace{20pt}\forall t\ge 0.
+$$
+
+</blockquote>
+
+Obviously, we may introduce the **natural filtration**\index{natural filtration} $\mathcal{F}^X_t$ given by the tragetory of the process $X_t$:
+
+$$
+\mathcal{F}^X_t=\sigma(\{X_s,\ s\le t\}).
+$$
+
+Indeed, $X_t$ is adapted to this filtration.
+
+ 
+
+## Martingale
+
+<blockquote class = "def">
+
+**Definition.** _Let $M_t$ be a stochastic process defined on a background space $(\Omega,\mathcal{F},P)$. Let $(\mathcal{F}_t)_{t\ge 0}$ be a filtration. If $M_t$ is adapted to the filtration $\mathcal{F}_t$, $E\vert M_t\vert <\infty$ and_
+
+$$
+E[M_t\vert \mathcal{F}_s]=M_s,\hspace{20pt}P-\text{a.s.}
+$$
+
+_holds for any $t>s$ we say that $M_t$ is a martingale\index{martingale} ($\mathbf{F}$-martingale). If the above has $\le$ or $\ge$ we say that $M_t$ is either a **submartingale**\index{submartingale} or **supermartingale**\index{supermartingale} respectively._
+
+</blockquote>
+
+Naturally, this defintions may easily be extended to discrete models and we have the trivial equality:
+
+$$
+E[M_t-M_s\ \vert\ \mathcal{F}_s]=0.
+$$
+
+Martingales is useful, when proofing probalistic statements as the posses tractable properties. A useful technique often include the construction of the martingale
+
+$$
+M_t=E[X\ \vert\ \mathcal{F}_t].
+$$

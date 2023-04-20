@@ -78,7 +78,6 @@ theme_custom <- function() {
 Life insurance mathematics revolves arrow Markov processes in continuous time on some discrete (or at least countable) state space. This may in the simplest model be the life-death model or it can be a generalized life-death model with interest levels. In any case, we use Markov processes to determine the possible payments that may occur in the future or have occurred in the past. Let us start by define the Markov jump process as follows.
 
 <blockquote class = "def">
-
 **Definition 2.1. (Bladt)** _A continuous-time stochastic process $\{X_t\}_{t\ge 0}$ taking values in a countable space $E$ is called a Markov jump process\index{Markov jump process} with state space $E$ if for all $t_n>t_{n-1}>\cdots > t_1>0$ and $i_n,i_{n-1},...,i_0\in E$ it holds that_
 
 $$

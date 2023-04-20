@@ -1,0 +1,103 @@
+--- 
+document-type: "The type of document"
+title: "The title of the document"
+subtitle: "The subtitle of the document"
+author: "Author Authorsen"
+date: '`r stringr::str_to_sentence(format(Sys.time(), "%B %d, %Y"))`'
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: book.bib
+url: "url.to/site" #without https://
+preface: |
+  This is preface section.
+keywords: |
+  some, interesting, keywords.
+description: |
+  This is a description of the document.
+---
+
+```{r, setup,include=FALSE}
+library(knitr)
+if (knitr::is_latex_output()) {
+  knitr::opts_chunk$set(
+    fig.show = 'hide',
+    results = 'hide',
+    echo = FALSE,
+    warning=FALSE,
+    message = FALSE
+  )
+} else {
+  knitr::opts_chunk$set(
+    warning=FALSE,
+    message = FALSE
+  )
+}
+library(ggplot2)
+library(dplyr)
+theme_custom <- function() {
+  
+  theme_minimal() %+replace%
+    
+    theme(
+      
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.border = element_rect(colour = "black", fill=NA),
+      axis.ticks = element_line(),
+      #axis.line.x = element_line(color = "#C5C5C5"),
+      axis.line = element_line(color = "black"),
+      #axis.ticks = element_blank(),
+      legend.position = "bottom",
+      legend.title = element_blank(),
+      #plot.background = element_rect(fill='transparent', color=NA),
+      
+      plot.title = element_text(             #title
+                   #family = font,            #set font family
+                   size = 16,                #set font size
+                   face = 'bold',            #bold typeface
+                   hjust = 0,                #left align
+                   vjust = 2,
+                   color = "black"),               #raise slightly
+      
+      plot.subtitle = element_text(          #subtitle
+                   #family = font,            #font family
+                   size = 12,
+                   color = "black"),               #font size
+      
+      plot.caption = element_text(           #caption
+                   #family = font,            #font family
+                    face = "italic",
+                   size = 8,                 #font size
+                   hjust = 1,
+                   color = "black"),               #right align
+      
+      axis.title = element_text(             #axis titles
+                   #family = font,            #font family
+                   size = 12,
+                   color = "black"),               #font size
+      
+      axis.text = element_text(              #axis text
+                   #family = font,            #axis famuly
+                   size = 12,
+                   color = "black"),                #font size
+      
+      axis.text.x = element_text(            #margin for axis text
+                    margin=margin(5, b = 10))
+      
+    )
+}
+```
+
+# Introduction
+
+You can write an introduction here.
+
+# Topic
+
+This is a new chapter.
+
+# (APPENDIX) Appendix {-} 
+
+# Background
+
+This is the Appendix.

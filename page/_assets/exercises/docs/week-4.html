@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.4 Week 4 | Exercises</title>
-  <meta name="description" content="2.4 Week 4 | Exercises" />
+  <title>2.4 Week 4 | Mathematics of the Actuarial Sciences</title>
+  <meta name="description" content="This is a description of the document." />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.4 Week 4 | Exercises" />
+  <meta property="og:title" content="2.4 Week 4 | Mathematics of the Actuarial Sciences" />
   <meta property="og:type" content="book" />
   
-  
+  <meta property="og:description" content="This is a description of the document." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.4 Week 4 | Exercises" />
+  <meta name="twitter:title" content="2.4 Week 4 | Mathematics of the Actuarial Sciences" />
   
-  
+  <meta name="twitter:description" content="This is a description of the document." />
   
 
 <meta name="author" content="Joakim Bilyk" />
 
 
-<meta name="date" content="2023-04-11" />
+<meta name="date" content="2023-04-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,16 +32,6 @@
   
 <link rel="prev" href="week-3.html"/>
 <link rel="next" href="week-5.html"/>
-<style type="text/css">
-p.abstract{
-  text-align: center;
-  font-weight: bold;
-}
-div.abstract{
-  margin: auto;
-  width: 90%;
-}
-</style>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -239,7 +229,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exercises</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Mathematics of the Actuarial Sciences</a>
           </h1>
         </div>
 
@@ -378,12 +368,12 @@ Evaluating the expectation may be done by calculating the MGF of a <span class="
 <p><span class="math display">\[
 E^Q\left[e^{\beta\sigma(W_T^Q-W_t^Q)}\right]=e^{0\cdot 1+(T-t)(\beta\sigma)^2/2}=e^{\beta^2\sigma^2\frac{T-t}{2}}.
 \]</span></p>
-<p>Combining these two equations yields</p>
-<p><span class="math display">\[
+<p>Combining these two equations yields
+<span class="math display">\[\begin{align*}
 \log \Pi_t=-r(T-t)+\beta\log s+\beta\left(r-\frac{1}{2}\sigma^2\right)(T-t)+\beta^2\sigma^2\frac{T-t}{2}\\
 =-r(T-t)+\beta\log s+\left(\beta r+\frac{1}{2}\sigma^2\beta(\beta-1)\right)(T-t).
-\]</span></p>
-<p>We arrive at the arrived result. <span class="math inline">\(\square\)</span></p>
+\end{align*}\]</span>
+We arrive at the arrived result. <span class="math inline">\(\square\)</span></p>
 </details>
 <p><strong>Exercise 4.</strong> <em>(Bjork 7.5)</em> A so-called <strong>binary option</strong> is a claim which pays a certain amount if the stock prices at a certain date falls within some pre-specified interval. Otherwise nothing will be paid out. Consider a binary option which pays <span class="math inline">\(K\)</span> dollars to the holder at date <span class="math inline">\(T\)</span> if the stock price at time <span class="math inline">\(T\)</span> is in the interval <span class="math inline">\([\mu,\beta]\)</span>. Determine the arbitrage free price. The pricing formula will involve the standard Gaussian cumulative distrbution function <span class="math inline">\(N\)</span>.</p>
 <details>

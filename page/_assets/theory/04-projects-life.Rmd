@@ -1,0 +1,13 @@
+# Projects in the Mathematics of Life Insurance
+
+## Cash flows, Markov models, and policyholder behavior
+
+## Transaction time modeling
+
+## Parametric estimation in Markov models
+
+## Non-parametric estimation in Markov models
+
+## Non-Markov modeling
+
+## Outlook
