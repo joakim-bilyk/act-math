@@ -1,0 +1,293 @@
+# (PART) The Mathematics and Methods of Non-Life Insurance {-}
+
+# Basic Non-Life Insurance Mathematics
+
+## The Basic Model
+
+One of Lundberg’s main contributions is the introduction of a simple model which is capable of describing the basic dynamics of a homogeneous insurance portfolio. There are three assumptions in the model:
+
+  * Claims happen at the times $T_i$ satisfying $0\le T_1 \le T_2 \le...$. We call them *claim arrivals* or *claim times* or *claim arrival times* or, simply, *arrivals.*
+  * The $i$'th claim arriving at time $T_i$ causes the *claim size* or *claim severity* $X_i$. The sequence $(X_i)$ constitutes an i.i.d sequence of non-negative random variables.
+  * The claim size process $(X_i)$ and the claim arrival process $(T_i)$ are *mutually independent*.
+
+Now we can define the *claim number process*:
+
+$$
+N(t)=\#\{i\ge 1\ :\ T_i\le t\},
+$$
+
+$t\ge 0$. That is $N(t)$ is a counting process on $[0,\infty)$. $N(t)$ is the number of claims occurring before time $t$. We define *the total claim amount process* or *aggregate claim amount process*:
+
+$$
+S(t)=\sum_{i=1}^{N(t)}X_i=\sum_{i=1}^\infty X_i 1_{[0,t]}(T_i),
+$$
+
+$t\ge 0$. The process $S=(S(t))_{t\ge 0}$ is a random partial sum process and we will also refer to it as a *compound (sum) process*. Below is an example of the first 10 claims of a counting and claim process.
+
+```{r}
+set.seed(1)
+lambda <- 1
+n <- 10
+N <- 1:n
+Times <- cumsum(rexp(n,lambda))
+```
+```{r, echo = FALSE,fig.align='center',out.width = "75%",fig.cap="A realisation of a poisson process with $\\lambda = 1$."}
+library(dplyr)
+library(ggplot2)
+df <- data.frame(t = c(0,Times), num = 0:n)
+p <- ggplot(df) + geom_step(aes(x=t,y=num)) +
+  labs(title = "Realisation of a Poisson counting process",
+       x = "Time", y = "Number of claims") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 16),
+        plot.caption  = element_text(size = 10)) + theme_custom()
+ggsave("figures/skade1_plot1.png",bg='transparent',plot = p, height = 1080,width = 1620, units="px")
+knitr::include_graphics("figures/skade1_plot1.png")
+```
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{figures/skade1_plot1.png}
+  \end{center}
+  \caption{A realisation of a poisson process with $\lambda = 1$.}
+\end{figure}
+
+## Models for the Claim Number Process
+
+### The Poisson Process
+
+<blockquote class = "def">
+
+**Definition 2.1.1. (Mikosch) (Poisson process)**\index{Poisson process} _A stochastic process $N=(N(t))_{t\ge 0}$ is said to be a Poisson process if the following conditions hold:_
+
+  (1) _The process starts at zero: $N(0)=0$ a.s._
+  (2) _The process has independent increments: for any $t_i$, $i=1,...,n$ and $n\ge 1$ such that $0=t_0<t_1<...<t_n$, the increments $N(t_{i-1},t_i]$, $i=1,...,n$, are mutually independent._
+  (3) _There exist a non-decreasing right-continuous function $\mu : [0,\infty)\to [0,\infty)$ with $\mu(0)=0$ such that the increments $N(s,t]$ for $0<s<t<\infty$ have a Poisson distribution $\text{Pois}(\mu(s,t])$. We call $\mu$ the mean value function of $N$._
+  (4)  _With probability 1, the sample paths $(N(t,\omega))_{t\ge 0}$ of the process $N$ are right-continuous for $t \ge 0$ and have limits from the left for $t > 0$. We say that $N$ has **CADLAG** sample paths._
+
+</blockquote>
+
+We note $f(s,t]=f(t)-f(s)$ for $0\le s<t<\infty$. Recall that a random variable $M$ has a Poisson distribution with parameter $\lambda$ if $P(M=k)=e^{-\lambda}\frac{\lambda^k}{k!}$. We write $M\sim \text{Pois}(\lambda)$. Recall also that the Poisson distribution has the unique feature $\lambda = E\ M=\text{Var}\ M$.
+
+Some immediate consequences of the above definition include:
+
+  (1) A Poisson process $N$ is entirely determined by the mean value function $\mu$.
+  (2) Since the process starts at 0 a.s. it follows that $N(t)=N(t)-N(0)=N(0,t]\sim \text{Pois}(\mu(0,t])=\text{Pois}(\mu(t))$ i.e. the distribution of the number of events at time $t$ has mean $\mu(t)$ and is Poisson distributed.
+  (3) The process is determined by the finite distribution of $N(t_1),N(t_2),...,N(t_n)$ for an increasing sequence $t_1<t_2<\cdots <t_n$. That is the distribution of
+  \begin{align*}
+  \overline{N}&=\Big(N(t_1),N(t_2),...,N(t_n)\Big)=\Big(N(t_1),N(t_1)+N(t_1,t_2],...,N(t_1)+...+N(t_{n-1},t_n]\Big)\\
+  &=\left(\sum_{i=1}^{m}N(t_{i-1},t_{i}]\right)_{m=1,...,n}
+  \end{align*}
+  if we define $t_0=0$. The distribution of $\overline{N}$ is then
+  \begin{align*}
+  P\left(\overline{N}=(k_1,k_1+k_2,...,\sum_{i=1}^nk_i)\right)&=P\left(N(t_1)=k_1,N(t_2)=k_1+k_2,...,N(t_n)=\sum_{i=1}^nk_i\right)\\
+  &=P\left(N(t_1)=k_1,N(t_1,t_2]=k_2,...,N(t_{n-1},t_n]=k_n\right)\\
+  &\stackrel{\perp \!\!\! \perp}{=}P\left(N(t_1)=k_1\right)P\left(N(t_1,t_2]=k_2\right)\cdots P\left(N(t_{n-1},t_n]=k_n\right)\\
+  &=e^{\mu(t_1)}\frac{\left(\mu(t_1)\right)^{k_1}}{k_1!}e^{\mu(t_1,t_2]}\frac{\left(\mu(t_1,t_2]\right)^{k_2}}{k_2!}\cdots e^{\mu(t_{n-1},t_n]}\frac{\left(\mu(t_{n-1},t_n]\right)^{k_n}}{k_n!}\\
+  &=e^{\mu(t_n)}\frac{\left(\mu(t_1)\right)^{k_1}}{k_1!}\frac{\left(\mu(t_1,t_2]\right)^{k_2}}{k_2!}\cdots \frac{\left(\mu(t_{n-1},t_n]\right)^{k_n}}{k_n!}
+  \end{align*}
+  since $N(t_i,t_{i+1}]$ are independent and each Poisson distributed with mean $\mu(t_i,t_{i+1}]$ and that $\mu(0,t_1]+\mu(t_1,t_2]+...+\mu(t_{n-1},t_n]=\mu(0,t_n]=\mu(t_n)$.
+
+### The Homogeneous Poisson Process, the Intensity Function, the Cramér-Lundberg Model
+
+<blockquote class = "def">
+
+**Definition. (Mikosch) (Homogeneous Poisson Process)**\index{Homogeneous Poisson Process} _Consider a Poisson process as in definition 2.1.1. If $N(t)$ has mean value function_
+
+$$
+\mu(t)=\lambda t
+$$
+
+_for $t\ge 0$ and $\lambda >0$. Then $N$ is said to be Homogenious Poisson Process. If $\lambda=1$ is called standard homogeneous Poisson process._
+
+</blockquote>
+
+<blockquote class = "lem">
+
+**Lemma. (Mikosch)** _If $N$ is a homogeneous Poisson process with intensity $\lambda$, then it holds that: $N$ has CADLAG sample paths, starts at zero, has independent and **stationary increments**\index{stationary increments}, that is $\mu(s,t]=\mu(s+h,t+h]$ for any $h>0$, and $N(t)\sim \text{Pois}(\lambda t)$ for every $t>0$. If the first three properties are fulfilled we say the process is a **Levy process**\index{Levy process}._
+
+</blockquote>
+
+<blockquote class = "def">
+
+**Definition. (Mikosch) (Intensity function)**\index{Intensity function} _Consider a Poisson process as in definition 2.1.1. We say $N(t)$ has intensity function or rate function $\lambda$ if $\mu$ is absolutely continuous if for any $0\le s <t<\infty$ it holds that_
+
+$$
+\mu(s,t]=\mu(t)-\mu(s)=\int^t_s\lambda(y) dy\left(=\int_s^t \lambda\right)
+$$
+
+_for a non-negative and measurable function $\lambda$._
+
+</blockquote>
+
+Int the case that $\lambda$ is constant, we see that $N$ is homogeneous.
+
+**Example. (The Cramer-Lundberg model)**\index{Cramer-Lundberg model} Assume that claims happens at arrival times $0\le T_1,\le T_2\le ...$ of a homogeneous Poisson process $N(t)$. The $i$'th claim arriving at time $T_i$ causes the claim size $X_i$. The sequence $(X_i)$ constitutes an iid sequence of non-negative random variables. The sequences $(T_i)$ and $(X_i)$ are independent. In particular, $N$ and $(X_i)$ are independent. The total claim amount process $S$ in the Cramér-Lundberg model is also called a compound Poisson process.
+
+### The Markov Property
+
+<blockquote class = "prop">
+
+**Proposition 2.1.4. (Mikosch)** _Consider a Poisson process $N = (N(t))_{t\ge 0}$ which has a continuous intensity function $\lambda$ on $[0, \infty)$. Then, for $k \ge 0$,_
+
+$$
+\lambda_{k,k+h}(t)=\lim_{s\downarrow 0}\frac{p_{k,k+h}(t,t+s)}{s}=
+\left\{\begin{array}{cc}
+\lambda(t) & \text{if}\ h=1 ,\\
+0 & \text{otherwise}.
+\end{array}\right.
+$$
+
+_In words, the intensity function $\lambda(t)$ of the Poisson process $N$ is nothing but the intensity of the Markov process $N$ for the transition from state $k$ to state $k + 1$._
+
+</blockquote>
+
+### Relations Between the Homogeneous and the Inhomogeneous Poisson Process
+
+<blockquote class = "prop">
+
+**Proposition 2.1.5. (Mikosch)** _Let $\mu$ be the mean value function of a Poisson process $N$ and $\Tilde{N}$ be a standard homogeneous Poisson process. Then the following statements hold:_
+
+  (1) _The process $(\Tilde{N}(\mu(t)))_{t\ge 0}$ is Poisson with mean value function $\mu$._
+  (2) _If $\mu$ is continuous, increasing and $\lim_{t\to\infty}\mu(t)=\infty$ then $(N(\mu^{-1}(t)))_{t\ge 0}$ is a standard homogeneous Poisson process._
+
+</blockquote>
+
+This gives us a powerful tool to simulate a inhomogeneous Poisson Process simply by doing a timechange. Let $T_1,T_2,T_3,...$ be arrivaltimes for a standard Homogeneous Poisson process. Then the process with arrival times $\mu(T_1),\mu(T_2),...$ is a Poisson (possible inhomogeneous) process with mean value function $\mu$.
+
+Inversely we may, if the inverse exist, time change arrival times of a inhomogeneous Poisson to a standard homogeneous process with the inverse mean value function $\mu^{-1}$. This gives us a powerful tool in estimating $\mu$ by finding a suitable inverse such that the time changed arrivaltimes are approximatly SHPP.
+
+### The Homogeneous Poisson Process as a Renewal Process
+
+<blockquote class = "thm">
+
+**Theorem 2.1.6. (Mikosch)** _Let $W_1,W_2,...$ be iid $\text{Exp}(\lambda)$ and define the random walk $T_n=\sum_{i=1}^n W_i$ and initial value $T_0=0$._\index{renewal process}
+
+  (1) _The process $N(t)=\# \{i\ge 1\ :\ T_i\le t\}$ for $t\ge 0$ constitutes a homogeneous Poisson process with intensity $\lambda >0$._
+  (2) _Let $N$ be a homogeneous Poisson process with intensity $\lambda$ and arrival times $0 \le T_1 \le T_2 \le ...$. Then $N$ has representation as in (1), and $(T_i)$ has representation $T_n=\sum_{i=1}^n W_i$ for an iid exponential $\text{Exp}(\lambda)$ sequence $(W_i)$._
+
+</blockquote>
+
+A consequence of the above is that the inter-arrival times $W_i=T_i-T_{i-1}$ are iid exponential distributed with parameter $\lambda$ and therefore $T_i<T_{i+1}$ a.s. hence a homogeneous Poisson process does not have jump sizes larger than 1. Furthermore, by SLLN $T_n/n \stackrel{\text{a.s.}}{\to} E W_1=\lambda^{-1}$.
+
+```{r}
+set.seed(1)
+lambda <- 1 #Intensity
+n <- 100 #Number of claims
+W <- rexp(n,rate = lambda) #Inter-arrival times
+claims <- cumsum(W)
+mu <- function(x){sqrt(x)} #Mean value function
+inv <- function(y){y**2} #Inverse of MVF
+df <- data.frame(cbind(claims,inv(claims),1:100))
+names(df) <- c("SHPP","mu","n")
+
+#Simulation of 95%-confidence interval
+N <- 1000
+results <- data.frame(matrix(nrow = n, ncol = N+3))
+for (i in 1:N){
+W <- rexp(n,rate = lambda)
+claims <- cumsum(W)
+results[,i] <- inv(claims)
+}
+for (i in 1:n){
+results[i,N+1] <- quantile(results[i,], 0.025, na.rm = TRUE)
+results[i,N+2] <- quantile(results[i,], 0.975, na.rm = TRUE)
+results[i,N+3] <- i
+}
+```
+```{r, echo = FALSE,fig.align='center',out.width = "75%",fig.cap="A realization of a poisson process with mean value function $\\mu(t)=\\sqrt{t}$."}
+library(dplyr)
+library(ggplot2)
+p <- ggplot(data= df) + geom_step(aes(mu,n)) + geom_function(fun = mu, col = "red") +
+xlab("t") + ylab("N(t)") +
+geom_step(data = results, aes(results[,N+1],results[,N+3]), col = "blue")+
+geom_step(data = results, aes(results[,N+2],results[,N+3]), col = "blue")+
+  labs(title = "Realisation of an inhomogeneneous Poisson counting process",
+       x = "Time", y = "N(t)") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 12),
+        title = element_text(size = 16),
+        plot.caption  = element_text(size = 10)) + theme_custom()
+ggsave("figures/skade1_plot2.png",bg='transparent',plot = p, height = 1080,width = 1620, units="px")
+knitr::include_graphics("figures/skade1_plot2.png")
+```
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{figures/skade1_plot2.png}
+  \end{center}
+  \caption{A realization of a poisson process with mean value function $\mu(t)=\sqrt{t}$.}
+\end{figure}
+
+In the above 100 arrival-times of a in homogeneous Poisson process with mean value function $\mu(t)=\sqrt{t}$ is simulated using the arrival-times of a SHPP and time changing the arrivals with the inverse $\mu^{-1}(t)=t^2$, that is the arrival- times $T_1^2,T_2^2,...$. A simulation of 1000 samples from the process yielded the blue 95\%-confidence interval. The red curve represent the mapping $t\mapsto \sqrt{t}$.
+
+**Example. (The inspection paradox)** Let $t$ be fixed. Consider $B(t)=t-T_{N(t)}=(T_{N(t)},t]$ and $F(t)=T_{N(t)+1}-t=(t,T_{N(t)+1}]$. If $N(t)$ is a HPP with intensity $\lambda>0$ then it holds that $B(t)$ and $F(t)$ are independent and $F(t)$ is $\text{Exp}(\lambda)$ distributed and and $B(t)$ follows a truncated exponential distribution with jump at $t$ i.e. $P(B(t)\le x)=1-e^{-\lambda x}$ and $P(B(t)=t)=e^{-\lambda t}$.
+
+### The Distribution of the Inter-Arrival Times
+
+<blockquote class = "prop">
+
+**Proposition 2.1.8. (Mikosch) (Joint distribution of arrival/inter-arrival times)**\index{inter-arrival times} _Assume $N$ is a Poisson process on $[0, \infty)$ with a continuous a.e. positive intensity function $\lambda$. Then the following statements hold._
+
+  (1) _The vector of the arrival times $(T_1,...,T_n)$ has density_
+  \begin{align*}
+  f_{T_1,...,T_n}(x_1,...,x_n)=e^{-\mu(x_n)}\prod_{i=1}^n\lambda(x_i)I_{\{0<x_1<\cdots <x_n}.
+  \end{align*}
+  (2) _he vector of inter-arrival times $(W_1,...,W_n)$ has density_
+  \begin{align*}
+  f_{W_1,...,W_n}(x_1,...,x_n)=e^{-\mu(x_1+\cdots+x_n)}\prod_{i=1}^n\lambda(x_1+\cdots +x_i).
+  \end{align*}
+
+</blockquote>
+
+From the above we see that only in the case that $\lambda$ is constant i.e. $N$ is a HPP it only happends that $W_i$ er independent. In other words, this property is unique to the HPP.
+
+### The Order Statistics Property
+
+<blockquote class = "lem">
+
+**Lemma 2.1.9. (Mikosch) (Joint density of order statistics)**\index{order statistics} _Let $X_1,X_2,...,X_n$ be iid, then the density of the order statistic $(X_{(1)},...,X_{(n)})$ is given by_
+
+$$
+f_{X_{(1)},...,X_{(n)}}(x_1,...,x_n)=n!\prod_{i=1}^n f(x_i)I_{\{x_1<\cdots <x_n\}}.
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 2.1.11. (Mikosch) (Order statistics property of the Poisson process)** _Consider the Poisson process $N = (N(t))_{t\ge 0}$ with continuous a.e. positive intensity function $\lambda$ and arrival times $0 < T_1 < T_2 < \cdots$ a.s. Then the conditional distribution of $(T_1 ,..., T_n )$ given $\{N (t) = n\}$ is the distribution of the ordered sample $(X_{(1)}, ... , X_{(n)})$ of an iid sample $X_1,..., X_n$ with common density $\lambda(x)/\mu(t)$, $0 < x \le t$:_
+
+$$
+(T_1,...,T_n\ \vert\ N(t)=n)\stackrel{d}{=}(X_{(1)},...,X_{(n)})
+$$
+
+_In other words, the left-hand vector has conditional density_
+
+$$
+f_{T_1,...,T_n}(x_1,...,x_n\ \vert\ N(t)=n)=\frac{n!}{(\mu(t))^n}\prod_{i=1}^n\lambda(x_i),
+$$
+
+_for $0<x_1<\cdots < x_n<t$._
+
+</blockquote>
+
+
+**Example. (Order statistics property of the homogeneous Poisson process)** Consider a homogeneous Poisson process with intensity $\lambda> 0$. From the above theorem it golds that the conditional density of the arrival times $T_i$ is:
+
+$$
+f_{T_1,...,T_n}(x_1,...,x_n\ \vert\ N(t)=n)=\frac{n!}{(\lambda t)^n}\prod_{i=1}^n\lambda=n!t^{-n},
+$$
+
+for $0<x_1<\cdots < x_n<t$. From lemma 2.1.9 we see that this is the joint density of a sample of $n$ iid variable with density $f(x)=1/t$ that is a ordered sample of $n$ iid $U(0,t)$ distributed variables. Notice that this property is independent of the intensity $\lambda$!
+
+## The Total Claim Amount
+
+## Ruin Theory
+
+## Bayes Estimation
+
+## Linear Bayes Estimation

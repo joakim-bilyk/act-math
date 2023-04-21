@@ -2,8 +2,372 @@
 
 ## Lebesgue-Stieltjes calculus
 
+In context of life insurance, this chapter presents general mathematical definitions and results to describe (formalise) payment streams as well as valuation of payment streams. This chapter form the foundation for the next chapters. The definitions and results from measure and integration theory are outlined, where some are extensions of what is covered in a first course on the subject.
+
+### CADLAG functions
+
+Functions (sample paths) often considered in stochastic process theory are functions where discontinuities are jumps.
+
+<blockquote class = "def">
+**Definition 1.1. (Lund)** _A right-continuous $\mathbb R$-valued function $x(t)$ with finite left-limits defined on $[0,\infty)$ is called CADLAG\index{CADLAG} if_
+
+  i) $x(t)=x(t+)=\lim_{t\searrow s}x(s)$ _(right-continuous),_
+  ii) $x(t-)=\lim_{t\nearrow s}x(s)$ _exists for all $t$._
+  
+_A left-continuous function on $(0,\infty)$ with right-limits on $[0, \infty)$ is called CAGLAD\index{CAGLAD}._
+
+</blockquote>
+
+The jump function of a CADLAG function $x(t)$ is defined by
+
+$$
+\Delta x(t)=x(t)-x(t-).
+$$
+
+for $t>0$ and is the size of the jump at point $t$. Thus a CADLAG function can only have jump discontinuities and the jump discontinuities is at most countable as stated in the next proposition.
+
+<blockquote class = "prop">
+
+**Proposition 1.2. (Lund)** _A CADLAG function $x : [0, \infty) \to \mathbb R$ has at most countable many discontinuity points, that is, the set of jump times $D_x = \{t > 0 : \Delta x(t)\ne 0\}$ is at most countable._
+
+</blockquote>
+
+Some basic properties of CADLAG functions are summarised in the next result.
+
+<blockquote class = "prop">
+
+**Proposition 1.3. (Lund)** _Let $x$ and $x_i$ for $i=1,...,N$ be CADLAG functions and $\alpha_i$ be constants then_
+
+  i) $\sum_{i=1}^N \alpha_ix_i(t)$ _is CADLAG,_
+  ii) $x$ _is a Borel function,_
+  iii) $x$ _is continuous in $t$ if and only if $\Delta x(t)=0$,_
+  iv) _Uniform limit of a sequence of CADLAG functions on bounded intervals is itself CADLAG and_
+  v) $x$ _can be approximated by a sequence of piecewise constant functions._
+
+</blockquote>
+
+### Functions of finite variation
+
+The mathematical concept to the notion of payment streams is variation. Moreover, variation is the foundation of integration theory. Variation measures the total up-and-down movement of a function, that is, the total vertical distance traveled by the function. Thus, a function of finite variation is a function that wiggles finitely. Variation is also applied in theory of stochastic processes, stochastic control theory, and other subjects.
+
+<blockquote class = "def">
+**Definition 2.2. (Lund) (Variation)**\index{Variation} _The variation of the function $x : [0, \infty) \to\mathbb R$ on the interval $[0, t]$ is defined by_
+
+$$
+V^x(t)=\sup\sum_{i=1}^n\vert x(t_i)-x(t_{i-1})\vert
+$$
+
+_and the positive and negative variation of the function $x$ is given by, respectively_
+
+$$
+V^x_+(t)=\sup\sum_{i=1}^n\big( x(t_i)-x(t_{i-1})\big)^+\quad \text{and}\quad V^x_-(t)=\sup\sum_{i=1}^n\big( x(t_i)-x(t_{i-1})\big)^-.
+$$
+
+_where the supremums are over all finite partitions $0 = t_0<t_1<\cdots<t_{n-1}<t_n=t$ of $[0,t]$. The function x is of finite variation if $V^x(t)<\infty$ for all $t\ge 0$_
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition 2.3. (Lund)** _Let $x$ and $x_i$ for $i=1,...,n$ be functions and $\alpha_i$ be constants then_
+
+  i) _$V^x(t)$, $V^x_+(t)$ and $V^x_-(t)$ are increasing functions._
+  ii) _If $x$ is increasing or decreasing then it is of finite variation._
+  iii) _If $x_1,...,x_n$ are of finite variation then $\sum_{i=1}^n\alpha_ix_i(t)$ is of finite variation._
+
+</blockquote>
+
+<blockquote class = "lem">
+
+**Lemma 2.5. (Lund) (Jordan decomposition)**\index{Jordan decomposition} _Let $x$ be af function of finite variation. Then_
+
+$$
+x(t)=x(0)+V_+^x(t)-V_-^x(t)\quad\text{and}\quad V^x(t)=V_+^x(t)+V_-^x(t).
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 2.6. (Lund) (Jordan decomposition)** _A function $x$ is of finite variation if and only if $x$ is the difference of two increasing functions $a_+$ and $a_-$. In that case, we have_
+
+$$
+V_{\pm}^x(t)-V_{\pm}^x(s)\le V_{\pm}^{a_+-a_-}(t)-V_{\pm}^{a_+-a_-}(s).
+$$
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition 2.7. (Lund)** _Let $x$ be a function of finite variation. Then the left-limit $x(t-)$ for $t>0$ and right-limit $x(t+)$ exist and $x$ has at most countable many discontinuity points. Moreover, the jumps of the variation function coincide with the absolute value of the corresponding points._
+
+</blockquote>
+
+#### FV-functions
+
+Right-continuous finite variation functions are an important class of func- tions for measure theory as well for sample paths of stochastic processes.
+
+<blockquote class = "def">
+
+**Definition 2.8. (Lund) (FV-functions)**\index{FV-functions} _A function $x : [0,\infty) \to \mathbb R$ is an FV-function if _$x(t)$ is of finite variation and is CADLAG._
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition 2.9. (Lund)** _Let $x$ and $x_i$ for $i=1,...,n$ be FV-functions and $\alpha_i$ be constants then_
+
+  i) _$V^x$ and $V_\pm^x$ are increasing CADLAG functions._
+  ii) _$\sum_{i=1}^n \alpha_ix_i(t)$ is a FV-function._
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 2.10. (Lund) (Jordan decomposition)** _An FV-function $x$ may be decomposed into_
+
+$$
+x(t)=x(0)+x^d(t)+x^c(t)
+$$
+
+_where $x^d$ is a piece-wise constant jump function and $x^c$ is a continuous function FV-function._
+
+</blockquote>
+
+Obviously we can simply find a solution with
+
+$$
+x^d(t)=\sum_{0\le s\le t}\Delta x(s)\quad \text{and}\quad x^c(t)=x(t)-x(0)-x^d(t).
+$$
+
+<blockquote class = "prop">
+
+**Proposition 2.12. (Lund) (Lebesgue decomposition of function of finite variation)**\index{Lebesgue decomposition} _An FV-function $x$ can be written as_
+
+$$
+x(t)=x(0)+x^d(t)+x^{ac}(t)+x^{sc}(t),
+$$
+
+_where $x^d$ is a pure jump function (piece-wise constant function), $x^{ac}$ is an absolutely continuous function and $x^{sc}$ is a singular continuous FV-function._
+
+</blockquote>
+
+We recall that an absolutely continuous function $x$ is a function on the form
+
+$$
+x(t)=\int_0^t\lambda(s)\ ds,
+$$
+
+for some continuous function $\lambda$.
+
+### Lebesgue-Stieltjes integration
+
+Lebesgue-Stieltjes integrals are at the core of this section. The starting point is to define integrals with respect to increasing functions using general theory of measures and integrations. Then using Jordan decomposition to deal with the case of integration with respect to functions of finite variation.
+
+<blockquote class = "def">
+
+**Definition 3.1. (Lund) (Lebesgue-Stieltjes measure)**\index{Lebesgue-Stieltjes measure} _A measure $\mu$ on $((0,\infty),\mathcal B(0,\infty))$ is a Lebesgue-Stieltjes measure if $\mu(A)<\infty$ for every bounded interval $A\subseteq (0,\infty)$._
+
+</blockquote>
+
+<blockquote class = "prop">
+
+**Proposition 3.2. (Lund) (Lebesgue-Stieltjes decomposition)** _There is a one-to-one correspondence between CADLAG increasing functions (up to addition of a constant) and Lebesgue-Stieltjes measures, given by $\mu((s,t])=a(t)-a(t)$ for all $0\le s< t$._
+
+</blockquote>
+
+For Lebesgue-Stieltjes measures, we can introduce integrals with respect to increasing functions.
+
+<blockquote class = "def">
+
+**Definition 3.4. (Lund) (Lebesgue-Stieltjes integral)**\index{Lebesgue-Stieltjes integral} _Let $a : [0,\infty) \to \mathbb R$ be an increasing CADLAG function. A Borel function $f:(0,\infty)\to\mathbb R$ is $a$-integrable if_
+
+$$
+\int_{(0,\infty)}\vert f(t)\vert\ d\lambda ^a(t):=\int_{(0,\infty)}\vert f(t)\vert\ da(t)<\infty
+$$
+
+_and we define the Lebesque-Stieljes integral as_
+
+$$
+\int_s^tf(u)\ da(u)=\int_s^t f(u)\lambda^a(u)
+$$
+
+_where_
+
+$$
+\lambda^a(t)=\lambda(\{x : g(x)\in (s,t]\})=a(t)-a(s),\quad g(x)=\inf\{t>0 : a(t)\ge x\}.
+$$
+
+_and $\lambda$ denotes the Lebesgue-measure on $((0,\infty),\mathcal B(0,\infty))$._
+
+</blockquote>
+
+We will for ease of calculation use that for an integrator function $B$ we may decompose the measure in terms of the discrete function and the continuous functions obtaining:
+
+$$
+\int f(u)\ dB(u)=\int f(u)\ dB^d(u)+\int f(u)\ dB^{ac}(u)+\int f(u)\ dB^{sc}(u).
+$$
+
+If furthermore $B$ is the sum of FV functions we can accordingly integrate over all functions in the sum that makes up $B$. We have the following results regarding some elementary integrals.
+
+<blockquote class = "prop">
+
+**Proposition 3.11. (Lund)** _Let $x$ be an FV-function then (assuming integrability) the following holds._
+\begin{align*}
+\text{(i):}&\quad\int_s^t\ dx(u)=\lambda^x((s,t])=x(t)-x(s),\\
+\text{(ii):}&\quad \int_{\{t\}}f(u)\ dx(u)=f(t)\Delta x(t),\\
+\text{(iii):}&\quad x(t)=c\Longrightarrow \int_s^t f(u)\ dx(u)=0,\\
+\text{(iv):}&\quad \int_s^t f(u)\ dx^d(u)=\sum_{s< u\le t} f(u)\Delta x(u),\\
+\text{(v):}&\quad \int_s^t f(u)\ dx^{ac}(u)=\int_s^t f(u)\varphi(u)\ du,\\
+\text{(vi):}&\quad \int_s^t \Delta f(u)\ dx(u)=\sum_{s< u\le t} \Delta f(u)\Delta x(u).
+\end{align*}
+</blockquote>
+If we can write a function $f$ as
+
+$$
+f(t)=f_0+\int_0^t\varphi(u)\ dx(u)
+$$
+
+then we can write this on **differential form**\index{differential form}
+
+$$
+df(t)=\varphi(u)\ dx(u),\qquad f(0)=f_0.
+$$
+
+This notation is equivalent with the integral above but is often easier to write down. We also say the $f$ has *dynamics*\index{dynamics} $\varphi(u)\ dx(u)$.
+
+### Change of variables formula (Ito formula for FV-functions)
+
+In practice the definition of a Lebesgue-Stieltjes integral is not applied for a calculation of an integral. The Lebesgue-Stieltjes integral is useful by reason of its properties and rules which it can be manipulated. The previous section explores some of the properties of the Lebesgue-Stieltjes integral and this section explores the rules which integrals can be manipulated.
+
+The next result is a cornerstone for FV-functions.
+
+<blockquote class = "thm">
+
+**Theorem 4.1. (Lund) (Integration by parts formula)**\index{Integration by parts formula} _If $x$ and $y$ are two FV-functions then the function $z(t)=x(t)y(t)$ is given by_
+
+$$
+z(t)=z(0)+\int_0^t y(s-)\ dx(s)+\int_0^t x(s-)\ dy(s)+\sum_{0<s\le t}\Delta x(s)\Delta y(s)
+$$
+
+_or on differential form_
+
+$$
+dz(t)=y(s-)\ dx(s)+ x(s-)\ dy(s)+\Delta x(s)\Delta y(s).
+$$
+
+</blockquote>
+
+<blockquote class = "thm">
+
+**Theorem 4.2. (Lund) (Change of variable formula — Ito formula for FV-functions)**\index{Ito formula}\index{Change of variable formula} _Let $f$ be a $C^1$-function and let $x(t)$ be a FV-function. Then $z(t)=f(x(t))$ is an FV-function and_
+
+$$
+z(t)=z(0)+\int_0^tf'(x(s))\ dx^c(s)+\sum_{0<s\le t}\Big(f(x(s))-f(x(s-))\Big)
+$$
+
+_or on differential form_
+
+$$
+dz(t)=f'(x(t))\ dx^c(t)+\Big(f(x(t))-f(x(t-))\Big)\ dN^x(t)
+$$
+
+_where $N^x(t)=\#\{0<s\le t: x(s)\ne x(s-)\}$._
+
+</blockquote>
+
+Below is the $n$-dimensional version of Change of variable formula. The proof is based on the same method to prove the one-dimensional version (Theorem 4.2).
+
+<blockquote class = "thm">
+
+**Theorem 4.3. (Lund) (Change of variable formula — Ito formula for FV-functions)** _Let $f : \mathbb R^n\to\mathbb R$ be a $C^1$-function and let $x(t)=\big(x_1(t),...,x_n(t)\big)$ be an $n$-dimensional function of FV-functions. Then $z(t)=f(x(t))$ is an FV-function and_
+
+$$
+z(t)=z(0)+\sum_{i=1}^n\int_0^t\frac{\partial}{\partial x_i}f(x(s))\ dx_i^c(s)+\sum_{0<s\le t}\Big(f(x(s))-f(x(s-))\Big)
+$$
+
+_or on differential form_
+
+$$
+dz(t)=\sum_{i=1}^n\frac{\partial}{\partial x_i}f(x(s))\ dx_i^c(s)+\Big(f(x(t))-f(x(t-))\Big)\ dN^x(t).
+$$
+
+</blockquote>
+
+For the applications in the next sections we use the following speciale version of Change of variable formula.
+
+<blockquote class = "prop">
+
+**Corollary 4.4. (Lund)** _Let $f^j : \mathbb R^n\to\mathbb R$ be a $C^1$-functions for $j=1,...,m$ and let $z : [0,\infty) \to \{1,..,m\}$ be a pure jump function. Let furthermore $x(t)=\big(x_1(t),...,x_n(t)\big)$ be an $n$-dimensional function of FV-functions. Assume that $x$ has jumps on a subset of the jump times of $z$. Then $g(t)=f^{z(t)}(x(t))$ is an FV-function and_
+
+$$
+g(t)=g(0)+\sum_{i=1}^n\int_0^t\frac{\partial}{\partial x_i}f^{z(s)}(x(s))\ dx_i^c(s)+\int_0^t\left(f^{z(s)}(x(s))-f^{z(s-)}(x(s-))\right)\ dn(s)
+$$
+
+_where $n(t)=\#\{0<s\le t: z(s)\ne z(s-)\}$. This is equivalent to the differential form_
+
+$$
+dg(t)=\sum_{i=1}^n\frac{\partial}{\partial x_i}f^{z(s)}(x(s))\ dx_i^c(s)+\left(f^{z(s)}(x(s))-f^{z(s-)}(x(s-))\right)\ dn(s).
+$$
+
+</blockquote>
+
+Hence $g$ evolves according to the selected function $f^j$ given by the state of $z$ and jumps to another function $f^k$ on $z(t)=k$ and $z(t-)=j$. This intuitive insight is a very important result when we later will be writing down the dynamics of the reserve.
+
+As an application of the change of variables formula is Exponential formulas, also called the Dol ́eans exponential. These solutions have many applications.
+
+<blockquote class = "thm">
+
+**Theorem 4.6. (Lund) (Doleans exponential formula for FV-functions)** _Let $x$ be an FV-function. The unique solution of_
+
+$$
+dy(t)=y(t-)\ dx(t),\qquad y(0)=y_0,
+$$
+
+_is given by_
+
+$$
+y(t)=y_0\exp(x^c(t))\prod_{0<s\le t}\big(1+\Delta x(s)\big).
+$$
+
+</blockquote>
+
 ## Stochastic processes
+
+### General theory of stochastic processes
+
+### Markov processes
+
+### Finite variation processes
+
+### Finite variation martingales
+
+### Integral processes
+
+### Counting processes and point processes
+
+### Piecewise constant processes on finite state spaces
 
 ## Life insurance models
 
+### General definition of reserves
+
+### Multi-state policy, general model
+
+### Standard multi-state policy, Markov model
+
+### Models with state duration, semi-Markov model
+
+### Surplus and dividends
+
 ## Introduction to survival and event history analysis
+
+### Hazard rate (force of mortality)
+
+### Examples of basic counting processes models
+
+### Multiplicative intensity model
+
+### Nonparametric models
+
+### Parametric models

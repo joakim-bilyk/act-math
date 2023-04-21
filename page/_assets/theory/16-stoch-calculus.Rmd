@@ -27,7 +27,7 @@ We consider a primary process $X_t$ and we introduce the notion of information g
   $$
   Z\in\mathcal{F}^X_t.\ \text{(}Z\text{ is }\mathcal{F}^X_t\text{-measurable)}
   $$
-  3._ If $Y$ is a stochastic process such that we have_
+  3. _If $Y$ is a stochastic process such that we have_
   $$
   Y_t\in\mathcal{F}^X_t
   $$

@@ -1,6 +1,170 @@
+# (PART) The Mathematics of Life Insurance and Financial Contracts {-}
+
 # Basic Life Insurance Mathematics
 
-## Paymentstreams, interest and mortality
+## Payments, interest and mortality
+
+### Payments
+
+We will give precise mathematical content to the notion of payment streams and, referring to Appendix A, we deal only with their properties as functions of time and do not venture to discuss their possible stochastic properties for the time being.
+
+To fix ideas and terminology, consider a financial contract commencing at time 0 and terminating at a later time $n$ $(\le \infty)$, say, and denote by At the total amount paid in respect of the contract during the time interval $[0, t]$. The payment function $\{A_t\}_{t\ge 0}$ is assumed to be the difference of two non-decreasing, finite-valued functions representing incomes and outgoes, respectively, and is thus of finite variation (FV). Furthermore, the payment function is assumed to be right-continuous (RC). From a practical point of view this assumption is just a matter of convention, stating that the balance of the account changes at the time of any deposit or withdrawal. From a mathematical point of view it is convenient, since payment functions can then serve as integrators. In fact, we shall restrict attention to payment functions that are piece-wise differentiable (PD):
+
+$$
+A_t=A_0+\int_0^ta_\tau d\tau+\sum_{0\le \tau\ le}\Delta A_\tau,\tag{1}
+$$
+
+where $\Delta A_\tau=A_\tau-A_{\tau-}$. The integral adds up payments that fall due continuously, and the sum adds up lump sum payments. In differential form this
+reads
+
+$$
+dA_t=a(t)\ dt+\Delta A(t).\tag{2}
+$$
+
+It seems natural to count incomes as positive and outgoes as negative. Sometimes, and in particular in the context of insurance, it is convenient to work with outgoes less incomes, and to avoid ugly minus signs we introduce $B = -A$.
+
+### Interests
+
+Suppose money is currently invested on (or borrowed from) an account that bears interest. This means that a unit deposited on the account at time s gives the account holder the right to cash, at any other time $t$, a certain amount $S(s,t)$, typically different from 1. The function $S$ must be strictly positive, and we shall argue that it must satisfy the functional relationship
+
+$$
+S(s, u) = S(s, t) S(t, u) ,\tag{3}
+$$
+
+implying, of course, that $S(t,t) = 1$ (put $s = t = u$ and use strict positivity): If the account holder invests 1 at time $s$, he may cash the amount on the left of (3) at time $u$. If he instead withdraws the value $S(s,t)$ at time $t$ and immediately reinvests it again, he will obtain the amount on the right of (3) at time $u$. To avoid arbitrary gains, so-called arbitrage, the two strategies must give the same result.
+
+It is easy to verify that the function $S(s,t)$ satisfies (3) if and only if it is of the form
+
+$$
+S(s,t)=\frac{S_t}{S_s},\tag{4}
+$$
+
+for some strictly positive function $S_t$ (allowing an abuse of notation), which can be taken to satisfy
+
+$$
+S_0=1.
+$$
+
+Then $S_t$ must be the value at time $t$ of a unit deposited at time 0, and we call it the *accumulation function*\index{accumulation function}. Correspondingly, $S_t^{-1}$ is the value at time 0 of a unit withdrawn at time $t$, and we call it the *discount function*\index{discount function}.
+
+We will henceforth assume that $S_t$ is of the form
+
+$$
+S_t=e^{\int_0^t r},\qquad S_t^{-1}=e^{-\int_0^t r},\tag{5}
+$$
+
+where we suppress the integrant i.e. $e^{\int_0^t r}=e^{\int_0^t r_u\ du}$ Here $r_t$ is some piece-wise continuous function, usually positive. Accumulation factors of this form are invariably used in basic banking operations (loans and savings) and also for bonds issued by governments and corporations.
+
+Under the rule (5) the dynamics of accumulation and discounting are given by
+
+$$
+dS_t=r(t)S(t)\ dt.\tag{6}
+$$
+
+The relation (6) says that the interest earned in a small time interval is proportional to the length of the interval and to the current amount on deposit. The proportionality factor $r_t$ is called the *force of interest*\index{force of interest} or the *(instantaneous) interest rate*\index{instantaneous interest rate} at time $t$. In integral form (6) reads.
+
+$$
+S_t=S_0+\int_0^tr_uS_u\ du,\tag{7}
+$$
+
+We will be working with the expressions
+
+$$
+S(s,t)=e^{-\int_s^tr}\tag{8}
+$$
+
+for the *general discount factor* when $t \le s$ and
+
+$$
+S(t,u)=e^{\int_u^tr}\tag{9}
+$$
+
+for the *general accumulation factor* when $t\le u$.
+
+### Valuation of paymentstreams
+
+For a account bearing the instantaneous interest rate $r_t$ and payment function $A$ we accumulate the interest $e^{\int_s^t r}$ of a payment at time $s$ up untill the time $t$. That is summing over all payments on $[0,t]$ we have
+
+$$
+U_t=e^{\int_0^tr}A_0+\int_0^te^{\int_s^tr}a_s\ ds+\sum_{0\le s\le t}e^{\int_s^tr}\Delta A(s),\tag{10}
+$$
+
+being the account value at time $t\ge 0$. We can also on integral form write
+
+$$
+U_t=e^{\int_0^tr}A_0+\int_0^te^{\int_s^tr}dA(s),\tag{11}
+$$
+
+Similarly if one has promised the payments $B$ ($B=-A$) to a party in the future we have that each payment at time $s\ge t$ will be discounted with the factor $e^{-\int_t^s r}$ hence the value of the payment stream $B$ at time $t$ is
+
+$$
+V_t=\int_t^Te^{-\int_t^sr}dB(s),\tag{12}
+$$
+
+where $dB(s)=0$ for all $s>T$ i.e. $B$ terminates at time $T$. Notice we do not include a initial or terminate amount $B_T$ since this is included in the jump term in $dB$ at time $T$.
+
+Typically, the financial contract will lay down that incomes and outgoes be equivalent in the sense that
+
+$$
+U_T =0\qquad \text{and/or}\qquad V_{0-}=0,\tag{13}
+$$
+
+that is the account is emptied at termination and we do not owe anything upon the creation of the contract.
+
+### Mortality
+
+Consider an aggregate of individuals, e.g. the population of a nation, the persons covered under an insurance scheme, or a certain species of animals. The individuals need not be animate beings; for instance, in engineering applications one is often interested in studying the worklife until failure of technical components or systems. Having demographic and actuarial problems in mind, we shall, however, be speaking of persons and life lengths until death.
+
+Due to differences in inheritance and living conditions and also due to events of a more or less purely random nature, like accidents, diseases, etc., the life lengths vary among individuals. Therefore, the life length of a randomly selected new-born can suitably be represented by a non-negative random variable $T$ with a cumulative distribution function
+
+$$
+F(t)=\mathbb P[T\le t].\tag{1}
+$$
+
+In survival analysis it is convenient to work with the *survival function*\index{survival function}
+
+$$
+\overline F(t)=1 -\mathbb P[T\le t]=\mathbb P[T> t].\tag{2}
+$$
+
+We assume that $F$ is absolutely continuous and denote the density by $f$;
+
+$$
+dF(t)=f(t)\ dt=-d\overline F(t),\tag{3}
+$$
+
+for some non-negative continuous function $f$ s.t. $F(t)\to 1$ assuming $F(0)=0$.
+
+When dealing with non-negative random variables representing life lengths, it is convenient to work with the derivative of $-\log \overline F$,
+
+$$
+\mu(t)=-\frac{d}{dt}\Big(\log \overline F(t)\Big)=-\left(-f(t)\frac{1}{\overline F(t)}\right)=\frac{f(t)}{\overline F(t)},\tag{4}
+$$
+
+which is well defined for all $t$ such that $\overline F(t) > 0$. For small, positive $dt$ we have
+
+$$
+\mu(t)\ dt=\frac{f(t)\ dt}{\overline F(t)}=\frac{\mathbb P(t< T\le t+dt)}{\mathbb P(T> t)}=\mathbb P(T\le t+dt\ \vert\ T> t).\tag{5}
+$$
+
+Thus, for a person aged $t$, the probability of dying within $dt$ years is (approximately) proportional to the length of the time interval, $dt$. The proportionality factor $\mu (t)$ depends on the attained age, and is called the *force of mortality*\index{force of mortality} at age $t$. It is also called the *mortality intensity*\index{mortality intensity} or *hazard rate*\index{hazard rate} at age $t$, the latter expression stemming from reliability theory, which is concerned with the durability of technical devices.
+
+Integrating (4) from 0 to $t$ and using $\overline F(0) = 1$, we obtain
+
+$$
+\overline F(t)=e^{-\int_0^t\mu}\tag{6}
+$$
+
+also (4) may be written as
+
+$$
+f(t)=\overline F(t)\mu(t)=e^{-\int_0^t\mu}\mu(t).\tag{7}
+$$
+which says that the probability $f (t)\ dt$ of dying in the age interval $(t, t + dt)$ is the product of the probability $\overline F(t)$ of survival to $t$ and the conditional probability $\mu(t)\ dt$ of then dying before age $t + dt$.
+
+The functions $F,\overline F, f$, and $\mu$ are equivalent representations of the mortality law; each of them corresponds one-to-one to any one of the others.
+
+Since $\overline F(\infty) = 0$, we must have $\int_0^\infty \mu=\infty$. Thus, if there is a finite highest attainable age $\omega$ such that $\overline F(\omega) = 0$ and $\overline F(t) > 0$ for $t < \omega$, then $\int_0^t\mu\nearrow\infty$ as $t\nearrow \omega$. If moreover, $\mu$ is non-decreasing, we must also have $\lim_{t\nearrow \omega}\mu(t)=\infty$.
 
 ## Insurance of a single life
 

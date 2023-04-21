@@ -9,12 +9,29 @@ documentclass: book
 bibliography: book.bib
 url: "joakim-bilyk.github.io/books/theory"
 preface: |
-  This document contain a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance.
+  This book contains a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance. The notes outlines the contents of the major courses regarding the mathematics behind the markov models in life insurance including valuation of financial contracts under the market measure $\mathbb Q$ and the statistical methods used in non-life insurance when estimating the equivalence premium that is the expected expenses of the insurance contract.
+  
+  The notes are structured as follows: The notes are divided into three parts. The first part is called *The Mathematics of Life Insurance and Financial Contracts* and revolves around payment streams and a market consistent valuation of these. This is indeed the main topics of life insurance and mostly all efforts in this field work towards more robust and/or consistent valuation methods. The second part is called *The Mathematics and Methods of Non-Life Insurance*. In this part we outline the stochastic models behind claim arrivals in homogeneous portfolios and estimation of the premium. We also partly focus on risk management as methods in this field relate somewhat to the non-life field. The third part of the notes outlines some of the mathematics behind the mathematical fundamental taken *as given* in the first two parts. This include the fundamental theory of random variables, measure theory, markov chains and stochastic processes including stochastic calculus.
+  
+  **The Mathematics of Life Insurance and Financial Contracts**
+  
+  Life insurance contracts are stochastic payments between two parties agreed upon in advance. These differ from financial contracts in the sense that the issuer of the contract i.e. the insurance company takes on the risk associated with the buyer of the contracts life events and in financial contracts the issuer typically a bank or financial institution takes on some risk associated with a price fluctuation. In recent years, the *unit-link contract* has become the norm in the pension field and so life insurance today have some overlap with banking sector. The valuation of the payments in the life contract is evaluated under the market measure and priced such that there is no arbitrage in the market extended with the life insurance contract. Therefore, the study of market valuation from financial mathematics plays an integral role in the actuarial endeavors.
+  
+  This first part of the book, starts out with an introduction to the ideas around payment streams, interest, mortality, markov chains and reserves. This is done in the chapter *Basic Life Insurance Mathematics*. Afterwards, in the chapter *Stochastic Processes in Life Insurance Mathematics* we formalize the stochastic processes behind the payment process by considering CADLAG processes that is of finite variations (FV-functions). This will lead us to an extended version of the integral where we allow to integrate with respect to payment streams and other FV-functions. It turns out that the maths around the expected value of such integrals is a bit more complicated than one would let on.
+  
+  The following two chapters start with an introduction into the mathematics of continuous finance and the theory of arbitrage free valuation of derivatives. This is used afterwards used in the chapter *Topics in Life Insurance*, where Black Scholes types of PDEs are constructed that describe the statewise reserves. However before this we introduce a matrix approach to life insurance and some interest theory. For the definition of the product integral see the appendix.
+  
+  **The Mathematics and Methods of Non-Life Insurance**
+  
+  Some content
+  
+  **Mathematical Prerequisites**
+  
+  This part of the notes are a rough collection of important results from measure theory and theory on stochastic variables.
 keywords: |
-  probability theory, insurance mathematics, life insurance,
-  non-life insurance, stochastic differential equations.
+  probability theory, insurance mathematics, life insurance, non-life insurance, stochastic differential equations.
 description: |
-  This is a description of the document.
+  This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results.
 ---
 
 ```{r, setup,include=FALSE}
@@ -89,14 +106,39 @@ theme_custom <- function() {
 }
 ```
 
-# Introduction
+`r if (knitr::is_html_output()) '
+# Preface {-}
 
-## Abbreviations
+This book contains a comprehensive outline of theory on probability theory and mathematical statistics applied in finance, life insurance and non-life insurance. The notes outlines the contents of the major courses regarding the mathematics behind the markov models in life insurance including valuation of financial contracts under the market measure $\\mathbb Q$ and the statistical methods used in non-life insurance when estimating the equivalence premium that is the expected expenses of the insurance contract.
+
+The notes are structured as follows: The notes are divided into three parts. The first part is called *The Mathematics of Life Insurance and Financial Contracts* and revolves around payment streams and a market consistent valuation of these. This is indeed the main topics of life insurance and mostly all efforts in this field work towards more robust and/or consistent valuation methods. The second part is called *The Mathematics and Methods of Non-Life Insurance*. In this part we outline the stochastic models behind claim arrivals in homogeneous portfolios and estimation of the premium. We also partly focus on risk management as methods in this field relate somewhat to the non-life field. The third part of the notes outlines some of the mathematics behind the mathematical fundamental taken *as given* in the first two parts. This include the fundamental theory of random variables, measure theory, markov chains and stochastic processes including stochastic calculus.
+
+**The Mathematics of Life Insurance and Financial Contracts**
+
+Life insurance contracts are stochastic payments between two parties agreed upon in advance. These differ from financial contracts in the sense that the issuer of the contract i.e. the insurance company takes on the risk associated with the buyer of the contracts life events and in financial contracts the issuer typically a bank or financial institution takes on some risk associated with a price fluctuation. In recent years, the *unit-link contract* has become the norm in the pension field and so life insurance today have some overlap with banking sector. The valuation of the payments in the life contract is evaluated under the market measure and priced such that there is no arbitrage in the market extended with the life insurance contract. Therefore, the study of market valuation from financial mathematics plays an integral role in the actuarial endeavors.
+
+This first part of the book, starts out with an introduction to the ideas around payment streams, interest, mortality, markov chains and reserves. This is done in the chapter *Basic Life Insurance Mathematics*. Afterwards, in the chapter *Stochastic Processes in Life Insurance Mathematics* we formalize the stochastic processes behind the payment process by considering CADLAG processes that is of finite variations (FV-functions). This will lead us to an extended version of the integral where we allow to integrate with respect to payment streams and other FV-functions. It turns out that the maths around the expected value of such integrals is a bit more complicated than one would let on.
+
+The following two chapters start with an introduction into the mathematics of continuous finance and the theory of arbitrage free valuation of derivatives. This is used afterwards used in the chapter *Topics in Life Insurance*, where Black Scholes types of PDEs are constructed that describe the statewise reserves. However before this we introduce a matrix approach to life insurance and some interest theory. For the definition of the product integral see the appendix.
+
+**The Mathematics and Methods of Non-Life Insurance**
+
+Some content
+
+**Mathematical Prerequisites**
+
+This part of the notes are a rough collection of important results from measure theory and theory on stochastic variables.
+
+'`
+
+# Introduction {-}
+
+## Abbreviations {-}
 
 Below is given the abbreviations used when referencing to books:
 
 | Chapter | Abbreviation | Source |
-| :---------- | :---- | :----------------- |
+| :---- | :-- | :----------------- |
 | Basic Life Insurance Mathematics | Ragnar | *Basic Life Insurance Mathematics* by Ragnar Norberg (2002) |
 | Stochastic Processes in Life Insurance Mathematics | Lund | *Stochastic Processes in Life Insurance*: The Dynamic Approach by Jesper Lund Pedersen (2022)|
 | Topics in Life Insurance Mathematics  | Asmussen | *Risk and Insurance*: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). |
@@ -117,15 +159,15 @@ Below is given the abbreviations used when referencing to books:
 | | Bladt | Notes from lectures in Liv2. |
 | Linear Algebra | Wiki | Wikipedia |
 
-## To-do reading
+## To-do reading {-}
 
 | Week | Course | Chapter | X |
-| :--- |  :---- | :------ | :--: |
+| :- |  :---- | :-------- | :-: |
 | 1 | QRM       | Finish risk measures                  | |
-|   | Liv1      | Chapter 1-3                           | |
-|   | StokLiv   | Chapter 1-4                           | |
+|   | Liv1      | Chapter 1-3                           | X |
+|   | StokLiv   | Chapter 1-4                           | X |
 |   | ProjLiv   | Buchardt & Moeller (2015)             | |
-|   | Skade1    | Chapter 1-2.1                         | |
+|   | Skade1    | Chapter 1-2.1                         | X |
 |   | SkadeStok | Chapter 1-2 (Schmidli)                | |
 |   | Skade2    | Chapter 1-7 (uden 6), kursorisk       | |
 | 2 | QRM       | Extreme value theory with heavy tails; Hill estimator; POT method.            | |
@@ -164,3 +206,13 @@ Below is given the abbreviations used when referencing to books:
 |   | Skade1    | Chapter 6                             | |
 |   | Skade2    | TBD                                   | |
 
+## Notation {-}
+
+We use the following shorthand notation.
+
+| Symbol | Interpretation |
+| :-: | :------ |
+| $f(t-)=f_{t-}$ | $\lim_{s\ \nearrow\ t}f(s)$ being the left limit of $f$ |
+| $f(t+)=f_{t+}$ | $\lim_{s\ \searrow\ t}f(s)$ being the right limit of $f$ |
+| $\Delta f(t)$ | $f(t)-f(t-)$ being the jump function of $f$ |
+| $\int_0^t r$ | $\int_0^tr(u)\ du$. |
