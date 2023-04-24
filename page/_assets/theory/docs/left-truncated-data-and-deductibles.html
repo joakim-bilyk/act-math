@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7.1 Preliminaries | Mathematics of the Actuarial Sciences</title>
+  <title>8.3 Left truncated data and deductibles | Mathematics of the Actuarial Sciences</title>
   <meta name="description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7.1 Preliminaries | Mathematics of the Actuarial Sciences" />
+  <meta property="og:title" content="8.3 Left truncated data and deductibles | Mathematics of the Actuarial Sciences" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7.1 Preliminaries | Mathematics of the Actuarial Sciences" />
+  <meta name="twitter:title" content="8.3 Left truncated data and deductibles | Mathematics of the Actuarial Sciences" />
   
   <meta name="twitter:description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stochastic-processes-in-non-life-insurance-mathematics.html"/>
-<link rel="next" href="the-cramer-lundberg-model.html"/>
+<link rel="prev" href="multivariate-distributions.html"/>
+<link rel="next" href="probabilistic-machine-learning.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -575,251 +575,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="preliminaries" class="section level2 hasAnchor" number="7.1">
-<h2><span class="header-section-number">7.1</span> Preliminaries<a href="preliminaries.html#preliminaries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<blockquote class="def">
-<p><strong>Definition 1.1. (Schmidli) (Stochastic process)</strong> <em>A <strong>stochastic process</strong> is a family of random variables <span class="math inline">\(X_t : (\Omega,\mathbb F,\mathbb P) \to (E,\mathbb E,\mu)\)</span> indexed by <span class="math inline">\(t\in \mathcal I\)</span>, where <span class="math inline">\(\mathcal I\subseteq \mathbb N\)</span> or <span class="math inline">\(\mathcal I\subseteq \mathbb R\)</span>, denoted by <span class="math inline">\(\mathbf X=\{X_t\}_{t\in \mathcal I}\)</span>. In the case that <span class="math inline">\(\mathcal I=\mathbb R\)</span>, we say that <span class="math inline">\(\mathbf X\)</span> is <strong>CADLAG</strong> if</em></p>
-<p><span class="math display">\[
-X(t)=\lim_{h\to 0}X(t+h)
-\]</span></p>
-<p><em>and <span class="math inline">\(\lim_{h\to 0}X(t-h)\)</span> exist almost surely. Furthermore, if <span class="math inline">\(X(t)\)</span> is continuous almost surely we say that <span class="math inline">\(\mathbf X\)</span> is <strong>continuous</strong>.</em></p>
-</blockquote>
-<p>We will in this chapter assume that whenever <span class="math inline">\(\mathcal I=\mathbb R\)</span> then <span class="math inline">\(\mathbf X\)</span> is CADLAG. This in non controversial in the processes we will be working on, as it is natural for real-life processes to be left deterministic and right continuous. Furthermore, if we suppress <span class="math inline">\(\{X_t\}_{t\in \mathcal I}\)</span> then <span class="math inline">\(\mathcal I=\mathbb R^+=[0,\infty)\)</span> and we simply write <span class="math inline">\(\{X_t\}\)</span> or <span class="math inline">\(\mathbf X\)</span>.</p>
-<blockquote class="def">
-<p><strong>Definition 1.2. (Schmidli) (Point process)</strong> <em>A CADLAG stochastic process <span class="math inline">\(\{N_t\}\)</span> is called a <strong>point process</strong> if i) <span class="math inline">\(N_0=0\)</span>, ii) <span class="math inline">\(N_t\ge N_s\)</span> for all <span class="math inline">\(t\ge s\)</span> (increasing) and iii) <span class="math inline">\(N_t\in \mathbb N\)</span> for all <span class="math inline">\(t\)</span>. Furthermore, if for the mapping <span class="math inline">\(T_k : k\mapsto\inf\{t\ge 0 : N_t\ge k\}\)</span> (jumping times) <span class="math inline">\(T_k\ne T_j\)</span> for all <span class="math inline">\(k\ne j\)</span>, then <span class="math inline">\(\mathbf N\)</span> is said to be a <strong>simple point process</strong>.</em></p>
-</blockquote>
-<blockquote class="def">
-<p><strong>Definition 1.3. (Schmidli)</strong> <em>Let <span class="math inline">\(\{X_t\}\)</span> be a stochastic process. If for all partitions <span class="math inline">\(0=t_0&lt;t_1&lt;\cdots&lt;t_n\)</span> the random variables <span class="math inline">\(X_{t_i}-X_{t_{i-1}}\)</span> for <span class="math inline">\(i=1,...,n\)</span> are jointly independent, then <span class="math inline">\(\{X_t\}\)</span> has <strong>independent increments</strong>. If furthermore for all <span class="math inline">\(h&gt;0\)</span> it holds that</em></p>
-<p><span class="math display">\[
-\{X_{t_i}-X_{t_{i-1}}\}_{i=1,...n}\stackrel{d}{=}\{X_{t_i+h}-X_{t_{i-1}+h}\}_{i=1,...n}
-\]</span></p>
-<p><em>then <span class="math inline">\(\{X_t\}\)</span> hast <strong>stationary increments</strong>.</em></p>
-</blockquote>
-<p>We will also be needing the definition of a filtration and a martingale. These are given in the appendix. See also the <strong>Martingale stopping theorem</strong> and <strong>Martingale convergence theorem</strong>.</p>
-<div id="poisson-process" class="section level3 hasAnchor" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> Poisson process<a href="preliminaries.html#poisson-process" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<blockquote class="def">
-<p><strong>Definition 1.9. (Schmidli) (Poisson process)</strong> <em>A point process <span class="math inline">\(\{N_t\}\)</span> is called a (homogeneous) <strong>Poisson process</strong> with rate <span class="math inline">\(\lambda &gt;0\)</span> if i) <span class="math inline">\(\{N_t\}\)</span> has stationary and independent increments and ii) <span class="math inline">\(\mathbb P[N_j=0]=1-\lambda h+o(h)\)</span> as <span class="math inline">\(h\to 0\)</span>.</em></p>
-</blockquote>
-<blockquote class="prop">
-<p><strong>Proposition 1.10. (Schmidli) (Poisson process, alternative version)</strong> <em>A point process <span class="math inline">\(\{N_t\}\)</span> is a (homogeneous) <strong>Poisson process</strong> with rate <span class="math inline">\(\lambda &gt;0\)</span> if one of the following statements is true:</em></p>
-<ol style="list-style-type: lower-roman">
-<li><em><span class="math inline">\(\{N_t\}\)</span> has independent increments and <span class="math inline">\(N_t\sim \text{Pois}(\lambda t)\)</span>,</em></li>
-<li><em>the interarrival times <span class="math inline">\(T_k-T_{k-1}\)</span> are independent and <span class="math inline">\(\text{Exp}(\lambda)\)</span> distributed,</em></li>
-<li><em>For each <span class="math inline">\(t\)</span> <span class="math inline">\(N_t\sim \text{Pois}(\lambda t)\)</span> and on the event <span class="math inline">\(\{N_t=n\}\)</span> the ordered samples <span class="math inline">\(T_0,T_1,...,T_n\)</span> are uniformly distributed on <span class="math inline">\([0,t]\)</span> and independent,</em></li>
-<li><em><span class="math inline">\(\{N_t\}\)</span> has independent increments and <span class="math inline">\(\mathbb E[N_1]=\lambda\)</span> and on the event <span class="math inline">\(\{N_t=n\}\)</span> the ordered samples <span class="math inline">\(T_0,T_1,...,T_n\)</span> are uniformly distributed on <span class="math inline">\([0,t]\)</span> and independent and</em></li>
-<li><em><span class="math inline">\(\{N_t\}\)</span> has independent and stationary increments such that <span class="math inline">\(\mathbb P[N_h\ge 2]=o(h)\)</span> as <span class="math inline">\(h\to 0\)</span> and <span class="math inline">\(\mathbb E[N_1]=\lambda\)</span>.</em></li>
-</ol>
-</blockquote>
-<p>The Poisson process has the following properties.</p>
-<blockquote class="prop">
-<p><strong>Proposition 1.11. (Schmidli)</strong> <em>Let <span class="math inline">\(\{N_t\}\)</span> and <span class="math inline">\(\{\tilde N_t\}\)</span> be two independent Poisson processes with rates <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\tilde\lambda\)</span> respectively. Let <span class="math inline">\(\{I_i : i \in \mathbb N\}\)</span> be an iid sequence of random variables independent of <span class="math inline">\(\{N_t\}\)</span> with <span class="math inline">\(\mathbb P[I_i = 1] = 1−\mathbb P[I_i = 0] = q\)</span> for some <span class="math inline">\(q \in (0,1)\)</span>. Furthermore let <span class="math inline">\(a &gt; 0\)</span> be a real number. Then</em></p>
-<ol style="list-style-type: lower-roman">
-<li><em><span class="math inline">\(\{N_t+\tilde N_t\}\)</span> is a Poisson process with rate <span class="math inline">\(\lambda +\tilde \lambda\)</span>.</em></li>
-<li><em><span class="math inline">\(\sum_{i=1}^{N_t}I_i\)</span> is a Poisson process with rate <span class="math inline">\(\lambda q\)</span>.</em></li>
-</ol>
-</blockquote>
-<blockquote class="def">
-<p><strong>Definition 1.12. (Schmidli) (inhomogeneous Poisson process)</strong> <em>Let <span class="math inline">\(\Lambda(t)\)</span> be an increasing right continuous function on <span class="math inline">\([0,\infty)\)</span> with <span class="math inline">\(\Lambda(0) = 0\)</span>. A point process <span class="math inline">\(\{N_t\}\)</span> on <span class="math inline">\([0, \infty)\)</span> is called <strong>inhomogeneous Poisson process</strong> with intensity measure <span class="math inline">\(\Lambda(t)\)</span> if</em></p>
-<ol style="list-style-type: lower-roman">
-<li><span class="math inline">\(\{N_t\}\)</span> <em>has independent increments,</em></li>
-<li><span class="math inline">\(N_t-N_s\sim\text{Pois}(\Lambda (s)-\Lambda(s))\)</span>.</li>
-</ol>
-</blockquote>
-<p>If there exists a function <span class="math inline">\(\lambda(t)\)</span> such that <span class="math inline">\(\Lambda(t) = \int_0^t \lambda(s)\ ds\)</span> then <span class="math inline">\(\lambda(t)\)</span> is called <strong>intensity</strong> or <strong>rate</strong> of the inhomogeneous Poisson process. Note that a homogeneous Poisson process is a special case with <span class="math inline">\(\Lambda(t) = \lambda t\)</span>. Define <span class="math inline">\(\Lambda^{−1}(x) = \sup\{t \ge 0 : \Lambda(t) \le x\}\)</span> the inverse function of <span class="math inline">\(\Lambda(t)\)</span>.</p>
-<blockquote class="prop">
-<p><strong>Proposition 1.13. (Schmidli)</strong> <em>Let <span class="math inline">\(\tilde N_t\)</span> be a homogeneous Poisson process with rate 1. Define <span class="math inline">\(N_t=\tilde N_{\Lambda (t)}\)</span>. Then <span class="math inline">\(N_t\)</span> is an inhomogeneous Poisson process with intensity measure <span class="math inline">\(\Lambda(t)\)</span>. Conversely, let <span class="math inline">\(N_t\)</span> is an inhomogeneous Poisson process with intensity measure <span class="math inline">\(\Lambda(t)\)</span>. Define <span class="math inline">\(\tilde N_t=N_{\Lambda^{-1}(t)}\)</span>. Then <span class="math inline">\(\tilde N_t\)</span> is a homogeneous Poisson process with rate 1.</em></p>
-</blockquote>
-<p>For an inhomogeneous Poisson process we can construct the following martingales.</p>
-<blockquote class="lem">
-<p><strong>Lemma 1.14. (Schmidli)</strong> <em>Let <span class="math inline">\(r\in \mathbb R\)</span>. The following processes are martingales.</em></p>
-<ol style="list-style-type: lower-roman">
-<li><span class="math inline">\(\{N_t-\Lambda(t)\}\)</span>,</li>
-<li><span class="math inline">\(\{(N_t-\Lambda(t))^2-\Lambda(t)\}\)</span>,</li>
-<li><span class="math inline">\(\{\exp[rN_t-\Lambda(t)(e^r-1)]\}\)</span>.</li>
-</ol>
-</blockquote>
+<div id="left-truncated-data-and-deductibles" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Left truncated data and deductibles<a href="left-truncated-data-and-deductibles.html#left-truncated-data-and-deductibles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+
 </div>
-<div id="renewal-processes" class="section level3 hasAnchor" number="7.1.2">
-<h3><span class="header-section-number">7.1.2</span> Renewal processes<a href="preliminaries.html#renewal-processes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<blockquote class="def">
-<p><strong>Definition 1.15. (Schmidli) (Renewal process)</strong> <em>A simple point process <span class="math inline">\(\{N_t\}\)</span> is called an <strong>ordinary renewal process</strong> if the interarrival times <span class="math inline">\(\{T_k-T_{k-1}\}_{k\in\mathbb N}\)</span> are iid. If <span class="math inline">\(T_1-T_0=T_1\)</span> has a different distribution then <span class="math inline">\(\{N_t\}\)</span> is called <strong>delayed renewal process</strong>. If <span class="math inline">\(\frac{1}{\lambda}=\mathbb E[T_2-T_1]\)</span> exist and</em></p>
-<p><span class="math display">\[
-\mathbb P[T_1\le x]=\lambda\int_0^x\mathbb P[T_1-T_1&gt;y]\ dy
-\]</span></p>
-<p><em>then <span class="math inline">\(\{N_t\}\)</span> is called <strong>stationary renewal process</strong>. If <span class="math inline">\(\{N_t\}\)</span> is an ordinary renewal process then the function <span class="math inline">\(U(t)=1_{\{t\ge 0\}}+\mathbb E[N_t]\)</span> is called the <strong>renewal measure</strong>.</em></p>
-</blockquote>
-<p>In the rest of this section we denote by <span class="math inline">\(F\)</span> the distribution function of <span class="math inline">\(T_2 − T_1\)</span>. For simplicity we let <span class="math inline">\(T\)</span> be a random variable with distribution <span class="math inline">\(F\)</span>. Note that because the point process is simple we implicitly assume that <span class="math inline">\(F(0) = 0\)</span>. If nothing else is said we consider in the sequel only ordinary renewal processes.</p>
-<p>We recall that the convolution <span class="math inline">\(*\)</span> is an operator defined as follows:</p>
-<p><span class="math display">\[
-(g * F)(x)=\int g(x-y)\ dF(y)
-\]</span></p>
-<p>and we write <span class="math inline">\((F * F)=F^{*1}\)</span> and by convention we let <span class="math inline">\(F^{*0}(x)=1_{\{t : F(t)&gt;0\}}(x)\)</span>. Notice that <span class="math inline">\(F\)</span> in renewal process has support on <span class="math inline">\([0,\infty)\)</span> and so we have assuming that <span class="math inline">\(F\)</span> is absolutely continuous
-<span class="math display">\[\begin{align*}
-(g*F)(x)&amp;=\int g(x-y)f(y)\ dy=\int g(y)f(x-y)\ dy\\
-&amp;=\int_{-\infty}^x  g(y)f(x-y)\ dy.
-\end{align*}\]</span>
-and if <span class="math inline">\(g=F\)</span> we obtain</p>
-<p><span class="math display">\[
-F^{*1}(x)=\int_{-\infty}^x F(y)f(x-y)\ dy=\int_0^x F(y)f(x-y)\ dy.
-\]</span></p>
-<p>With this in min we move to rewriting the renewal measure.</p>
-<blockquote class="lem">
-<p><strong>Lemma 1.16. (Schmidli)</strong> <em>The renewal measure can be written as</em></p>
-<p><span class="math display">\[
-U(t)=\sum_{n=0}^\infty F^{*n}(t).
-\]</span></p>
-<p><em>Moreover, <span class="math inline">\(U(t)&lt;\infty\)</span> for all <span class="math inline">\(t\ge 0\)</span> and <span class="math inline">\(U(t)\to\infty\)</span> as <span class="math inline">\(t\to \infty\)</span>.</em></p>
-</blockquote>
-<p>In the renewal theory one often has to solve equations of the form</p>
-<p><span class="math display">\[
-Z(x)=z(x)+\int_{0}^x Z(x-y)\ dF(y)
-\]</span></p>
-<p>where <span class="math inline">\(z(x)\)</span> is a known function and <span class="math inline">\(Z(x)\)</span> is unknown. This equation is called the <strong>renewal equation</strong>. The equation can be solved explicitly.</p>
-<blockquote class="prop">
-<p><strong>Proposition 1.17. (Schmidli) (Renewal equation)</strong> <em>Let <span class="math inline">\(z\)</span> be given and let <span class="math inline">\(F\)</span> be the distribution of a non-negative random variable. Define <span class="math inline">\(Z\)</span> as the solution to</em></p>
-<p><span class="math display">\[
-Z(x)=z(x)+\int_{0}^x Z(x-y)\ dF(y).
-\]</span></p>
-<p><em>If <span class="math inline">\(z\)</span> is bounded on bounded intervals then</em></p>
-<p><span class="math display">\[
-Z(x)=\int_{0-}^x z(x-y)\ dU(y)=z*U(x)
-\]</span>
-<em>is the unique solution to <span class="math inline">\(Z\)</span> that is bounded on bounded intervals.</em></p>
-</blockquote>
-<p>Let us take some explicit solutions by defining arithmetic distributions.</p>
-<blockquote class="def">
-<p><strong>Definition 1.20. (Schmidli)</strong> <em>Let <span class="math inline">\(F\)</span> be a distribution function for a random variable <span class="math inline">\(X\)</span>. If <span class="math inline">\(\gamma\)</span> exists such that</em></p>
-<p><span class="math display">\[
-\mathbb P\left[X\in\bigcup_{n=0}^\infty \{2^n\gamma\}\right]=1
-\]</span></p>
-<p><em>then <span class="math inline">\(F\)</span> is called <strong>arithmetic</strong>. We call the largest number <span class="math inline">\(\gamma\)</span> such that the above holds for the <strong>span</strong>.</em></p>
-</blockquote>
-<blockquote class="prop">
-<p><strong>Proposition 1.17. (Schmidli) (Renewal theorem)</strong> <em>If <span class="math inline">\(z\)</span> is directly Riemann integrable i.e. the following holds:</em>
-<span class="math display">\[\begin{align*}
--\infty&lt;\lim_{h\to 0^+}&amp;h\sum_{k=1}^\infty\sup\Big\{z\big([(k-1)h,kh)\big)\Big\}=\\
-&amp;\lim_{h\to 0^+}h\sum_{k=1}^\infty\inf\Big\{z\big([(k-1)h,kh)\big)\Big\}&lt;\infty,
-\end{align*}\]</span>
-<em>then the solution to the renewal equation satisfies</em></p>
-<p><span class="math display">\[
-\lim_{t\to\infty}Z(t)=\lambda \int_0^\infty z(y)\ dy=\frac{1}{\mathbb E[X]}\int_0^\infty z(y)\ dy
-\]</span></p>
-<p><em>and is given by</em></p>
-<span class="math display">\[
-Z(t)=\left(z*\sum_{n=0}^\infty F^{*n}\right)(t)=\sum_{n=0}^\infty\int_0^tz(t-y)dF^{*n}(t).
-\]</span>
-</blockquote>
-<p>A comprehensive look at the derivation may be read in <a href="https://halweb.uc3m.es/esp/personal/personas/bdauria/1112/stoc_proc_phd/Notes/2012-02-28Tu_Notes.pdf">this note</a>.</p>
-</div>
-<div id="wiener-hopf-factorisation" class="section level3 hasAnchor" number="7.1.3">
-<h3><span class="header-section-number">7.1.3</span> Wiener-Hopf factorisation<a href="preliminaries.html#wiener-hopf-factorisation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Let <span class="math inline">\(\{X_i\}\)</span> be a sequence of iid. random variables. Let <span class="math inline">\(U(x)\)</span> be the distribution function of <span class="math inline">\(X_i\)</span>. Define</p>
-<p><span class="math display">\[
-S_n=\sum_{i=1}^nX_i,
-\]</span></p>
-<p>with <span class="math inline">\(S_0=0\)</span>. Assume that <span class="math inline">\(-\infty&lt;\mathbb E[X_i]&lt;0\)</span>. Define</p>
-<p><span class="math display">\[
-\tau_+=\inf\{n &gt; 0 : S_n&gt;0\},\qquad \tau_-=\inf\{n&gt;0 : S_n\le 0\}.
-\]</span></p>
-<p>Using this we define</p>
-<p><span class="math display">\[
-H(x)=\mathbb P[\tau_+&lt;\infty, S_{\tau_+}\le x],\qquad \rho(x)=\mathbb P[S_{\tau_-}\le x].
-\]</span></p>
-<p>Next define the functions</p>
-<p><span class="math display">\[
-\psi_n(x)=\mathbb P\Big[S_1&gt;0,S_2&gt;0,...,S_n&gt;0,S_n\le x\Big],\quad \psi_0(x)=1_{[0,\infty)}(x)
-\]</span></p>
-<p>and</p>
-<p><span class="math display">\[
-\psi(x)=\sum_{n=0}^\infty \psi_n(x).
-\]</span></p>
-<blockquote class="lem">
-<p><strong>Lemma 1.27. (Schmidli)</strong> <em>For <span class="math inline">\(n\ge 1\)</span> we have</em></p>
-<p><span class="math display">\[
-\psi_n(x)=\mathbb P[S_n&gt;S_j, (0\le j\le n-1),S_n\le x]
-\]</span></p>
-<p><em>and therefore <span class="math inline">\(\psi\)</span> is the result of the renewal equation</em></p>
-<p><span class="math display">\[
-\psi(x)=H + \psi_n* H
-\]</span></p>
-<p><em>that is</em></p>
-<p><span class="math display">\[
-\psi(x)=\sum_{n=0}^\infty H^{*n}(x).
-\]</span></p>
-</blockquote>
-<p>It further may be shown that <span class="math inline">\(U\)</span> has factorisation</p>
-<p><span class="math display">\[
-U=H+\rho-H * \rho
-\]</span></p>
-<p>which is called the <strong>Wierner-Hopf factorisation</strong>.</p>
-</div>
-<div id="subexponential-distributions" class="section level3 hasAnchor" number="7.1.4">
-<h3><span class="header-section-number">7.1.4</span> Subexponential distributions<a href="preliminaries.html#subexponential-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<blockquote class="def">
-<p><strong>Definition 1.28. (Schmidli) (Subexponential distribution)</strong> <em>A distribution function <span class="math inline">\(F\)</span> with <span class="math inline">\(F(x)=0\)</span> for <span class="math inline">\(x&lt;0\)</span> is called <strong>subexponential</strong> if</em></p>
-<p><span class="math display">\[
-\lim_{t\to\infty}\frac{1-F^{*2}(t)}{1-F(t)}=2.
-\]</span></p>
-</blockquote>
-<p>We want to show that the moment generating function of such a distribution does not exist for strictly positive values. We first need the following.</p>
-<blockquote class="lem">
-<p><strong>Lemma 1.29. (Schmidli)</strong> <em>If <span class="math inline">\(F\)</span> is subexponential then for all <span class="math inline">\(t\in\mathbb R\)</span></em></p>
-<p><span class="math display">\[
-\lim_{x\to\infty}\frac{1-F(x-t)}{1-F(x)}=1.
-\]</span></p>
-</blockquote>
-<blockquote class="lem">
-<p><strong>Lemma 1.30. (Schmidli)</strong> <em>If <span class="math inline">\(F\)</span> is subexponential then for all <span class="math inline">\(r&gt;0\)</span></em></p>
-<p><span class="math display">\[
-\lim_{t\to\infty}e^{rt}(1-F(t))=\infty,
-\]</span></p>
-<p><em>in particular</em></p>
-<p><span class="math display">\[
-\int_{0-}^\infty e^{rx}\ dF(x)=\infty.
-\]</span></p>
-</blockquote>
-<p>The following lemma gives a condition for subexponentiality.</p>
-<blockquote class="lem">
-<p><strong>Lemma 1.31. (Schmidli)</strong> <em>Assume that for all <span class="math inline">\(z\in (0,1]\)</span> the limit</em></p>
-<p><span class="math display">\[
-\gamma(z)=\lim_{x\to\infty}\frac{1-F(zx)}{1-F(x)}
-\]</span></p>
-<p><em>exists and that <span class="math inline">\(\gamma(z)\)</span> is left-continuous at 1. Then <span class="math inline">\(F\)</span> is a subexponential distribution function.</em></p>
-</blockquote>
-<p>Next we give an upper bound for the tails of the convolutions.</p>
-<blockquote class="lem">
-<p><strong>Lemma 1.33. (Schmidli)</strong> <em>Let <span class="math inline">\(F\)</span> be subexponential. Then for any <span class="math inline">\(\varepsilon&gt;0\)</span> there exist a <span class="math inline">\(D\in\mathbb R\)</span> such that</em></p>
-<p><span class="math display">\[
-\frac{1-F^{*n}(t)}{1-F(t)}\le D(1+\varepsilon)^n
-\]</span></p>
-<p><em>for all <span class="math inline">\(t&gt;0\)</span> and <span class="math inline">\(n\in\mathbb N\)</span>.</em></p>
-</blockquote>
-<blockquote class="lem">
-<p><strong>Lemma 1.34. (Schmidli)</strong> <em>Let <span class="math inline">\(F(x)=0\)</span> for <span class="math inline">\(x&lt;0\)</span>. The following are equivalent:</em></p>
-<ol style="list-style-type: lower-roman">
-<li><em><span class="math inline">\(F\)</span> is subexponential.</em></li>
-<li><em>For all <span class="math inline">\(n\in\mathbb N\)</span></em>
-<span class="math display">\[\lim_{x\to\infty}\frac{1-F^{*n}(x)}{1-F(x)}=n.\]</span></li>
-<li><em>There exists <span class="math inline">\(n\ge 2\)</span> such that the above holds.</em></li>
-</ol>
-</blockquote>
-<blockquote class="lem">
-<p><strong>Lemma 1.35. (Schmidli)</strong> <em>Let <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> be two distribution functions with <span class="math inline">\(U(x)=V(x)=0\)</span> for all <span class="math inline">\(x&lt;0\)</span>. Assume that</em></p>
-<p><span class="math display">\[
-1-V(x)\sim a(1-U(x)),\qquad \text{as}\ x\to\infty
-\]</span></p>
-<p><em>for some <span class="math inline">\(a&gt;0\)</span>. If <span class="math inline">\(U\)</span> is subexponential then also <span class="math inline">\(V\)</span> is subexponential.</em></p>
-</blockquote>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="stochastic-processes-in-non-life-insurance-mathematics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="the-cramer-lundberg-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="multivariate-distributions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="probabilistic-machine-learning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

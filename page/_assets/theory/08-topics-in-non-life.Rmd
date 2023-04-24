@@ -1,3 +1,7 @@
 # Topics in Non-Life Insurance Mathematics
 
-Noget indhold
+## Univariate distributions
+
+## Multivariate distributions
+
+## Left truncated data and deductibles

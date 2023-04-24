@@ -213,7 +213,13 @@ The following two chapters start with an introduction into the mathematics of co
 
 \textbf{The Mathematics and Methods of Non-Life Insurance}
 
-Some content
+Non-life mathematics revolves around policies where the insurance company takes upon themselves the economic risk arising from events that insured may encounter. The essential here is that these risk cannot be any that offers risk taking of life based risks for instance pensions or sickness and death. As such non-life insurance is insurance of assets or stochastic expenses (for instance court expenses or compensations to third person). Non-life insurance differs significantly from life insurance since the nature of the insurance events is assumed to arrive iid between a homogeneous portfolio of contracts and is often modelled through renewal processes such as the Cramer-Lundberg model. It is the job of the actuarial to determine the theoretical premium of a contract with a certain time exposure (usually one yer), reserve money for claims that are under processing, that may occur in the future or the may already have occurred but not yet reported. To this end the actuarial may deployed a wide range of tools such as generalized linear model or machine learning algorithms for modelling claims arrivals and reserving and estimating probability bounds for the probability of ruin from claims or investments. In this part we also include a chapter on quantitative risk management.
+
+The first chapter, called \emph{Basic Non-Life Insurance Mathematics}, introduces the Poisson process and defines the classical Cramer-Lundberg model. In this chapter we also give some introductory considerations on the ruin probability and estimation methods. The following chapter \emph{Stochastic Processes in Non-Life Insurance Mathematics} gives a deep-dive into the processes behind the claim arrivals in the Cramer-lundberg model, and later the renewal risk model. We finish the chapter by relating the classical renewal risk model to more modern approach including the case with stochastic investment. Lastly, we lay the foundation of claim reserving.
+
+The chapter \emph{Probabilistic Machine Learning} is a introductory chapter on how one may apply machine learning algorithms to tabular data, that is a spreadsheet with \(p\) covariates and one response. In this chapter we consider linear models with and without penalties, decision trees including bagging and random forests and neural networks. Lastly, we give some considerations on how one may interpret the results from the ML models discussed earlier. It is common knowledge that ML models are well suited for a wide variety of scenarios but due to their structure we loose alot of interpretability for the linear models (and generalized additive and linear models). Because of this one has to somehow figure out what the model does and how it treats say gender. This is also something we dig into, as we want to debias a potential biassed model (bias may arise from the data itself).
+
+The final chapter on risk management is an introduction to risk measures such as Value-At-Risk and expected shortfall and elliptical and heavy-tailed distributions. In investments we often see a concentration of returns around the mean and then a heavy tail of losses and or gains. This is important when one calculates the capital needed in order to sustain large losses that may arise during a crisis. It is furthermore, an accepted truth that investment are correlated in the sense that they tend to get large together. This is why elliptical distributions are studied. The final sections of this chapter is on credit risk and operational risks.
 
 \textbf{Mathematical Prerequisites}
 
@@ -317,7 +323,7 @@ X
 & ProjLiv & Buchardt \& Moeller (2015) & \\
 & Skade1 & Chapter 1-2.1 & X \\
 & SkadeStok & Chapter 1-2 (Schmidli) & X \\
-& Skade2 & Chapter 1-7 (uden 6), kursorisk & \\
+& Skade2 & Chapter 4 + 6 & \\
 2 & QRM & Extreme value theory with heavy tails; Hill estimator; POT method. & \\
 & Liv1 & Chapter 4 & \\
 & StokLiv & Chapter 6-11 & \\
@@ -6982,7 +6988,14 @@ Let now the initial capital be arbitrary.
 \hypertarget{topics-in-non-life-insurance-mathematics}{%
 \chapter{Topics in Non-Life Insurance Mathematics}\label{topics-in-non-life-insurance-mathematics}}
 
-Noget indhold
+\hypertarget{univariate-distributions}{%
+\section{Univariate distributions}\label{univariate-distributions}}
+
+\hypertarget{multivariate-distributions}{%
+\section{Multivariate distributions}\label{multivariate-distributions}}
+
+\hypertarget{left-truncated-data-and-deductibles}{%
+\section{Left truncated data and deductibles}\label{left-truncated-data-and-deductibles}}
 
 \hypertarget{probabilistic-machine-learning}{%
 \chapter{Probabilistic Machine Learning}\label{probabilistic-machine-learning}}
