@@ -163,7 +163,7 @@
 \end{textblock}
 
 \begin{textblock}{12}(1.5,13.7)
-\noindent\fontsize{11}{11}\selectfont Date: April 21, 2023
+\noindent\fontsize{11}{11}\selectfont Date: April 24, 2023
 \end{textblock}
 
 \hspace{1pt}
@@ -5797,13 +5797,13 @@ Int the case that \(\lambda\) is constant, we see that \(N\) is homogeneous.
 \hypertarget{relations-between-the-homogeneous-and-the-inhomogeneous-poisson-process}{%
 \subsection{Relations Between the Homogeneous and the Inhomogeneous Poisson Process}\label{relations-between-the-homogeneous-and-the-inhomogeneous-poisson-process}}
 
-\textbf{Proposition 2.1.5. (Mikosch)} \emph{Let \(\mu\) be the mean value function of a Poisson process \(N\) and \(\Tilde{N}\) be a standard homogeneous Poisson process. Then the following statements hold:}
+\textbf{Proposition 2.1.5. (Mikosch)} \emph{Let \(\mu\) be the mean value function of a Poisson process \(N\) and \(\tilde{N}\) be a standard homogeneous Poisson process. Then the following statements hold:}
 
 \begin{enumerate}
 \def\labelenumi{(\arabic{enumi})}
 \tightlist
 \item
-  \emph{The process \((\Tilde{N}(\mu(t)))_{t\ge 0}\) is Poisson with mean value function \(\mu\).}
+  \emph{The process \((\tilde{N}(\mu(t)))_{t\ge 0}\) is Poisson with mean value function \(\mu\).}
 \item
   \emph{If \(\mu\) is continuous, increasing and \(\lim_{t\to\infty}\mu(t)=\infty\) then \((N(\mu^{-1}(t)))_{t\ge 0}\) is a standard homogeneous Poisson process.}
 \end{enumerate}
@@ -5910,11 +5910,861 @@ for \(0<x_1<\cdots < x_n<t\). From lemma 2.1.9 we see that this is the joint den
 \hypertarget{preliminaries}{%
 \section{Preliminaries}\label{preliminaries}}
 
+\textbf{Definition 1.1. (Schmidli) (Stochastic process)} \emph{A \textbf{stochastic process}\index{stochastic process} is a family of random variables \(X_t : (\Omega,\mathbb F,\mathbb P) \to (E,\mathbb E,\mu)\) indexed by \(t\in \mathcal I\), where \(\mathcal I\subseteq \mathbb N\) or \(\mathcal I\subseteq \mathbb R\), denoted by \(\mathbf X=\{X_t\}_{t\in \mathcal I}\). In the case that \(\mathcal I=\mathbb R\), we say that \(\mathbf X\) is \textbf{CADLAG}\index{CADLAG stochastic process} if}
+
+\[
+X(t)=\lim_{h\to 0}X(t+h)
+\]
+
+\emph{and \(\lim_{h\to 0}X(t-h)\) exist almost surely. Furthermore, if \(X(t)\) is continuous almost surely we say that \(\mathbf X\) is \textbf{continuous}\index{continuous stochastic process}.}
+
+We will in this chapter assume that whenever \(\mathcal I=\mathbb R\) then \(\mathbf X\) is CADLAG. This in non controversial in the processes we will be working on, as it is natural for real-life processes to be left deterministic and right continuous. Furthermore, if we suppress \(\{X_t\}_{t\in \mathcal I}\) then \(\mathcal I=\mathbb R^+=[0,\infty)\) and we simply write \(\{X_t\}\) or \(\mathbf X\).
+
+\textbf{Definition 1.2. (Schmidli) (Point process)} \emph{A CADLAG stochastic process \(\{N_t\}\) is called a \textbf{point process}\index{point process} if i) \(N_0=0\), ii) \(N_t\ge N_s\) for all \(t\ge s\) (increasing) and iii) \(N_t\in \mathbb N\) for all \(t\). Furthermore, if for the mapping \(T_k : k\mapsto\inf\{t\ge 0 : N_t\ge k\}\) (jumping times) \(T_k\ne T_j\) for all \(k\ne j\), then \(\mathbf N\) is said to be a \textbf{simple point process}.\index{simple point process}}
+
+\textbf{Definition 1.3. (Schmidli)} \emph{Let \(\{X_t\}\) be a stochastic process. If for all partitions \(0=t_0<t_1<\cdots<t_n\) the random variables \(X_{t_i}-X_{t_{i-1}}\) for \(i=1,...,n\) are jointly independent, then \(\{X_t\}\) has \textbf{independent increments}\index{independent increments}. If furthermore for all \(h>0\) it holds that}
+
+\[
+\{X_{t_i}-X_{t_{i-1}}\}_{i=1,...n}\stackrel{d}{=}\{X_{t_i+h}-X_{t_{i-1}+h}\}_{i=1,...n}
+\]
+
+\emph{then \(\{X_t\}\) hast \textbf{stationary increments}\index{stationary increments}.}
+
+We will also be needing the definition of a filtration and a martingale. These are given in the appendix. See also the \textbf{Martingale stopping theorem} and \textbf{Martingale convergence theorem}.
+
+\hypertarget{poisson-process}{%
+\subsection{Poisson process}\label{poisson-process}}
+
+\textbf{Definition 1.9. (Schmidli) (Poisson process)} \emph{A point process \(\{N_t\}\) is called a (homogeneous) \textbf{Poisson process}\index{poisson process} with rate \(\lambda >0\) if i) \(\{N_t\}\) has stationary and independent increments and ii) \(\mathbb P[N_j=0]=1-\lambda h+o(h)\) as \(h\to 0\).}
+
+\textbf{Proposition 1.10. (Schmidli) (Poisson process, alternative version)} \emph{A point process \(\{N_t\}\) is a (homogeneous) \textbf{Poisson process}\index{poisson process} with rate \(\lambda >0\) if one of the following statements is true:}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \emph{\(\{N_t\}\) has independent increments and \(N_t\sim \text{Pois}(\lambda t)\),}
+\item
+  \emph{the interarrival times \(T_k-T_{k-1}\) are independent and \(\text{Exp}(\lambda)\) distributed,}
+\item
+  \emph{For each \(t\) \(N_t\sim \text{Pois}(\lambda t)\) and on the event \(\{N_t=n\}\) the ordered samples \(T_0,T_1,...,T_n\) are uniformly distributed on \([0,t]\) and independent,}
+\item
+  \emph{\(\{N_t\}\) has independent increments and \(\mathbb E[N_1]=\lambda\) and on the event \(\{N_t=n\}\) the ordered samples \(T_0,T_1,...,T_n\) are uniformly distributed on \([0,t]\) and independent and}
+\item
+  \emph{\(\{N_t\}\) has independent and stationary increments such that \(\mathbb P[N_h\ge 2]=o(h)\) as \(h\to 0\) and \(\mathbb E[N_1]=\lambda\).}
+\end{enumerate}
+
+The Poisson process has the following properties.
+
+\textbf{Proposition 1.11. (Schmidli)} \emph{Let \(\{N_t\}\) and \(\{\tilde N_t\}\) be two independent Poisson processes with rates \(\lambda\) and \(\tilde\lambda\) respectively. Let \(\{I_i : i \in \mathbb N\}\) be an iid sequence of random variables independent of \(\{N_t\}\) with \(\mathbb P[I_i = 1] = 1−\mathbb P[I_i = 0] = q\) for some \(q \in (0,1)\). Furthermore let \(a > 0\) be a real number. Then}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \emph{\(\{N_t+\tilde N_t\}\) is a Poisson process with rate \(\lambda +\tilde \lambda\).}
+\item
+  \emph{\(\sum_{i=1}^{N_t}I_i\) is a Poisson process with rate \(\lambda q\).}
+\end{enumerate}
+
+\textbf{Definition 1.12. (Schmidli) (inhomogeneous Poisson process)}\index{inhomogeneous Poisson process} \emph{Let \(\Lambda(t)\) be an increasing right continuous function on \([0,\infty)\) with \(\Lambda(0) = 0\). A point process \(\{N_t\}\) on \([0, \infty)\) is called \textbf{inhomogeneous Poisson process} with intensity measure \(\Lambda(t)\) if}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \(\{N_t\}\) \emph{has independent increments,}
+\item
+  \(N_t-N_s\sim\text{Pois}(\Lambda (s)-\Lambda(s))\).
+\end{enumerate}
+
+If there exists a function \(\lambda(t)\) such that \(\Lambda(t) = \int_0^t \lambda(s)\ ds\) then \(\lambda(t)\) is called \textbf{intensity} or \textbf{rate} of the inhomogeneous Poisson process. Note that a homogeneous Poisson process is a special case with \(\Lambda(t) = \lambda t\). Define \(\Lambda^{−1}(x) = \sup\{t \ge 0 : \Lambda(t) \le x\}\) the inverse function of \(\Lambda(t)\).
+
+\textbf{Proposition 1.13. (Schmidli)} \emph{Let \(\tilde N_t\) be a homogeneous Poisson process with rate 1. Define \(N_t=\tilde N_{\Lambda (t)}\). Then \(N_t\) is an inhomogeneous Poisson process with intensity measure \(\Lambda(t)\). Conversely, let \(N_t\) is an inhomogeneous Poisson process with intensity measure \(\Lambda(t)\). Define \(\tilde N_t=N_{\Lambda^{-1}(t)}\). Then \(\tilde N_t\) is a homogeneous Poisson process with rate 1.}
+
+For an inhomogeneous Poisson process we can construct the following martingales.
+
+\textbf{Lemma 1.14. (Schmidli)} \emph{Let \(r\in \mathbb R\). The following processes are martingales.}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \(\{N_t-\Lambda(t)\}\),
+\item
+  \(\{(N_t-\Lambda(t))^2-\Lambda(t)\}\),
+\item
+  \(\{\exp[rN_t-\Lambda(t)(e^r-1)]\}\).
+\end{enumerate}
+
+\hypertarget{renewal-processes}{%
+\subsection{Renewal processes}\label{renewal-processes}}
+
+\textbf{Definition 1.15. (Schmidli) (Renewal process)}\index{Renewal process} \emph{A simple point process \(\{N_t\}\) is called an \textbf{ordinary renewal process} if the interarrival times \(\{T_k-T_{k-1}\}_{k\in\mathbb N}\) are iid. If \(T_1-T_0=T_1\) has a different distribution then \(\{N_t\}\) is called \textbf{delayed renewal process}. If \(\frac{1}{\lambda}=\mathbb E[T_2-T_1]\) exist and}
+
+\[
+\mathbb P[T_1\le x]=\lambda\int_0^x\mathbb P[T_1-T_1>y]\ dy
+\]
+
+\emph{then \(\{N_t\}\) is called \textbf{stationary renewal process}. If \(\{N_t\}\) is an ordinary renewal process then the function \(U(t)=1_{\{t\ge 0\}}+\mathbb E[N_t]\) is called the \textbf{renewal measure}.}\index{renewal measure}
+
+In the rest of this section we denote by \(F\) the distribution function of \(T_2 − T_1\). For simplicity we let \(T\) be a random variable with distribution \(F\). Note that because the point process is simple we implicitly assume that \(F(0) = 0\). If nothing else is said we consider in the sequel only ordinary renewal processes.
+
+We recall that the convolution\index{convolution} \(*\) is an operator defined as follows:
+
+\[
+(g * F)(x)=\int g(x-y)\ dF(y)
+\]
+
+and we write \((F * F)=F^{*1}\) and by convention we let \(F^{*0}(x)=1_{\{t : F(t)>0\}}(x)\). Notice that \(F\) in renewal process has support on \([0,\infty)\) and so we have assuming that \(F\) is absolutely continuous
+\begin{align*}
+(g*F)(x)&=\int g(x-y)f(y)\ dy=\int g(y)f(x-y)\ dy\\
+&=\int_{-\infty}^x  g(y)f(x-y)\ dy.
+\end{align*}
+and if \(g=F\) we obtain
+
+\[
+F^{*1}(x)=\int_{-\infty}^x F(y)f(x-y)\ dy=\int_0^x F(y)f(x-y)\ dy.
+\]
+
+With this in min we move to rewriting the renewal measure.
+
+\textbf{Lemma 1.16. (Schmidli)} \emph{The renewal measure can be written as}
+
+\[
+U(t)=\sum_{n=0}^\infty F^{*n}(t).
+\]
+
+\emph{Moreover, \(U(t)<\infty\) for all \(t\ge 0\) and \(U(t)\to\infty\) as \(t\to \infty\).}
+
+In the renewal theory one often has to solve equations of the form
+
+\[
+Z(x)=z(x)+\int_{0}^x Z(x-y)\ dF(y)
+\]
+
+where \(z(x)\) is a known function and \(Z(x)\) is unknown. This equation is called the \textbf{renewal equation}\index{renewal equation}. The equation can be solved explicitly.
+
+\textbf{Proposition 1.17. (Schmidli) (Renewal equation)} \emph{Let \(z\) be given and let \(F\) be the distribution of a non-negative random variable. Define \(Z\) as the solution to}
+
+\[
+Z(x)=z(x)+\int_{0}^x Z(x-y)\ dF(y).
+\]
+
+\emph{If \(z\) is bounded on bounded intervals then}
+
+\[
+Z(x)=\int_{0-}^x z(x-y)\ dU(y)=z*U(x)
+\]
+\emph{is the unique solution to \(Z\) that is bounded on bounded intervals.}
+
+Let us take some explicit solutions by defining arithmetic distributions.
+
+\textbf{Definition 1.20. (Schmidli)}\index{arithmetic distribution} \emph{Let \(F\) be a distribution function for a random variable \(X\). If \(\gamma\) exists such that}
+
+\[
+\mathbb P\left[X\in\bigcup_{n=0}^\infty \{2^n\gamma\}\right]=1
+\]
+
+\emph{then \(F\) is called \textbf{arithmetic}. We call the largest number \(\gamma\) such that the above holds for the \textbf{span}.}
+
+\textbf{Proposition 1.17. (Schmidli) (Renewal theorem)} \emph{If \(z\) is directly Riemann integrable i.e.~the following holds:}
+\begin{align*}
+-\infty<\lim_{h\to 0^+}&h\sum_{k=1}^\infty\sup\Big\{z\big([(k-1)h,kh)\big)\Big\}=\\
+&\lim_{h\to 0^+}h\sum_{k=1}^\infty\inf\Big\{z\big([(k-1)h,kh)\big)\Big\}<\infty,
+\end{align*}
+\emph{then the solution to the renewal equation satisfies}
+
+\[
+\lim_{t\to\infty}Z(t)=\lambda \int_0^\infty z(y)\ dy=\frac{1}{\mathbb E[X]}\int_0^\infty z(y)\ dy
+\]
+
+\emph{and is given by}
+
+\[
+Z(t)=\left(z*\sum_{n=0}^\infty F^{*n}\right)(t)=\sum_{n=0}^\infty\int_0^tz(t-y)dF^{*n}(t).
+\]
+
+A comprehensive look at the derivation may be read in \href{https://halweb.uc3m.es/esp/personal/personas/bdauria/1112/stoc_proc_phd/Notes/2012-02-28Tu_Notes.pdf}{this note}.
+
+\hypertarget{wiener-hopf-factorisation}{%
+\subsection{Wiener-Hopf factorisation}\label{wiener-hopf-factorisation}}
+
+Let \(\{X_i\}\) be a sequence of iid. random variables. Let \(U(x)\) be the distribution function of \(X_i\). Define
+
+\[
+S_n=\sum_{i=1}^nX_i,
+\]
+
+with \(S_0=0\). Assume that \(-\infty<\mathbb E[X_i]<0\). Define
+
+\[
+\tau_+=\inf\{n > 0 : S_n>0\},\qquad \tau_-=\inf\{n>0 : S_n\le 0\}.
+\]
+
+Using this we define
+
+\[
+H(x)=\mathbb P[\tau_+<\infty, S_{\tau_+}\le x],\qquad \rho(x)=\mathbb P[S_{\tau_-}\le x].
+\]
+
+Next define the functions
+
+\[
+\psi_n(x)=\mathbb P\Big[S_1>0,S_2>0,...,S_n>0,S_n\le x\Big],\quad \psi_0(x)=1_{[0,\infty)}(x)
+\]
+
+and
+
+\[
+\psi(x)=\sum_{n=0}^\infty \psi_n(x).
+\]
+
+\textbf{Lemma 1.27. (Schmidli)} \emph{For \(n\ge 1\) we have}
+
+\[
+\psi_n(x)=\mathbb P[S_n>S_j, (0\le j\le n-1),S_n\le x]
+\]
+
+\emph{and therefore \(\psi\) is the result of the renewal equation}
+
+\[
+\psi(x)=H + \psi_n* H
+\]
+
+\emph{that is}
+
+\[
+\psi(x)=\sum_{n=0}^\infty H^{*n}(x).
+\]
+
+It further may be shown that \(U\) has factorisation
+
+\[
+U=H+\rho-H * \rho
+\]
+
+which is called the \textbf{Wierner-Hopf factorisation}.\index{Wierner-Hopf factorisation}
+
+\hypertarget{subexponential-distributions}{%
+\subsection{Subexponential distributions}\label{subexponential-distributions}}
+
+\textbf{Definition 1.28. (Schmidli) (Subexponential distribution)}\index{Subexponential distribution} \emph{A distribution function \(F\) with \(F(x)=0\) for \(x<0\) is called \textbf{subexponential} if}
+
+\[
+\lim_{t\to\infty}\frac{1-F^{*2}(t)}{1-F(t)}=2.
+\]
+
+We want to show that the moment generating function of such a distribution does not exist for strictly positive values. We first need the following.
+
+\textbf{Lemma 1.29. (Schmidli)} \emph{If \(F\) is subexponential then for all \(t\in\mathbb R\)}
+
+\[
+\lim_{x\to\infty}\frac{1-F(x-t)}{1-F(x)}=1.
+\]
+
+\textbf{Lemma 1.30. (Schmidli)} \emph{If \(F\) is subexponential then for all \(r>0\)}
+
+\[
+\lim_{t\to\infty}e^{rt}(1-F(t))=\infty,
+\]
+
+\emph{in particular}
+
+\[
+\int_{0-}^\infty e^{rx}\ dF(x)=\infty.
+\]
+
+The following lemma gives a condition for subexponentiality.
+
+\textbf{Lemma 1.31. (Schmidli)} \emph{Assume that for all \(z\in (0,1]\) the limit}
+
+\[
+\gamma(z)=\lim_{x\to\infty}\frac{1-F(zx)}{1-F(x)}
+\]
+
+\emph{exists and that \(\gamma(z)\) is left-continuous at 1. Then \(F\) is a subexponential distribution function.}
+
+Next we give an upper bound for the tails of the convolutions.
+
+\textbf{Lemma 1.33. (Schmidli)} \emph{Let \(F\) be subexponential. Then for any \(\varepsilon>0\) there exist a \(D\in\mathbb R\) such that}
+
+\[
+\frac{1-F^{*n}(t)}{1-F(t)}\le D(1+\varepsilon)^n
+\]
+
+\emph{for all \(t>0\) and \(n\in\mathbb N\).}
+
+\textbf{Lemma 1.34. (Schmidli)} \emph{Let \(F(x)=0\) for \(x<0\). The following are equivalent:}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \emph{\(F\) is subexponential.}
+\item
+  \emph{For all \(n\in\mathbb N\)}
+  \[\lim_{x\to\infty}\frac{1-F^{*n}(x)}{1-F(x)}=n.\]
+\item
+  \emph{There exists \(n\ge 2\) such that the above holds.}
+\end{enumerate}
+
+\textbf{Lemma 1.35. (Schmidli)} \emph{Let \(U\) and \(V\) be two distribution functions with \(U(x)=V(x)=0\) for all \(x<0\). Assume that}
+
+\[
+1-V(x)\sim a(1-U(x)),\qquad \text{as}\ x\to\infty
+\]
+
+\emph{for some \(a>0\). If \(U\) is subexponential then also \(V\) is subexponential.}
+
 \hypertarget{the-cramer-lundberg-model}{%
 \section{The Cramer-Lundberg model}\label{the-cramer-lundberg-model}}
 
+\hypertarget{definition-of-the-cramer-lundberg-process}{%
+\subsection{Definition of the Cramer-Lundberg process}\label{definition-of-the-cramer-lundberg-process}}
+
+Modelling a risk by a compound Poisson distribution is very popular. That is because the compound Poisson model has nice properties. For instance it can be derived as a limit of individual models. This was the reason for Filip Lundberg to postulate a continuous time risk model where the aggregate claims in any interval have a compound Poisson distribution. Moreover, the premium income should be modelled. In a portfolio of insurance contracts the premium payments will be spread all over the year. Thus he assumed that that the premium income is continuous over time and that the premium income in any time interval is proportional to the interval length. This leads to the following model for the surplus of an insurance portfolio
+
+\[
+C_t=u+ct-\sum_{i=1}^{N_t}Y_i.
+\]
+
+\(u\) is the initial capital, \(c\) is the premium rate. The number of claims in \((0,t]\) is a Poisson process \(N_t\) with rate \(\lambda\). The claim sizes \(\{Y_i\}\) are a sequence of iid positive random variables independent of \(\{N_t\}\). This model is called \textbf{Cramer-Lundberg process}\index{Cramer-Lundberg process} or \textbf{classical risk process}\index{classical risk process}.
+
+We denote the distribution function of the claims \(Y_i\) by \(G\), its moments by \(\mu_n = \mathbb E [Y_1^n]\) and its moment generating function by \(M_Y (r) = \mathbb E [\exp\{rY_1\}]\). Let \(\mu = \mu_1\). We assume that \(\mu < \infty\). Otherwise no insurance company would insure such a risk. Note that \(G(x) = 0\) for \(x < 0\). We will see later that it is no restriction to assume that \(G(0) = 0\).
+
+For an insurance company it is important that \(\{C_t\}\) stays above a certain level. This level is given by legal restrictions. By adjusting the initial capital it is no loss of generality if we assume this level to be 0. We define the ruin time
+
+\[
+\tau = \inf\{t>0 : C_t< 0\},\qquad (\inf\ \emptyset =\infty).
+\]
+
+We will mostly be interested in the probability of ruin in a time interval \((0, t]\)
+
+\[
+\psi(u,t)=\mathbb P [\tau \le t\ \vert\ C_0=u]=\mathbb P\left[\inf_{0<s\le t} C_s<0\right]
+\]
+
+and the probability of ultimate ruin
+
+\[
+\psi(u)=\lim_{t\to \infty}\psi(u,t) =\mathbb P [\tau <\infty\ \vert\ C_0=u]=\mathbb P\left[\inf_{t>0} C_t<0\right].
+\]
+
+It is easy to see that \(\psi(u, t)\) is decreasing in \(u\) and increasing in \(t\).
+
+As in the first section we denote the claim times by \(T_1,T_2,...\) and by convention \(T_0 = 0\). Let \(X_i = c(T_i − T_{i−1}) − Y_i\). If we only consider the process at the claim times we can see that
+
+\[
+C_{T_n}=u+\sum_{i=1}^n X_i
+\]
+
+is a random walk. Note that \(\psi (u)=\mathbb P[\inf_{n\in\mathbb N}C_{T_n}<0]\). From the theory of random walks we can see that ruin occurs a.s. iff \(\mathbb E [X_i] \le 0\), compare with Lemma 1.26. Hence we will assume in the sequel that
+\begin{align*}
+\mathbb E[X_i]>0\iff c\frac{1}{\lambda}-\mu>0\iff c> \lambda\mu\iff \mathbb E[C_t-u]>0.
+\end{align*}
+Recall that
+
+\[
+\mathbb E\left[\sum_{i=1}^{N_t}Y_i \right]=\lambda t\mu.
+\]
+
+The condition can be interpreted that the mean income is strictly larger than the mean outflow. Therefore the condition is also called the \textbf{net profit condition}\index{net profit condition}.
+
+If the net profit condition is fulfilled then \(C_{T_n}\) tends to infinity as \(n \to\infty\). Hence
+
+\[
+\inf\{C_t-u : t>0\}=\inf \{C_{T_n}-u : n\ge 1\}
+\]
+
+is a.s. finite. So we can conclude that
+
+\[
+\lim_{u\to\infty}\psi(u)=0.
+\]
+
+\hypertarget{a-note-on-the-model-and-reality}{%
+\subsubsection{A note on the model and reality}\label{a-note-on-the-model-and-reality}}
+
+In reality the mean number of claims in an interval will not be the same all the time. There will be a claim rate \(\lambda(t)\) which may be periodic in time. Moreover, the number of individual contracts in the portfolio may vary with time. Let \(a(t)\) be the volume of the portfolio at time \(t\). Then the claim number process \(\{N_t\}\) is an inhomogeneous Poisson process with rate \(a(t)\lambda(t)\). Let
+
+\[
+\Lambda (t)=\int_0^t a(s)\lambda(s)\ ds
+\]
+
+Then \(\{\tilde N_t\}\) where \(\tilde N_t = N_{\Lambda^{−1}(t)}\) is a Poisson process with rate 1. Let now the premium rate vary with \(t\) such that \(c_t = ca(t)\lambda(t)\) for some constant \(c\). This assumption is natural for changes in the risk volume.
+
+It is artificial for the changes in the intensity. For instance we assume that the company gets more new customers at times with a higher intensity. This effect may arise because customers withdraw from their old insurance contracts and write new contracts with another company after claims occurred because they were not satisfied by the handling of claims by their old companies.
+
+The premium income in the interval \((0,t]\) is \(c\Lambda(t)\). Let \(\tilde C_t = C_{\Lambda^{−1}(t)}\). Then
+
+\[
+\tilde C_t=u+c\Lambda(\Lambda^{-1}(t))-\sum_{i=1}^{N_{\Lambda^{-1}(t)}}Y_i=u+ct-\sum_{i=1}^{\tilde N_t}Y_i
+\]
+
+is a Cramer-Lundberg process. Thus we should not consider time to be the \textbf{real time} but \textbf{operational time} since we at any point may time translate the process into a standard homogeneous Poisson process.
+
+\hypertarget{a-differential-equation-for-the-ruin-probability}{%
+\subsection{A differential equation for the ruin probability}\label{a-differential-equation-for-the-ruin-probability}}
+
+We first prove that \(\{C_t\}\) is a strong Markov process.
+
+\textbf{Lemma 2.1. (Schmidli)} \emph{Let \(\{C_t\}\) be a Cramer-Lundberg process and \$T \$be a finite stopping time. Then the stochastic process \(\{C_{T+t}−C_T : t\ge 0\}\) is a Cramer-Lundbergp rocess with initial capital 0 and independent of \(\mathcal F_T\).}
+
+That is any time shift of a Cramer-Lundberg process is itself af Cramer-Lundberg process. This gives us a differential form of the ruin probability.
+
+Let \(h\) be small. If ruin does not occur in the interval \((0,h]\) then a new Cramer-Lundberg process starts at time \(h\) with new initial capital \(C_h\). Let \(\delta(u) = 1 − \psi(u)\) denote the probability that ruin does not occur. Using the definition of the Poisson process we obtain
+\begin{align*}
+\delta (u)&=\mathbb P[N_{t+h}=N_t]\delta(u+ch)+\mathbb P[N_{t+h}=N_t+1]\mathbb E[\delta((u-Y_1)^+)]\\
+&=\Big(1-\lambda h+o(h)\Big)\delta(u+ch)+\Big(\lambda h + o(h)\Big)\mathbb E[\delta((u-Y_1)^+)]+o(h)\\
+&=\Big(1-\lambda h\Big)\delta(u+ch)+\lambda h\int_0^u\delta((u-y)^+)\ dG(y)+o(h),
+\end{align*}
+where \(\delta((u-y)^+)\) exists because \(\delta(u)\) is increasing. Letting \(h\) tending to 0 shows that \(\delta(u)\) is right continuous. If we rearrange we see that
+
+\[
+c\frac{\delta(u+ch)-\delta(u)}{ch}=\lambda\left[\delta(u+ch)-\int_0^u\delta(u-y)\ dG(y)\right]+o(1)
+\]
+
+Letting \(h\) tend to 0 shows that \(\delta(u)\) is differentiable from the right. A similar argument shows the differentiability from the left. If we let \(h\to 0\) we obtain the differential form
+
+\[
+\frac{d}{du}\delta(u)=\frac{\lambda}{c}\left[\delta(u)-\int_0^u\delta(u-y)\ dG(y)\right].
+\]
+
+By integrating we have
+
+\[
+\frac{c}{\lambda}(\delta(u)-\delta(0))=\int_0^u \delta(x)-\int_0^x\delta(x-y)\ dG(y)\ dx=\int_0^u\delta(u-x)(1-G(x))\ dx
+\]
+
+Since \(\delta(u)\to 1\) for \(u\to\infty\) we have
+
+\[
+\frac{c}{\lambda}(1-\delta(0))= \int_0^\infty(1-G(x))\ dx=\mu
+\]
+
+hence
+
+\[
+\delta(0)=1-\frac{\lambda\mu}{c},\qquad \psi(0)=1-\delta(0)=\frac{\lambda\mu}{c}.
+\]
+
+In total we see that
+
+\[
+\frac{c}{\lambda}\left(\delta(u)-1+\frac{\lambda\mu}{c}\right)=\int_0^u\delta(u-x)(1-G(x))\ dx
+\]
+
+hence
+
+\[
+\delta(u)=1-\frac{\lambda\mu}{c}+\frac{\lambda}{c}\int_0^u\delta(u-x)(1-G(x))\ dx
+\]
+
+and
+\begin{align*}
+\psi(u)&=\frac{\lambda\mu}{c}-\frac{\lambda}{c}\int_0^u\delta(u-x)(1-G(x))\ dx\\
+&=\frac{\lambda\mu}{c}-\frac{\lambda}{c}\int_0^u(1-\psi(u-x))(1-G(x))\ dx\\
+&=\frac{\lambda\mu}{c}+\frac{\lambda}{c}\int_0^u\psi(u-x)(1-G(x))\ dx-\frac{\lambda}{c}\int_0^u(1-G(x))\ dx\\
+&=\frac{\lambda}{c}\int_u^\infty (1-G(x))\ dx+\frac{\lambda}{c}\int_0^u\psi(u-x)(1-G(x))\ dx
+\end{align*}
+using that \(\mu=\int_0^\infty (1-G(x)) dx\).
+
+\hypertarget{the-adjustment-coefficient}{%
+\subsection{The adjustment coefficient}\label{the-adjustment-coefficient}}
+
+Let
+
+\[
+\theta(r)=\lambda(M_Y(r)-1)-cr,
+\]
+
+where \(M_Y(r)=\mathbb E\{e^{rY}\}\) is the moment generating function for \(Y\). Let \(\theta\) be defined on the set where \(M_Y\) is exists. We have the following martingale.
+
+\textbf{Lemma 2.3. (Schmidli)} \emph{Let \(r\in\mathbb R\) such that \(M_Y(r)<\infty\). Then the stochastic process}
+
+\[
+e^{-rC_t-\theta(r)t}
+\]
+
+\emph{is a martingale.}
+
+It would be nice to have a martingale which is only dependent on the surplus and not explicitly on time. Let us therefore consider the equation \(\theta(r) = 0\). This equation has obviously the solution \(r = 0\):
+
+\[
+\theta(0)=\lambda(M_Y(0)-1)-c\cdot 0=\lambda\mathbb E[e^{0\cdot Y}]-\lambda=0,
+\]
+
+We differentiate \(\theta(r)\) to find the \emph{possible} other solution
+
+\[
+\theta'(r)=\lambda M_Y'(r)-c,\qquad \theta''(r)=\lambda M_Y''(r).
+\]
+
+Using that \(M_Y^{(n)}(r)=\mathbb E[Y^ne^{rY}]\) we have
+
+\[
+\theta'(r)=\lambda \mathbb E[Ye^{rY}] - c,\qquad \theta''(r)=\lambda E[Y^2e^{rY}]>0.
+\]
+
+Hence we know that \(\theta\) is \emph{stricly} convex. And since \(\theta'(0)=\lambda\mu-c<0\) by the net profit condition there exist another solution \(R>0\) such that \(\theta(R)=0\). We call this solution the \textbf{adjustment coefficient}\index{adjustment coefficient} or the \textbf{Lundberg exponent}\index{Lundberg exponent}. The Lundberg exponent will play an important role in the estimation of the ruin probabilities.
+
+In general the adjustment coefficient is difficult to calculate. So we try to find some bounds for the adjustment coefficient. Note that the second moment \(μ_2\) exists if the Lundberg exponent exists. We have by some calculations the upper bound for \(R\)
+
+\[
+R<\frac{2(c-\lambda\mu)}{\lambda \mu_2}.
+\]
+
+We are not able to find a lower bound in general. But in the case of bounded claims we get a lower bound for \(R\). If \(Y\le M\) almost surely we have
+
+\[
+\frac{1}{M}\log\frac{c}{\lambda \mu}<R<\frac{2(c-\lambda\mu)}{\lambda \mu_2},
+\]
+
+although since \(M\) may in general be large or wanted to be large for modelling purposes this lower bound is somewhat useless.
+
+\hypertarget{lundbergs-inequality}{%
+\subsection{Lundberg's inequality}\label{lundbergs-inequality}}
+
+We will now connect the adjustment coefficient and ruin probabilities.
+
+\textbf{Theorem 2.4. (Schmidli)} \emph{Assume that the adjustment coefficient \(R\) exists. Then}
+
+\[
+\psi(u)<e^{-Ru}.
+\]
+
+We have got an upper bound for the ruin probability. We would like to know whether \(R\) is the best possible exponent in an exponential upper bound. This question will be answered in the next section.
+
+\hypertarget{the-cramer-lundberg-approximation}{%
+\subsection{The Cramer-Lundberg approximation}\label{the-cramer-lundberg-approximation}}
+
+Consider the equation
+
+\[
+\psi(u)=\frac{\lambda}{c}\int_u^\infty (1-G(x))\ dx+\frac{\lambda}{c}\int_0^u\psi(u-x)(1-G(x))\ dx
+\]
+
+This equation looks almost like a renewal equation, but
+
+\[
+\frac{\lambda}{c}\int_0^\infty (1-G(x))\ dx=\frac{\lambda \mu}{c}<1
+\]
+
+by the net profit condition. Hence \(\frac{\lambda}{c}(1-G(x))\) is not a probability distribution. Can we manipulate the above to get a renewal equation?
+
+\textbf{Theorem 2.6. (Schmidli) (Cramer-Lundberg approximation)}\index{Cramer-Lundberg approximation} \emph{Assume that the Lundberg exponent exists and that}
+
+\[
+\int_0^\infty xe^{Rx}\frac{\lambda}{c}(1-G(x))\ dx<\infty.
+\]
+
+\emph{Then}
+
+\[
+\lim_{u\to\infty} \psi(u)e^{Ru}=\frac{c-\lambda \mu}{\lambda M'_Y(R)-c}
+\]
+
+\emph{and we write}
+
+\[
+\psi(u)\sim e^{-Ru}\frac{c-\lambda \mu}{\lambda M'_Y(R)-c} \quad \text{for}\quad u\to\infty.
+\]
+
+Thus for large u we get an approximation to \(\psi(u)\). This approximation is called the Cramer-Lundberg approximation. The theorem shows that it is not possible to obtain an exponential upper bound for the ruin probability with an exponent strictly larger than \(R\).
+
+\hypertarget{reinsurance-and-ruin}{%
+\subsection{Reinsurance and ruin}\label{reinsurance-and-ruin}}
+
+\hypertarget{proportional-reinsurance}{%
+\subsubsection{Proportional reinsurance}\label{proportional-reinsurance}}
+
+Recall that for proportional insurance the insurer covers \(Y_i^I = \alpha Y_i\) of each claim, the reinsurer covers \(Y_i^R = (1 − \alpha )Y_i\). Denote by \(c^I\) the insurer's premium rate. The insurer's adjustment coefficient is obtained from the equation
+
+\[
+\lambda (M_{\alpha Y} (r) − 1) − c^Ir = 0.
+\]
+
+The new moment generating function is
+
+\[
+M_{\alpha Y} (r) = \mathbb E [e^{r\alpha Y}] = M_Y (\alpha r).
+\]
+
+Assume that both insurer and reinsurer use an expected value premium principle with the same safety loading. Then \(c^I = \alpha c\) and we have to solve
+
+\[
+\lambda (M_Y (\alpha r) − 1) − c\alpha r = 0.
+\]
+
+This is almost the original equation, hence \(R = \alpha R^I\) where \(R^I\) is the adjustment coefficient under reinsurance. The new adjustment coefficient is larger, hence the risk has become smaller.
+
+\hypertarget{excess-of-loss-reinsurance}{%
+\subsubsection{Excess of loss reinsurance}\label{excess-of-loss-reinsurance}}
+
+Under excess of loss reinsurance with retention level \(M\) the insurer has to pay \(Y_i^I = \min\{Y_i,M\}\) of each claim. The adjustment coefficient is the strictly positive solution to the equation
+
+\[
+\lambda \left(\int_0^Me^{rx}\ G(x) + e^{rM}(1-G(M))-1\right)-c^Ir=0.
+\]
+
+There is no possibility to find the solution from the problem without reinsurance. We have to solve the equation for every \(M\) separately. But note that \(R^I\) exists in any case. Especially for heavy tailed distributions this shows that the risk has become much smaller. By the Cramer-Lundberg approximation the ruin probability decreases exponentially as the initial capital increases.
+
+We will now show that for the insurer the excess of loss reinsurance is optimal. We assume that both insurer and reinsurer use an expected value principle.
+
+\textbf{Proposition 2.9. (Schmidli) } \emph{Let all premiums be computed via the expected value principle. Under all reinsurance forms acting on individual claims with premiums rate \(c^I\) and \(c^R\) fixed the excess of loss reinsurance maximises the insurer's adjustment coefficient.}
+
+We consider now the portfolio of the reinsurer. What is the claim number process of the claims the reinsurer is involved in? Because the claim amounts are independent of the claim arrival process we delete independently points from the Poisson process with probability \(G(M)\) and do not delete them with probability \(1 − G(M)\). By Proposition 1.11 this process is a Poisson process with rate \(\lambda (1 − G(M))\). Because the claim sizes are iid. and independent of the claim arrival process the surplus of the reinsurer is a Cramer-Lundberg process with intensity \(\lambda (1 − G(M))\) and claim size distribution
+
+\[
+\tilde G(x)=\mathbb P[Y_i-M\le x\ \vert\ Y_i> M]=\frac{G(M+x)-G(M)}{1-G(M)}.
+\]
+
+\hypertarget{the-severity-of-ruin-and-the-distribution-of-infc_t-t-ge-0}{%
+\subsection{\texorpdfstring{The severity of ruin and the distribution of \(\inf\{C_t : t \ge 0\}\)}{The severity of ruin and the distribution of \textbackslash inf\textbackslash\{C\_t : t \textbackslash ge 0\textbackslash\}}}\label{the-severity-of-ruin-and-the-distribution-of-infc_t-t-ge-0}}
+
+For an insurance company ruin is not so dramatic if \(−C_\tau\) is small, but it could ruin the whole company if \(−C_\tau\) is very large. So we are interested in the distribution of \(−C_\tau\) if ruin occurs. Let
+
+\[
+\psi_x(u)=\mathbb P[\tau <\infty, C_\tau <-x].
+\]
+
+By using the same techniques as previously we obtain
+
+\[
+\frac{c}{\lambda}\psi_x(u)=\int_0^u\psi_x(u-y)(1-G(y))\ dy-\int_x^{x+u}(1-G(y))+\int_x^\infty(1-G(y))\ dy
+\]
+
+using that \(\frac{c}{\lambda}\psi_x(0)=\int_x^\infty(1-G(y))\ dy\). Then we have
+
+\[
+\psi_x(u)=\frac{\lambda}{c}\left(\int_0^u\psi_x(u-y)(1-G(y))\ dy+\int_{x+u}^\infty(1-G(y))\ dy\right).
+\]
+
+By Bayes' theorem we have for \(A,B\) that \(\mathbb P(A\vert B)=\mathbb P(A\cap B)/\mathbb P(B)\) and so
+\begin{align*}
+\mathbb P[C_\tau <-x\ \vert\ \tau<\infty,C_0=0]&=\frac{\mathbb P[C_\tau <-x, \tau<\infty,C_0=0]}{\mathbb P[
+\tau<\infty,C_0=0]}\\
+&=\frac{\psi_x(0)}{\psi(0)}\\
+&=\frac{c}{\lambda \mu}\frac{\lambda}{c}\int_{x}^\infty(1-G(y))\ dy\\
+&=\frac{1}{\mu}\int_{x}^\infty(1-G(y))\ dy
+\end{align*}
+The random variable \(−C_\tau\) is called \textbf{severity of ruin}\index{severity of ruin}.
+
+In order to get an equation for the ruin probability we can consider the first time point \(\tau_1\) where the surplus is below the initial capital. At this point, by the strong Markov property, a new Cramer-Lundberg process starts. We get three possibilities:
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  The process gets never below the initial capital.
+\item
+  \(\tau_1 <\infty\) but \(C_{\tau_1}\ge 0\).
+\item
+  Ruin occurs at \(\tau_1\).
+\end{enumerate}
+
+Thus we get
+
+\[
+\psi(u)=\left(1-\frac{\lambda \mu}{c}\right)0+\frac{\lambda}{c}\int_0^u\psi(u-y)(1-G(y))\ dy+\frac{\lambda}{c}\int_u^\infty 1(1-G(y))\ dy.
+\]
+
+Let \(\tau_0 = 0\) and \(\tau_i = \inf\{t > \tau_{i−1} : C_t < C_{\tau_{i-1}}\}\), called the ladder times, and define \(L_i = C_{\tau_{i−1}} − C_{\tau_i}\) , called the ladder heights. Note that \(L_i\) only is defined if \(\tau_i <\infty\). By Lemma 2.1 we find
+
+\[
+\mathbb P[\tau_i<\infty\ \vert\ \tau_{i-1}<\infty]=\frac{\lambda \mu}{c}.
+\]
+
+Let \(K = \sup\{i \in\mathbb N : \tau_i < \infty\}\) be the number of ladder epochs. One may show that
+
+\[
+K \sim \text{NB}\left(1, 1 − \frac{\lambda \mu}{c}\right)
+\]
+
+and that, given \(K\), the random variables \((L_i : i \le K)\) are iid and absolutely continuous with density \((1 − G(x))/\mu\). We only have to condition on \(K\) because \(L_i\) is not defined for \(i > K\). If we assume that all \(\{L_i : i \ge 1\}\) have the same distribution, then we can drop the conditioning on \(K\) and \(\{L_i\}\) is independent of \(K\). Then
+
+\[
+\inf\{C_t : t\ge 0\}=u-\sum_{i=1}^K L_i
+\]
+
+and
+
+\[
+\mathbb P[\tau <\infty]=\mathbb P[\inf\{C_t : t\ge 0\}<0]=\mathbb P\left[\sum_{i=1}^K L_i> u\right]
+\]
+
+Denote by
+
+\[
+B(x)=\frac{1}{\mu}\int_0^x(1-G(y))\ dy
+\]
+
+he distribution function of \(L_i\). We can use Panjer recursion to approximate \(\psi(u)\) by using an appropriate discretisation.
+
+A formula that is useful for theoretical considerations, but too messy to use for the computation of \(\psi(u)\) is the Pollaczek-Khintchine formula.
+\begin{align*}
+\psi(u)&=\mathbb P\left[\sum_{i=1}^K L_i> u\right]=\sum_{n=1}^\infty P\left[\sum_{i=1}^n L_i> u\right]\mathbb P[K=n]\\
+&=\left(1 − \frac{\lambda \mu}{c}\right)\sum_{n=1}^\infty\left(\frac{\lambda \mu}{c}\right)^n(1-B^{*n}(u)).
+\end{align*}
+
+\hypertarget{the-laplace-transform-of-psi}{%
+\subsection{\texorpdfstring{The Laplace transform of \(\psi\)}{The Laplace transform of \textbackslash psi}}\label{the-laplace-transform-of-psi}}
+
+\textbf{Definition 2.10. (Schmidli) (Laplace transform)}\index{Laplace transform} \emph{Let \(f\) be a real valued function on \([0,\infty)\). The transform}
+
+\[
+\hat f(s):=\int_0^\infty e^{-sx}f(x)\ dx
+\]
+
+\emph{for \(s\in\mathbb R\) is called the \textbf{Laplace transform} of \(f\).}
+
+We want to find the Laplace transform of \(\delta (u)\). We multiply
+
+\[
+\frac{d}{du}\delta(u)=\frac{\lambda}{c}\left[\delta(u)-\int_0^u\delta(u-y)\ dG(y)\right].
+\]
+
+with \(e^{−su}\) and then integrate over \(u\). Let \(s > 0\).
+
+\[
+\frac{c}{\lambda}\int_0^\infty \delta'(u)e^{-su}\ du=\int_0^\infty e^{-su}\delta(u)\ du-\int_0^\infty e^{-su}\int_0^u\delta(u-y)\ dG(y)\ du.
+\]
+
+We have to determine the last integral.
+\begin{align*}
+\int_0^\infty e^{-su}\int_0^u\delta(u-y)\ dG(y)\ du&=\int_0^\infty\int_y^\infty\delta(u-y)e^{-su}\ du\ dG(y)\\
+&=\int_0^\infty\int_0^\infty\delta(u)e^{-s(u+y)}\ du\ dG(y)\\
+&=\hat \delta(s)M_Y(-s).
+\end{align*}
+Thus we get
+
+\[
+\frac{c}{\lambda}(s\hat \delta(s)-\delta(0))=\hat \delta(s)(1-M_Y(-s))
+\]
+
+rearranging
+
+\[
+\hat \delta(s)=\frac{s\delta(0)}{cs-\lambda(1-M_Y(-s))}=\frac{c-\lambda \mu}{cs-\lambda(1-M_Y(-s))}.
+\]
+
+The Laplace transform of \(\psi\) can easily be found as
+
+\[
+\hat\psi(s)=\int_0^\infty(1-\delta(u))e^{-su}\ du=\frac{1}{s}-\hat\delta(s)
+\]
+
+hence
+
+\[
+\hat\psi(s)=\frac{1}{s}+\frac{\lambda \mu-c}{cs-\lambda(1-M_Y(-s))}.
+\]
+
+\hypertarget{determining-moments-of-maximal-loss-of-capital}{%
+\subsubsection{Determining moments of maximal loss of capital}\label{determining-moments-of-maximal-loss-of-capital}}
+
+Consider the variable
+
+\[
+Z=\sup\{u-C_t : t\ge 0\}\ \vert\ \tau_1<\infty
+\]
+
+or equivalently
+
+\[
+Z=\sup\left\{\sum_{i=1}^{N_t}Y_i-ct : t\ge 0\right\}\ \vert\ \tau_1<\infty
+\]
+
+that is the largest loss of capital given that \(C_t<u\) for some \(t>0\). Hence we obviously have that \(Z>0\) almost surely. We know the distribution of \(Z\):
+
+\[
+\mathbb P[Z\le x]=1-\frac{c}{\lambda \mu}\psi(x).
+\]
+
+Furthermore, the moment generating function is
+
+\[
+M_Z(r)=\int_0^\infty e^{ru}\frac{c}{\lambda \mu}\delta'(u)\ du=\frac{c}{\lambda \mu}\left(-r\frac{c-\lambda \mu}{-cr-\lambda(1-M_Y(r))}-\left(1-\frac{\lambda\mu}{c}\right)\right)
+\]
+
+that is
+
+\[
+M_Z(r)=1-\frac{\lambda\mu}{c}+\frac{c(c-\lambda \mu)}{\lambda\mu}\frac{r}{cr-\lambda(M_Y(r)-1)}.
+\]
+
+Using derivatives of \(M_Z\) we find that
+
+\[
+\mathbb E[Z]=\frac{c\mu_2}{2\mu(c-\lambda\mu)}
+\]
+
+and
+
+\[
+\mathbb E[Z^2]=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)} + \frac{\lambda\mu_2^2}{2(c-\lambda\mu)^2}\right).
+\]
+
+\hypertarget{approximations-to-psi}{%
+\subsection{\texorpdfstring{Approximations to \(\psi\)}{Approximations to \textbackslash psi}}\label{approximations-to-psi}}
+
+\hypertarget{diffusion-approximations}{%
+\subsubsection{Diffusion approximations}\label{diffusion-approximations}}
+
+\hypertarget{the-devylder-approximation}{%
+\subsubsection{The deVylder approximation}\label{the-devylder-approximation}}
+
+\hypertarget{the-beekman-bowers-approximation}{%
+\subsubsection{The Beekman-Bowers approximation}\label{the-beekman-bowers-approximation}}
+
+\hypertarget{subexponential-claim-size-distributions}{%
+\subsection{Subexponential claim size distributions}\label{subexponential-claim-size-distributions}}
+
+\hypertarget{the-time-of-ruin}{%
+\subsection{The time of ruin}\label{the-time-of-ruin}}
+
+\hypertarget{seals-formulae}{%
+\subsection{Seal's formulae}\label{seals-formulae}}
+
+\hypertarget{finite-time-lundberg-inequalities}{%
+\subsection{Finite time Lundberg inequalities}\label{finite-time-lundberg-inequalities}}
+
 \hypertarget{the-renewal-risk-model}{%
 \section{The renewal risk model}\label{the-renewal-risk-model}}
+
+\hypertarget{definition-of-the-renewal-risk-model}{%
+\subsection{Definition of the renewal risk model}\label{definition-of-the-renewal-risk-model}}
+
+\hypertarget{the-adjustment-coefficient-1}{%
+\subsection{The adjustment coefficient}\label{the-adjustment-coefficient-1}}
+
+\hypertarget{lundbergs-inequality-1}{%
+\subsection{Lundberg's inequality}\label{lundbergs-inequality-1}}
+
+\hypertarget{the-ordinary-case}{%
+\subsubsection{The ordinary case}\label{the-ordinary-case}}
+
+\hypertarget{the-general-case}{%
+\subsubsection{The general case}\label{the-general-case}}
+
+\hypertarget{the-cramer-lundberg-approximation-1}{%
+\subsection{The Cramer-Lundberg approximation}\label{the-cramer-lundberg-approximation-1}}
+
+\hypertarget{the-ordinary-case-1}{%
+\subsubsection{The ordinary case}\label{the-ordinary-case-1}}
+
+\hypertarget{the-general-case-1}{%
+\subsubsection{The general case}\label{the-general-case-1}}
+
+\hypertarget{diffusion-approximations-1}{%
+\subsection{Diffusion approximations}\label{diffusion-approximations-1}}
+
+\hypertarget{subexponential-claim-size-distributions-1}{%
+\subsection{Subexponential claim size distributions}\label{subexponential-claim-size-distributions-1}}
+
+\hypertarget{finite-time-lundberg-inequalities-1}{%
+\subsection{Finite time Lundberg inequalities}\label{finite-time-lundberg-inequalities-1}}
 
 \hypertarget{modern-ruin-theory}{%
 \section{Modern ruin theory}\label{modern-ruin-theory}}
@@ -11162,33 +12012,88 @@ q_{i,i+1} = \beta_i, \hspace{10pt} q_{i+1,i}=\delta_{i+1}, \hspace{10pt} q_{i+1,
 \hypertarget{continuous-time-stochastic-processes}{%
 \chapter{Continuous Time Stochastic Processes}\label{continuous-time-stochastic-processes}}
 
-\hypertarget{brownian-motion}{%
-\section{Brownian Motion}\label{brownian-motion}}
+\textbf{Definition 1.1. (Schmidli) (Stochastic process)} \emph{A \textbf{stochastic process}\index{stochastic process} is a family of random variables \(X_t : (\Omega,\mathbb F,\mathbb P) \to (E,\mathbb E,\mu)\) indexed by \(t\in \mathcal I\), where \(\mathcal I\subseteq \mathbb N\) or \(\mathcal I\subseteq \mathbb R\), denoted by \(\mathbf X=\{X_t\}_{t\in \mathcal I}\). In the case that \(\mathcal I=\mathbb R\), we say that \(\mathbf X\) is \textbf{CADLAG}\index{CADLAG stochastic process} if}
 
-\textbf{Definition 4.1. (Bjork)} \emph{A stochastic process \(W\) is called a \textbf{Brownian motion}\index{Brownian motion} or \textbf{Wiener process}\index{Wiener process} if the following conditions hold}
+\[
+X(t)=\lim_{h\to 0}X(t+h)
+\]
+
+\emph{and \(\lim_{h\to 0}X(t-h)\) exist almost surely. Furthermore, if \(X(t)\) is continuous almost surely we say that \(\mathbf X\) is \textbf{continuous}\index{continuous stochastic process}.}
+
+\hypertarget{point-processes}{%
+\section{Point processes}\label{point-processes}}
+
+\textbf{Definition 1.2. (Schmidli) (Point process)} \emph{A CADLAG stochastic process \(\{N_t\}\) is called a \textbf{point process}\index{point process} if i) \(N_0=0\), ii) \(N_t\ge N_s\) for all \(t\ge s\) (increasing) and iii) \(N_t\in \mathbb N\) for all \(t\). Furthermore, if for the mapping \(T_k : k\mapsto\inf\{t\ge 0 : N_t\ge k\}\) (jumping times) \(T_k\ne T_j\) for all \(k\ne j\), then \(\mathbf N\) is said to be a \textbf{simple point process}.\index{simple point process}}
+
+\textbf{Definition 1.3. (Schmidli)} \emph{Let \(\{X_t\}\) be a stochastic process. If for all partitions \(0=t_0<t_1<\cdots<t_n\) the random variables \(X_{t_i}-X_{t_{i-1}}\) for \(i=1,...,n\) are jointly independent, then \(\{X_t\}\) has \textbf{independent increments}\index{independent increments}. If furthermore for all \(h>0\) it holds that}
+
+\[
+\{X_{t_i}-X_{t_{i-1}}\}_{i=1,...n}\stackrel{d}{=}\{X_{t_i+h}-X_{t_{i-1}+h}\}_{i=1,...n}
+\]
+
+\emph{then \(\{X_t\}\) hast \textbf{stationary increments}\index{stationary increments}.}
+
+\textbf{Definition 1.9. (Schmidli) (Poisson process)} \emph{A point process \(\{N_t\}\) is called a (homogeneous) \textbf{Poisson process}\index{poisson process} with rate \(\lambda >0\) if i) \(\{N_t\}\) has stationary and independent increments and ii) \(\mathbb P[N_j=0]=1-\lambda h+o(h)\) as \(h\to 0\).}
+
+\textbf{Proposition 1.10. (Schmidli) (Poisson process, alternative version)} \emph{A point process \(\{N_t\}\) is a (homogeneous) \textbf{Poisson process}\index{poisson process} with rate \(\lambda >0\) if one of the following statements is true:}
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
+\def\labelenumi{\roman{enumi})}
 \tightlist
 \item
-  \(W_0=0\).
+  \emph{\(\{N_t\}\) has independent increments and \(N_t\sim \text{Pois}(\lambda t)\),}
 \item
-  \emph{The process \(W\) has independent increments, i.e.~if \(r<s\le t< u\) then \(W_u-W_t\) and \(W_s-W_r\) are independent random variables.}
+  \emph{the interarrival times \(T_k-T_{k-1}\) are independent and \(\text{Exp}(\lambda)\) distributed,}
 \item
-  \emph{For \(s<t\) the random variable \(W_t-W_s\) has the Gaussian distribution \(\mathcal{N}(0,t-s)\).}
+  \emph{For each \(t\) \(N_t\sim \text{Pois}(\lambda t)\) and on the event \(\{N_t=n\}\) the ordered samples \(T_0,T_1,...,T_n\) are uniformly distributed on \([0,t]\) and independent,}
 \item
-  \emph{\(W\) has continuous trajectories i.e.~\(s\mapsto W(s;\omega)\) i continuous for all \(\omega \in\Omega\).}
+  \emph{\(\{N_t\}\) has independent increments and \(\mathbb E[N_1]=\lambda\) and on the event \(\{N_t=n\}\) the ordered samples \(T_0,T_1,...,T_n\) are uniformly distributed on \([0,t]\) and independent and}
+\item
+  \emph{\(\{N_t\}\) has independent and stationary increments such that \(\mathbb P[N_h\ge 2]=o(h)\) as \(h\to 0\) and \(\mathbb E[N_1]=\lambda\).}
 \end{enumerate}
 
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{figures/BM_sim.png}
-  \end{center}
-\end{figure}
+The Poisson process has the following properties.
 
-As one can see from the simulated sample path on the right, the Brownian motion is rather irratic. In fact, the process varies infinitely on any interval with length greater than 0. This gives some of the characteristics of the process including that: \(W\) is continuous and \(W\) is non-differential everywhere. This irratic behaviour is summed up in the theorem.
+\textbf{Proposition 1.11. (Schmidli)} \emph{Let \(\{N_t\}\) and \(\{\tilde N_t\}\) be two independent Poisson processes with rates \(\lambda\) and \(\tilde\lambda\) respectively. Let \(\{I_i : i \in \mathbb N\}\) be an iid sequence of random variables independent of \(\{N_t\}\) with \(\mathbb P[I_i = 1] = 1−\mathbb P[I_i = 0] = q\) for some \(q \in (0,1)\). Furthermore let \(a > 0\) be a real number. Then}
 
-\textbf{Theorem 4.2. (Bjork)} \emph{A Brownian motions trajectory \(t\mapsto W_t\) is with probability one nowhere differential, and it has locally infinite total variation.}
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \emph{\(\{N_t+\tilde N_t\}\) is a Poisson process with rate \(\lambda +\tilde \lambda\).}
+\item
+  \emph{\(\sum_{i=1}^{N_t}I_i\) is a Poisson process with rate \(\lambda q\).}
+\end{enumerate}
+
+\textbf{Definition 1.12. (Schmidli) (inhomogeneous Poisson process)}\index{inhomogeneous Poisson process} \emph{Let \(\Lambda(t)\) be an increasing right continuous function on \([0,\infty)\) with \(\Lambda(0) = 0\). A point process \(\{N_t\}\) on \([0, \infty)\) is called \textbf{inhomogeneous Poisson process} with intensity measure \(\Lambda(t)\) if}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \(\{N_t\}\) \emph{has independent increments,}
+\item
+  \(N_t-N_s\sim\text{Pois}(\Lambda (s)-\Lambda(s))\).
+\end{enumerate}
+
+If there exists a function \(\lambda(t)\) such that \(\Lambda(t) = \int_0^t \lambda(s)\ ds\) then \(\lambda(t)\)is called \textbf{intensity} or \textbf{rate} of the inhomogeneous Poisson process. Note that a homogeneous Poisson process is a special case with \(\Lambda(t) = \lambda t\). Define \(\Lambda^{−1}(x) = \sup\{t \ge 0 : \Lambda(t) \le x\}\) the inverse function of \(\Lambda(t)\).
+
+\textbf{Proposition 1.13. (Schmidli)} \emph{Let \(\tilde N_t\) be a homogeneous Poisson process with rate 1. Define \(N_t=\tilde N_{\Lambda (t)}\). Then \(N_t\) is an inhomogeneous Poisson process with intensity measure \(\Lambda(t)\). Conversely, let \(N_t\) is an inhomogeneous Poisson process with intensity measure \(\Lambda(t)\). Define \(\tilde N_t=N_{\Lambda^{-1}(t)}\). Then \(\tilde N_t\) is a homogeneous Poisson process with rate 1.}
+
+For an inhomogeneous Poisson process we can construct the following martingales.
+
+\textbf{Lemma 1.14. (Schmidli)} \emph{Let \(r\in \mathbb R\). The following processes are martingales.}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  \(\{N_t-\Lambda(t)\}\),
+\item
+  \(\{(N_t-\Lambda(t))^2-\Lambda(t)\}\),
+\item
+  \(\{\exp[rN_t-\Lambda(t)(e^r-1)]\}\).
+\end{enumerate}
 
 \hypertarget{filtration}{%
 \section{Filtration}\label{filtration}}
@@ -11201,7 +12106,7 @@ Filtrations\index{Filtration} is widely used in stochastic processes, as they al
 X_t\ \text{ is }\ \mathcal{F}_t-\text{measurable},\hspace{20pt}\forall t\ge 0.
 \]
 
-Obviously, we may introduce the \textbf{natural filtration}\index{natural filtration} \(\mathcal{F}^X_t\) given by the tragetory of the process \(X_t\):
+Obviously, we may introduce the \textbf{natural filtration}\index{natural filtration} \(\mathcal{F}^X_t\) given by the trajectory of the process \(X_t\):
 
 \[
 \mathcal{F}^X_t=\sigma(\{X_s,\ s\le t\}).
@@ -11231,6 +12136,54 @@ Martingales is useful, when proofing probalistic statements as the posses tracta
 \[
 M_t=E[X\ \vert\ \mathcal{F}_t].
 \]
+
+\textbf{Proposition 4.8. (Bjork)} \emph{For any process \(X_t\in\mathcal{L}^2[s,t]\) the following hold:}
+
+\[
+E\left[\left.\int_s^t X_s\ dW_s\right\vert\mathcal{F}_s^W\right]=0
+\]
+
+\textbf{Corollary 4.9. (Bjork)} \emph{For any process \(X_t\in\mathcal{L}^2\) the process}
+
+\[
+M_t=\int_s^t X_s\ dW_s,
+\]
+
+\emph{is an \((\mathcal{F}_t^W)\)-martingale. In other words, modulo an integrability condition, \textbf{every stochastic integral is a martingale}.}
+
+\textbf{Lemma 4.10. (Bjork)} \emph{Let \(M_t\) be a stochastic process with stochastic differential, then \(M_t\) is a martingale if and only if the stochastic differential has the form \(dM_t=X_t\ dW_t\) i.e.~\(M_t\) as no \(dt\)-term.}
+
+\textbf{Proposition 1.7. (Schmidli) (Martingale stopping theorem)}\index{Martingale stopping theorem} \emph{Let \(M_t\) be an martingale wrt. a filtration \(\mathcal F_t\). Assume that \(T\) is a \(\mathcal F_t\) stopping time. If \(\mathcal F_t\) is continuous, then \(M_{\min\{T,t\}}\) is also a \(\mathcal F_t\) martingale. Furthermore, \(\mathbb E[M_t\ \vert\ \mathcal F_T]=M_{\min\{T,t\}}\)}
+
+\textbf{Proposition 1.8. (Schmidli) (Martingale convergence theorem)}\index{Martingale convergence theorem} \emph{Let \(M_t\) be an martingale wrt. a filtration \(\mathcal F_t\). If \(\sup\mathbb E\vert M_t\vert <\infty\), then \(M_\infty:=\lim_{t\to\infty} M_t\) exists and \(\mathbb E\vert M_t\vert<\infty\).}
+
+\hypertarget{brownian-motion}{%
+\section{Brownian Motion}\label{brownian-motion}}
+
+\textbf{Definition 4.1. (Bjork)} \emph{A stochastic process \(W\) is called a \textbf{Brownian motion}\index{Brownian motion} or \textbf{Wiener process}\index{Wiener process} if the following conditions hold}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(W_0=0\).
+\item
+  \emph{The process \(W\) has independent increments, i.e.~if \(r<s\le t< u\) then \(W_u-W_t\) and \(W_s-W_r\) are independent random variables.}
+\item
+  \emph{For \(s<t\) the random variable \(W_t-W_s\) has the Gaussian distribution \(\mathcal{N}(0,t-s)\).}
+\item
+  \emph{\(W\) has continuous trajectories i.e.~\(s\mapsto W(s;\omega)\) i continuous for all \(\omega \in\Omega\).}
+\end{enumerate}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{figures/BM_sim.png}
+  \end{center}
+\end{figure}
+
+As one can see from the simulated sample path on the right, the Brownian motion is rather irratic. In fact, the process varies infinitely on any interval with length greater than 0. This gives some of the characteristics of the process including that: \(W\) is continuous and \(W\) is non-differential everywhere. This irratic behaviour is summed up in the theorem.
+
+\textbf{Theorem 4.2. (Bjork)} \emph{A Brownian motions trajectory \(t\mapsto W_t\) is with probability one nowhere differential, and it has locally infinite total variation.}
 
 \hypertarget{stochastic-calculus}{%
 \chapter{Stochastic calculus}\label{stochastic-calculus}}
@@ -11331,31 +12284,6 @@ Obviously the hardest step is finding the processes \(X^n\). This stochastic har
 &E\left[\left(\int_a^b X_s\ dW_s\right)^2\right]=\int_a^b E[ X_s^2]\ dW_s.\tag{4.13}\\
 &\int_a^b X_s\ dW_s\ \text{ is }\mathcal{F}_b^W\text{-measurable.}\tag{4.14}
 \end{align*}
-
-\hypertarget{martingales}{%
-\subsection{Martingales}\label{martingales}}
-
-\textbf{Definition 4.7. (Bjork)} \emph{Let \(M_t\) be a stochastic process defined on a background space \((\Omega,\mathcal{F},P)\). Let \((\mathcal{F}_t)_{t\ge 0}\) be a filtration. If \(M_t\) is adapted to the filtration \(\mathcal{F}_t\), \(E\vert M_t\vert <\infty\) and}
-
-\[E[M_t\vert \mathcal{F}_s]=M_s,\hspace{20pt}P-\text{a.s.}\]
-
-\emph{holds for any \(t>s\) we say that \(M_t\) is a martingale (\(\mathbf{F}\)-martingale). If the above has \(\ge\) or \(\le\) we say that \(M_t\) is either a \textbf{submartingale} or \textbf{supermartingale} respectively.}
-
-\textbf{Proposition 4.8. (Bjork)} \emph{For any process \(X_t\in\mathcal{L}^2[s,t]\) the following hold:}
-
-\[
-E\left[\left.\int_s^t X_s\ dW_s\right\vert\mathcal{F}_s^W\right]=0
-\]
-
-\textbf{Corollary 4.9. (Bjork)} \emph{For any process \(X_t\in\mathcal{L}^2\) the process}
-
-\[
-M_t=\int_s^t X_s\ dW_s,
-\]
-
-\emph{is an \((\mathcal{F}_t^W)\)-martingale. In other words, modulo an integrability condition, \textbf{every stochastic integral is a martingale}.}
-
-\textbf{Lemma 4.10. (Bjork)} \emph{Let \(M_t\) be a stochastic process with stochastic differential, then \(M_t\) is a martingale if and only if the stochastic differential has the form \(dM_t=X_t\ dW_t\) i.e.~\(M_t\) as no \(dt\)-term.}
 
 \hypertarget{stochastic-calculus-and-the-ito-formula}{%
 \subsection{Stochastic Calculus and the Ito Formula}\label{stochastic-calculus-and-the-ito-formula}}

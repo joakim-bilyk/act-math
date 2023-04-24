@@ -148,9 +148,9 @@ _In words, the intensity function $\lambda(t)$ of the Poisson process $N$ is not
 
 <blockquote class = "prop">
 
-**Proposition 2.1.5. (Mikosch)** _Let $\mu$ be the mean value function of a Poisson process $N$ and $\Tilde{N}$ be a standard homogeneous Poisson process. Then the following statements hold:_
+**Proposition 2.1.5. (Mikosch)** _Let $\mu$ be the mean value function of a Poisson process $N$ and $\tilde{N}$ be a standard homogeneous Poisson process. Then the following statements hold:_
 
-  (1) _The process $(\Tilde{N}(\mu(t)))_{t\ge 0}$ is Poisson with mean value function $\mu$._
+  (1) _The process $(\tilde{N}(\mu(t)))_{t\ge 0}$ is Poisson with mean value function $\mu$._
   (2) _If $\mu$ is continuous, increasing and $\lim_{t\to\infty}\mu(t)=\infty$ then $(N(\mu^{-1}(t)))_{t\ge 0}$ is a standard homogeneous Poisson process._
 
 </blockquote>

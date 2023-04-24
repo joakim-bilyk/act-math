@@ -85,46 +85,6 @@ Obviously the hardest step is finding the processes $X^n$. This stochastic har s
 \end{align*}
 </blockquote>
 
-### Martingales
-
-<blockquote class = "def">
-
-**Definition 4.7. (Bjork)** _Let $M_t$ be a stochastic process defined on a background space $(\Omega,\mathcal{F},P)$. Let $(\mathcal{F}_t)_{t\ge 0}$ be a filtration. If $M_t$ is adapted to the filtration $\mathcal{F}_t$, $E\vert M_t\vert <\infty$ and_
-
-$$E[M_t\vert \mathcal{F}_s]=M_s,\hspace{20pt}P-\text{a.s.}$$
-
-_holds for any $t>s$ we say that $M_t$ is a martingale ($\mathbf{F}$-martingale). If the above has $\ge$ or $\le$ we say that $M_t$ is either a **submartingale** or **supermartingale** respectively._
-
-</blockquote>
-
-<blockquote class = "prop">
-
-**Proposition 4.8. (Bjork)** _For any process $X_t\in\mathcal{L}^2[s,t]$ the following hold:_
-
-$$
-E\left[\left.\int_s^t X_s\ dW_s\right\vert\mathcal{F}_s^W\right]=0
-$$
-
-</blockquote>
-
-<blockquote class = "prop">
-
-**Corollary 4.9. (Bjork)** _For any process $X_t\in\mathcal{L}^2$ the process_
-
-$$
-M_t=\int_s^t X_s\ dW_s,
-$$
-
-_is an $(\mathcal{F}_t^W)$-martingale. In other words, modulo an integrability condition, **every stochastic integral is a martingale**._
-
-</blockquote>
-
-<blockquote class = "lem">
-
-**Lemma 4.10. (Bjork)** _Let $M_t$ be a stochastic process with stochastic differential, then $M_t$ is a martingale if and only if the stochastic differential has the form $dM_t=X_t\ dW_t$ i.e. $M_t$ as no $dt$-term._
-
-</blockquote>
-
 ### Stochastic Calculus and the Ito Formula
 
 Given this breif introduction to stochastic integrals we may formulate som simple calculus revolving around Ito's formula. We consider the stochastic process $X_t$ and we suppose that there exist a real number $X_0$ and adapted processes $\mu$ and $\sigma$ wrt. $\mathcal{F}_t^W$ such that for all $t\ge0$ we have
