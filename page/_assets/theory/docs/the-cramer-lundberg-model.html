@@ -390,7 +390,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.10" data-path="the-cramer-lundberg-model.html"><a href="the-cramer-lundberg-model.html#subexponential-claim-size-distributions"><i class="fa fa-check"></i><b>7.2.10</b> Subexponential claim size distributions</a></li>
 <li class="chapter" data-level="7.2.11" data-path="the-cramer-lundberg-model.html"><a href="the-cramer-lundberg-model.html#the-time-of-ruin"><i class="fa fa-check"></i><b>7.2.11</b> The time of ruin</a></li>
 <li class="chapter" data-level="7.2.12" data-path="the-cramer-lundberg-model.html"><a href="the-cramer-lundberg-model.html#seals-formulae"><i class="fa fa-check"></i><b>7.2.12</b> Seal’s formulae</a></li>
-<li class="chapter" data-level="7.2.13" data-path="the-cramer-lundberg-model.html"><a href="the-cramer-lundberg-model.html#finite-time-lundberg-inequalities"><i class="fa fa-check"></i><b>7.2.13</b> Finite time Lundberg inequalities</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="the-renewal-risk-model.html"><a href="the-renewal-risk-model.html"><i class="fa fa-check"></i><b>7.3</b> The renewal risk model</a>
 <ul>
@@ -400,7 +399,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.4" data-path="the-renewal-risk-model.html"><a href="the-renewal-risk-model.html#the-cramer-lundberg-approximation-1"><i class="fa fa-check"></i><b>7.3.4</b> The Cramer-Lundberg approximation</a></li>
 <li class="chapter" data-level="7.3.5" data-path="the-renewal-risk-model.html"><a href="the-renewal-risk-model.html#diffusion-approximations-1"><i class="fa fa-check"></i><b>7.3.5</b> Diffusion approximations</a></li>
 <li class="chapter" data-level="7.3.6" data-path="the-renewal-risk-model.html"><a href="the-renewal-risk-model.html#subexponential-claim-size-distributions-1"><i class="fa fa-check"></i><b>7.3.6</b> Subexponential claim size distributions</a></li>
-<li class="chapter" data-level="7.3.7" data-path="the-renewal-risk-model.html"><a href="the-renewal-risk-model.html#finite-time-lundberg-inequalities-1"><i class="fa fa-check"></i><b>7.3.7</b> Finite time Lundberg inequalities</a></li>
+<li class="chapter" data-level="7.3.7" data-path="the-renewal-risk-model.html"><a href="the-renewal-risk-model.html#finite-time-lundberg-inequalities"><i class="fa fa-check"></i><b>7.3.7</b> Finite time Lundberg inequalities</a></li>
 </ul></li>
 <li class="chapter" data-level="7.4" data-path="modern-ruin-theory.html"><a href="modern-ruin-theory.html"><i class="fa fa-check"></i><b>7.4</b> Modern ruin theory</a></li>
 <li class="chapter" data-level="7.5" data-path="claims-reserving.html"><a href="claims-reserving.html"><i class="fa fa-check"></i><b>7.5</b> Claims reserving</a></li>
@@ -919,31 +918,186 @@ M_Z(r)=1-\frac{\lambda\mu}{c}+\frac{c(c-\lambda \mu)}{\lambda\mu}\frac{r}{cr-\la
 <p><span class="math display">\[
 \mathbb E[Z^2]=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)} + \frac{\lambda\mu_2^2}{2(c-\lambda\mu)^2}\right).
 \]</span></p>
+<p>To replicate recall that <span class="math inline">\(M_Z^{(n)}(r)=\mathbb E[Z^ne^{rZ}]\)</span> hence</p>
+<p><span class="math display">\[
+\left.M_Z^{(n)}(r)\right\vert_{r=0}=\mathbb E[Z^n].
+\]</span></p>
 </div>
 </div>
 <div id="approximations-to-psi" class="section level3 hasAnchor" number="7.2.9">
 <h3><span class="header-section-number">7.2.9</span> Approximations to <span class="math inline">\(\psi\)</span><a href="the-cramer-lundberg-model.html#approximations-to-psi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="diffusion-approximations" class="section level4 hasAnchor" number="7.2.9.1">
 <h4><span class="header-section-number">7.2.9.1</span> Diffusion approximations<a href="the-cramer-lundberg-model.html#diffusion-approximations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Diffusion approximations are based on the following.</p>
+<blockquote class="prop">
+<p><strong>Proposition 2.12. (Schmidli)</strong> <em>Let <span class="math inline">\(\{C_t^{(n)}\}\)</span> be a sequence of Cramer-Lundberg processes with initial capital <span class="math inline">\(u\)</span>, claim arrival intensities <span class="math inline">\(\lambda^{(n)}=\lambda n\)</span>, claim size distributions <span class="math inline">\(G^{(n)}(x)=G(x\sqrt n)\)</span> and premium rates</em></p>
+<p><span class="math display">\[
+c^{(n)}=\left(1 + \frac{c-\lambda \mu}{\lambda \mu\sqrt n}\right)\lambda^{(n)}\mu^{(n)}=c+(\sqrt n -1)\lambda\mu.
+\]</span></p>
+<p><em>Let <span class="math inline">\(\mu=\int_0^\infty y dG(y)\)</span> and assume that <span class="math inline">\(\mu_2 = \int_0^\infty y^2dG(y)&lt;\infty\)</span>. Then</em></p>
+<p><span class="math display">\[
+\left\{C_t^{(n)}\right\}\stackrel{d}{\to} \{u+ W_t\}
+\]</span></p>
+<p><em>where <span class="math inline">\(\{W_t\}\)</span> is a <span class="math inline">\((c-\lambda \mu,\lambda\mu_2)\)</span>-Brownian motion.</em></p>
+</blockquote>
+<p>Intuitively we let the number of claims in a unit time interval go to infinity and make the claim sizes smaller in such a way that the distribution of <span class="math inline">\(C^{(n)}_1 − u\)</span> tends to a normal distribution and <span class="math inline">\(\mathbb E [C^{(n)}_1 − u] = c − \lambda \mu\)</span>. Let <span class="math inline">\(\tau^{(n)}\)</span> denote the ruin time of <span class="math inline">\((C^{(n)}_t)\)</span> and <span class="math inline">\(\tau = \inf\{t \ge 0 : u+W_t &lt; 0\}\)</span> the ruin probability of the Brownian motion. Then</p>
+<blockquote class="prop">
+<p><strong>Proposition 2.13. (Schmidli)</strong> <em>Let <span class="math inline">\(\{C_t^{(n)}\}\)</span> and <span class="math inline">\(\{W_t\}\)</span> be given as above. Then</em></p>
+<p><span class="math display">\[
+\lim_{n\to\infty} \mathbb P[\tau^{(n)}\le t]=\mathbb P[\tau \le t]
+\]</span></p>
+<p><em>and</em></p>
+<p><span class="math display">\[
+\lim_{n\to\infty} \mathbb P[\tau^{(n)}&lt; \infty]=\mathbb P[\tau &lt; \infty].
+\]</span></p>
+</blockquote>
+<p>The idea of the diffusion approximation is to approximate <span class="math inline">\(\mathbb P [\tau^{(1)}\le t]\)</span> by <span class="math inline">\(\mathbb P [\tau\le t]\)</span> and <span class="math inline">\(\mathbb P [\tau^{(1)} &lt; \infty]\)</span> by <span class="math inline">\(\mathbb P [\tau &lt; \infty]\)</span>. Thus we need the ruin probabilities of the Brownian motion.</p>
+<blockquote class="lem">
+<p><strong>Lemma 2.14. (Schmidli)</strong> <em>Let <span class="math inline">\(\{W_t\}\)</span> be a <span class="math inline">\((m,\mu_2)\)</span>-Brownian motion with <span class="math inline">\(m &gt; 0\)</span> and <span class="math inline">\(\tau = \inf\{t\ge 0 : u+W_t &lt;0\}\)</span>. Then</em></p>
+<p><span class="math display">\[
+\mathbb P[\tau&lt;\infty]=e^{-2um/\eta^2}
+\]</span></p>
+<p><em>and</em></p>
+<p><span class="math display">\[
+\mathbb P[\tau\le t]=1-\Phi\left(\frac{mt+u}{\eta\sqrt t}\right)+e^{-2um/\eta^2}\Phi\left(\frac{mt-u}{\eta\sqrt t}\right).
+\]</span></p>
+</blockquote>
+<p>Diffusion approximations only work well if <span class="math inline">\(c/(\lambda \mu)\)</span> is near 1. There also exist corrected diffusion approximations which work much better.</p>
 </div>
 <div id="the-devylder-approximation" class="section level4 hasAnchor" number="7.2.9.2">
 <h4><span class="header-section-number">7.2.9.2</span> The deVylder approximation<a href="the-cramer-lundberg-model.html#the-devylder-approximation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In the case of exponentially distributed claim amounts we know the ruin probabilities explicitly. The idea of the deVylder approximation is to replace <span class="math inline">\(\{C_t\}\)</span> by <span class="math inline">\(\{\tilde C_t\}\)</span> where <span class="math inline">\(\{\tilde Ct\}\)</span> has exponentially distributed claim amounts and</p>
+<p><span class="math display">\[
+\mathbb E [(C_t-u)^k]=\mathbb E [(\tilde C_t-u)^k]
+\]</span></p>
+<p>for <span class="math inline">\(k=1,2,3\)</span>. The first three centralised moments are
+<span class="math display">\[\begin{align*}
+\mathbb E [C_t-u]&amp;=(c-\lambda\mu)t=\left(\tilde c -\frac{\tilde \lambda}{\tilde \alpha}\right)t,\\
+\text{Var}[C_t]=\text{Var}[u+ct-C_t]&amp;=\lambda\mu_2t=\frac{2\tilde \lambda}{\tilde \alpha^2}t,\\
+\mathbb E [(C_t-\mathbb E[C_t])^3]&amp;=-\lambda\mu_3t=-\frac{6\tilde \lambda}{\tilde\alpha ^3}t.
+\end{align*}\]</span>
+Thus the parameters are given by</p>
+<p><span class="math display">\[
+\tilde\alpha =\frac{3\mu_2}{\mu_3},\qquad\tilde\lambda=\frac{\lambda\mu_2\tilde \alpha^2}{2}=\frac{9\mu_2^3}{2\mu_3^2}\lambda
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\tilde c=c-\lambda\mu+\frac{\tilde \lambda}{\tilde\alpha}=c-\lambda\mu+\frac{3\mu_2^2}{2\mu_3}\lambda.
+\]</span></p>
+<p>Thus the approximation to the probability of ultimate ruin is</p>
+<p><span class="math display">\[
+\psi(u)\approx \frac{\tilde \lambda}{\tilde\alpha\tilde c}e^{-\left(\tilde\alpha-\frac{\tilde \lambda}{\tilde c}\right)u}.
+\]</span></p>
+<p>There is also a formula for the probability of ruin within finite time. Let <span class="math inline">\(\eta =\sqrt{\tilde \lambda/(\tilde \alpha\tilde c)}\)</span>. Then</p>
+<p><span class="math display">\[
+\psi(u,t)\approx \frac{\tilde \lambda}{\tilde\alpha\tilde c}e^{-\left(\tilde\alpha-\frac{\tilde \lambda}{\tilde c}\right)u}-\frac{1}{\pi}\int_0^\pi f(x)\ dx
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+f(x)=\eta\frac{e^{2\eta\tilde\alpha\tilde c t \cos x-(\tilde\alpha\tilde c + \tilde \lambda)t+\tilde\alpha u(\eta \cos x - 1)}}{1+\eta^2-2\eta \cos x}[\cos(\tilde\alpha u\eta\sin x)-\cos(\tilde \alpha u \eta \sin x + 2x)].
+\]</span></p>
 </div>
 <div id="the-beekman-bowers-approximation" class="section level4 hasAnchor" number="7.2.9.3">
 <h4><span class="header-section-number">7.2.9.3</span> The Beekman-Bowers approximation<a href="the-cramer-lundberg-model.html#the-beekman-bowers-approximation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Recall that</p>
+<p><span class="math display">\[
+F(u)=1-\frac{c}{\lambda \mu}\psi(u)
+\]</span></p>
+<p>is a distribution function and that</p>
+<p><span class="math display">\[
+\int_0^\infty z\ dF(z)=\frac{c\mu_2}{2\mu(c-\lambda\mu)}
+\]</span></p>
+<p>and that</p>
+<p><span class="math display">\[
+\int_0^\infty z^2\ dF(z)=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)}+\frac{\lambda\mu_2^2}{2\mu(c-\lambda\mu)^2}\right).
+\]</span></p>
+<p>The idea is to approximate the distribution function <span class="math inline">\(F\)</span> by the distribution function <span class="math inline">\(\tilde F(u)\)</span> of a <span class="math inline">\(\Gamma(\gamma,\alpha)\)</span> distributed random variable such that the first two moments coincide. Thus the parameters <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\alpha\)</span> have to fulfill</p>
+<p><span class="math display">\[
+\frac{\gamma}{\alpha}=\frac{c\mu_2}{2\mu(c-\lambda \mu)}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\frac{\gamma(\gamma +1)}{\alpha^2}=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)}+\frac{\lambda\mu_2^2}{2\mu(c-\lambda\mu)^2}\right).
+\]</span></p>
+<p>The Beekman-Bowers approximation to the ruin probability is</p>
+<p><span class="math display">\[
+\psi(u)=\frac{\lambda \mu}{c}(1-F(u))\approx \frac{\lambda\mu}{c}(1-\tilde F(u))
+\]</span></p>
 </div>
 </div>
 <div id="subexponential-claim-size-distributions" class="section level3 hasAnchor" number="7.2.10">
 <h3><span class="header-section-number">7.2.10</span> Subexponential claim size distributions<a href="the-cramer-lundberg-model.html#subexponential-claim-size-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let us now consider subexponential claim size distributions. In this case the Lund- berg exponent does not exist (Lemma 1.30).</p>
+<blockquote class="thm">
+<p><strong>Theorem 2.15. (Schmidli)</strong> <em>Assume that the ladder height distribution</em></p>
+<p><span class="math display">\[
+\frac{1}{\mu}\int_0^x(1-G(y))\ dy
+\]</span></p>
+<p><em>is subexponential. Then</em></p>
+<p><span class="math display">\[
+\lim_{u\to\infty}\frac{\psi(u)}{\int_u^\infty (1-G(y))\ dy}=\frac{\lambda}{c-\lambda\mu}
+\]</span></p>
+<p><em>or equivalently</em></p>
+<p><span class="math display">\[
+\psi(u)\sim \frac{\lambda}{c-\lambda\mu}\int_u^\infty (1-G(y))\ dy.
+\]</span></p>
+</blockquote>
+<p>Recall that the probability that ruin occurs at the first ladder time given there is a first ladder epoch</p>
+<p><span class="math display">\[
+\frac{1}{\mu}\int_u^\infty(1-G(y))\ dy.
+\]</span></p>
+<p>Hence the ruin probability is asymptotically <span class="math inline">\((c − \lambda\mu)^{-1}\lambda\mu\)</span> times the probability of ruin at the first ladder time given there is a first ladder epoch. But <span class="math inline">\((c − \lambda\mu)^{-1}\lambda\mu\)</span> is the expected number of ladder times. Intuitively for <span class="math inline">\(u\)</span> large ruin will occur if one of the ladder heights exceeds <span class="math inline">\(u\)</span>.</p>
+<p>The conditions of the theorem are also fulfilled for <span class="math inline">\(\text{LN}(\mu,\sigma^2)\)</span>, for <span class="math inline">\(\text{LG}(\gamma ,\alpha)\)</span> and for <span class="math inline">\(Wei(\alpha, c)\)</span> <span class="math inline">\((\alpha &lt; 1)\)</span> distributed claims.</p>
 </div>
 <div id="the-time-of-ruin" class="section level3 hasAnchor" number="7.2.11">
 <h3><span class="header-section-number">7.2.11</span> The time of ruin<a href="the-cramer-lundberg-model.html#the-time-of-ruin" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider the function</p>
+<p><span class="math display">\[
+f_\alpha(u)=\mathbb E[e^{-\alpha \tau}1_{\{\tau&lt;\infty\}}\ \vert\ C_0=u].
+\]</span></p>
+<p>The function is defined at least for <span class="math inline">\(\alpha\ge 0\)</span>. We will first find a differential equation for <span class="math inline">\(f_\alpha(u)\)</span>.</p>
+<blockquote class="lem">
+<p><strong>Lemma 2.17. (Schmidli)</strong> <em>The function <span class="math inline">\(f_\alpha(u)\)</span> is absolutely continuous and fulfils the equation</em></p>
+<p><span class="math display">\[
+cf_\alpha&#39;(u)+\lambda\left[\int_0^u f_\alpha(u-y)\ dG(y) + 1 -G(u)-f_\alpha (u)\right] - \alpha f_\alpha(u)=0.
+\]</span></p>
+</blockquote>
+<blockquote class="lem">
+<p><strong>Lemma 2.19. (Schmidli)</strong> <em>Assume <span class="math inline">\(\mu_2&lt;\infty\)</span>. Then</em></p>
+<p><span class="math display">\[
+\mathbb E[\tau 1_{\{\tau&lt;\infty\}}]=\frac{1}{c-\lambda\mu}\left[\frac{\lambda\mu_2}{2(c-\lambda\mu)}\delta(u)-\int_0^u\psi(u-y)\delta(y)\ dy\right].
+\]</span></p>
+</blockquote>
+<blockquote class="prop">
+<p><strong>Corollary 2.20. (Schmidli)</strong> <em>Let <span class="math inline">\(t&gt;0\)</span>. Then</em></p>
+<p><span class="math display">\[
+\mathbb P[t&lt;\tau&lt;\infty]&lt;\frac{\lambda \mu_2}{2(c-\lambda\mu)^2t}.
+\]</span></p>
+</blockquote>
 </div>
 <div id="seals-formulae" class="section level3 hasAnchor" number="7.2.12">
 <h3><span class="header-section-number">7.2.12</span> Seal’s formulae<a href="the-cramer-lundberg-model.html#seals-formulae" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-</div>
-<div id="finite-time-lundberg-inequalities" class="section level3 hasAnchor" number="7.2.13">
-<h3><span class="header-section-number">7.2.13</span> Finite time Lundberg inequalities<a href="the-cramer-lundberg-model.html#finite-time-lundberg-inequalities" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We consider now the probability of ruin within finite time <span class="math inline">\(\psi(u, t)\)</span>. But first we want to find the conditional finite ruin probability given <span class="math inline">\(C_t\)</span> for some <span class="math inline">\(t\)</span> fixed.</p>
+<blockquote class="lem">
+<p><strong>Lemma 2.21. (Schmidli)</strong> <em>Let <span class="math inline">\(t\)</span> be fixed <span class="math inline">\(u=0\)</span> and <span class="math inline">\(0&lt; y\le ct\)</span>. Then</em></p>
+<p><span class="math display">\[
+\mathbb P[C_s\ge 0,0\le s\le t\ \vert\ C_t=y]=\frac{y}{ct}.
+\]</span></p>
+</blockquote>
+<p>Conditioning on <span class="math inline">\(C_t\)</span> is in fact a conditioning on the aggregate claim size <span class="math inline">\(S_t\)</span>. Denote by <span class="math inline">\(F(x; t)\)</span> the distribution function of <span class="math inline">\(S_t\)</span> . For integration we use <span class="math inline">\(dF (\cdot; t)\)</span> for integration with respect to the measure <span class="math inline">\(F (\cdot; t)\)</span>. Moreover, let <span class="math inline">\(\delta(u, t) = 1 − \psi(u, t) = \mathbb P [\tau &gt; t]\)</span>.</p>
+<blockquote class="lem">
+<p><strong>Theorem 2.22. (Schmidli)</strong> <em>For initial capital 0 we have</em></p>
+<p><span class="math display">\[
+\delta (0,t)=\frac{1}{ct}\mathbb E[\min\{C_t,0\}]=\frac{1}{ct}\int_0^{ct}F(y;t)\ dy.
+\]</span></p>
+</blockquote>
+<p>Let now the initial capital be arbitrary.</p>
+<blockquote class="lem">
+<p><strong>Theorem 2.23. (Schmidli)</strong> <em>With the notation used above we have for <span class="math inline">\(u&gt;0\)</span></em></p>
+<p><span class="math display">\[
+\delta (u,t)=F(u+ct; t)-\int_u^{u+ct}\delta\left(0,t-\frac{v-u}{c}\right) F\left(dv;\frac{v-u}{c}\right).
+\]</span></p>
+</blockquote>
 </div>
 </div>
             </section>

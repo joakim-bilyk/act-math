@@ -316,7 +316,7 @@ X
 & StokLiv & Chapter 1-4 & X \\
 & ProjLiv & Buchardt \& Moeller (2015) & \\
 & Skade1 & Chapter 1-2.1 & X \\
-& SkadeStok & Chapter 1-2 (Schmidli) & \\
+& SkadeStok & Chapter 1-2 (Schmidli) & X \\
 & Skade2 & Chapter 1-7 (uden 6), kursorisk & \\
 2 & QRM & Extreme value theory with heavy tails; Hill estimator; POT method. & \\
 & Liv1 & Chapter 4 & \\
@@ -6706,29 +6706,236 @@ and
 \mathbb E[Z^2]=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)} + \frac{\lambda\mu_2^2}{2(c-\lambda\mu)^2}\right).
 \]
 
+To replicate recall that \(M_Z^{(n)}(r)=\mathbb E[Z^ne^{rZ}]\) hence
+
+\[
+\left.M_Z^{(n)}(r)\right\vert_{r=0}=\mathbb E[Z^n].
+\]
+
 \hypertarget{approximations-to-psi}{%
 \subsection{\texorpdfstring{Approximations to \(\psi\)}{Approximations to \textbackslash psi}}\label{approximations-to-psi}}
 
 \hypertarget{diffusion-approximations}{%
 \subsubsection{Diffusion approximations}\label{diffusion-approximations}}
 
+Diffusion approximations are based on the following.
+
+\textbf{Proposition 2.12. (Schmidli)} \emph{Let \(\{C_t^{(n)}\}\) be a sequence of Cramer-Lundberg processes with initial capital \(u\), claim arrival intensities \(\lambda^{(n)}=\lambda n\), claim size distributions \(G^{(n)}(x)=G(x\sqrt n)\) and premium rates}
+
+\[
+c^{(n)}=\left(1 + \frac{c-\lambda \mu}{\lambda \mu\sqrt n}\right)\lambda^{(n)}\mu^{(n)}=c+(\sqrt n -1)\lambda\mu.
+\]
+
+\emph{Let \(\mu=\int_0^\infty y dG(y)\) and assume that \(\mu_2 = \int_0^\infty y^2dG(y)<\infty\). Then}
+
+\[
+\left\{C_t^{(n)}\right\}\stackrel{d}{\to} \{u+ W_t\}
+\]
+
+\emph{where \(\{W_t\}\) is a \((c-\lambda \mu,\lambda\mu_2)\)-Brownian motion.}
+
+Intuitively we let the number of claims in a unit time interval go to infinity and make the claim sizes smaller in such a way that the distribution of \(C^{(n)}_1 − u\) tends to a normal distribution and \(\mathbb E [C^{(n)}_1 − u] = c − \lambda \mu\). Let \(\tau^{(n)}\) denote the ruin time of \((C^{(n)}_t)\) and \(\tau = \inf\{t \ge 0 : u+W_t < 0\}\) the ruin probability of the Brownian motion. Then
+
+\textbf{Proposition 2.13. (Schmidli)} \emph{Let \(\{C_t^{(n)}\}\) and \(\{W_t\}\) be given as above. Then}
+
+\[
+\lim_{n\to\infty} \mathbb P[\tau^{(n)}\le t]=\mathbb P[\tau \le t]
+\]
+
+\emph{and}
+
+\[
+\lim_{n\to\infty} \mathbb P[\tau^{(n)}< \infty]=\mathbb P[\tau < \infty].
+\]
+
+The idea of the diffusion approximation is to approximate \(\mathbb P [\tau^{(1)}\le t]\) by \(\mathbb P [\tau\le t]\) and \(\mathbb P [\tau^{(1)} < \infty]\) by \(\mathbb P [\tau < \infty]\). Thus we need the ruin probabilities of the Brownian motion.
+
+\textbf{Lemma 2.14. (Schmidli)} \emph{Let \(\{W_t\}\) be a \((m,\mu_2)\)-Brownian motion with \(m > 0\) and \(\tau = \inf\{t\ge 0 : u+W_t <0\}\). Then}
+
+\[
+\mathbb P[\tau<\infty]=e^{-2um/\eta^2}
+\]
+
+\emph{and}
+
+\[
+\mathbb P[\tau\le t]=1-\Phi\left(\frac{mt+u}{\eta\sqrt t}\right)+e^{-2um/\eta^2}\Phi\left(\frac{mt-u}{\eta\sqrt t}\right).
+\]
+
+Diffusion approximations only work well if \(c/(\lambda \mu)\) is near 1. There also exist corrected diffusion approximations which work much better.
+
 \hypertarget{the-devylder-approximation}{%
 \subsubsection{The deVylder approximation}\label{the-devylder-approximation}}
+
+In the case of exponentially distributed claim amounts we know the ruin probabilities explicitly. The idea of the deVylder approximation is to replace \(\{C_t\}\) by \(\{\tilde C_t\}\) where \(\{\tilde Ct\}\) has exponentially distributed claim amounts and
+
+\[
+\mathbb E [(C_t-u)^k]=\mathbb E [(\tilde C_t-u)^k]
+\]
+
+for \(k=1,2,3\). The first three centralised moments are
+\begin{align*}
+\mathbb E [C_t-u]&=(c-\lambda\mu)t=\left(\tilde c -\frac{\tilde \lambda}{\tilde \alpha}\right)t,\\
+\text{Var}[C_t]=\text{Var}[u+ct-C_t]&=\lambda\mu_2t=\frac{2\tilde \lambda}{\tilde \alpha^2}t,\\
+\mathbb E [(C_t-\mathbb E[C_t])^3]&=-\lambda\mu_3t=-\frac{6\tilde \lambda}{\tilde\alpha ^3}t.
+\end{align*}
+Thus the parameters are given by
+
+\[
+\tilde\alpha =\frac{3\mu_2}{\mu_3},\qquad\tilde\lambda=\frac{\lambda\mu_2\tilde \alpha^2}{2}=\frac{9\mu_2^3}{2\mu_3^2}\lambda
+\]
+
+and
+
+\[
+\tilde c=c-\lambda\mu+\frac{\tilde \lambda}{\tilde\alpha}=c-\lambda\mu+\frac{3\mu_2^2}{2\mu_3}\lambda.
+\]
+
+Thus the approximation to the probability of ultimate ruin is
+
+\[
+\psi(u)\approx \frac{\tilde \lambda}{\tilde\alpha\tilde c}e^{-\left(\tilde\alpha-\frac{\tilde \lambda}{\tilde c}\right)u}.
+\]
+
+There is also a formula for the probability of ruin within finite time. Let \(\eta =\sqrt{\tilde \lambda/(\tilde \alpha\tilde c)}\). Then
+
+\[
+\psi(u,t)\approx \frac{\tilde \lambda}{\tilde\alpha\tilde c}e^{-\left(\tilde\alpha-\frac{\tilde \lambda}{\tilde c}\right)u}-\frac{1}{\pi}\int_0^\pi f(x)\ dx
+\]
+
+where
+
+\[
+f(x)=\eta\frac{e^{2\eta\tilde\alpha\tilde c t \cos x-(\tilde\alpha\tilde c + \tilde \lambda)t+\tilde\alpha u(\eta \cos x - 1)}}{1+\eta^2-2\eta \cos x}[\cos(\tilde\alpha u\eta\sin x)-\cos(\tilde \alpha u \eta \sin x + 2x)].
+\]
 
 \hypertarget{the-beekman-bowers-approximation}{%
 \subsubsection{The Beekman-Bowers approximation}\label{the-beekman-bowers-approximation}}
 
+Recall that
+
+\[
+F(u)=1-\frac{c}{\lambda \mu}\psi(u)
+\]
+
+is a distribution function and that
+
+\[
+\int_0^\infty z\ dF(z)=\frac{c\mu_2}{2\mu(c-\lambda\mu)}
+\]
+
+and that
+
+\[
+\int_0^\infty z^2\ dF(z)=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)}+\frac{\lambda\mu_2^2}{2\mu(c-\lambda\mu)^2}\right).
+\]
+
+The idea is to approximate the distribution function \(F\) by the distribution function \(\tilde F(u)\) of a \(\Gamma(\gamma,\alpha)\) distributed random variable such that the first two moments coincide. Thus the parameters \(\gamma\) and \(\alpha\) have to fulfill
+
+\[
+\frac{\gamma}{\alpha}=\frac{c\mu_2}{2\mu(c-\lambda \mu)}
+\]
+
+and
+
+\[
+\frac{\gamma(\gamma +1)}{\alpha^2}=\frac{c}{\mu}\left(\frac{\mu_3}{3(c-\lambda\mu)}+\frac{\lambda\mu_2^2}{2\mu(c-\lambda\mu)^2}\right).
+\]
+
+The Beekman-Bowers approximation to the ruin probability is
+
+\[
+\psi(u)=\frac{\lambda \mu}{c}(1-F(u))\approx \frac{\lambda\mu}{c}(1-\tilde F(u))
+\]
+
 \hypertarget{subexponential-claim-size-distributions}{%
 \subsection{Subexponential claim size distributions}\label{subexponential-claim-size-distributions}}
+
+Let us now consider subexponential claim size distributions. In this case the Lund- berg exponent does not exist (Lemma 1.30).
+
+\textbf{Theorem 2.15. (Schmidli)} \emph{Assume that the ladder height distribution}
+
+\[
+\frac{1}{\mu}\int_0^x(1-G(y))\ dy
+\]
+
+\emph{is subexponential. Then}
+
+\[
+\lim_{u\to\infty}\frac{\psi(u)}{\int_u^\infty (1-G(y))\ dy}=\frac{\lambda}{c-\lambda\mu}
+\]
+
+\emph{or equivalently}
+
+\[
+\psi(u)\sim \frac{\lambda}{c-\lambda\mu}\int_u^\infty (1-G(y))\ dy.
+\]
+
+Recall that the probability that ruin occurs at the first ladder time given there is a first ladder epoch
+
+\[
+\frac{1}{\mu}\int_u^\infty(1-G(y))\ dy.
+\]
+
+Hence the ruin probability is asymptotically \((c − \lambda\mu)^{-1}\lambda\mu\) times the probability of ruin at the first ladder time given there is a first ladder epoch. But \((c − \lambda\mu)^{-1}\lambda\mu\) is the expected number of ladder times. Intuitively for \(u\) large ruin will occur if one of the ladder heights exceeds \(u\).
+
+The conditions of the theorem are also fulfilled for \(\text{LN}(\mu,\sigma^2)\), for \(\text{LG}(\gamma ,\alpha)\) and for \(Wei(\alpha, c)\) \((\alpha < 1)\) distributed claims.
 
 \hypertarget{the-time-of-ruin}{%
 \subsection{The time of ruin}\label{the-time-of-ruin}}
 
+Consider the function
+
+\[
+f_\alpha(u)=\mathbb E[e^{-\alpha \tau}1_{\{\tau<\infty\}}\ \vert\ C_0=u].
+\]
+
+The function is defined at least for \(\alpha\ge 0\). We will first find a differential equation for \(f_\alpha(u)\).
+
+\textbf{Lemma 2.17. (Schmidli)} \emph{The function \(f_\alpha(u)\) is absolutely continuous and fulfils the equation}
+
+\[
+cf_\alpha'(u)+\lambda\left[\int_0^u f_\alpha(u-y)\ dG(y) + 1 -G(u)-f_\alpha (u)\right] - \alpha f_\alpha(u)=0.
+\]
+
+\textbf{Lemma 2.19. (Schmidli)} \emph{Assume \(\mu_2<\infty\). Then}
+
+\[
+\mathbb E[\tau 1_{\{\tau<\infty\}}]=\frac{1}{c-\lambda\mu}\left[\frac{\lambda\mu_2}{2(c-\lambda\mu)}\delta(u)-\int_0^u\psi(u-y)\delta(y)\ dy\right].
+\]
+
+\textbf{Corollary 2.20. (Schmidli)} \emph{Let \(t>0\). Then}
+
+\[
+\mathbb P[t<\tau<\infty]<\frac{\lambda \mu_2}{2(c-\lambda\mu)^2t}.
+\]
+
 \hypertarget{seals-formulae}{%
 \subsection{Seal's formulae}\label{seals-formulae}}
 
-\hypertarget{finite-time-lundberg-inequalities}{%
-\subsection{Finite time Lundberg inequalities}\label{finite-time-lundberg-inequalities}}
+We consider now the probability of ruin within finite time \(\psi(u, t)\). But first we want to find the conditional finite ruin probability given \(C_t\) for some \(t\) fixed.
+
+\textbf{Lemma 2.21. (Schmidli)} \emph{Let \(t\) be fixed \(u=0\) and \(0< y\le ct\). Then}
+
+\[
+\mathbb P[C_s\ge 0,0\le s\le t\ \vert\ C_t=y]=\frac{y}{ct}.
+\]
+
+Conditioning on \(C_t\) is in fact a conditioning on the aggregate claim size \(S_t\). Denote by \(F(x; t)\) the distribution function of \(S_t\) . For integration we use \(dF (\cdot; t)\) for integration with respect to the measure \(F (\cdot; t)\). Moreover, let \(\delta(u, t) = 1 − \psi(u, t) = \mathbb P [\tau > t]\).
+
+\textbf{Theorem 2.22. (Schmidli)} \emph{For initial capital 0 we have}
+
+\[
+\delta (0,t)=\frac{1}{ct}\mathbb E[\min\{C_t,0\}]=\frac{1}{ct}\int_0^{ct}F(y;t)\ dy.
+\]
+
+Let now the initial capital be arbitrary.
+
+\textbf{Theorem 2.23. (Schmidli)} \emph{With the notation used above we have for \(u>0\)}
+
+\[
+\delta (u,t)=F(u+ct; t)-\int_u^{u+ct}\delta\left(0,t-\frac{v-u}{c}\right) F\left(dv;\frac{v-u}{c}\right).
+\]
 
 \hypertarget{the-renewal-risk-model}{%
 \section{The renewal risk model}\label{the-renewal-risk-model}}
@@ -6763,8 +6970,8 @@ and
 \hypertarget{subexponential-claim-size-distributions-1}{%
 \subsection{Subexponential claim size distributions}\label{subexponential-claim-size-distributions-1}}
 
-\hypertarget{finite-time-lundberg-inequalities-1}{%
-\subsection{Finite time Lundberg inequalities}\label{finite-time-lundberg-inequalities-1}}
+\hypertarget{finite-time-lundberg-inequalities}{%
+\subsection{Finite time Lundberg inequalities}\label{finite-time-lundberg-inequalities}}
 
 \hypertarget{modern-ruin-theory}{%
 \section{Modern ruin theory}\label{modern-ruin-theory}}
