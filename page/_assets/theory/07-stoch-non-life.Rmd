@@ -1,5 +1,9 @@
 # Stochastic Processes in Non-Life Insurance Mathematics
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Schmidli**: *Lecture Notes on FM2* by Hanspeter Schmidli.\cite{schmidli}
+
 ## Preliminaries
 
 <blockquote class = "def">

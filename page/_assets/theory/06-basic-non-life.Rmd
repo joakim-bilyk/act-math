@@ -2,6 +2,10 @@
 
 # Basic Non-Life Insurance Mathematics
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Mikosch**: *Non-Life Insurance Mathematics* by Thomas Mikosch (2006).\cite{mikosch2009}
+
 ## The Basic Model
 
 One of Lundberg’s main contributions is the introduction of a simple model which is capable of describing the basic dynamics of a homogeneous insurance portfolio. There are three assumptions in the model:

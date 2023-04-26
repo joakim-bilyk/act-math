@@ -74,6 +74,10 @@ theme_custom <- function() {
 
 # Quantative Risk Management
 
+Below is given the abbreviations used when referencing to books:
+
+  - **McNeil**: *Quantitative Risk Management* by McNeil (2015).\cite{mcneil2015}
+
 ## The Loss Variable
 
 We describe the financial risk with random variables defined on a filtered probability space $\left(\Omega,\mathcal{F},P,\left\{\mathcal{F}_t\right\}_{t\in \mathbb{R}_+}\right)$. We assume that *the value process* $V_t$, denoting the market value of the portfolio at time $t$, is adapted to the filtration i.e. may be determined at time $t$ or from information available at time $t$. We will be considering discrete time jumps of size $\Delta t$ for simplicity and assume that

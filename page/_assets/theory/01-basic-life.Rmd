@@ -2,6 +2,10 @@
 
 # Basic Life Insurance Mathematics
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Ragnar**: *Basic Life Insurance Mathematics* by Ragnar Norberg (2002).\cite{norberg2002}
+
 ## Payments, interest and mortality
 
 ### Payments

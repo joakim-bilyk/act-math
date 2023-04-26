@@ -145,32 +145,6 @@ This part of the notes are a rough collection of important results from measure 
 
 # Introduction {-}
 
-## Abbreviations {-}
-
-Below is given the abbreviations used when referencing to books:
-
-| Chapter | Abbreviation | Source |
-| :---- | :-- | :----------------- |
-| Basic Life Insurance Mathematics | Ragnar | *Basic Life Insurance Mathematics* by Ragnar Norberg (2002) |
-| Stochastic Processes in Life Insurance Mathematics | Lund | *Stochastic Processes in Life Insurance*: The Dynamic Approach by Jesper Lund Pedersen (2022)|
-| Topics in Life Insurance Mathematics  | Asmussen | *Risk and Insurance*: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). |
-| | Bladt | Notes from lectures in Liv2. |
-| Continuous Time Finance | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
-| Basic Non-Life Insurance Mathematics | Mikosch | *Non-Life Insurance Mathematics* by Thomas Mikosch (2006). |
-| Stochastic Processes in Life Insurance Mathematics | Schmidli | *Lecture Notes on FM2* by Hanspeter Schmidli. |
-| Topics in Non-Life Insurance Mathematics | Paulsen | *Non-life Insurance* by Jostein Paulsen (2023) |
-| Probabilistic Machine Learning | *None* | Slides from lectures. |
-| Quantative Risk Management | McNeil | *Quantitative Risk Management* by McNeil. (2015) |
-| Measure Theory | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
-| | Protter | *Probability Essentials (2. edition)* by Jean Jacod and Philip Protter (2004). |
-| Random Variables | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
-| | Hansen | *Stochastic Processes* (2. edition) by Ernst Hansen (2021). |
-| Discrete Time Stochastic Processes | Hansen | *Stochastic Processes* (2. edition) by Ernst Hansen (2021). |
-| Continuous Time Stochastic Processes | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
-| Stochastic Calculus | Bjork | *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019). |
-| | Bladt | Notes from lectures in Liv2. |
-| Linear Algebra | Wiki | Wikipedia |
-
 ## To-do reading {-}
 
 | Week | Course | Chapter | X |

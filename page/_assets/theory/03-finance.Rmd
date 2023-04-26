@@ -1,5 +1,9 @@
 # Continuous Time Finance
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Bjork**: *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+
 This topic revolves around the theory of the Brownian motion and martingale processes. Other main topics are the binomial model and an introduction to financial derivatives. Financial derivatives is contingent on the outcome of a stochastic process at some future time $t=T$ and often is a function $\Phi$ of some assets price $S_t$. As such the derivative will give a stochastic payout, at time $t=T$ of the size $X_T=\Phi(S_T)$. Naturally we want to say something about the *fair* price of the derivative in the form of
 
 $$

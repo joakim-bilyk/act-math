@@ -1,5 +1,9 @@
 # Markov Chains
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Tovler**: *An Introduction to Markov Chains* by Anders Tolver (2017).\cite{tovler2017}
+
 ## Definition of a Markov Chain
 
 **Transitionsdiagram.** Et diagram, hvor der fremgår ssh. for et system overgår til et nyt stadie.

@@ -1,5 +1,10 @@
 # Stochastic calculus
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Bjork**: *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+  - **Bladt**: Notes from lectures in Liv2.
+
 ## Stochastic Integrals
 
 We want to formulate financial markets in continuous time and the most elegant theory is obtained from processes that can be defined in terms of **stochastic differential equations**\index{stochastic differential equations, SDE} or in other words by their dynamics. We may call them **diffusion processes**\index{diffusion processes}, as they may be approximated by a stochastic difference equation:

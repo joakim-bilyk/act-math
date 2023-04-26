@@ -1,5 +1,9 @@
 # Projects in the Mathematics of Life Insurance
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Something**: *Life insurance cash flows with policyholder behavior* by Buchardt, Kristian and Moller, Thomas.
+
 ## Cash flows, Markov models, and policyholder behavior
 
 ## Transaction time modeling

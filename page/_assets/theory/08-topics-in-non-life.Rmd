@@ -1,5 +1,9 @@
 # Topics in Non-Life Insurance Mathematics
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Paulsen**: *Non-life Insurance* by Jostein Paulsen (2023).\cite{paulsen2023}
+
 ## Univariate distributions
 
 ## Multivariate distributions

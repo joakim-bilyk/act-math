@@ -163,7 +163,7 @@
 \end{textblock}
 
 \begin{textblock}{12}(1.5,13.7)
-\noindent\fontsize{11}{11}\selectfont Date: April 24, 2023
+\noindent\fontsize{11}{11}\selectfont Date: April 26, 2023
 \end{textblock}
 
 \hspace{1pt}
@@ -253,48 +253,6 @@ This part of the notes are a rough collection of important results from measure 
 \hypertarget{introduction}{%
 \chapter*{Introduction}\label{introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
-
-\hypertarget{abbreviations}{%
-\section*{Abbreviations}\label{abbreviations}}
-\addcontentsline{toc}{section}{Abbreviations}
-
-Below is given the abbreviations used when referencing to books:
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1923}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6923}}@{}}
-\toprule()
-\begin{minipage}[b]{\linewidth}\raggedright
-Chapter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Abbreviation
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Source
-\end{minipage} \\
-\midrule()
-\endhead
-Basic Life Insurance Mathematics & Ragnar & \emph{Basic Life Insurance Mathematics} by Ragnar Norberg (2002) \\
-Stochastic Processes in Life Insurance Mathematics & Lund & \emph{Stochastic Processes in Life Insurance}: The Dynamic Approach by Jesper Lund Pedersen (2022) \\
-Topics in Life Insurance Mathematics & Asmussen & \emph{Risk and Insurance}: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020). \\
-& Bladt & Notes from lectures in Liv2. \\
-Continuous Time Finance & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
-Basic Non-Life Insurance Mathematics & Mikosch & \emph{Non-Life Insurance Mathematics} by Thomas Mikosch (2006). \\
-Stochastic Processes in Life Insurance Mathematics & Schmidli & \emph{Lecture Notes on FM2} by Hanspeter Schmidli. \\
-Topics in Non-Life Insurance Mathematics & Paulsen & \emph{Non-life Insurance} by Jostein Paulsen (2023) \\
-Probabilistic Machine Learning & \emph{None} & Slides from lectures. \\
-Quantative Risk Management & McNeil & \emph{Quantitative Risk Management} by McNeil. (2015) \\
-Measure Theory & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
-& Protter & \emph{Probability Essentials (2. edition)} by Jean Jacod and Philip Protter (2004). \\
-Random Variables & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
-& Hansen & \emph{Stochastic Processes} (2. edition) by Ernst Hansen (2021). \\
-Discrete Time Stochastic Processes & Hansen & \emph{Stochastic Processes} (2. edition) by Ernst Hansen (2021). \\
-Continuous Time Stochastic Processes & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
-Stochastic Calculus & Bjork & \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019). \\
-& Bladt & Notes from lectures in Liv2. \\
-Linear Algebra & Wiki & Wikipedia \\
-\bottomrule()
-\end{longtable}
 
 \hypertarget{to-do-reading}{%
 \section*{To-do reading}\label{to-do-reading}}
@@ -391,6 +349,14 @@ Interpretation
 
 \hypertarget{basic-life-insurance-mathematics}{%
 \chapter{Basic Life Insurance Mathematics}\label{basic-life-insurance-mathematics}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ragnar}: \emph{Basic Life Insurance Mathematics} by Ragnar Norberg (2002).\cite{norberg2002}
+\end{itemize}
 
 \hypertarget{payments-interest-and-mortality}{%
 \section{Payments, interest and mortality}\label{payments-interest-and-mortality}}
@@ -578,6 +544,14 @@ Since \(\overline F(\infty) = 0\), we must have \(\int_0^\infty \mu=\infty\). Th
 
 \hypertarget{stochastic-processes-in-life-insurance-mathematics}{%
 \chapter{Stochastic Processes in Life Insurance Mathematics}\label{stochastic-processes-in-life-insurance-mathematics}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Lund}: \emph{Stochastic Processes in Life Insurance}: The Dynamic Approach by Jesper Lund Pedersen (2022)\cite{lund2022}
+\end{itemize}
 
 \hypertarget{lebesgue-stieltjes-calculus}{%
 \section{Lebesgue-Stieltjes calculus}\label{lebesgue-stieltjes-calculus}}
@@ -927,6 +901,14 @@ y(t)=y_0\exp(x^c(t))\prod_{0<s\le t}\big(1+\Delta x(s)\big).
 
 \hypertarget{continuous-time-finance}{%
 \chapter{Continuous Time Finance}\label{continuous-time-finance}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Bjork}: \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+\end{itemize}
 
 This topic revolves around the theory of the Brownian motion and martingale processes. Other main topics are the binomial model and an introduction to financial derivatives. Financial derivatives is contingent on the outcome of a stochastic process at some future time \(t=T\) and often is a function \(\Phi\) of some assets price \(S_t\). As such the derivative will give a stochastic payout, at time \(t=T\) of the size \(X_T=\Phi(S_T)\). Naturally we want to say something about the \emph{fair} price of the derivative in the form of
 
@@ -3061,6 +3043,16 @@ d\mathbf{M}_t=-r_t\mathbf{M}_t\ dt-\mathbf{M}_t\lambda_t^\top\ dW_t.\tag{14.40}
 
 \hypertarget{topics-in-life-insurance-mathematics}{%
 \chapter{Topics in Life Insurance Mathematics}\label{topics-in-life-insurance-mathematics}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Asmussen}: \emph{Risk and Insurance}: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020).\cite{asmussen2020}
+\item
+  \textbf{Bladt}: Notes from lectures in Liv2.
+\end{itemize}
 
 \hypertarget{markov-jump-processes}{%
 \section{Markov Jump Processes}\label{markov-jump-processes}}
@@ -5651,6 +5643,14 @@ V^{(j,p)}(t-)&=V^{(j,p)}(t)+\Delta B^{(j,p)}(t).
 \hypertarget{projects-in-the-mathematics-of-life-insurance}{%
 \chapter{Projects in the Mathematics of Life Insurance}\label{projects-in-the-mathematics-of-life-insurance}}
 
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Something}: \emph{Life insurance cash flows with policyholder behavior} by Buchardt, Kristian and Moller, Thomas.
+\end{itemize}
+
 \hypertarget{cash-flows-markov-models-and-policyholder-behavior}{%
 \section{Cash flows, Markov models, and policyholder behavior}\label{cash-flows-markov-models-and-policyholder-behavior}}
 
@@ -5674,6 +5674,14 @@ V^{(j,p)}(t-)&=V^{(j,p)}(t)+\Delta B^{(j,p)}(t).
 
 \hypertarget{basic-non-life-insurance-mathematics}{%
 \chapter{Basic Non-Life Insurance Mathematics}\label{basic-non-life-insurance-mathematics}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mikosch}: \emph{Non-Life Insurance Mathematics} by Thomas Mikosch (2006).\cite{mikosch2009}
+\end{itemize}
 
 \hypertarget{the-basic-model}{%
 \section{The Basic Model}\label{the-basic-model}}
@@ -5912,6 +5920,14 @@ for \(0<x_1<\cdots < x_n<t\). From lemma 2.1.9 we see that this is the joint den
 
 \hypertarget{stochastic-processes-in-non-life-insurance-mathematics}{%
 \chapter{Stochastic Processes in Non-Life Insurance Mathematics}\label{stochastic-processes-in-non-life-insurance-mathematics}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Schmidli}: \emph{Lecture Notes on FM2} by Hanspeter Schmidli.\cite{schmidli}
+\end{itemize}
 
 \hypertarget{preliminaries}{%
 \section{Preliminaries}\label{preliminaries}}
@@ -6987,6 +7003,14 @@ Let now the initial capital be arbitrary.
 
 \hypertarget{topics-in-non-life-insurance-mathematics}{%
 \chapter{Topics in Non-Life Insurance Mathematics}\label{topics-in-non-life-insurance-mathematics}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paulsen}: \emph{Non-life Insurance} by Jostein Paulsen (2023).\cite{paulsen2023}
+\end{itemize}
 
 \hypertarget{univariate-distributions}{%
 \section{Univariate distributions}\label{univariate-distributions}}
@@ -9863,6 +9887,14 @@ Problem: Is the price still discrimination free? Note that \$1.10 is also the pr
 \hypertarget{quantative-risk-management}{%
 \chapter{Quantative Risk Management}\label{quantative-risk-management}}
 
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{McNeil}: \emph{Quantitative Risk Management} by McNeil (2015).\cite{mcneil2015}
+\end{itemize}
+
 \hypertarget{the-loss-variable}{%
 \section{The Loss Variable}\label{the-loss-variable}}
 
@@ -10023,6 +10055,16 @@ So VaR adhere to translation.
 
 \hypertarget{measure-theory}{%
 \chapter{Measure theory}\label{measure-theory}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Bjork}: \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+\item
+  \textbf{Protter}: \emph{Probability Essentials (2. edition)} by Jean Jacod and Philip Protter (2004).\cite{jacod2004}
+\end{itemize}
 
 \hypertarget{axioms-of-probability}{%
 \section{Axioms of Probability}\label{axioms-of-probability}}
@@ -10653,6 +10695,16 @@ L_t=\frac{dQ}{dP},\ on\ \mathcal{F}_t,\tag{C.8}
 \hypertarget{random-variables-1}{%
 \chapter{Random Variables}\label{random-variables-1}}
 
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Bjork}: \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+\item
+  \textbf{Hansen}: \emph{Stochastic Processes} (2. edition) by Ernst Hansen (2021).\cite{hansen2021}
+\end{itemize}
+
 \hypertarget{introduction-1}{%
 \section{Introduction}\label{introduction-1}}
 
@@ -11079,6 +11131,14 @@ We also used the shorthand: \(N\) being the distribution of a standard normal di
 
 \hypertarget{discrete-time-stochastic-processes}{%
 \chapter{Discrete Time Stochastic Processes}\label{discrete-time-stochastic-processes}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Hansen}: \emph{Stochastic Processes} (2. edition) by Ernst Hansen (2021).\cite{hansen2021}
+\end{itemize}
 
 \hypertarget{convergence-concepts}{%
 \section{Convergence concepts}\label{convergence-concepts}}
@@ -11753,6 +11813,14 @@ c.~\emph{The array satisfies \textbf{Lyapounov's condition}\index{Lyapounov's co
 \hypertarget{markov-chains}{%
 \chapter{Markov Chains}\label{markov-chains}}
 
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tovler}: \emph{An Introduction to Markov Chains} by Anders Tolver (2017).\cite{tovler2017}
+\end{itemize}
+
 \hypertarget{definition-of-a-markov-chain}{%
 \section{Definition of a Markov Chain}\label{definition-of-a-markov-chain}}
 
@@ -12232,6 +12300,14 @@ q_{i,i+1} = \beta_i, \hspace{10pt} q_{i+1,i}=\delta_{i+1}, \hspace{10pt} q_{i+1,
 \hypertarget{continuous-time-stochastic-processes}{%
 \chapter{Continuous Time Stochastic Processes}\label{continuous-time-stochastic-processes}}
 
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Bjork}: \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+\end{itemize}
+
 \textbf{Definition 1.1. (Schmidli) (Stochastic process)} \emph{A \textbf{stochastic process}\index{stochastic process} is a family of random variables \(X_t : (\Omega,\mathbb F,\mathbb P) \to (E,\mathbb E,\mu)\) indexed by \(t\in \mathcal I\), where \(\mathcal I\subseteq \mathbb N\) or \(\mathcal I\subseteq \mathbb R\), denoted by \(\mathbf X=\{X_t\}_{t\in \mathcal I}\). In the case that \(\mathcal I=\mathbb R\), we say that \(\mathbf X\) is \textbf{CADLAG}\index{CADLAG stochastic process} if}
 
 \[
@@ -12407,6 +12483,16 @@ As one can see from the simulated sample path on the right, the Brownian motion 
 
 \hypertarget{stochastic-calculus}{%
 \chapter{Stochastic calculus}\label{stochastic-calculus}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Bjork}: \emph{Arbitrage Theory in Continuous Time (Fourth edition)} by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+\item
+  \textbf{Bladt}: Notes from lectures in Liv2.
+\end{itemize}
 
 \hypertarget{stochastic-integrals}{%
 \section{Stochastic Integrals}\label{stochastic-integrals}}
@@ -13187,6 +13273,14 @@ given that \(\mathbf{X}\) satisfies the desired differential equation and so it 
 
 \hypertarget{linear-algebra}{%
 \chapter{Linear Algebra}\label{linear-algebra}}
+
+Below is given the abbreviations used when referencing to books:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Wiki}: Wikipedia
+\end{itemize}
 
 \hypertarget{invertible-matrices}{%
 \section{Invertible matrices}\label{invertible-matrices}}

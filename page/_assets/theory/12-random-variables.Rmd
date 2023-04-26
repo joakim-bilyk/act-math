@@ -1,5 +1,10 @@
 # Random Variables
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Bjork**: *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+  - **Hansen**: *Stochastic Processes* (2. edition) by Ernst Hansen (2021).\cite{hansen2021}
+
 ## Introduction
 
 <blockquote class = "def">

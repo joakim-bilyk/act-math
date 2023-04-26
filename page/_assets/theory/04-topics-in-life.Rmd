@@ -73,6 +73,11 @@ theme_custom <- function() {
 
 # Topics in Life Insurance Mathematics
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Asmussen**: *Risk and Insurance*: A Graduate Text by Soren Asmussen and Mogens Steffensen (2020).\cite{asmussen2020}
+  - **Bladt**: Notes from lectures in Liv2.
+
 ## Markov Jump Processes
 
 Life insurance mathematics revolves arrow Markov processes in continuous time on some discrete (or at least countable) state space. This may in the simplest model be the life-death model or it can be a generalized life-death model with interest levels. In any case, we use Markov processes to determine the possible payments that may occur in the future or have occurred in the past. Let us start by define the Markov jump process as follows.

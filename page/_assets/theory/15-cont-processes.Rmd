@@ -1,5 +1,9 @@
 # Continuous Time Stochastic Processes
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Bjork**: *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+
 <blockquote class = "def">
 
 **Definition 1.1. (Schmidli) (Stochastic process)** _A **stochastic process**\index{stochastic process} is a family of random variables $X_t : (\Omega,\mathbb F,\mathbb P) \to (E,\mathbb E,\mu)$ indexed by $t\in \mathcal I$, where $\mathcal I\subseteq \mathbb N$ or $\mathcal I\subseteq \mathbb R$, denoted by $\mathbf X=\{X_t\}_{t\in \mathcal I}$. In the case that $\mathcal I=\mathbb R$, we say that $\mathbf X$ is **CADLAG**\index{CADLAG stochastic process} if_

@@ -1,4 +1,7 @@
 # Linear Algebra
+Below is given the abbreviations used when referencing to books:
+
+  - **Wiki**: Wikipedia
 
 ## Invertible matrices
 

@@ -1,5 +1,9 @@
 # Discrete Time Stochastic Processes
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Hansen**: *Stochastic Processes* (2. edition) by Ernst Hansen (2021).\cite{hansen2021}
+
 ## Convergence concepts
 
 We start this chapter by refering to a sequence $X_1,X_2,...$ of real-valued random variables as a **proces**. Consider the event $(X_n\to X)=\left\{\omega\in\Omega\ \vert\ X_m(\omega)\to X(\omega)\ \text{for}\ n\to \infty\right\}$. We want to study such convergence in detail. However first we check measurability. Consider a family $(A_i)_{i\in I}\subset \Omega$ and observe that

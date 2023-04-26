@@ -1,5 +1,9 @@
 # Stochastic Processes in Life Insurance Mathematics
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Lund**: *Stochastic Processes in Life Insurance*: The Dynamic Approach by Jesper Lund Pedersen (2022)\cite{lund2022}
+
 ## Lebesgue-Stieltjes calculus
 
 In context of life insurance, this chapter presents general mathematical definitions and results to describe (formalise) payment streams as well as valuation of payment streams. This chapter form the foundation for the next chapters. The definitions and results from measure and integration theory are outlined, where some are extensions of what is covered in a first course on the subject.

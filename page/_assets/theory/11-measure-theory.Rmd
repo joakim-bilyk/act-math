@@ -4,6 +4,11 @@
 
 # Measure theory
 
+Below is given the abbreviations used when referencing to books:
+
+  - **Bjork**: *Arbitrage Theory in Continuous Time (Fourth edition)* by Thomas Bjork, Oxford University Press (2019).\cite{bjork2009}
+  - **Protter**: *Probability Essentials (2. edition)* by Jean Jacod and Philip Protter (2004).\cite{jacod2004}
+
 ## Axioms of Probability
 
 Som udgangspunkt betragtes rummet $(\Omega,\mathcal{A})$ udstyret med en brolægning $\mathcal{A}\subseteq 2^\Omega$, hvor $2^\Omega=\mathcal{P}(\Omega)$ er mængden af alle delmængder af $\Omega$. Typisk anvendes brolægningerne 1) en algebra eller 2) en $\sigma$-algebra.
