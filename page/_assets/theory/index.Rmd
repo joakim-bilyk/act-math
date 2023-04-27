@@ -31,6 +31,8 @@ preface: |
   
   The final chapter on risk management is an introduction to risk measures such as Value-At-Risk and expected shortfall and elliptical and heavy-tailed distributions. In investments we often see a concentration of returns around the mean and then a heavy tail of losses and or gains. This is important when one calculates the capital needed in order to sustain large losses that may arise during a crisis. It is furthermore, an accepted truth that investment are correlated in the sense that they tend to get large together. This is why elliptical distributions are studied. The final sections of this chapter is on credit risk and operational risks.
   
+  In the chapter *Projects in the Mathematics of Life Insurance*, we study various popular topics in the academic field of life insurance mathematics. This include a inclusive framework for defining a wide range of life insurance models including the classical smooth markov model. In this first section, we also study models that include policy behavior and how one may accommodate this in a consistent payment stream.
+  
   **Mathematical Prerequisites**
   
   This part of the notes are a rough collection of important results from measure theory and theory on stochastic variables.
@@ -126,6 +128,8 @@ Life insurance contracts are stochastic payments between two parties agreed upon
 This first part of the book, starts out with an introduction to the ideas around payment streams, interest, mortality, markov chains and reserves. This is done in the chapter *Basic Life Insurance Mathematics*. Afterwards, in the chapter *Stochastic Processes in Life Insurance Mathematics* we formalize the stochastic processes behind the payment process by considering CADLAG processes that is of finite variations (FV-functions). This will lead us to an extended version of the integral where we allow to integrate with respect to payment streams and other FV-functions. It turns out that the maths around the expected value of such integrals is a bit more complicated than one would let on.
 
 The following two chapters start with an introduction into the mathematics of continuous finance and the theory of arbitrage free valuation of derivatives. This is used afterwards used in the chapter *Topics in Life Insurance*, where Black Scholes types of PDEs are constructed that describe the statewise reserves. However before this we introduce a matrix approach to life insurance and some interest theory. For the definition of the product integral see the appendix.
+
+In the chapter *Projects in the Mathematics of Life Insurance*, we study various popular topics in the academic field of life insurance mathematics. This include a inclusive framework for defining a wide range of life insurance models including the classical smooth markov model. In this first section, we also study models that include policy behavior and how one may accommodate this in a consistent payment stream.
 
 **The Mathematics and Methods of Non-Life Insurance**
 

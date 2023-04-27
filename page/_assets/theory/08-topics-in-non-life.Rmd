@@ -6,6 +6,132 @@ Below is given the abbreviations used when referencing to books:
 
 ## Univariate distributions
 
+### Mixture Poisson distribution
+
+The poisson mixture is given by the point probabilities
+
+$$
+\mathbb P(N=n)=\int_0^\infty \mathbb P(N=n\ \vert\ W=w)\ dF_W(w)=\int_0^\infty \frac{w^n}{n!}e^{-w}\ dF_W(w).
+$$
+
+That is we assume that conditional on $W$ we have $N$ is poisson distributed with mean $W$ i.e.
+
+$$
+N\ \vert\ W=w\sim\text{Pois}(w).
+$$
+
+If we take a thinned version of $N$ given by
+
+$$
+N=\sum_{i=1}^{N^*}I_i,
+$$
+
+with $I_i\sim \text{Bern}(q)$ then
+
+$$
+N\ \vert\ W=w\sim\text{Pois}(wq).
+$$
+
+This is given by proposition 4.2: A thinned Poisson mixture is it self a Poisson mixture.
+
+### Negative binomial distribution
+
+Let $N$ be a Poisson mixture conditional on $W\sim \Gamma(\alpha,\beta)$. Then $N$ has distribution
+\begin{align*}
+\mathbb P(N=n)&=\int_0^\infty \mathbb P(N=n\ \vert\ W=w)\ dF_W(w)\\
+&=\int_0^\infty \frac{w^n}{n!}e^{-w} \frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}\ dw.
+\end{align*}
+Using that the density of the gamma distribution is
+
+$$
+f_W(w)=\frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}.
+$$
+
+Doing some rewriting we have
+\begin{align*}
+\mathbb P(N=n)&=\int_0^\infty \frac{w^n}{n!}e^{-w} \frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}\ dw\\
+&= \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty w^{n+\alpha -1}e^{-(1+\beta) w}\ dw\\
+&\stackrel{y=(1+\beta)w}{=} \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty \left(\frac{y}{1+\beta}\right)^{n+\alpha -1}e^{-y}\frac{1}{1+\beta}\ dy\\
+&=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\int_0^\infty y^{n+\alpha - 1}e^{-y}\ dy\\
+&=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\Gamma(n+\alpha)\\
+&=
+\end{align*}
+find that $N$ is neg binomial and then deduce the distribution of $N=\sum_{i=1}^{N^*}I_i$.
+
 ## Multivariate distributions
 
 ## Left truncated data and deductibles
+
+In non-life insurance it is common to have a deductible on a policy such that the customer only get payed the loss that exceeds the actual loss. We let $X^*$ be the loss the customer experience and $X$ is the amount the insurance company covers. Then it easily follows, that for a deductible of $d$ the customer receives
+
+$$
+X=\max\{0,X^*-d\}=(X^*-d)^+.
+$$
+
+Given that the insurance company receives a claim exceeding the threshold $d$ the distribution is
+\begin{align*}
+F_X(x)&=F_{X*\vert X^*>d}(x)=\mathbb P(X^*\le x\ \vert\ X^*>d)\\
+&=\frac{\mathbb P(X^*\le x,X^*> d)}{\mathbb P(X*> d)}=1_{\{x>d\}}\frac{F_{X^*}(x)-F_{X^*}(d)}{\overline F_{X^*}(d)},
+\end{align*}
+Hence if $X^*$ has absolutely continuous distribution function we have
+
+$$
+f_X(x)=\frac{f_{X^*}(x)}{\overline F_{X^*}(d)}1_{\{x>d\}}.
+$$
+
+### Deductible as a random variable
+
+We study the effects of the missing data coming from a deductible making the available data left-truncated. To this end, we let $(X^*,D^*)$ be any non-negative random variable and we let $(X,D)=(X^*,D^*)$ on $X^*>D^*$. On the event $X^*\le D^*$ we simply throw them away. Let
+
+$$
+F^*(x,d)=F_{(X^*,D^*)}(x,d), \qquad F(x,d)= F_{(X,D)}(x,d).
+$$
+
+Then we may deduce that
+
+$$
+F(x,d)=F_{(X^*,D^*)\ \vert\ X^*>D^*}(x,d)=\frac{\mathbb P(X^*\le x, D^*\le d,X^*> D^*)}{\mathbb P(X^*> D^*)}.
+$$
+
+We have that
+
+$$
+\alpha:=\mathbb P(X^*> D^*)=\int_0^\infty \mathbb P(X^*>D^*\ \vert\ D^*=y)\ dF_{D^*}(y)=\int_0^\infty \overline F_{X^*\ \vert\ D^*}(y\ \vert\ y)\ dF_{D^*}(y).
+$$
+
+If we assume that $X^*$ and $D^*$ are independent then the above simplifies to
+
+$$
+\alpha =\int_0^\infty \overline F_{X^*}(y)\ dF_{D^*}(y).
+$$
+
+If we assume that there exist a density $f$ such that $F(x,y)=\int_0^x\int_0^y f(v,w)\ dw\ dv$ then for all $x,y$ the function $f$ would satisfy
+
+$$
+f(x,y)=\frac{1}{\alpha}\lim_{h\to 0}\frac{\mathbb P(x<X^*\le x+h, y<D^*\le y+h,X^*> D^*)}{h}.
+$$
+
+This can be calculated by
+\begin{align*}
+f(x,y)&=\frac{1}{\alpha}\lim_{h\to 0}\frac{\mathbb P(x<X^*\le x+h, y<D^*\le y+h,X^*> D^*)}{h}\\
+&=\frac{1}{\alpha}\lim_{h\to 0}\frac{\mathbb P(x<X^*\le x+h, y<D^*\le y+h)}{h}1_{\{x>y\}}\\
+&=\frac{1}{\alpha}1_{\{x>y\}}f^*(x,y)=\frac{1}{\alpha}1_{\{x>y\}}f_{X^*}(x)f_{D^*}(y).
+\end{align*}
+The distribution of $X$ is likewise given by
+\begin{align*}
+F_X(x)&=F_{X^*\ \vert\ X^*>D^*}(x)=\frac{1}{\alpha}\mathbb P(X^*\le x,X^*>D^*)=\frac{1}{\alpha}\mathbb P(D<X^*\le x)\\
+&=\frac{1}{\alpha}\int_0^\infty \mathbb P(D^*<y\le x\ \vert\ X^*=y)\ dF_{X^*}(y)=\frac{1}{\alpha}\int_0^x \mathbb P(D^*<y\ \vert\ X^*=y)\ dF_{X^*}(y)\\
+&=\frac{1}{\alpha}\int_0^xF_{D^*\ \vert\ X^*}(y-\ \vert\ y)\ dF_{X^*}(y)
+\end{align*}
+Assuming independence we have
+
+$$
+F_X(x)=\frac{1}{\alpha}\int_0^xF_{D^*}(y-)\ dF_{X^*}(y).
+$$
+
+Of cause, if $X^*$ has density
+
+$$
+f_X(x)\frac{1}{\alpha}F_{D^*}(x-)f_{X^*}(x).
+$$
+

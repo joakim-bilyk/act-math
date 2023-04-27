@@ -163,7 +163,7 @@
 \end{textblock}
 
 \begin{textblock}{12}(1.5,13.7)
-\noindent\fontsize{11}{11}\selectfont Date: April 26, 2023
+\noindent\fontsize{11}{11}\selectfont Date: April 27, 2023
 \end{textblock}
 
 \hspace{1pt}
@@ -220,6 +220,8 @@ The first chapter, called \emph{Basic Non-Life Insurance Mathematics}, introduce
 The chapter \emph{Probabilistic Machine Learning} is a introductory chapter on how one may apply machine learning algorithms to tabular data, that is a spreadsheet with \(p\) covariates and one response. In this chapter we consider linear models with and without penalties, decision trees including bagging and random forests and neural networks. Lastly, we give some considerations on how one may interpret the results from the ML models discussed earlier. It is common knowledge that ML models are well suited for a wide variety of scenarios but due to their structure we loose alot of interpretability for the linear models (and generalized additive and linear models). Because of this one has to somehow figure out what the model does and how it treats say gender. This is also something we dig into, as we want to debias a potential biassed model (bias may arise from the data itself).
 
 The final chapter on risk management is an introduction to risk measures such as Value-At-Risk and expected shortfall and elliptical and heavy-tailed distributions. In investments we often see a concentration of returns around the mean and then a heavy tail of losses and or gains. This is important when one calculates the capital needed in order to sustain large losses that may arise during a crisis. It is furthermore, an accepted truth that investment are correlated in the sense that they tend to get large together. This is why elliptical distributions are studied. The final sections of this chapter is on credit risk and operational risks.
+
+In the chapter \emph{Projects in the Mathematics of Life Insurance}, we study various popular topics in the academic field of life insurance mathematics. This include a inclusive framework for defining a wide range of life insurance models including the classical smooth markov model. In this first section, we also study models that include policy behavior and how one may accommodate this in a consistent payment stream.
 
 \textbf{Mathematical Prerequisites}
 
@@ -5654,6 +5656,229 @@ Below is given the abbreviations used when referencing to books:
 \hypertarget{cash-flows-markov-models-and-policyholder-behavior}{%
 \section{Cash flows, Markov models, and policyholder behavior}\label{cash-flows-markov-models-and-policyholder-behavior}}
 
+When we model life-insurance contracts we are faced with a list of choices around how the payments are handled, the behavior of the underlying statewise jump process and the information on which we base our valuation. The most central thing to consider is the payment process \(B\) and hence under which events the insurance expect to receive premiums and pay out benefits. We model the payments by the dynamics of \(B\) and assume \(B(0-)=0\):
+
+\[
+dB(t)=\sum_{i\in \mathcal J}1\{Z(t)=i\}\Big(b^{i}(t)\ dt+ \Delta B^i(t)\Big)+\sum_{k,j\in \mathcal J, k\ne j}b^{kj}(t)\ dN^{kj}(t),
+\]
+
+where we assume \(b^i\), \(\Delta B^i\) and \(b^{ij}\) are deterministic FV-functions for all \(i,j\in \mathcal J\). This is indeed the most important choice for the insurance contract.
+
+Next, we should assume some jump process for \(Z(t)\) that governs the payment process. In general we assume that \(Z=(Z(t))_{t\ge 0}\) is a non-explosive pure jump process, that is for any bounded interval \([t,s]\) for \(t\ne s\) the counting process, defined as
+
+\[
+N(t)=\#\{0\le s\le t : Z(s)\ne Z(s-)\},
+\]
+
+does not tend to infinity. Therefore since we assumed that the payment processes \(b^i\), \(\Delta B^i\) and \(b^{ij}\) are FV-functions then it follows that \(B\) is a CADLAG process of finite variation (FV). Notice that we did not assume any Markov properties on \(Z\).
+
+We could assume some underlying process for \(Z\) but we could just as well assume something about the predictable compensators of \(B\) and \(Z\) that is \(\Lambda^B\) and \((\Lambda^{N^{ij}})_{i,j\in E}\). Recall that for all FV-processes \(X\) there exist a predictable compensator such that
+
+\[
+M^X(t)=X(t)-\Lambda^X(t),
+\]
+
+is a Martingale wrt. \(\sigma(X(t))\). We determine the predictable compensator through its dynamics
+
+\[
+d\Lambda^X(t)=\mathbb E[dX(t)\ \vert\ \sigma(X(t-))].
+\]
+
+Lastly, we define the information which is used when modelling the payments and valuating the contract. This is a filtration \(\mathcal F=(\mathcal F_t)_{t\ge 0}\) which may be chosen according to the needed information for the payment stream \(B\). In the most simple example we would have
+
+\[
+\mathcal F_t=\sigma\left(\mathcal F_t^{Z},\mathcal F_t^{r}\right),
+\]
+
+where \(r\) is the short rate on the investments and \(\mathcal F_t^X=\sigma(X(t))\) is the smallest sigma algebra that makes \(X\) measurable. In more elaborate models the information could also contain state duration or other information.
+
+\hypertarget{cash-flows}{%
+\subsection{Cash flows}\label{cash-flows}}
+
+Reserving is an important topic in life insurance as it ensures that the insurance company reserve adequate cash to pay customers in the future. The liabilities at a timepoint \(t\ge 0\) is given by the reserve denoted by \(V\):
+
+\[
+V(t)=\mathbb E^{\mathbb Q\otimes \mathbb P}\left[\left.\int_t^\infty e^{-\int_t^sr(u)\ du}dB(s)\ \right\vert\ \mathcal F_t\right],
+\]
+
+where we use the product measure that valuate outcomes from \(B\) that is \(Z\) under the objective probability measure \(\mathbb P\) and the short rate under the martingale measure \(\mathbb Q\sim\mathbb P\). We will furthermore assume that \(r\) and \(Z\) are independend and that \(\mathbb Q\sim\mathbb P\) ensures this. We denote this product measure \(\mathbb Q\otimes \mathbb P\) and the superscript indicates that this is used in the integral. If we use the predictable compensator for \(B\) we may assume that it is absolutely continuous and so
+
+\[
+\Lambda^B(t)=\Lambda^B(0)+\int_0^t\lambda^B(s)\ ds,
+\]
+
+hence
+
+\[
+V(t)=\mathbb E^{\mathbb Q\otimes \mathbb P}\left[\left.\int_t^\infty e^{-\int_t^sr(u)\ du}\lambda^B(s)\ ds\ \right\vert\ \mathcal F_t\right]+\mathbb E^{\mathbb Q\otimes \mathbb P}\left[\left.\int_t^\infty e^{-\int_t^sr(u)\ du}d M^B(s)\ \right\vert\ \mathcal F_t\right],
+\]
+
+where of cause the martingale integral is almost surely zero and hence in expectation zero. We can furthermore move the expectation inside using Fubini and obtain.
+
+\[
+V(t)=\int_t^\infty E^{\mathbb Q}\left[\left. e^{-\int_t^sr(u)\ du}\ \right\vert\ \mathcal F_t\right]\mathbb E^{\mathbb P}\left[\left.\lambda^B(s)\ \right\vert\ \mathcal F_t\right]\ ds.
+\]
+
+We can now define the forward rate \(f_t(s)\) according to
+
+\[
+E^{\mathbb Q}\left[\left. e^{-\int_t^sr(u)\ du}\ \right\vert\ \mathcal F_t\right]=e^{-\int_t^sf_t(u)\ du}.
+\]
+
+We also see that this is in fact the pricing function for the zero-coupon bond maturing at time \(s\ge t\). We can furthermore define the \textbf{expected cash flow} during \([t,s]\) by
+
+\[
+A(t,s)=\int_t^s\mathbb E^{\mathbb P}\left[\left.\lambda^B(u)\ \right\vert\ \mathcal F_t\right]\ du.
+\]
+
+If we use the notation \(A(t,ds)\) as the dynamics of \(A(s):=A(t,s)\) we may write
+
+\[
+V(t)=\int_t^\infty e^{-\int_t^s f_t(u)\ du} A(t,ds).
+\]
+
+If one use this decomposition one can compute the expected cash flow from today until infinity and study independently the effects of changing the rate model and mortality model. Crucially we assumed that \(r\) and \(Z\) are independent which in the case of policy behavour may not hold (high returns may result in increased free policy intensity).
+
+\hypertarget{smooth-markov-model}{%
+\subsection{Smooth Markov model}\label{smooth-markov-model}}
+
+In classic life insurance mathematics we assume the following:
+
+\begin{itemize}
+\tightlist
+\item
+  The functions \((\mu^{ij}(t))_{i,j\in\mathcal J}\) defined as
+  \[\mu^{ij}(t)=\lim_{h\to 0}\frac{1}{h}p^{ij}(t,t+h)\]
+  exists and are differentiable at all timepoints \(t\ge 0\).
+\item
+  The predictable compensator of \(B\) is given by
+  \begin{align*}
+    d\Big(\Lambda^B(s)\ \vert\ \mathcal F_t\Big)&=d\Big(\Lambda^B(s)\ \vert\ Z(t)\Big)\\
+    &=\sum_{i\in \mathcal J}1\{Z(t)=i\}p^{ij}(t,s)\left(b^i(t)\ ds+\Delta B^i(t)+\sum_{j\in\mathcal J, j\ne i}b^{ij}(t)\mu^{ij}(t)\ ds\right).
+    \end{align*}
+\item
+  The transition probabilities \(p^{ij}(t)\) satisfies Kolmogorov's forward differential equation
+  \begin{align*}
+    \frac{\partial}{\partial s}p^{ij}(t,s)=\sum_{k\in\mathcal J,k\ne j}p^{ik}(t,s)\mu^{kj}(s)\ ds-p^{ij}(t,s)\sum_{k\in\mathcal J, k\ne j}\mu^{jk}(s)
+    \end{align*}
+  with boundary condition \(p^{ij}(t,t)=\delta^{ij}\) with \(\delta^{ij}=1\{i=j\}\).
+\end{itemize}
+
+We call this a smooth model becauce \(\mu^{ij}\) are continuous and so \(p^{ij}\) are smooth. There does exist models where \(\mu^{ij}\) can be non-continuous. In this classic model the expected cash flow is given by
+\begin{align*}
+A(t,s)&=\mathbb E^\mathbb P\left[\left.B(s)-B(t)\ \right\vert\ \mathcal F_t\right]=\mathbb E^\mathbb P\left[\left.\Lambda^B(s)-\Lambda^B(t)\ \right\vert\  Z(t)\right]\\
+&=\int_t^s\sum_{i\in \mathcal J}1\{Z(t)=i\}p^{ij}(t,u)\left(b^i(u)\ du+\Delta B^i(u)+\sum_{j\in\mathcal J, j\ne i}b^{ij}(u)\mu^{ij}(u)\ du\right)
+\end{align*}
+hence
+
+\[
+A(t,ds)=\sum_{i\in \mathcal J}1\{Z(t)=i\}p^{ij}(t,s)\left(b^i(s)\ ds+\Delta B^i(s)+\sum_{j\in\mathcal J, j\ne i}b^{ij}(s)\mu^{ij}(s)\ ds\right).
+\]
+
+If we calculate \(p^{ij}(t,s)\) for all \(i,j\in\mathcal J\) and \(s\ge t\) for all \(t\ge 0\) we easily obtain the vector functions
+
+\[
+\left(A^i(t,s)\right)_{i\in\mathcal J}=\left(\int_t^s p^{ij}(t,s)\left(b^i(s)\ ds+\Delta B^i(s)+\sum_{j\in\mathcal J, j\ne i}b^{ij}(s)\mu^{ij}(s)\ ds\right)\right)_{i\in\mathcal J}
+\]
+
+where \(t\) is fixed and \(s\ge t\). Using this result we can write the reserve as
+
+\[
+V(t)=\sum_{i\in \mathcal J}1\{Z(t)=i\}\int_t^\infty e^{-\int_t^s f_t(u)\ du}p^{ij}(t,s)\left(b^i(s)\ ds+\Delta B^i(s)+\sum_{j\in\mathcal J, j\ne i}b^{ij}(s)\mu^{ij}(s)\ ds\right).
+\]
+
+\hypertarget{absorbing-sub-state-space}{%
+\subsection{Absorbing sub state space}\label{absorbing-sub-state-space}}
+
+One can construct models where that include policy behavior. This may include the free policy option, surrender option and/or early retirement option. By this we mean:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{The free policy option}; the option to at any point stop paying premiums but still be entitled to some benefits (though lower than expected),
+\item
+  \emph{The surrender option}; the option to at any point cancel the contract and receive a compensatory payment,
+\item
+  \emph{Early retirement option}; the option to at any point transition into the retirement state and start receiving benefits (though lower than by waiting to the agreed upon retirement date).
+\end{itemize}
+
+In any case, this leads to a subdivision of the statespace \(\mathcal J\) into \(\mathcal J_0\) and \(\mathcal J_1\) such that \(\mathcal J_0\cap \mathcal J_1=\emptyset\) and \(\mathcal J_0\cup\mathcal J_1=\mathcal J\). We let the policy start in \(\mathcal J_0\) i.e.~\(Z(0)\in\mathcal J_0\) almost surely and assume that \(\mathcal J_1\) is absorbing i.e.~for all \(i\in \mathcal J_1\) and \(j\in\mathcal J_0\) we have \(p^{ij}(t,s)=0\) for all \(t\le s\).
+
+In the free policy option we would simply take a copy of \(\mathcal J\) (for instance active, disabled and dead) and say that the policy may jump to a free policy version of \(\mathcal J\) at any time but not back. In that case we would simply have
+
+\[
+\mathcal J=\{\text{active}(0),\text{disabled}(1),\text{dead}(2)\}\cup\{\text{active as fp}(3),\text{disabled as fp}(4),\text{dead as fp}(5)\},
+\]
+
+the so-called six state model. In general, we define the transition time from \(\mathcal J_0\) to \(\mathcal J_1\) as
+
+\[
+\tau =\inf\{t\ge 0 : Z(t)\in\mathcal J_1\}
+\]
+
+using the convention \(\inf\emptyset =\infty\). As we would need to adjust the payment streams in \(\mathcal J_1\) based on the time of transition \(\tau\) we define the function \(\rho(i,j,t):\mathcal J_0\times \mathcal J_1\times [0,\infty)\to\mathbb R\) typical taking values in \((0,1]\) as a adjustment factor to the payments in the sub statespace \(\mathcal J_1\). The factor that is just is determined by the transition \(Z(\tau -)\to Z(\tau)\), that is the factor \(\rho(Z(\tau-),Z(\tau),\tau)\). In this case we define the payment stream as
+
+\[
+dB(t)=dB_0(t)+dB_1(t),
+\]
+
+with
+
+\[
+dB_0(t)=\sum_{i\in \mathcal J_0}1\{Z(t)=i\}\Big(b^{i}(t)\ dt+ \Delta B^i(t)\Big)+\sum_{k,j\in \mathcal J_0, k\ne j}b^{kj}(t)\ dN^{kj}(t)
+\]
+
+and
+
+\[
+dB_1(t)=\rho(Z(\tau-),Z(\tau),\tau)\left(\sum_{i\in \mathcal J_1}1\{Z(t)=i\}\Big(b^{i}(t)\ dt+ \Delta B^i(t)\Big)+\sum_{k,j\in \mathcal J_1, k\ne j}b^{kj}(t)\ dN^{kj}(t)\right).
+\]
+
+Notice that no payments are payed upon the transition \(Z(\tau-)\to Z(\tau)\). Then we have the expected cash flow given by
+\begin{align*}
+A(t,s)&=\mathbb E^\mathbb P\left[\left.B(s)-B(t)\ \right\vert\ \mathcal F_t\right]=\mathbb E^\mathbb P\left[\left.\int_t^s dB_0(u)+ \int_t^s dB_1(u)\ \right\vert\ \mathcal F_t\right]\\
+&=\mathbb E^\mathbb P\left[\left.\int_t^s \sum_{i\in \mathcal J_0}1\{Z(u)=i\}\Big(b^{i}(u)\ du+ \Delta B^i(u)\Big)+\sum_{k,j\in \mathcal J_0, k\ne j}b^{kj}(u)\ dN^{kj}(u)\ \right\vert\ \mathcal F_t\right]\\
+&+\mathbb E^\mathbb P\left[\rho(Z(\tau-),Z(\tau),\tau)\int_t^s \sum_{i\in \mathcal J_1}1\{Z(u)=i\}\Big(b^{i}(u)\ du+ \Delta B^i(u)\Big)\right.\\
+&+\left.\left.\sum_{k,j\in \mathcal J_1, k\ne j}b^{kj}(u)\ dN^{kj}(u)\ \right\vert\ \mathcal F_t\right]\\
+&=\sum_{i\in \mathcal J_0}1\{Z(t)=i\}\int_t^s \sum_{j\in\mathcal J_0,j\ne i}p^{ij}(t,u)\left(\Big(b^{j}(u)\ du+ \Delta B^j(u)\Big)+\sum_{k\in \mathcal J_0, k\ne j}b^{jk}(u)\mu^{jk}(u)\ du \right)\\
+&+\sum_{i\in \mathcal J}\sum_{j\in \mathcal J_1}\int_t^s\mathbb E^\mathbb P\Big[\left.1\{Z(t)=i\} 1\{Z(u)=j\}\rho(Z(\tau-),Z(\tau),\tau)\ \right\vert\ \mathcal F_t\Big]\\
+&\left(\Big(b^{j}(u)\ du+ \Delta B^j(u)\Big)+\sum_{k\in \mathcal J_0, k\ne j}b^{jk}(u)\mu^{jk}(u)\ du \right),
+\end{align*}
+where the integral \(\int_t^s dB_0(t)\) only sums over the starting states in \(\mathcal J_0\) since one only receive payments in \(\mathcal J_0\) at time \(u\ge t\) if one starts in this subspace. If we define
+
+\[
+p_\rho^{ij}(t,s)=E^\mathbb P\Big[\left.1\{Z(s)=j\}\rho(Z(\tau-),Z(\tau),\tau)^{1\{Z(s)\in \mathcal J_1\}}\ \right\vert\ Z(t)=i\Big]
+\]
+
+then the above simplifies to
+
+\[
+A(t,ds)=p_\rho^{ij}(t,u)\left(\Big(b^{j}(u)\ du+ \Delta B^j(u)\Big)+\sum_{k\in \mathcal J_0, k\ne j}b^{jk}(u)\mu^{jk}(u)\ du \right).
+\]
+
+And so we may evaluate the reserves if we can compute \((p_\rho^{ij}(t,s))_{i,j\in\mathcal J}\).
+
+\hypertarget{rho-modified-kolmogorov}{%
+\subsection{\texorpdfstring{\(\rho\)-modified Kolmogorov}{\textbackslash rho-modified Kolmogorov}}\label{rho-modified-kolmogorov}}
+
+As we saw in the above section solving the cash flow in the policy behaviour model comes down to solving the quantities
+
+\[
+p_\rho^{ij}(t,s)=E^\mathbb P\Big[\left.1\{Z(s)=j\}\rho(Z(\tau-),Z(\tau),\tau)^{1\{Z(s)\in \mathcal J_1\}}\ \right\vert\ Z(t)=i\Big]\tag{1}
+\]
+
+we will henceforth call the \(\rho\)-modified transition probabilities. It follows that even though this expectations seems problematic due to the stopping time \(\tau\). However, one can show that the \(\rho\)-modified transition probabilities follows a forward kolmogorov differential equation:
+
+\textbf{Proposition 1. (\(\rho\)-modified Kolmogorov)}\index{$\rho$-modified Kolmogorov} \emph{Let the \(\rho\)-modified transition probabilities be given by (1). For \(i,j\in\mathcal J\) we have}
+
+\[
+\frac{d}{ds}p_\rho^{ij}(t,s)=\sum_{k\in\mathcal J,k\ne j}p_\rho^{ik}(t,s)\mu^{kj}(s)\rho(k,j,s)^{1_{\{k\in \mathcal J_1\}}}-p_\rho^{ij}(t,s)\sum_{k\in \mathcal J,k\ne j}\mu^{jk}(s),
+\]
+
+\emph{with boundary condition \(p_\rho^{ij}(t,t)=1\).}
+
+Notice that \(p_\rho^{ij}(t,s)=0\) and \(\mu^{ij}(t)=0\) for all \(t\le s\) with \(i\in\mathcal J_1\) and \(j\in\mathcal J_0\), hence the above may be simplified for some transitions.
+
 \hypertarget{transaction-time-modeling}{%
 \section{Transaction time modeling}\label{transaction-time-modeling}}
 
@@ -7015,11 +7240,139 @@ Below is given the abbreviations used when referencing to books:
 \hypertarget{univariate-distributions}{%
 \section{Univariate distributions}\label{univariate-distributions}}
 
+\hypertarget{mixture-poisson-distribution}{%
+\subsection{Mixture Poisson distribution}\label{mixture-poisson-distribution}}
+
+The poisson mixture is given by the point probabilities
+
+\[
+\mathbb P(N=n)=\int_0^\infty \mathbb P(N=n\ \vert\ W=w)\ dF_W(w)=\int_0^\infty \frac{w^n}{n!}e^{-w}\ dF_W(w).
+\]
+
+That is we assume that conditional on \(W\) we have \(N\) is poisson distributed with mean \(W\) i.e.
+
+\[
+N\ \vert\ W=w\sim\text{Pois}(w).
+\]
+
+If we take a thinned version of \(N\) given by
+
+\[
+N=\sum_{i=1}^{N^*}I_i,
+\]
+
+with \(I_i\sim \text{Bern}(q)\) then
+
+\[
+N\ \vert\ W=w\sim\text{Pois}(wq).
+\]
+
+This is given by proposition 4.2: A thinned Poisson mixture is it self a Poisson mixture.
+
+\hypertarget{negative-binomial-distribution}{%
+\subsection{Negative binomial distribution}\label{negative-binomial-distribution}}
+
+Let \(N\) be a Poisson mixture conditional on \(W\sim \Gamma(\alpha,\beta)\). Then \(N\) has distribution
+\begin{align*}
+\mathbb P(N=n)&=\int_0^\infty \mathbb P(N=n\ \vert\ W=w)\ dF_W(w)\\
+&=\int_0^\infty \frac{w^n}{n!}e^{-w} \frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}\ dw.
+\end{align*}
+Using that the density of the gamma distribution is
+
+\[
+f_W(w)=\frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}.
+\]
+
+Doing some rewriting we have
+\begin{align*}
+\mathbb P(N=n)&=\int_0^\infty \frac{w^n}{n!}e^{-w} \frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}\ dw\\
+&= \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty w^{n+\alpha -1}e^{-(1+\beta) w}\ dw\\
+&\stackrel{y=(1+\beta)w}{=} \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty \left(\frac{y}{1+\beta}\right)^{n+\alpha -1}e^{-y}\frac{1}{1+\beta}\ dy\\
+&=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\int_0^\infty y^{n+\alpha - 1}e^{-y}\ dy\\
+&=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\Gamma(n+\alpha)\\
+&=
+\end{align*}
+find that \(N\) is neg binomial and then deduce the distribution of \(N=\sum_{i=1}^{N^*}I_i\).
+
 \hypertarget{multivariate-distributions}{%
 \section{Multivariate distributions}\label{multivariate-distributions}}
 
 \hypertarget{left-truncated-data-and-deductibles}{%
 \section{Left truncated data and deductibles}\label{left-truncated-data-and-deductibles}}
+
+In non-life insurance it is common to have a deductible on a policy such that the customer only get payed the loss that exceeds the actual loss. We let \(X^*\) be the loss the customer experience and \(X\) is the amount the insurance company covers. Then it easily follows, that for a deductible of \(d\) the customer receives
+
+\[
+X=\max\{0,X^*-d\}=(X^*-d)^+.
+\]
+
+Given that the insurance company receives a claim exceeding the threshold \(d\) the distribution is
+\begin{align*}
+F_X(x)&=F_{X*\vert X^*>d}(x)=\mathbb P(X^*\le x\ \vert\ X^*>d)\\
+&=\frac{\mathbb P(X^*\le x,X^*> d)}{\mathbb P(X*> d)}=1_{\{x>d\}}\frac{F_{X^*}(x)-F_{X^*}(d)}{\overline F_{X^*}(d)},
+\end{align*}
+Hence if \(X^*\) has absolutely continuous distribution function we have
+
+\[
+f_X(x)=\frac{f_{X^*}(x)}{\overline F_{X^*}(d)}1_{\{x>d\}}.
+\]
+
+\hypertarget{deductible-as-a-random-variable}{%
+\subsection{Deductible as a random variable}\label{deductible-as-a-random-variable}}
+
+We study the effects of the missing data coming from a deductible making the available data left-truncated. To this end, we let \((X^*,D^*)\) be any non-negative random variable and we let \((X,D)=(X^*,D^*)\) on \(X^*>D^*\). On the event \(X^*\le D^*\) we simply throw them away. Let
+
+\[
+F^*(x,d)=F_{(X^*,D^*)}(x,d), \qquad F(x,d)= F_{(X,D)}(x,d).
+\]
+
+Then we may deduce that
+
+\[
+F(x,d)=F_{(X^*,D^*)\ \vert\ X^*>D^*}(x,d)=\frac{\mathbb P(X^*\le x, D^*\le d,X^*> D^*)}{\mathbb P(X^*> D^*)}.
+\]
+
+We have that
+
+\[
+\alpha:=\mathbb P(X^*> D^*)=\int_0^\infty \mathbb P(X^*>D^*\ \vert\ D^*=y)\ dF_{D^*}(y)=\int_0^\infty \overline F_{X^*\ \vert\ D^*}(y\ \vert\ y)\ dF_{D^*}(y).
+\]
+
+If we assume that \(X^*\) and \(D^*\) are independent then the above simplifies to
+
+\[
+\alpha =\int_0^\infty \overline F_{X^*}(y)\ dF_{D^*}(y).
+\]
+
+If we assume that there exist a density \(f\) such that \(F(x,y)=\int_0^x\int_0^y f(v,w)\ dw\ dv\) then for all \(x,y\) the function \(f\) would satisfy
+
+\[
+f(x,y)=\frac{1}{\alpha}\lim_{h\to 0}\frac{\mathbb P(x<X^*\le x+h, y<D^*\le y+h,X^*> D^*)}{h}.
+\]
+
+This can be calculated by
+\begin{align*}
+f(x,y)&=\frac{1}{\alpha}\lim_{h\to 0}\frac{\mathbb P(x<X^*\le x+h, y<D^*\le y+h,X^*> D^*)}{h}\\
+&=\frac{1}{\alpha}\lim_{h\to 0}\frac{\mathbb P(x<X^*\le x+h, y<D^*\le y+h)}{h}1_{\{x>y\}}\\
+&=\frac{1}{\alpha}1_{\{x>y\}}f^*(x,y)=\frac{1}{\alpha}1_{\{x>y\}}f_{X^*}(x)f_{D^*}(y).
+\end{align*}
+The distribution of \(X\) is likewise given by
+\begin{align*}
+F_X(x)&=F_{X^*\ \vert\ X^*>D^*}(x)=\frac{1}{\alpha}\mathbb P(X^*\le x,X^*>D^*)=\frac{1}{\alpha}\mathbb P(D<X^*\le x)\\
+&=\frac{1}{\alpha}\int_0^\infty \mathbb P(D^*<y\le x\ \vert\ X^*=y)\ dF_{X^*}(y)=\frac{1}{\alpha}\int_0^x \mathbb P(D^*<y\ \vert\ X^*=y)\ dF_{X^*}(y)\\
+&=\frac{1}{\alpha}\int_0^xF_{D^*\ \vert\ X^*}(y-\ \vert\ y)\ dF_{X^*}(y)
+\end{align*}
+Assuming independence we have
+
+\[
+F_X(x)=\frac{1}{\alpha}\int_0^xF_{D^*}(y-)\ dF_{X^*}(y).
+\]
+
+Of cause, if \(X^*\) has density
+
+\[
+f_X(x)\frac{1}{\alpha}F_{D^*}(x-)f_{X^*}(x).
+\]
 
 \hypertarget{probabilistic-machine-learning}{%
 \chapter{Probabilistic Machine Learning}\label{probabilistic-machine-learning}}
