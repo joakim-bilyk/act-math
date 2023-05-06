@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,openany]{book}
+\documentclass[a4paper,$if(font-size)$$font-size$$else$12$endif$pt,openany]{book}
 
 %PACKAGES
 \usepackage{amsmath}
@@ -284,6 +284,7 @@ $endif$
 $body$
 
 \newpage
+\addcontentsline{toc}{part}{References and Index}
 \nocite{*}
 \phantomsection
 \addcontentsline{toc}{chapter}{References}

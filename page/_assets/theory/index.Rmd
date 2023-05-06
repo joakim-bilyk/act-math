@@ -1,5 +1,6 @@
 --- 
 document-type: "Lecture Notes"
+font-size: 10
 title: "Mathematics of the Actuarial Sciences"
 subtitle: "A comprehensive outline of actuarial maths"
 author: "Joakim Bilyk"
@@ -156,43 +157,36 @@ This part of the notes are a rough collection of important results from measure 
 | 1 | QRM       | Finish risk measures                  |  |
 |   | Liv1      | Chapter 1-3                           | X |
 |   | StokLiv   | Chapter 1-4                           | X |
-|   | ProjLiv   | Buchardt & Moeller (2015)             |  |
 |   | Skade1    | Chapter 1-2.1                         | X |
 |   | SkadeStok | Chapter 1-2 (Schmidli)                | X |
 |   | Skade2    | Chapter 4 + 6                         |  |
 | 2 | QRM       | Extreme value theory with heavy tails; Hill estimator; POT method.            | |
-|   | Liv1      | Chapter 4                             | |
-|   | StokLiv   | Chapter 6-11                          | |
-|   | ProjLiv   | Buchardt, Furrer, Sandqvist (2023)    | |
+|   | Liv1      | Chapter 4                             | X |
+|   | StokLiv   | Chapter 6-11                          | (X) |
 |   | Skade1    | Chapter 2.2-2.3                       | |
 |   | SkadeStok | Chapter 3 (Schmidli)                  | |
 |   | Skade2    | TBD                                   | |
 | 3 | QRM       | Multivariate distributions and dependence. Elliptical distributions; copula | |
 |   | Liv1      | Chapter 5-6                           | |
 |   | StokLiv   | Chapter 12, 14-16                     | |
-|   | ProjLiv   | TBD                                   | |
 |   | Skade1    | Chapter 3.1-3.2                       | |
 |   | SkadeStok | Notes on stochastic investments       | |
 |   | Skade2    | TBD                                   | |
 | 4 | QRM       | Credit risk modelling                 | |
 |   | Liv1      | Chapter 7                             | |
 |   | StokLiv   | Chapter 17-18                         | |
-|   | ProjLiv   | TBD                                   | |
 |   | Skade1    | Chapter 3.3-3.4                       | |
 |   | SkadeStok | Claims reserving                      | |
 |   | Skade2    | TBD                                   | |
 | 5 | QRM       | Models for operational risk.          | |
 |   | Liv1      | Chapter 10                            | |
 |   | StokLiv   | Chapter 20-22                         | |
-|   | ProjLiv   | TBD                                   | |
 |   | Skade1    | Chapter 4                             | |
 |   | Skade2    | TBD                                   | |
 | 6 | StokLiv   | Chapter 23                            | |
-|   | ProjLiv   | TBD                                   | |
 |   | Skade1    | Chapter 5                             | |
 |   | Skade2    | TBD                                   | |
 | 7 | StokLiv   | Chapter 24                            | |
-|   | ProjLiv   | TBD                                   | |
 |   | Skade1    | Chapter 6                             | |
 |   | Skade2    | TBD                                   | |
 

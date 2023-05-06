@@ -172,6 +172,150 @@ Since $\overline F(\infty) = 0$, we must have $\int_0^\infty \mu=\infty$. Thus, 
 
 ## Insurance of a single life
 
+We consider a person aged $x$ at the time $t=0$ hence the person at time $t$ will have age $x+t$. We further introduce the indicator $I_t=1\{T_x>t\}$, where $T_x$ is the time of death in "$t$" time. Hence $I_t$ gives the indication that the person is still alive at time $t$. Let us valueate some standard insurance contracts for the person $(x)$.
+
+### Some standard forms of insurance
+
+#### Pure endowment insurance
+
+An n-year pure (life) endowment of 1 is a unit that is paid to $(x)$ at the end of $T$ years if he is then still alive. In other words, the associated payment function is an endowment of $I_T$ at time $T$. Its present value at time 0 is
+
+$$
+PV(t)=e^{-\int_t^T r\ dv}I_T=e^{-r(T-t)}I_T.
+$$
+
+Then we can see that the expected payment of this contract discounted back to time $t$ is
+
+$$
+\mathbb E[PV(t)]=e^{-r(T-t)}\mathbb P(I_T=1)=e^{-r(T-t)}e^{-\int_t^T\mu(s)\ ds}.
+$$
+
+This simplifies to
+
+$$
+\mathbb E[PV(t)]=e^{-\int_t^Tr+\mu(s)\ ds}.
+$$
+
+#### The life assurance
+
+A life assurance contract specifies that a certain amount, called the sum insured, is to be paid upon the death of the insured, if this happens before some future time $T$. Hence the present value is
+
+$$
+PV(t)=e^{-r(T_x-t)}(1-I_T).
+$$
+
+Since we discount 1 unit from the time of death $T_x$ back to time $t$ and only if the insured is *not* alive at time $T$. The expected value is
+
+$$
+\mathbb E[PV(t)]=\int_t^Te^{-r(s-t)}\mu(s+x)\mathbb P(I_s=1) \ ds.
+$$
+
+The expression reads: for all possible payout times $s$ in  $t$ to $T$ we discount the payment of 1 unit back to time $t$ if the insured dies in the time interval $[s,s+ds)$, that is with probability $\mu(s+x)$, and this can only happen if the insured lived up until the point $s$. This simplifies to 
+
+$$
+\mathbb E[PV(t)]=\int_t^Te^{-\int_t^sr+\mu(u)\ du}\mu(s+x) \ ds.
+$$
+
+#### The life annuity
+
+An $T$-year temporary life annuity of 1 per year is payable as long as $(x)$ survives but limited to $T$ years. That is we deterministicly pay 1 unit all years so long the insured is alive. This has present value
+
+$$
+PV(t)=\int_t^Te^{-r(s-t)} I_s\ ds.
+$$
+
+This gives the expected value
+
+$$
+\mathbb E[PV(t)]=\int_t^T e^{-\int_t^sr+\mu(u)\ du}\ ds.
+$$
+
+#### Deferred life annuity
+
+An $m$-year deferred $n$-year temporary life annuity commences only after $m$ years, provided that $(x)$ is then still alive, and is payable throughout $n$ years thereafter as long as $(x)$ survives. The present value of the benefits is
+
+$$
+PV(t)=\int_{\max\{t,m\}}^{m+n} e^{-r(s-t)}I_s\ ds.
+$$
+
+This gives the expected value
+
+$$
+\mathbb E[PV(t)]=\int_{\max\{t,m\}}^T e^{-\int_t^sr+\mu(u)\ du}\ ds.
+$$
+
+### The principle of equivalence
+
+The equivalence principle of insurance states that the expected present values of premiums and benefits should be equal. Then, roughly speaking, premiums and benefits will balance on the average. This idea will be made precise later. For the time being all calculations are made on an individual net basis, that is, the equivalence principle is applied to each individual policy, and without regard to expenses incurring in addition to the benefits specified by the insurance treaties. The resulting premiums are called (individual) net premiums.
+
+The premium rate depends on the premium payment scheme. In the simplest case, the full premium is paid as a single amount immediately upon the inception of the policy. The resulting net single premium is just the expected present value of the benefits, which for basic forms of insurance is given in the above.
+
+The net single premium may be a considerable amount and may easily exceed the liquid assets of the insured. Therefore, premiums are usually paid by a series of installments extending over some period of time. The most common solution is to let a fixed level amount fall due periodically, e.g. annually or monthly, from the inception of the agreement until a specified time m and contingent on the survival of the insured. Assume for the present that the premiums are paid continuously at a fixed level rate $\pi$.
+
+The principle of equivalence then states that including single premium $\pi_0$ at time 0 and continuous payments until time $T$ the following must hold
+
+$$
+\mathbb E[PV^-(0)]=\mathbb E[PV^+(0)],
+$$
+
+where $PV^+$ is the present value of the benefits of the contract and $PV^-$ is the present value of the premiums. In particular at time 0 we have by equivalence
+
+$$
+\mathbb E[PV^+(0)]=\mathbb E[PV^-(0)]=\pi_0+\int_0^T\pi e^{-\int_0^sr+\mu(u+x)\ du}\ ds.
+$$
+
+### Prospective reserves
+
+The expected value
+
+$$
+\int_0^ne^{-\int_0^s r+\mu(u+x)\ du}\mu(s+x)b(s)\ ds-\pi_0-\pi\int_0^Te^{-\int_0^s r+\mu(u+x)\ du}\ ds
+$$
+
+for a contract expiring at time $n\ge T$ and has benefits $b(s)$ at time $s\ge 0$, continuous premiums $\pi$ from 0 to $T$ and single premium $\pi_0$ represents, in an average sense, an assessment of the economic prospects of the policy at the outset. At any time $t > 0$ in the subsequent development of the policy the assessment should be updated with regard to the information currently available. If the policy has expired by death before time $t$, there is nothing more to be done. If the policy is still in force, a renewed assessment must be based on the conditional distribution of the remaining life length. Insurance legislation lays down that at any time the insurance company must provide a reserve to meet future net liabilities on the contract, and this reserve should be precisely the expected present value at time $t$ of total benefits less premiums in the future. Thus, if the policy is still in force at time $t$, the reserve\index{reserve} is
+
+$$
+V(t)=\int_t^T e^{-\int_t^s r+\mu(u+x)\ du}(\mu(s+x)b(s)-\pi(s))\ ds+\sum_{t<s\le T}e^{-\int_t^Tr+\mu(u+x)\ du}\Delta B(s),
+$$
+
+where $\Delta B(s)$ is lump sums payed at time $s$ if the insured is alive at time $s$. The sum is over all $s$ such that $\Delta B(s)\ne 0$. Notice that the equivalence principle gives that
+
+$$
+V(0)=V^+(0)-V^-(0)=0
+$$
+
+hence we need to construct $\pi$ such that this holds. We will furthermore construct $\pi$ such that $V(t)\ge 0$ for all $t\ge 0$ to ensure, that the customer is never in debt to the company.
+
+### Thiele's differential equation
+
+With the reserve defined as
+
+$$
+V(t)=\int_t^T e^{-\int_t^s r+\mu(u+x)\ du}(\mu(s+x)b(s)-\pi(s))\ ds+\sum_{t<s\le T}e^{-\int_t^Tr+\mu(u+x)\ du}\Delta B(s),
+$$
+
+we have that $V$ is differential at time $t$ and we have the differential form *Thiele's differential equation*
+
+$$
+\frac{d}{dt}V(t)=(r+\mu(t+x))V(t)+\pi(t)-b(t)\mu(t+x)
+$$
+
+valid at each $t$ where $b$, $\pi$, and $\mu$ are continuous. The right hand side expression in the above shows how the fund per surviving policy-holder changes per time unit at time $t$. It is increased by the excess of premiums over benefits (which may be negative, of course), by the interest earned, $rV(t)$, and by the fund inherited from those who die, $\mu(t+x) V(t)$. When combined with the boundary condition
+
+$$
+V(T-)=\Delta B(T)
+$$
+
+the differential equation determines $V(t)$ for fixed $b$ and $\pi$.
+
+If the principle of equivalence is exercised, then we must add the condition
+
+$$
+V(0-)=0.
+$$
+
+This represents a constraint on the contractual payments $b$ and $\pi$; typically, one first specifies the benefit $b$ and then determines the premium rate for a given premium plan (shape of $\pi$).
+
 ## Expenses
 
 ## Multi-life insurances

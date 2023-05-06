@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,openany]{book}
+\documentclass[a4paper,10pt,openany]{book}
 
 %PACKAGES
 \usepackage{amsmath}
@@ -163,7 +163,7 @@
 \end{textblock}
 
 \begin{textblock}{12}(1.5,13.7)
-\noindent\fontsize{11}{11}\selectfont Date: April 27, 2023
+\noindent\fontsize{11}{11}\selectfont Date: May 06, 2023
 \end{textblock}
 
 \hspace{1pt}
@@ -280,43 +280,36 @@ X
 1 & QRM & Finish risk measures & \\
 & Liv1 & Chapter 1-3 & X \\
 & StokLiv & Chapter 1-4 & X \\
-& ProjLiv & Buchardt \& Moeller (2015) & \\
 & Skade1 & Chapter 1-2.1 & X \\
 & SkadeStok & Chapter 1-2 (Schmidli) & X \\
 & Skade2 & Chapter 4 + 6 & \\
 2 & QRM & Extreme value theory with heavy tails; Hill estimator; POT method. & \\
-& Liv1 & Chapter 4 & \\
-& StokLiv & Chapter 6-11 & \\
-& ProjLiv & Buchardt, Furrer, Sandqvist (2023) & \\
+& Liv1 & Chapter 4 & X \\
+& StokLiv & Chapter 6-11 & (X) \\
 & Skade1 & Chapter 2.2-2.3 & \\
 & SkadeStok & Chapter 3 (Schmidli) & \\
 & Skade2 & TBD & \\
 3 & QRM & Multivariate distributions and dependence. Elliptical distributions; copula & \\
 & Liv1 & Chapter 5-6 & \\
 & StokLiv & Chapter 12, 14-16 & \\
-& ProjLiv & TBD & \\
 & Skade1 & Chapter 3.1-3.2 & \\
 & SkadeStok & Notes on stochastic investments & \\
 & Skade2 & TBD & \\
 4 & QRM & Credit risk modelling & \\
 & Liv1 & Chapter 7 & \\
 & StokLiv & Chapter 17-18 & \\
-& ProjLiv & TBD & \\
 & Skade1 & Chapter 3.3-3.4 & \\
 & SkadeStok & Claims reserving & \\
 & Skade2 & TBD & \\
 5 & QRM & Models for operational risk. & \\
 & Liv1 & Chapter 10 & \\
 & StokLiv & Chapter 20-22 & \\
-& ProjLiv & TBD & \\
 & Skade1 & Chapter 4 & \\
 & Skade2 & TBD & \\
 6 & StokLiv & Chapter 23 & \\
-& ProjLiv & TBD & \\
 & Skade1 & Chapter 5 & \\
 & Skade2 & TBD & \\
 7 & StokLiv & Chapter 24 & \\
-& ProjLiv & TBD & \\
 & Skade1 & Chapter 6 & \\
 & Skade2 & TBD & \\
 \bottomrule()
@@ -531,6 +524,158 @@ Since \(\overline F(\infty) = 0\), we must have \(\int_0^\infty \mu=\infty\). Th
 
 \hypertarget{insurance-of-a-single-life}{%
 \section{Insurance of a single life}\label{insurance-of-a-single-life}}
+
+We consider a person aged \(x\) at the time \(t=0\) hence the person at time \(t\) will have age \(x+t\). We further introduce the indicator \(I_t=1\{T_x>t\}\), where \(T_x\) is the time of death in ``\(t\)'' time. Hence \(I_t\) gives the indication that the person is still alive at time \(t\). Let us valueate some standard insurance contracts for the person \((x)\).
+
+\hypertarget{some-standard-forms-of-insurance}{%
+\subsection{Some standard forms of insurance}\label{some-standard-forms-of-insurance}}
+
+\hypertarget{pure-endowment-insurance}{%
+\subsubsection{Pure endowment insurance}\label{pure-endowment-insurance}}
+
+An n-year pure (life) endowment of 1 is a unit that is paid to \((x)\) at the end of \(T\) years if he is then still alive. In other words, the associated payment function is an endowment of \(I_T\) at time \(T\). Its present value at time 0 is
+
+\[
+PV(t)=e^{-\int_t^T r\ dv}I_T=e^{-r(T-t)}I_T.
+\]
+
+Then we can see that the expected payment of this contract discounted back to time \(t\) is
+
+\[
+\mathbb E[PV(t)]=e^{-r(T-t)}\mathbb P(I_T=1)=e^{-r(T-t)}e^{-\int_t^T\mu(s)\ ds}.
+\]
+
+This simplifies to
+
+\[
+\mathbb E[PV(t)]=e^{-\int_t^Tr+\mu(s)\ ds}.
+\]
+
+\hypertarget{the-life-assurance}{%
+\subsubsection{The life assurance}\label{the-life-assurance}}
+
+A life assurance contract specifies that a certain amount, called the sum insured, is to be paid upon the death of the insured, if this happens before some future time \(T\). Hence the present value is
+
+\[
+PV(t)=e^{-r(T_x-t)}(1-I_T).
+\]
+
+Since we discount 1 unit from the time of death \(T_x\) back to time \(t\) and only if the insured is \emph{not} alive at time \(T\). The expected value is
+
+\[
+\mathbb E[PV(t)]=\int_t^Te^{-r(s-t)}\mu(s+x)\mathbb P(I_s=1) \ ds.
+\]
+
+The expression reads: for all possible payout times \(s\) in \(t\) to \(T\) we discount the payment of 1 unit back to time \(t\) if the insured dies in the time interval \([s,s+ds)\), that is with probability \(\mu(s+x)\), and this can only happen if the insured lived up until the point \(s\). This simplifies to
+
+\[
+\mathbb E[PV(t)]=\int_t^Te^{-\int_t^sr+\mu(u)\ du}\mu(s+x) \ ds.
+\]
+
+\hypertarget{the-life-annuity}{%
+\subsubsection{The life annuity}\label{the-life-annuity}}
+
+An \(T\)-year temporary life annuity of 1 per year is payable as long as \((x)\) survives but limited to \(T\) years. That is we deterministicly pay 1 unit all years so long the insured is alive. This has present value
+
+\[
+PV(t)=\int_t^Te^{-r(s-t)} I_s\ ds.
+\]
+
+This gives the expected value
+
+\[
+\mathbb E[PV(t)]=\int_t^T e^{-\int_t^sr+\mu(u)\ du}\ ds.
+\]
+
+\hypertarget{deferred-life-annuity}{%
+\subsubsection{Deferred life annuity}\label{deferred-life-annuity}}
+
+An \(m\)-year deferred \(n\)-year temporary life annuity commences only after \(m\) years, provided that \((x)\) is then still alive, and is payable throughout \(n\) years thereafter as long as \((x)\) survives. The present value of the benefits is
+
+\[
+PV(t)=\int_{\max\{t,m\}}^{m+n} e^{-r(s-t)}I_s\ ds.
+\]
+
+This gives the expected value
+
+\[
+\mathbb E[PV(t)]=\int_{\max\{t,m\}}^T e^{-\int_t^sr+\mu(u)\ du}\ ds.
+\]
+
+\hypertarget{the-principle-of-equivalence}{%
+\subsection{The principle of equivalence}\label{the-principle-of-equivalence}}
+
+The equivalence principle of insurance states that the expected present values of premiums and benefits should be equal. Then, roughly speaking, premiums and benefits will balance on the average. This idea will be made precise later. For the time being all calculations are made on an individual net basis, that is, the equivalence principle is applied to each individual policy, and without regard to expenses incurring in addition to the benefits specified by the insurance treaties. The resulting premiums are called (individual) net premiums.
+
+The premium rate depends on the premium payment scheme. In the simplest case, the full premium is paid as a single amount immediately upon the inception of the policy. The resulting net single premium is just the expected present value of the benefits, which for basic forms of insurance is given in the above.
+
+The net single premium may be a considerable amount and may easily exceed the liquid assets of the insured. Therefore, premiums are usually paid by a series of installments extending over some period of time. The most common solution is to let a fixed level amount fall due periodically, e.g.~annually or monthly, from the inception of the agreement until a specified time m and contingent on the survival of the insured. Assume for the present that the premiums are paid continuously at a fixed level rate \(\pi\).
+
+The principle of equivalence then states that including single premium \(\pi_0\) at time 0 and continuous payments until time \(T\) the following must hold
+
+\[
+\mathbb E[PV^-(0)]=\mathbb E[PV^+(0)],
+\]
+
+where \(PV^+\) is the present value of the benefits of the contract and \(PV^-\) is the present value of the premiums. In particular at time 0 we have by equivalence
+
+\[
+\mathbb E[PV^+(0)]=\mathbb E[PV^-(0)]=\pi_0+\int_0^T\pi e^{-\int_0^sr+\mu(u+x)\ du}\ ds.
+\]
+
+\hypertarget{prospective-reserves}{%
+\subsection{Prospective reserves}\label{prospective-reserves}}
+
+The expected value
+
+\[
+\int_0^ne^{-\int_0^s r+\mu(u+x)\ du}\mu(s+x)b(s)\ ds-\pi_0-\pi\int_0^Te^{-\int_0^s r+\mu(u+x)\ du}\ ds
+\]
+
+for a contract expiring at time \(n\ge T\) and has benefits \(b(s)\) at time \(s\ge 0\), continuous premiums \(\pi\) from 0 to \(T\) and single premium \(\pi_0\) represents, in an average sense, an assessment of the economic prospects of the policy at the outset. At any time \(t > 0\) in the subsequent development of the policy the assessment should be updated with regard to the information currently available. If the policy has expired by death before time \(t\), there is nothing more to be done. If the policy is still in force, a renewed assessment must be based on the conditional distribution of the remaining life length. Insurance legislation lays down that at any time the insurance company must provide a reserve to meet future net liabilities on the contract, and this reserve should be precisely the expected present value at time \(t\) of total benefits less premiums in the future. Thus, if the policy is still in force at time \(t\), the reserve\index{reserve} is
+
+\[
+V(t)=\int_t^T e^{-\int_t^s r+\mu(u+x)\ du}(\mu(s+x)b(s)-\pi(s))\ ds+\sum_{t<s\le T}e^{-\int_t^Tr+\mu(u+x)\ du}\Delta B(s),
+\]
+
+where \(\Delta B(s)\) is lump sums payed at time \(s\) if the insured is alive at time \(s\). The sum is over all \(s\) such that \(\Delta B(s)\ne 0\). Notice that the equivalence principle gives that
+
+\[
+V(0)=V^+(0)-V^-(0)=0
+\]
+
+hence we need to construct \(\pi\) such that this holds. We will furthermore construct \(\pi\) such that \(V(t)\ge 0\) for all \(t\ge 0\) to ensure, that the customer is never in debt to the company.
+
+\hypertarget{thieles-differential-equation}{%
+\subsection{Thiele's differential equation}\label{thieles-differential-equation}}
+
+With the reserve defined as
+
+\[
+V(t)=\int_t^T e^{-\int_t^s r+\mu(u+x)\ du}(\mu(s+x)b(s)-\pi(s))\ ds+\sum_{t<s\le T}e^{-\int_t^Tr+\mu(u+x)\ du}\Delta B(s),
+\]
+
+we have that \(V\) is differential at time \(t\) and we have the differential form \emph{Thiele's differential equation}
+
+\[
+\frac{d}{dt}V(t)=(r+\mu(t+x))V(t)+\pi(t)-b(t)\mu(t+x)
+\]
+
+valid at each \(t\) where \(b\), \(\pi\), and \(\mu\) are continuous. The right hand side expression in the above shows how the fund per surviving policy-holder changes per time unit at time \(t\). It is increased by the excess of premiums over benefits (which may be negative, of course), by the interest earned, \(rV(t)\), and by the fund inherited from those who die, \(\mu(t+x) V(t)\). When combined with the boundary condition
+
+\[
+V(T-)=\Delta B(T)
+\]
+
+the differential equation determines \(V(t)\) for fixed \(b\) and \(\pi\).
+
+If the principle of equivalence is exercised, then we must add the condition
+
+\[
+V(0-)=0.
+\]
+
+This represents a constraint on the contractual payments \(b\) and \(\pi\); typically, one first specifies the benefit \(b\) and then determines the premium rate for a given premium plan (shape of \(\pi\)).
 
 \hypertarget{expenses}{%
 \section{Expenses}\label{expenses}}
@@ -844,23 +989,620 @@ y(t)=y_0\exp(x^c(t))\prod_{0<s\le t}\big(1+\Delta x(s)\big).
 \hypertarget{stochastic-processes}{%
 \section{Stochastic processes}\label{stochastic-processes}}
 
+In this chapter we will study the stochastic processes used for modelling in the insurance and statistical part of the note. All the life insurance and statistical models in this note are in continuous time. In what follows \((\Omega,\mathcal F,\mathbb P)\) denotes a given probability space.
+
 \hypertarget{general-theory-of-stochastic-processes}{%
 \subsection{General theory of stochastic processes}\label{general-theory-of-stochastic-processes}}
+
+\hypertarget{stochastic-processes-1}{%
+\subsubsection{Stochastic processes}\label{stochastic-processes-1}}
+
+This is a short introduction to a few concepts and terminology concerning the general theory of stochastic processes. Moreover basic notations are introduced which are used in the sequel.
+
+A stochastic process is a mathematical model for the occurrence, at each moment after the initial time, of a random phenomenon. Thus, a stochastic process is a family of stochastic variables indexed by time. In this note the state space \(\mathcal X\) is \(\mathbb R\), \(\mathbb Z\), \(\mathbb R^d\), or a subset of those.
+
+\textbf{Definition 6.1. (Lund) (Continuous-time stochastic process)}\index{Continuous-time stochastic process} \emph{A continuous-time stochastic process with state space \(\mathcal X\) is a family of stochastic variables \((X(t),t \ge 0)\) where \(X(t)\) takes values in \(\mathcal X\) for all \(t \ge 0\).}
+
+A stochastic process \(X(t)\) is called
+
+\begin{itemize}
+\tightlist
+\item
+  Continuous if \(X(t;\omega)\) is continuous almost surely,
+\item
+  CADLAG if \(X(t;\omega)\) is CADLAG almost surely,
+\item
+  Of finite variation if \(X(t;\omega)\) is of finite variation almost surely,
+\end{itemize}
+
+If the process \(X(t)\) is CADLAG, we can define two other processes by
+
+\begin{itemize}
+\tightlist
+\item
+  \(X(t-)=\lim_{h\to 0}X(t-h)\) for \(t>0\) and we set \(X(0-)=X(0)\).
+\item
+  \(\Delta X(t)=X(t)-X(t-)\) for \(t>0\) and we set \(\Delta X(0)=0\).
+\end{itemize}
+
+We also have that \(X(t-)\) is CAGLAD (left continuous with right limits).
+
+\hypertarget{filtrations-and-stopping-times}{%
+\subsubsection{Filtrations and stopping times}\label{filtrations-and-stopping-times}}
+
+The definition of a stochastic process has the feature of a flow of time, in which, at any time \(t \ge 0\), we can talk about a past, present, and future. Filtrations are heuristically the collection of events which may occur before or at time \(t\).
+
+\textbf{Definition 6.2. (Lund) (Filtration)}\index{Filtration} \emph{A filtration \(\mathcal F(t)\) is an increasing family of sub-\(\sigma\)-algebras of \(\mathcal F\). That is, for each \(t\) there is a \(\sigma\)-algebra \(\mathcal F(t)\) and \(\mathcal F(s)\subseteq \mathcal F(t)\) for \(0\le s<t<\infty\). Moreover}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{\(\mathcal F(t-)=\sigma(\cup_{s<t} \mathcal F(s))\) is the information strictly prior to \(t\),}
+\item
+  \emph{\(\mathcal F(t+)=\cap_{\varepsilon >0}\mathcal F(t+\varepsilon)\) is the information immidieately after \(t\).}
+\end{itemize}
+
+The natural filtration of a stochastic process \(X(t)\) is the simplest choice of a filtration that is generated by the process itself and is denoted by
+
+\[
+\mathcal F^X(t) = \sigma (X(s) : 0 \le  s \le t).
+\]
+
+A filtration \(\mathcal F(t)\) satisfies the \emph{usual conditions} (les conditions habituelles) if it is right-continuous and \(\mathcal F(0)\) contains all \(\mathbb P\)-negligible events in \(\mathcal F\), that is, if \(A \subseteq B \in \mathcal F\) such that \(P(B) = 0\) then \(A \in\mathcal F(0)\).
+
+\textbf{Definition 6.4. (Lund) (Adapted process)}\index{Adapted process} \emph{A stochastic process \(X(t)\) is adapted to the filtration \(\mathcal F(t)\) if, \(X(t)\) is an \(\mathcal F(t)\)-measurable stochastic variable for each \(t\).}
+
+Note that any process \(X(t)\) is adapted to its natural filtration \(\mathcal F^X(t)\). In fact, \(\mathcal F^X(t)\) is the smallest filtration to which \(X(t)\) is adapted.
+
+\textbf{Definition 6.5. (Lund) (Stopping time)}\index{Stopping time} \emph{A \([0,\infty]\)-valued random variable \(\tau\) is a stopping time with respect to the filtration \(\mathcal F(t)\) if}
+
+\[
+\{\tau\le t\}\in \mathcal F(t)
+\]
+
+\emph{for all \(t\ge 0\). Moreover}
+
+\[
+\mathcal F(\tau)=\{A\in\mathcal F\ \vert\ A\cap \{\tau\le t\}\in\mathcal F(t),\ \text{for all}\ t\ge 0\}
+\]
+
+\emph{is a \(\sigma\)-algebra containing all information at the stopping time \(\tau\).}
+
+\textbf{Lemma 6.6. (Lund)} \emph{Let \(\tau\) be a \([0,\infty]\)-valued random variable and let \(Z\) be a random variable. Then}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\(\tau\) is a stopping time with respect to a filtration \(\mathcal F(t)\) if an only if the process \(t\mapsto \tau 1_{[\tau,\infty)}(t)\) is adapted to \(\mathcal F(t)\) and \(\{\tau = 0\}\in\mathcal F(0)\).,}
+\item
+  \emph{If \(\tau\) is a stopping time with respect to a filtration \(\mathcal F(t)\). Then \(Z\) is measurable with respect to \(\mathcal F(t)\) if and only if the process \(t\mapsto Z1_{[\tau,\infty)}(t)\) is adapted to \(\mathcal F(t)\).}
+\item
+  \emph{\(\mathcal F(t)=\sigma(1_{\{\tau = 0\}},\tau 1_{[\tau,\infty)}(t),Z1_{[\tau,\infty)}(t))\) is the smallest filtration such that \(\tau\) is a stopping time and \(Z\) is measurable with respect to \(\mathcal F(t)\)}
+\end{enumerate}
+
+\hypertarget{progressive-and-predictable-measurability}{%
+\subsubsection{Progressive and predictable measurability}\label{progressive-and-predictable-measurability}}
+
+Implicit in the definition of a stochastic process is the assumption that each \(X(t)\) is measurable. But a stochastic process is really a function of the pair of variables \((t, \omega)\) and it is convenient to have some measurability properties.
+
+\textbf{Definition 6.7. (Lund)} \emph{The stochastic process \(X(t)\) is measurable if \((t,\omega) \mapsto X(t,\omega)\) is measurable with respect to \(\mathcal B([0, \infty)) \otimes \mathcal F\).}
+
+All the sample paths of a measurable process are Borel functions. But the process does not need to be adapted. The following definition relates measurability in \(t\) and \(\omega\) with the filtration.
+
+\textbf{Definition 6.8. (Lund)} \emph{Let \(\mathcal F(t)\) be a filtration and define the progressive \(\sigma\)-algebra by}
+
+\[
+Pr(\mathcal F)=\Big\{A\in \mathcal B([0,\infty)) \otimes \mathcal F\ \vert\ A \cap ([0,s] \times \Omega)\in \mathcal B([0,s])\otimes \mathcal F(s)\ \text{for all}\ s\ge 0\Big\}.
+\]
+
+\emph{A stochastic process \(X(t)\) is progressive if the mapping \((t,\omega) \mapsto X(t,\omega)\) is measurable with respect to \(Pr(\mathcal F)\).}
+
+\textbf{Lemma 6.9. (Lund)} \emph{A stochastic process \(X(t)\) is progressive if and only if the map \((t,\omega) \mapsto X(t,\omega)\) restricted to \([0, s] \times\Omega\) is measurable with respect to \(\mathcal B([0, s]) \otimes\mathcal F (s)\) for every \(s \ge 0\).}
+
+An important example of a progressive process is provided by the following lemma.
+
+\textbf{Lemma 6.10. (Lund)} \emph{If an adapted process \(X(t)\) is CADLAG or CAGLAD then the process \(X(t)\) is progressive.}
+
+\textbf{Lemma 6.11. (Lund)} \emph{Let \((X (t), t \ge 0)\) be a progressive process. If \(\tau\) is a stopping time then the stopped process \((X(\min\{\tau,t\}),t \ge 0)\) is progressive and the random variable \(X(\tau)1[0,∞)(\tau)\) is measurable with respect to \(\mathcal F(\tau)\).}
+
+\textbf{Definition 6.12. (Lund) (Elementary predictable sets)}\index{Elementary predictable sets} \emph{Let \(\mathcal F(t)\) be a filtration and let the elementary predictable sets be}
+
+\[
+\mathcal E=\Big\{\{0\}\times F\ \vert\ F\in\mathcal F(0)\Big\}\cup\Big\{(s,t]\times F\ \vert\ F\in\mathcal F(s), 0\le s<t<\infty\Big\}.
+\]
+
+\emph{The predictable \(\sigma\)-algebra \(\mathcal P(\mathcal F)\) is the \(\sigma\)-algebra that is generated by the elementary predictable sets, that is,}
+
+\[
+\mathcal P(\mathcal F) = \sigma(\mathcal E).
+\]
+
+\emph{A stochastic process \(X(t)\) is predictable if the mapping \((t,\omega) \mapsto X(t,\omega)\) is measurable with respect to the predictable \(\sigma\)-algebra \(\mathcal P(\mathcal F)\).}
+
+The next proposition gives conditions for a process to be predictable.
+
+\textbf{Proposition 6.13. (Lund)} \emph{The process \(X(t)\) is predictable if one of the following conditions is satisfied:}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\(X(t)\) is an adapted CAGLAD process.}
+\item
+  \emph{\(X(t)\) is a measurable (Borel) deterministic process.}
+\item
+  \emph{\(X(t)\) is a Borel-measurable function of a predictable process.}
+\end{enumerate}
+
+\textbf{Corollary 6.14. (Lund)} \emph{If \(X(t)\) is an adapted CADLAG process, then \(X(t)\) is a progressive process and \(X(t−)\) is a predictable process. Moreover, if \(X(t)\) is predictable, then \(\Delta X(t)\) is predictable.}
+
+\textbf{Proposition 6.15. (Lund)} \emph{Let \(\mathcal F(t)\) be a filtration.}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{If \(X(t)\) is a predictable process then \(X(t)\) is adapted to the filtration \(\mathcal F^−(t) =\mathcal F(t−)\). Particularly, \(X(t)\) is adapted to the filtration \(\mathcal F(t)\).}
+\item
+  \emph{If \(X(t)\) is a predictable process then \(X(t)\) is also progressive.}
+\item
+  \emph{If \(X(t)\) is a progressive process then \(X(t)\) is adapted to the filtration \(\mathcal F(t)\).}
+\item
+  \emph{If \(X(t)\) is a progressive process then \(X(t)\) is also measurable.}
+\end{enumerate}
 
 \hypertarget{markov-processes}{%
 \subsection{Markov processes}\label{markov-processes}}
 
+For modeling, Markov processes are mathematical tractable and allows for computations of for example reserves in the multi-state contract.
+
+\textbf{Definition 7.1. (Lund)} \emph{An adapted stochastic process \(X(t)\) is a Markov process with respect to the filtration \(\mathcal F(t)\) if}
+
+\[
+\mathbb P(X(t)\in A\ \vert\ \mathcal F(s))=\mathbb P(X(t)\in A\ \vert\ X(s))\quad \text{(Markov property)}
+\]
+
+\emph{for all \(0\le s< t\) and all \(A\in\mathcal B(\mathbb R)\).}
+
+A process is Markov, intuitively speaking, if today to make a prediction on what is going to happen in the future, it is useless to know anything more about the whole past up to today than the present state.
+
+In the insurance part we study present values of future payments, and therefore we need other formulations of the Markov property. Let \(\mathcal F^t = \sigma(X(s)\ \vert\ s \ge t)\) be the information generated by the process in the future. The result has the interpretation that the future depends on the past only through the present.
+
+\textbf{Proposition 7.2. (Lund)} \emph{Let \(X(t)\) be a Markov process. If \(Y\) is a bounded \(\mathcal F^t\) measurable random variable, then}
+
+\[
+\mathbb E[Y\ \vert\ \mathcal F(t)]=\mathbb E[Y\ \vert\ X(t)].
+\]
+
 \hypertarget{finite-variation-processes}{%
 \subsection{Finite variation processes}\label{finite-variation-processes}}
+
+As it is discussed in the section \emph{``Life insurance models''} below, the sample paths of a payment process (or function) is of finite variation. Thus processes of finite variation (FV-process), that is, the sample paths are of finite variation are building blocks for the theory of payment streams for an insurance policy. Below is the formal definition.
+
+\textbf{Definition 8.1. (Lund)} \emph{A process \(X(t)\) is called an FV-process if}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\(X(t)\) is adapted to a given filtration.}
+\item
+  \emph{The sample paths \(t \mapsto X(t)\) are almost surely FV-functions.}
+\end{enumerate}
+
+By Proposition 2.3, if \(X(t)\) and \(Y (t)\) are FV-processes then \(\alpha X(t) + \beta Y (t)\) is an FV-process, where \(\alpha\) and \(\beta\) are two constants.
+
+\textbf{Definition 8.2. (Lund)} \emph{An \(n\)-dimensional process \((X(t), t \ge 0) = ((X^1(t),..., X^n(t)), t \ge 0)\) is called a \(n\)-dimensional FV-process if the component process \((X^i(t),t \ge 0)\) is an FV-process for \(i = 1,...,n\).}
 
 \hypertarget{finite-variation-martingales}{%
 \subsection{Finite variation martingales}\label{finite-variation-martingales}}
 
+The basic approach employed in the insurance part and in the statistical part is martingale methods. Let \(\mathcal F(t)\) be a given filtration.
+
+\hypertarget{basic-martingale-theory}{%
+\subsubsection{Basic martingale theory}\label{basic-martingale-theory}}
+
+\textbf{Definition 9.1. (Lund)} \emph{A process \(M(t)\) is an \(\mathcal F(t)\)-martingale if}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\(M(t)\) is adapted to the filtration.}
+\item
+  \emph{\(M(t)\) is integrable, that is, \(\mathbb E\vert M(t)\vert<\infty\) for all \(t\).}
+\item
+  \emph{\(\mathbb E[M(t)\ \vert\ \mathcal F(s)]=M(s)\) for all \(0\le s\le t\) (martingale property).}
+\end{enumerate}
+
+The process \(M(t)\) is a submartingale if the latter condition is replaced by the inequality \(\mathbb E[M (t)\ \vert\ \mathcal F (s)] \ge M (s)\) for all \(0 \le s \le t\). With the inequality reversed, \(M (t)\) is a martingale.
+
+Taking expectation of the martingale property gives that
+
+\[
+\mathbb E[M(t)]=\mathbb E[M(s)]=\mathbb E[M(0)].
+\]
+
+The next proposition gives a construction of martingales.
+
+\textbf{Proposition 9.3. (Lund)} \emph{Let \(Y\) be an integrable random variable. Then \(M(t)=\mathbb E[Y\ \vert\ \mathcal F(t)]\) is a martingale.}
+
+\hypertarget{fv-martingales}{%
+\subsubsection{FV-martingales}\label{fv-martingales}}
+
+Martingales of finite variation are of partially interest in this note. For short notation we denote a martingale with finite variation as an FV-martingale and the formal definition is given below.
+
+\textbf{Definition 9.4. (Lund)} \emph{A process \(M(t)\) is an FV-martingale if}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\(M(t)\) is an integrable FV-process.}
+\item
+  \emph{\(\mathbb E[M(t)\ \vert\ \mathcal F(s)]=M(s)\) for all \(0\le s\le t\) (martingale property).}
+\end{enumerate}
+
+We have the following informal criterion: \(M(t)\) is an FV-martingale if and only if \(\mathbb E[dM(t)\ \vert\ \mathcal F(t−)] = 0\) for all \(t\). Indeed, by adding up increments of \(M (t)\) over small subintervals \([u, u + du)\) partitioning \([s + ds, t + dt) = (s, t]\) for \(s < t\), we have informally that
+\begin{align*}
+\mathbb E[M(t)\ \vert\ \mathbb F(s)]-M(s)&=\mathbb E[M(t)-M(s)\ \vert\ \mathbb F(s)]\\
+&=\mathbb E\left[\left.\int_s^t dM(u)\ \right\vert\ \mathbb F(s)\right]\\
+&=\int_s^t\mathbb E\left[\left. dM(u)\ \right\vert\ \mathbb F(s)\right]\\
+&=\int_s^t\mathbb E\left[\left.E\left[\left. dM(u)\ \right\vert\ \mathbb F(u-)\right]\ \right\vert\ \mathbb F(s)\right]\\
+&=0.
+\end{align*}
+
+\textbf{Proposition 9.5. (Lund)} \emph{If \(X(t)\) is a continuous FV-martingale, then \(X(t)\) is a constant process, that is, \(X(t) = X(0)\).}
+
+\textbf{Proposition 9.6. (Lund)} \emph{Let \(X(t)\) be an FV-process. If \(X(t)\) is predictable martingale then \(X(t)\) is a constant process, that is, \(X(t) = X(0)\).}
+
+The two propositions will be applied in the insurance part with following formulation.
+
+\textbf{Corollary 9.7. (Lund)} \emph{If \(X(t)\) is a martingale with representation}
+
+\[
+X(t)=X(0)+M(t)+B(t)
+\]
+
+\emph{where \(M(t)\) is an FV-martingale and \(B(t)\) is a predictable FV-process, then \(B(t)\) is a constant process. In the special case that \(B(t) = \int_0^tH(s) ds\) where \(H(t)\) is a progressive process. Then \(H(t)\) is equal to zero.}
+
+\hypertarget{doob-meyer-decomposition-predictable-compensators}{%
+\subsubsection{Doob-Meyer decomposition: Predictable compensators}\label{doob-meyer-decomposition-predictable-compensators}}
+
+An FV-process can be decomposed into a martingale part and a predictable part. The decomposition is called the Doob-Meyer decomposition and is a deep result in martingale theory. The Doob-Meyer decom- position is in general formulated for submartingales (or the difference of two submartingales). Since an integrable increasing process is a submartingale and an integrable FV-process is the difference of two submartingales, the Doob-Meyer decomposition below is first formulated for increasing processes and then for FV-processes.
+
+\textbf{Theorem 9.8. (Lund) (Doob-Meyer decomposition for increasing processes)} \emph{Assume that the filtration \(\mathcal F(t)\) satisfies the usual conditions. Suppose \(X(t)\) is an adapted increasing CADLAG process that is locally integrable (there is a sequence of stopping times \((\tau_n, n = 1, 2, . . .)\), increasing to \(\infty\), such that \(E[X (\tau_n ) − X (0)] < \infty\) for every \(n\)).}
+
+\emph{Then there is a unique predictable CADLAG increasing process \(\Lambda^X(t)\) with \(\Lambda^X(0) = 0\) such that \(X(t) − \Lambda^X(t)\) is a local FV-martingale. Moreover, if \(E[X(t) − X(0)] < \infty\) or \(E[\Lambda^X(t)] < \infty\) then \(X(t) − \Lambda^X(t)\) is a martingale.}
+
+In other words, there exists a predictable CADLAG increasing process \(\Lambda^X(t)\) with \(\Lambda^X(0) = 0\) and a (local) FV-martingale \(M(t)\) with \(M(0) = 0\) such that increasing process \(X(t)\) has the decomposition
+
+\[
+X(t)=X(0)+M(t)+\Lambda^X(t).
+\]
+
+In this note we avoid local martingales and we will always assume in what follows that we have enough integrability, \(E[X(t)−X(0)] < \infty\) for all \(t\), such that the process \(M(t)\) is a martingale. In this case note that Proposition 9.6 gives the uniqueness of the predictable compensator \(\Lambda^X(t)\). Recall that an FV-process \(X(t)\) of integrable variation (\(E[V^X(t)] < \infty\) for all \(t\)) can be decomposed into the difference of two (adapted CADLAG) integrable increasing processes. Then we can apply the Doob-Meyer decomposition for increasing processes on both increasing processes and get the following version of Doob-Meyer decomposition.
+
+\textbf{Theorem 9.9. (Lund) (Doob-Meyer decomposition for FV-processes)} \emph{Assume that the filtration \(\mathcal F(t)\) satisfies the usual conditions. Suppose \(X(t)\) is an integrable FV-process (\(E[V^X(t)] < \infty\) for all \(t\)). Then there is a unique integrable predictable FV-process \(\Lambda^X (t)\) with \(\Lambda^X (0) = 0\) such that}
+
+\[
+X(t)-\Lambda^X(t)
+\]
+
+\emph{is an FV-martingale.}
+
+Again, \(X(t)\) has the decomposition
+
+\[
+X(t)=X(0)+M(t)+\Lambda^X(t).
+\]
+
+where \(M(t)\) is an FV-martingale with \(M(0) = 0\).
+
+\textbf{Definition 9.10. (Lund)} \emph{The predictable FV-process \(\Lambda^X (t)\) from Doob-Meyer decomposition is called the predictable compensator of \(X(t)\).}
+
+As already used in the argument for extending Theorem 9.8 to Theorem 9.9, the predictable compensator is linear in the following sense.
+
+\textbf{Lemma 9.11. (Lund)} \emph{Let \(X_1(t)\) and \(X_2(t)\) be two FV-processes of integrable variation and let \(\Lambda_1(t)\) and \(\Lambda_2(t)\) be the associated predictable compensators, respectively. Let \(\alpha\) and \(\beta\) be two constants. Then the FV-process \(X(t) = \alpha X_1(t) + \beta X_2(t)\) has predictable compensator given by \(\Lambda(t) = \alpha\Lambda_1(t) + \beta\Lambda_2(t)\).}
+
+By the martingale property of \(M(t) = X(t) − \Lambda^X(t)\) we get that
+
+\[
+\mathbb E[X(t)-X(s)\ \vert\ \mathcal F(s)]=\mathbb E[\Lambda^X(t)-\Lambda^X(s)\ \vert\ \mathcal F(s)]
+\]
+
+for \(0\le s< t\). By setting \(s=0\) and taking expectaion gives that
+
+\[
+\mathbb E[X(t)-X(0)]=\mathbb E[\Lambda^X(t)].
+\]
+
+In this note we will be interested in the case that predictable intensities exists, that is, a so- called absolutely continuous case. By the short informal notation we have that the intensity process is given by \(\lambda^X(t)dt = \mathbb E[dX(t)\ \vert\ \mathcal F(t−)]\). The formal definition is the following.
+
+\textbf{Definition 9.13. (Lund)} \emph{Let \(X(t)\) be an FV-process with integrable variation. The FV-process \(X(t)\) has intensity process \(\lambda^X(t)\) if}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\(\lambda ^X(t)\) is a predictable process.}
+\item
+  \emph{\(\int_0^t\vert \lambda^X(s)\vert\ ds<\infty\) for all \(t\ge 0\).}
+\item
+  \emph{\(\Lambda^X(t)=\int_0^t\lambda^X(s)\ ds\) for all \(t\ge 0\).}
+\end{enumerate}
+
+In the special case that \(X(t)\) is an increasing process, then \(\lambda^X(t) \ge 0\) is a positive process.
+
+\textbf{Lemma 9.14. (Lund)} \emph{Let \(X_1(t)\) and \(X_2(t)\) be two FV-processes with intensity processes \(\lambda_1(t)\) and \(\lambda_2(t)\) be the associated predictable compensators, respectively. Let \(\alpha\) and \(\beta\) be two constants. Then the FV-process \(X(t) = \alpha X_1(t) + \beta X_2(t)\) has intensity process given by \(\lambda(t) = \alpha\lambda_1(t) + \beta\lambda_2(t)\).}
+
+\hypertarget{predictable-variation-and-covariation-processes}{%
+\subsubsection{Predictable variation and covariation processes}\label{predictable-variation-and-covariation-processes}}
+
+To be able to formulate the martingale central limit theorem for counting processes - which we will use in the statistical part --- we need the concept of variation processes, which results from the Doob-Meyer decomposition.
+
+Consider a square integrable FV-martingale \(M(t)\). Then we know that \(M^2(t)\) is also an integrable FV-process. By the Doob-Meyer decomposition theorem \(M^2\) has a unique predictiable FV-process \(\langle M\rangle (t)\) which is the predictable compensator of \(M^2(t)\). One can show that
+
+\[
+d\left(M^2(t)\right)=2M(t-)dM(t)+\left(dM(t)\right)^2.
+\]
+
+and so the process \(\langle M\rangle\) has dynamics
+\begin{align*}
+d\langle M\rangle (t)&=\mathbb E\left[\left.d\left(M^2(t)\right)\ \right\vert\ \mathcal F(t-)\right]\\
+&=\mathbb E\left[\left.\left(dM(t)\right)^2\ \right\vert\ \mathcal F(t-)\right]\\
+&=\text{Var}(dM(t)\ \vert\ \mathcal F(t-)).
+\end{align*}
+Furthermore, if we have two integrable FV-martingales \(M_1(t)\) and \(M_2(t)\) with \(\mathbb E[M_1(t)M_2(t)]<\infty\) for all \(t\), then we define the covariation process \(\langle M_1,M_2\rangle(t)\) as the unique predictable compensator for the product process \(M_1(t)M_2(t)\). Note that \(\langle M,M\rangle =\langle M\rangle\). We have some properties of the covariation process:
+\begin{align*}
+\text{(a)}:&\qquad\langle aM_1+bM_2,M_3\rangle(t)=a\langle M_1,M_3\rangle(t)+b\langle M_2,M_3\rangle (t),\\
+\text{(b)}:&\qquad\langle M_1,M_2\rangle(t)=\langle M_2,M_1\rangle(t),\\
+\text{(c)}:&\qquad\langle M_1,M_2\rangle(t)=\frac{1}{4}\Big(\langle M_1+M_2\rangle(t)-\langle M_1-M_2\rangle (t)\Big),\\
+\text{(d)}:&\qquad d\langle M_1,M_2\rangle(t)=\text{Cov}\Big(dM_1(t),dM_2(t)\ \vert\ \mathcal F(t-)\Big).
+\end{align*}
+We also have the following theorem.
+
+\textbf{Theorem 9.15. (Lund) (Lenglart's inequality)} \emph{Let \(M(t)\) be a square integrable FV-martingale and
+\(\langle M\rangle(t)\) its predictable variation process. For any \(\varepsilon > 0\) and any \(\delta > 0\) then}
+
+\[
+\mathbb P \left(\sup_{0\le s\le t}\vert M(s)\vert > \varepsilon\right)\le \frac{\delta}{\varepsilon^2}+\mathbb P(\langle M\rangle (t)> \delta).
+\]
+
 \hypertarget{integral-processes}{%
 \subsection{Integral processes}\label{integral-processes}}
 
+For the present value of a payment process (FV-process) it is important to form an integral of one stochastic process with respect to another. In this note, it is the Lebesgue-Stieltjes integral defined \(\omega\)-by-\(\omega\) in the class of FV-processes. In this section, let \(\mathcal F(t)\) be a given filtration.
+
+\hypertarget{integral-process-and-basic-properties}{%
+\subsubsection{Integral process and basic properties}\label{integral-process-and-basic-properties}}
+
+Let \(X(t)\) be an FV-process and let \(H(t)\) be a progressive process. Let \(\omega\) be fixed, then the sample path \(t \mapsto X(t, \omega)\) is an FV-function and the sample path \(t \mapsto X(t, \omega)\) is a Borel function (see Remark 6.16 ), then by Definition 3.9 we have the Lebesgue-Stieltjes integral with respect to the sample path of \(H(t)\) with respect to the sample path of \(X(t)\). We have then the following definition
+
+Let \(X(t)\) be an FV-process. We say that a progressive process \(H(t)\) is locally \(X\)-integrable if
+
+\[
+\int_0^t \vert H(t,\omega)\vert dV^x(t,\omega) <\infty
+\]
+
+for all \(t>0\) and all \(\omega \in\Omega\). Then we define, \(\omega\)-by-\(\omega\), the integral process of \(H(t)\) with respect to \(X(t)\) to be
+
+\[
+Y(t,\omega)=\int_0^tH(s,\omega)\ dX(s,\omega)
+\]
+
+the Lebesgue-Stieltjes integral.
+
+By Proposition 3.14, the sample paths of the integral process have the following properties.
+
+\textbf{Properties 10.1. (Lund)} \emph{The intergral process has the following properties.}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{The sample paths \(t\mapsto \int_0^t H(s,\omega)\ dX(s,\omega)\) are CADLAG.}
+\item
+  \emph{The sample paths \(t\mapsto \int_0^t H(s,\omega)\ dX(s,\omega)\) are continuous if \(t\mapsto X(t,\omega)\) is continuous.}
+\item
+  \emph{The sample paths \(t\mapsto \int_0^t H(s,\omega)\ dX(s,\omega)\) have finite variation.}
+\end{enumerate}
+
+By Proposition 3.10, the calculus of the integral process is the following.
+
+\textbf{Properties 10.2. (Lund)} \emph{Assume that all integrals below exists and are well defined, then we have the following properties where \(\alpha\) and \(\beta\) are constants.}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{If \(H_1(t)\) and \(H_2(t)\) are progressive processes and \(X(t)\) is an FV-process then}
+  \[\int_0^t\Big(\alpha H_1(s) + \beta H_2(s)\Big)\ dX(s)=\alpha\int_0^t H_1(s)\ dX(s)+\beta\int_0^t H_2(s)\ dX(s).\]
+\item
+  \emph{If \(H(t)\) is a progressive process and \(X_1(t)\) and \(X_2(t)\) are two FV-processes then}
+  \[\int_0^tH(s)\ d\Big(\alpha X_1(s) + \beta X_2(s)\Big)=\alpha\int_0^tH(s)\ d X_1(s)+\beta \int_0^tH(s)\ d X_2(s).\]
+\end{enumerate}
+
+The following proposition shows that the condition that \(H(t)\) is progressive is made to insure that the integral process is adapted.
+
+\textbf{Properties 10.3. (Lund)} \emph{The integral process \(Y(t)=\int_0^t H(s)\ dX(s)\) is adapted to the filtration \(\mathcal F(t)\). Moreover, if \(X(t)\) and \(H(t)\) are predictable processes then the integral process \(Y(t) = \int_0^t H(s)\ dX(s)\) is also predictable.}
+
+Finally, let us summing up the results in this section using Proposition 10.3, Proposition 10.1, and Proposition 3.14.
+
+\textbf{Properties 10.4. (Lund)} \emph{Let \(X(t)\) be an FV-process and let \(H(t)\) be a locally \(X\)-integrable progressive process. Then the integral process}
+
+\[
+Y(t)=\int_0^tH(s)\ dX(s)
+\]
+
+\emph{is an FV-process which is bilinear in \(H(t)\) and \(X(t)\) and has following properties.}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \(\Delta Y(t)=H(t)\Delta X(t)\).
+\item
+  \emph{Let \(K(t)\) be a progressive process and provided that the integrals are well defined then}
+  \[\int_0^t K(s)\ dY(s)=\int_0^tK(s)H(s)\ dX(s).\]
+\end{enumerate}
+
+\hypertarget{fv-martingales-as-integrators}{%
+\subsubsection{FV-martingales as integrators}\label{fv-martingales-as-integrators}}
+
+An important result is that the integral of a predictable process with respect to an FV-martingale is another FV-martingale. This shows how martingales, integral processes, and predictable processes are tightly linked.
+
+\textbf{Properties 10.5. (Lund)} \emph{Let \(M(t)\) be an FV-martingale and let \(H(t)\) be a predictable process satisfying}
+
+\[
+\mathbb E\left[\int_0^t\vert H(s)\vert\ dV^M(s)\right]< \infty
+\]
+
+\emph{for every \(t>0\). Then the integral process \(\int_0^t H(s)\ dM(s)\) is also an FV-martingale.}
+
+\hypertarget{predictable-compensator}{%
+\subsubsection{Predictable compensator}\label{predictable-compensator}}
+
+The predictable compensator of an integral process over a predictable process \(H(t)\) with respect to \(X(t)\) is given in the following proposition.
+
+\textbf{Properties 10.6. (Lund)} \emph{Let \(X(t)\) be an FV-process of integrable variation with predictable compensator \(\Lambda(t)\) and let \(H(t)\) be a predictable process such that}
+
+\[
+\mathbb E\left[\int_0^t\vert H(s)\vert\ dV^X(s)\right]< \infty\ \text{or}\ \mathbb E\left[\int_0^t\vert H(s)\vert\ dV^\Lambda(s)\right]< \infty.
+\]
+
+\emph{Then the integral process}
+
+\[
+\int_0^t H(s)\ d\Big(X(s)-\Lambda(s)\Big)=\int_0^t H(s)\ dX(s)-\int_0^t H(s)\ d\Lambda(s)
+\]
+
+\emph{is an FV-martingale. Moreover, \(\int_0^t H(s)\ d\Lambda(s)\) is the predictable compensator for the integral process \(\int_0^t H(s)\ dX(s)\). In the special case that \(X(t)\) has intensity process \(\lambda(t)\), then}
+
+\[
+\int_0^t H(s)\ dX(s)-\int_0^t H(s)\lambda(s)\ ds
+\]
+
+\emph{is an FV-martingale and \(\int_0^t H(s)\ dX(s)\) has intensity process \(H(t)\lambda (t)\).}
+
+The martingale property implies that
+
+\[
+\mathbb E\left[\left.\int_s^t H(u)\ dX(u)\ \right\vert\ \mathcal F(s)\right]=\mathbb E\left[\left.\int_s^t H(u)\ d\Lambda (u)\ \right\vert\ \mathcal F(s)\right].
+\]
+
+\hypertarget{predictable-variation-and-covariation-processes-1}{%
+\subsubsection{Predictable variation and covariation processes}\label{predictable-variation-and-covariation-processes-1}}
+
+Let \(M(t)\) be an FV-martingale and use the informal notation
+\begin{align*}
+d\left\langle \int_0^t H(s)\ dM(s)\right\rangle(t)&=\text{Var}\left(\left.d\left(\int_0^t H(s)\ dM(s)\right)\ \right\vert\ \mathcal F(t-)\right)\\
+&=\text{Var}\Big(\left.H(t)\ dM(t)\ \right\vert\ \mathcal F(t-)\Big)\\
+&=H^2(t)\text{Var}\Big(\left.\ dM(t)\ \right\vert\ \mathcal F(t-)\Big)\\
+&=H^2(t)\ d\langle M\rangle (t).
+\end{align*}
+Thus, we have the following result for integral processes.
+
+\textbf{Properties 10.7. (Lund)} \emph{Let \(M(t)\) be a square integrable FV-martingale with predictable variation process \(\langle M\rangle(t)\). Let \(H(t)\) be a predictable process such that}
+
+\[
+\mathbb E\left[\int_0^t H^2(s)\ dV^{\langle M\rangle}(s)\right]<\infty\ \text{or}\ \mathbb E\left[\left(\int_0^t H(s)\ dV^{\langle M\rangle}(s)\right)^2\right]<\infty
+\]
+
+\emph{Then}
+
+\[
+\int_0^t H(s)\ dM(s)
+\]
+
+\emph{is a square integrable FV-martingale and its predictable variation process is given by}
+
+\[
+\left\langle \int_0^t H(s)\ dM(s)\right\rangle(t)=\int_0^t H^2(s)\ d\langle M\rangle (s).
+\]
+
+For the predictable covariation process, we have a result corresponding to Proposition 10.7.
+
+\textbf{Properties 10.8. (Lund)} \emph{Let \(M_1(t)\) and \(M_2(t)\) be two FV-martingales such that \(\mathbb E[M_1(t)M_2(t)] < \infty\). Let \(H(t)\) and \(K(t)\) be two predictable processes such that}
+
+\[
+\mathbb E\left[\int_0^t \vert H(s) K(s)\vert\ dV^{\langle M_1,M_2\rangle }(s)\right]<\infty.
+\]
+
+\emph{Then the predictable covariation process of the integral processes is given by}
+
+\[
+\left\langle \int_0^t H(s)\ dM_1(s),\int_0^t H(s)\ dM_2(s)\right\rangle(t)=\int_0^t H(s)K(s)\ d\langle M_1,M_2\rangle (s).
+\]
+
+\hypertarget{different-look-a-like-fubini-results-for-integral-processes}{%
+\subsubsection{Different look-a-like Fubini results for integral processes}\label{different-look-a-like-fubini-results-for-integral-processes}}
+
+Let \(X(t)\) be an FV-process and \(H(t)\) a progressive process such that the integral process is well-defined. Due to that \(X(t)\) is stochastic (depends on \(\omega\)), it is not possible directly to apply Fubini Theorem (see Theorem 26.10). Indeed, the mean value \(\mathbb E[\int_0^t H(s)\ dX(s)]\) is a number while \(\int_0^t\mathbb E[H(s)]\ dX(s)\) is stochastic. However, if we assume that either the integrand or the integrator is deterministic, then there are results that gives condition for changing the order of integrations.
+
+Before we state the condition for changing the order of integrations, we need a preliminary technical lemma.
+
+\textbf{Lemma 10.9. (Lund)} \emph{Let \(H(t)\) be a measurable process, that is, \(H(t)\) is \(\mathcal B([0, \infty)) \otimes\mathcal F\) (see Definition 6.7) and let \(\mathcal G \subseteq\mathcal F\) be a sub \(\sigma\)-algebra of \(\mathcal F\). Consider \(t\mapsto \mathbb E[H(t)\ \vert\ \mathcal G]\) as a stochastic process. Then \(\mathbb E[H(t)\ \vert\ \mathcal G]\) admits a version which is \(\mathcal B([0, \infty)) \otimes\mathcal G\).If \(H(t)\) furthermore is CADLAG then \(\mathbb E[H(t)\ \vert\ \mathcal G]\) is also CADLAG.}
+
+If the integrator is deterministic then we have the well known Fubini's theorem (Theorem 26.10) and moreover the conditional Fubini theorem stated in theorem below. We can change the (conditional) expectation into the integrand.
+
+\textbf{Theorem 10.10. (Lund)} \emph{Let \(x\) be a deterministic FV-function (see Definition 2.8) and let \(H(t)\) be a progressive process satisfying}
+
+\[
+\mathbb E\left[\int_0^t\vert H(s)\vert\ dV^x(s)\right]=\int_0^t \mathbb E\vert H(s)\vert\ dV^x(s) <\infty
+\]
+
+\emph{for all \(t>0\). Then we have Fubini theorem}
+
+\[
+\mathbb E\left[\int_0^t H(s)\ dx(s)\right]=\int_0^t \mathbb E[ H(s)]\ dx(s).
+\]
+
+\emph{Let \(\mathcal G \subseteq\mathcal F\) be a sub \(\sigma\)-algebra of \(\mathcal F\) then we have conditional Fubini}
+
+\[
+\mathbb E\left[\left.\int_0^t H(s)\ dx(s)\ \right\vert\ \mathcal G\right]=\int_0^t \mathbb E[ H(s)\ \vert\ \mathcal G]\ dx(s).
+\]
+
+If the integrand is deterministic then we can change the conditional expectation condition the integrator.
+
+\textbf{Theorem 10.11. (Lund)} \emph{Let \(X(t)\) be an FV-process and let \(f(t)\) be a measurable (Borel) function satisfying}
+
+\[
+\mathbb E\left[\int_0^t \vert f(s)\vert \ dV^X(s)\right]=\int_0^t f(s)\ d\mathbb E[V
+^X(s)] <\infty
+\]
+
+\emph{for all \(t>0\). Then we have Fubini theorem}
+
+\[
+\mathbb E\left[\int_0^t f(s)\ dX(s)\right]=\int_0^t f(s)\ d\mathbb E[X(s)]
+\]
+
+\emph{Let \(\mathcal G \subseteq\mathcal F\) be a sub \(\sigma\)-algebra of \(\mathcal F\) then we have conditional Fubini}
+
+\[
+\mathbb E\left[\left.\int_0^t f(s)\ dX(s)\ \right\vert\ \mathcal G\right]=\int_0^t f(s)\ d\mathbb E[ X(s)\ \vert\ \mathcal G].
+\]
+
 \hypertarget{counting-processes-and-point-processes}{%
 \subsection{Counting processes and point processes}\label{counting-processes-and-point-processes}}
+
+Suppose there is an (particular) event occurring repeatedly and random in time. A counting process is a stochastic process that counts the number of the given event that have occurred as time proceeds. For such a process, we will in this note use two equivalent descriptions of the sample paths.
+
+\begin{itemize}
+\tightlist
+\item
+  Increasing integer-valued piecewise constant functions: (multivariate) counting process.
+\item
+  Sequence of points: (multivariate) point process.
+\end{itemize}
+
+A third way to view this process is as a random counting measure, but will not be used in this note.
+
+\hypertarget{counting-process-and-point-process}{%
+\subsubsection{Counting process and point process}\label{counting-process-and-point-process}}
 
 \hypertarget{piecewise-constant-processes-on-finite-state-spaces}{%
 \subsection{Piecewise constant processes on finite state spaces}\label{piecewise-constant-processes-on-finite-state-spaces}}
@@ -3320,7 +4062,7 @@ We can now implement this intensity matrix as a function in R:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{mu12 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(t) \{}
-  \FloatTok{0.000015} \SpecialCharTok{+} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\FloatTok{4.6}\DecValTok{{-}10}\FloatTok{+0.015}\SpecialCharTok{*}\NormalTok{t)}
+  \FloatTok{0.000035} \SpecialCharTok{+} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\FloatTok{4.6}\DecValTok{{-}10}\FloatTok{+0.015}\SpecialCharTok{*}\NormalTok{t)}
 \NormalTok{\}}
 \NormalTok{mu13 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(t) \{}
   \FloatTok{0.00005} \SpecialCharTok{+} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\FloatTok{4.6}\DecValTok{{-}10}\FloatTok{+0.05}\SpecialCharTok{*}\NormalTok{t)}
@@ -3329,7 +4071,7 @@ We can now implement this intensity matrix as a function in R:
   \SpecialCharTok{{-}}\FunctionTok{mu12}\NormalTok{(t)}\SpecialCharTok{{-}}\FunctionTok{mu13}\NormalTok{(t)}
 \NormalTok{\}}
 \NormalTok{mu21 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(t) \{}
-  \FloatTok{0.000005} \SpecialCharTok{+} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\FloatTok{4.6}\DecValTok{{-}10}\FloatTok{+0.015}\SpecialCharTok{*}\NormalTok{t)}
+  \FloatTok{0.00005} \SpecialCharTok{+} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\FloatTok{4.6}\DecValTok{{-}10}\FloatTok{+0.015}\SpecialCharTok{*}\NormalTok{t)}
 \NormalTok{\}}
 \NormalTok{mu23 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(t) \{}
   \FloatTok{0.0001} \SpecialCharTok{+} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{(}\FloatTok{4.6}\DecValTok{{-}10}\FloatTok{+0.05}\SpecialCharTok{*}\NormalTok{t)}
@@ -3354,8 +4096,8 @@ We can now implement this intensity matrix as a function in R:
 
 \begin{verbatim}
 ##               [,1]          [,2]         [,3]
-## [1,] -7.296214e-05  1.898107e-05 5.398107e-05
-## [2,]  8.981072e-06 -1.129621e-04 1.039811e-04
+## [1,] -9.296214e-05  3.898107e-05 5.398107e-05
+## [2,]  5.398107e-05 -1.579621e-04 1.039811e-04
 ## [3,]  0.000000e+00  0.000000e+00 0.000000e+00
 \end{verbatim}
 
@@ -3422,8 +4164,8 @@ This is done in the code below
 
 \begin{verbatim}
 ##               [,1]          [,2]
-## [1,] -7.296214e-05  1.898107e-05
-## [2,]  8.981072e-06 -1.129621e-04
+## [1,] -9.296214e-05  3.898107e-05
+## [2,]  5.398107e-05 -1.579621e-04
 \end{verbatim}
 
 \begin{Shaded}
@@ -3478,6 +4220,117 @@ E[\tau\ \vert\ X_0=1]=\int_0^\infty \tau f(\tau)\ d\tau\approx\int_0^{120}\tau f
 \]
 
 that the life expectation is 84.01 years. We have that we may approximate \(f\) and \(F\) with an arbitrary precision by choosing \(n\) appropriately. \(\square\)
+
+\textbf{Example (Simulation in time-inhomogeneous case).}
+
+We elaborate on the above example with \(Z(t)\) living on the state-space \(E=\{1,2,3\}\) where we assume \(Z(0)=1\). We want to simulate sample paths \((Z(t))_{t\ge 0}\) using the intensities \(\Lambda(t)=(\mu_{ij})_{i,j\in E}\).
+
+Recall that if \(Z(t)=i\) then
+
+\[
+p^{ij}(t,t+h)=\delta_{ij}+\mu^{ij}(t)h+o(h),
+\]
+
+hence we may for an interval \([0,T]\) choose a step length \(h>0\) and generate uniform random variables \((U_i)_{i=0,...,T/h}\) and decide the transition from \(t\) to \(t+h\) by \(i\to 1\) if \(U_t\le p^{i1}(t,t+h)\), \(i\to 2\) if \(p^{i1}(t,t+h)<U\le p^{i1}(t,t+h)+p^{i2}(t,t+h)\) and \(i\to 3\) otherwise.
+
+We set \(h=1/12\) i.e.~on month jumps. At time \(t=0\) we have the probabilities
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{h }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{/}\DecValTok{12}
+\NormalTok{mu }\OtherTok{\textless{}{-}} \FunctionTok{M}\NormalTok{(}\DecValTok{0}\NormalTok{)[Z,]}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ mu}\SpecialCharTok{*}\NormalTok{h}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.999992253155 0.000003248423 0.000004498423
+\end{verbatim}
+
+Then by drawing \(U_0\) we can determine the value of \(Z(0+h)\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{U }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\NormalTok{Z }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(U}\SpecialCharTok{\textless{}=}\NormalTok{p[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\FunctionTok{ifelse}\NormalTok{(U}\SpecialCharTok{\textless{}=}\NormalTok{p[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{p[}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{Z}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+Let us draw one realization of \(Z\) on \([0,120]\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{67}\NormalTok{)}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{120}\SpecialCharTok{*}\DecValTok{12}
+\NormalTok{U }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(n,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{t =} \DecValTok{0}\SpecialCharTok{:}\NormalTok{(n)}\SpecialCharTok{*}\NormalTok{h,}
+                      \AttributeTok{U =} \FunctionTok{c}\NormalTok{(U,}\ConstantTok{NA}\NormalTok{),}
+                      \AttributeTok{Z =} \ConstantTok{NA}\NormalTok{,}
+                      \AttributeTok{p\_Z1 =} \ConstantTok{NA}\NormalTok{,}
+                      \AttributeTok{p\_Z2 =} \ConstantTok{NA}\NormalTok{,}
+                      \AttributeTok{p\_Z3 =} \ConstantTok{NA}\NormalTok{)}
+\NormalTok{results[}\DecValTok{1}\NormalTok{,}\StringTok{"Z"}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{plot }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{t=}\DecValTok{0}\NormalTok{,}\AttributeTok{Z=}\DecValTok{1}\NormalTok{,}\AttributeTok{tend =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{Zend =} \DecValTok{1}\NormalTok{)}
+\NormalTok{j }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{Z }\OtherTok{\textless{}{-}} \DecValTok{1}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{  t }\OtherTok{\textless{}{-}}\NormalTok{ results[i,}\StringTok{"t"}\NormalTok{]}
+\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{*}\NormalTok{(Z }\SpecialCharTok{==} \DecValTok{1}\NormalTok{),}\DecValTok{1}\SpecialCharTok{*}\NormalTok{(Z }\SpecialCharTok{==} \DecValTok{2}\NormalTok{),}\DecValTok{1}\SpecialCharTok{*}\NormalTok{(Z }\SpecialCharTok{==} \DecValTok{3}\NormalTok{)) }\SpecialCharTok{+}
+    \FunctionTok{M}\NormalTok{(t)[Z,]}\SpecialCharTok{*}\NormalTok{h}
+\NormalTok{  results[i,}\FunctionTok{c}\NormalTok{(}\StringTok{"p\_Z1"}\NormalTok{,}\StringTok{"p\_Z2"}\NormalTok{,}\StringTok{"p\_Z3"}\NormalTok{)] }\OtherTok{\textless{}{-}}\NormalTok{ p}
+\NormalTok{  u }\OtherTok{\textless{}{-}}\NormalTok{ results[i,}\StringTok{"U"}\NormalTok{]}
+\NormalTok{  Z\_new }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(u}\SpecialCharTok{\textless{}=}\NormalTok{p[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\FunctionTok{ifelse}\NormalTok{(u}\SpecialCharTok{\textless{}=}\NormalTok{p[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{p[}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{  results[i}\SpecialCharTok{+}\DecValTok{1}\NormalTok{,}\StringTok{"Z"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Z\_new}
+  \ControlFlowTok{if}\NormalTok{ (Z\_new }\SpecialCharTok{!=}\NormalTok{ Z) \{}
+\NormalTok{    plot[j,}\StringTok{"tend"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ t}\SpecialCharTok{+}\NormalTok{h}
+\NormalTok{    j }\OtherTok{\textless{}{-}}\NormalTok{ j }\SpecialCharTok{+} \DecValTok{1} 
+\NormalTok{    plot[j,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(t}\SpecialCharTok{+}\NormalTok{h,Z\_new,}\ConstantTok{NA}\NormalTok{,Z\_new)}
+\NormalTok{  \}}
+\NormalTok{  Z }\OtherTok{\textless{}{-}}\NormalTok{ Z\_new}
+\NormalTok{\}}
+\NormalTok{plot[j,}\StringTok{"tend"}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{120}
+\FunctionTok{sum}\NormalTok{(results}\SpecialCharTok{$}\NormalTok{Z }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 752
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(results}\SpecialCharTok{$}\NormalTok{Z }\SpecialCharTok{==} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 378
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(results}\SpecialCharTok{$}\NormalTok{Z }\SpecialCharTok{==} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 311
+\end{verbatim}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/ex1_Z_realization.png}
+  \end{center}
+\end{figure}
+
+Here we have searched for a sample path where \(Z\) visits the state 2. This happened after the 67'th trial and so this is indeed not a frequent event given the intesities in \(\Lambda\).
 
 I practice we may have alot complications in calculating the product integral of \(\mathbf T\) as the matrix may have large dimensions, be non-cummative, encounter alternating sums with growing terms and obviously being time in-homogeneous. So one has to be smart when constructing numerical methods in computing the integral. We will briefly consider some considerations an implementer may use in calculating the product integral.
 
@@ -5645,12 +6498,18 @@ V^{(j,p)}(t-)&=V^{(j,p)}(t)+\Delta B^{(j,p)}(t).
 \hypertarget{projects-in-the-mathematics-of-life-insurance}{%
 \chapter{Projects in the Mathematics of Life Insurance}\label{projects-in-the-mathematics-of-life-insurance}}
 
-Below is given the abbreviations used when referencing to books:
+Below is the used material.
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Something}: \emph{Life insurance cash flows with policyholder behavior} by Buchardt, Kristian and Moller, Thomas.
+  \emph{Life insurance cash flows with policyholder behavior} by Kristian Buchardt and Thomas Moller (2015),
+\item
+  \emph{Transaction time models in multi-state life insurance} by Kristian Buchardt, Christian Furrer and Oliver Lunding Sandqvist (2023),
+\item
+  \emph{Note on parametric estimation of Markov chains} by Oliver Lunding Sandqvist (2023),
+\item
+  \emph{Non-parametric estimation in Markov models} by Christian Furrer (2023).
 \end{itemize}
 
 \hypertarget{cash-flows-markov-models-and-policyholder-behavior}{%
@@ -5869,10 +6728,10 @@ p_\rho^{ij}(t,s)=E^\mathbb P\Big[\left.1\{Z(s)=j\}\rho(Z(\tau-),Z(\tau),\tau)^{1
 
 we will henceforth call the \(\rho\)-modified transition probabilities. It follows that even though this expectations seems problematic due to the stopping time \(\tau\). However, one can show that the \(\rho\)-modified transition probabilities follows a forward kolmogorov differential equation:
 
-\textbf{Proposition 1. (\(\rho\)-modified Kolmogorov)}\index{$\rho$-modified Kolmogorov} \emph{Let the \(\rho\)-modified transition probabilities be given by (1). For \(i,j\in\mathcal J\) we have}
+\textbf{Proposition 1.1. (\(\rho\)-modified Kolmogorov)}\index{$\rho$-modified Kolmogorov} \emph{Let the \(\rho\)-modified transition probabilities be given by (1). For \(i,j\in\mathcal J\) we have}
 
 \[
-\frac{d}{ds}p_\rho^{ij}(t,s)=\sum_{k\in\mathcal J,k\ne j}p_\rho^{ik}(t,s)\mu^{kj}(s)\rho(k,j,s)^{1_{\{k\in \mathcal J_1\}}}-p_\rho^{ij}(t,s)\sum_{k\in \mathcal J,k\ne j}\mu^{jk}(s),
+\frac{d}{ds}p_\rho^{ij}(t,s)=\sum_{k\in\mathcal J,k\ne j}p_\rho^{ik}(t,s)\mu^{kj}(s)\rho(k,j,s)^{1_{\{j\in \mathcal J_1\}}}-p_\rho^{ij}(t,s)\sum_{k\in \mathcal J,k\ne j}\mu^{jk}(s),
 \]
 
 \emph{with boundary condition \(p_\rho^{ij}(t,t)=1\).}
@@ -5882,14 +6741,803 @@ Notice that \(p_\rho^{ij}(t,s)=0\) and \(\mu^{ij}(t)=0\) for all \(t\le s\) with
 \hypertarget{transaction-time-modeling}{%
 \section{Transaction time modeling}\label{transaction-time-modeling}}
 
+This section gives a brief introduction to the real life effects of delay in the information flow and validity of the information present. In the classical Markov model we assume that the filtration \(\mathcal F(s)\) is known for all \(s\ge t\) and we can at time \(t\) compute the reserve
+
+\[
+V(t)=\mathbb E\left[\left.\int_t^\infty e^{-\int_t^sr(v)\ dv}\ dB(s)\ \right\vert\ \mathcal F(t)\right].
+\]
+
+However, in real life the information at time \(t\) is probably not enough to determine this since there are non-negative time between when an event is occurred, reported and eventually recognized. We study the terms transaction time and valid time (in danish transaktions tid and valør tid).
+
+\hypertarget{the-basic-model}{%
+\subsection{The basic model}\label{the-basic-model}}
+
+Let us lay the foundations for this study in the definition:
+
+\textbf{Definition 2.1. (Valid time model)} \emph{Let \((X_t)_{t\ge 0}\) be a pure jump process on an finite state space \(\mathcal J\) with bounded transition \((\mu_{jk}(t))_{t\ge 0,\ j,k\in\mathcal J}\) rates on compact sets and initial value \(X_0=x_0\). We define the jump times \((\tau_n)_{n\in\mathbb N}\) recursively as \(\tau_0=0\) and}
+
+\[
+\tau_n=\inf\{s\ge \tau_{n-1} : X_s\ne X_{\tau_{n-1}}\},\quad n\ge 1
+\]
+
+\emph{and the associated counting process}
+
+\[
+\langle\langle t \rangle\rangle=\sum_{i=1}^\infty 1_{(\tau_i\le t)}.
+\]
+
+\emph{We will further define \(H_t\) as}
+
+\[
+H_t=\left(\tau_1,...,\tau_{\langle\langle t \rangle\rangle};X_{\tau_1},...,X_{\tau_{\langle\langle t \rangle\rangle}}\right)
+\]
+
+\emph{and the mapping \(s\mapsto f_{H_t}(s)\) given \(t\) as}
+
+\[
+f_{H_t}(s)=\sum_{i=0}^{\langle\langle t \rangle\rangle}X_{\tau_i}1_{(\tau_{i}\le s< \tau_{i+1})}
+\]
+
+\emph{with \(\tau_{\langle\langle t \rangle\rangle + 1}=\infty\). Furthermore, we define \(\mathcal F^X_t=\sigma(X_s : 0\le s\le t)\).}
+
+Obviously, we see that
+
+\[
+f_{H_t}(t)=X_t.
+\]
+
+We further use the convention \(\inf\ \emptyset=\infty\).
+
+We can define the cash flow in the valid time model.
+
+\textbf{Definition 2.2. (Cash Flow - Valid time model)} \emph{Let \(A\subseteq \mathbb R^+\) and define the collection \(x_A=(X_s)_{s\in A}\). We define the cash flow gained in \(A\) as}
+
+\[
+B(x_A,dt)=1_A(t)\sum_{j\in \mathcal J}\left(1_{(X_{t-}=j)}B_j(dt)+\sum_{k\in \mathcal J, k\ne j}b_{jk}(t)n_{jk}(x_A,dt)\right),
+\]
+
+\emph{with}
+
+\[
+n_{jk}(x_A,t)=\#\Big\{s\in \mathbb R^+\cap A : X_s=k,X_{s-}=j\Big\}.
+\]
+
+\emph{We then define the usual cash flow model as}
+
+\[
+B(dt)\stackrel{\text{def}}{=}B(x_{\mathbb R^+},dt),\quad N_{jk}(t)\stackrel{\text{def}}{=}n_{jk}(x_{\mathbb R^+},t).
+\]
+
+Furthermore, we define the rate enviroment as follows.
+
+\textbf{Definition 2.3. (Rate model)} \emph{Let \((r_t)_{t\ge 0}\) be a real-valued random variable. We say that \(r\) is the short (spot) rate and define the accumulated compounded payments payed during \(A\subseteq \mathbb R^+\) as}
+
+\[
+B^\circ(x_A)=\int_0^\infty e^{-\int_0^sr(v)\ dv} B(x_A,ds).
+\]
+
+Note that we will make the assumption that \(r\) is deterministic or at least independent of the stochastic process \(X_t\). The transaction time model is defined as follows.
+
+\textbf{Definition 2.4. (Transaction time model)} \emph{Let \((Z_t)_{t\ge 0}\) be a pure jump process on the finite state space \(\mathcal K\) as \(X_t\) though with bounded transition rates \((\lambda_{jk}(t))_{t\ge 0,\ j,k\in \mathcal K}\) on any compact set on \(\mathbb R^+\). We define the jump times \((T_n)_{n\in \mathbb N}\) and number of jumps at time \(t\): \(\langle t\rangle\) analogous to definition 2.1.}
+
+The connection between \(X_t\) and \(Z_t\) is that we let \(Z_t\) describe the flow of information the insurance company experience and so \(Z_t\) determines the actual transactions between the insured. That is we need to construct some payment stream wrt. \(Z_t\) such that when the insurance company knows the entire path of \(X_t\) the contract will be settled with the appropriate rate accumulated. To this we define the following history process.
+
+\textbf{Definition 2.5. (History process)} \emph{Let \((H^t_s)_{0\le s\le t}\) be a double-indexed stochastic process such that for each fixed \(t\) the process \((H^t_s)_{0\le s\le t}\) is a pure jump process on \(\mathcal J\) and that as \(t \to \infty\) we have \((H^t_s)\to (X_s)\).}
+
+The history process will be constructed in such a way that at time \(t\) given the information gathered through the filtration \(\mathcal F^Z_t=\sigma (Z_s : 0\le s\le t)\) up until this time point \(H_s^t\) will be the assumed state of the process \(X_t\) given \(\mathcal F^Z_t\). We will consider the obvious construction called the \emph{basic bi-temporal model}.
+
+\textbf{Definition 2.6. (Basic Bi-Temporal Model)}\index{Basic Bi-Temporal Model} \emph{We say that \((X_t,Z_t,(H^t_s)_{0\le s\le t})_{t\ge 0}\) satisfy the basic bi-temporal assumptions if}
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\tightlist
+\item
+  \emph{\((H^t_s)=(H^{T_{\langle t\rangle}}_s)\) for all \(t\ge 0\),}
+\item
+  \emph{there exists an \(0\le \eta <\infty\) such that \(Z_t=Z_\eta\) for all \(t\ge \eta\) with probability one and}
+\item
+  \emph{\(H^t_s\) is constant for all \(\eta \le s\le t\) and we set \(H_s=H^\eta_s\).}
+\end{enumerate}
+
+\emph{We furthermore define \(\mathcal Z_t=(Z_t,(H^t_s)_{0\le s\le t})\) and let \(\mathcal F^{\mathcal Z}_t=\sigma(\mathcal Z_s : 0\le s\le t)\).}
+
+The interpretations of the above is that (i) the assumed state of \(X_t\) cannot change in between the jumps of \(Z_t\) i.e.~we gain no information outside the jumptimes \((T_n)\), (ii) we will at some finite time know for certain the entire path of \(X_t\) and so be able to settle all payments and (iii) at this time the process \(X_t\) is absorbed and we have no further jumps in the valid time model. Furthermore, at this time we will have the entire history of \(X\). Notice, that this actually gives a framework such that the time \(\eta\) may be a bankruptcy time or surrender time and so \(H\) may differ from \(X\) and only serve as the final settlement time for the contract.
+
+From this construction we set
+
+\[
+H_s^t=\left( \tau_1^t,..., \tau_{\langle\langle s\rangle \rangle }^t; X_{\tau_1^t}^t,..., X_{\tau_{\langle\langle s\rangle \rangle }^t}^t\right),\quad X_s^t=f_{H^t_s}(s),
+\]
+
+where the superscript refer to the presumed history of \(X\) given the information at time \(t\). Notice that \(\mathcal F^{\mathcal Z}_s\) is indeed known for all \(s\le t\) at time \(t\) where \(\mathcal F^X_s\) is only known for all \(0\le s\le t\) at some time \(t\ge \eta\). Our endavours during the timespan \([0,\eta)\) is to transact such the payments paid up until time \(t\) is consistent with \(B((X_s^t)_{0\le s\le t},dt)\) on \([0,t]\). We therefore define the payments in transaction time as follows
+
+\textbf{Definition 2.7. (Cash Flow - Transaction time model)} \emph{We define the cash flow gained at time \(t\) in transaction time as}
+
+\[
+\tilde B(dt)= B(X^t_{[0,\infty)},dt)+d\left(\sum_{0\le s\le t}e^{\int_0^sr(v)\ dv}\Big(B^\circ(X^s_{[0,s]})-B^\circ(X^{-s}_{[0,s]})\Big)\right)
+\]
+
+\emph{with \(\tilde B(0)=B(0)\).}
+
+The dynamics is read as follows: We pay out at time \(t\) the payments in valid time as if we know the value of \(X\) at time \(t\) but use the assumed state of \(X\) and then correct backwards in time whenever we gain new informations such that the sample path \(X^{s}_{[0,s]}\) differs from \(X^{s-}_{[0,s]}\). The accumulator in from ensures that the missing payment at time \(u\le s\) is multiplied with the factor \(e^{\int_0^sr(v)\ dv}e^{-\int_0^u r(v)\ dv}= e^{\int_u^sr(v)\ dv}\), so no arbitrage is possible. Notice that
+
+\[
+B(X^t_{[0,\infty)},dt)=\sum_{n=0}^\infty 1_{(\langle t\rangle=n)}B(X^{T_n}_{[0,\infty)},dt).
+\]
+
+\hypertarget{present-values-and-reserves}{%
+\subsection{Present values and reserves}\label{present-values-and-reserves}}
+
+The present value in valid time is defined as
+
+\[
+PV(t)=\int_t^\infty e^{-\int_t^s r(v)\ dv}B(ds)
+\]
+
+with associated reserve
+
+\[
+V(t)=\mathbb E\left[PV(t)\ \vert\ \mathcal F^X_t\right].
+\]
+
+We may define the transaction time present value and reserve as
+
+\[
+\tilde{PV}(t)=\int_t^\infty e^{-\int_t^s r(v)\ dv}\tilde B(ds),\quad \tilde V(t)=\mathbb E\left[\tilde {PV}(t)\ \vert\ \mathcal F^{\mathcal Z}_t\right].
+\]
+
+The present value in valid time takes the form:
+
+\textbf{Lemma 2.8.} \emph{The valid time present value is}
+
+\[
+PV(t)=e^{\int_0^t r(v)\ dv}\Big(B^\circ(X^\eta_{[0,\infty)})-B^\circ(X^\eta_{[0,t]})\Big).
+\]
+
+\textbf{Proof.}
+
+We see that by definition
+\begin{align*}
+PV(t)&=\int_t^\infty e^{-\int_t^s r(v)\ dv}B(ds)\\
+&=\int_0^\infty e^{-\int_t^s r(v)\ dv}B(ds)-\int_0^t e^{-\int_t^s r(v)\ dv}B(ds)\\
+&=e^{\int_0^t r(v)\ dv}\left(\int_0^\infty e^{-\int_9^s r(v)\ dv}B(ds)-\int_0^t e^{-\int_0^s r(v)\ dv}B(ds)\right)\\
+&=e^{\int_0^t r(v)\ dv}\Big(B^\circ(X^\eta_{[0,\infty)})-B^\circ(X^\eta_{[0,t]})\Big),
+\end{align*}
+as desired. \(\blacksquare\)
+
+We can relate the present value in transaction time and valid time by first showing the lemma below.
+
+\textbf{Lemma 2.9.} \emph{The transaction time present value is}
+
+\[
+\tilde{PV}(t)=e^{\int_0^t r(v)\ dv}\Big(B^\circ(X^\eta_{[0,\infty)})-B^\circ(X^t_{[0,t]})\Big).
+\]
+
+\textbf{Proof.}
+
+Consider first that if \(t\ge \eta\) we have
+\begin{align*}
+\tilde{PV(t)}&=PV(t)=e^{\int_0^t r(v)\ dv}\Big(B^\circ(X^\eta_{[0,\infty)})-B^\circ(X^\eta_{[0,t]})\Big)\\
+&=e^{\int_0^t r(v)\ dv}\Big(B^\circ(X^\eta_{[0,\infty)})-B^\circ(X^t_{[0,t]})\Big),
+\end{align*}
+using that \(B^\circ(X^t_{[0,t]})=B^\circ(X^\eta_{[0,t]})\) for all \(t\ge \eta\).
+
+Next let \(t<\eta\). By definition of \(\tilde B\) we have
+\begin{align*}
+\tilde{PV}(t)&=\int_t^\infty e^{-\int_t^s r(v)\ dv}\tilde B(ds)\\
+&= \int_t^\infty e^{-\int_t^s r(v)\ dv}B(X^t_{[0,\infty)},ds)+\sum_{t< s<\infty}\underbrace{\Big(B^\circ(X^s_{[0,s]})-B^\circ(X^{-s}_{[0,s]})\Big)}_{\beta_s}\\
+&=\sum_{n=0}^\infty\int_t^\infty e^{-\int_t^s r(v)\ dv}1_{(\langle s\rangle = n)}B(X^{T_n}_{[0,\infty)},ds)+\sum_{n=\langle t\rangle +1}^\infty\beta_{T_n}\\
+&=\sum_{n=\langle t\rangle}^\infty\int_t^\infty e^{-\int_t^s r(v)\ dv}1_{(\langle s\rangle = n)}B(X^{T_n}_{[0,\infty)},ds)+\sum_{n=\langle t\rangle +1}^\infty\beta_{T_n}\\
+&=\int_t^{T_{\langle t\rangle +1}}e^{-\int_t^s r(v)\ dv}B(X^{T_{\langle t\rangle}}_{[0,\infty)},ds)+\beta_{T_{\langle t\rangle +1}}\\
+&+\sum_{n=\langle t\rangle +1}^{\langle \eta\rangle-1}\left(\int_{T_n}^{T_{n +1}}e^{-\int_t^s r(v)\ dv}B(X^{T_n}_{[0,\infty)},ds)+\beta_{T_{n +1}}\right)\\
+&+\int_\eta^\infty e^{-\int_t^s r(v)\ dv}B(X^{\eta}_{[0,\infty)},ds).
+\end{align*}
+Hence we can rewrite the present value as
+\begin{align*}
+\tilde{PV}(t)&=\underbrace{B^\circ\Big(X^{T_{\langle t\rangle}}_{[0,T_{\langle t\rangle})}\Big)-B^\circ\Big(X^{T_{\langle t\rangle}}_{[0,t]}\Big)}_{\int_t^{T_{\langle t\rangle +1}}e^{-\int_t^s r(v)\ dv}B(X^{T_{\langle t\rangle}}_{[0,\infty)},ds)}+\underbrace{B^\circ\Big(X^{T_{\langle t\rangle+1}}_{[0,T_{\langle t\rangle+1})}\Big)-B^\circ\Big(X^{T_{\langle t\rangle}}_{[0,T_{\langle t\rangle + 1})}\Big)}_{\beta_{T_{\langle t\rangle +1}}}\\
+&+\sum_{n=\langle t\rangle +1}^{\langle \eta\rangle-1}\left(B^\circ\Big(X^{T_{n}}_{[0,T_{n+1})}\Big)-B^\circ\Big(X^{T_{n}}_{[0,T_n)}\Big)+B^\circ\Big(X^{T_{n+1}}_{[0,T_{n+1})}\Big)-B^\circ\Big(X^{T_{n}}_{[0,T_{n+1})}\Big)\right)\\
+&+B^\circ\Big(X^{\eta}_{[0,\infty)}\Big)-B^\circ\Big(X^{\eta}_{[0,\eta)}\Big).
+\end{align*}
+This sum telescopes such that we obtain
+\begin{align*}
+\tilde{PV}(t)&=B^\circ\Big(X^{T_{\langle t\rangle +1}}_{[0,T_{\langle t\rangle +1})}\Big)-B^\circ\Big(X^{T_{\langle t\rangle }}_{[0,t]}\Big)+B^\circ\Big(X^{\eta}_{[0,\eta)}\Big)-B^\circ\Big(X^{T_{\langle t\rangle +1}}_{[0,T_{\langle t\rangle +1})}\Big)\\
+&+B^\circ\Big(X^{\eta}_{[0,\infty)}\Big)-B^\circ\Big(X^{\eta}_{[0,\eta)}\Big)\\
+&=B^\circ\Big(X^{\eta}_{[0,\infty)}\Big)-B^\circ\Big(X^{t}_{[0,t]}\Big)
+\end{align*}
+using that \(X^{T_{\langle t\rangle }}_{[0,t]}=X^{t}_{[0,t]}\). Thus we obtain the desired result.\(\blacksquare\)
+
+Combining lemma 2.8 and 2.9 we trivially obtain the relation.
+
+\textbf{Theorem 2.10.} \emph{The transaction and valid time present value relates as follows}
+
+\[
+\tilde{PV}(t)=PV(t) +e^{\int_0^t r(v)\ dv}\Big(B^\circ(X^\eta_{[0,t]})-B^\circ(X^t_{[0,t]})\Big).
+\]
+
+The proof is trivial and therefore skipped.
+
+The reserve in transaction time cannot be easily computed without making any independence assumptions on the filtrations \(\mathcal F^X\) and \(\mathcal F^{\mathcal Z}\). Furthermore, it is non-constructive to generalize the reserve given appropriate assumptions. In general, we need to make the assumption that \(\mathcal F^X_\infty\), that is \(\sigma\left(\bigcup_{t\ge 0} \mathcal F^X_t\right)\), is independent of \(\mathcal F^{\mathcal Z}_t\ \vert\ \mathcal F^X_t\). In this case, we can compute explicitly the transaction time reserve using a weighing of the valid time reserve and a \emph{mistake} term by transition probabilities in \(X_t\) given \(\mathcal F^{\mathcal Z}_t\). In general we would have something like
+
+\[
+\tilde V_{j}(t)=\mathbb E\left[\left.\tilde {PV}(t)\ \right\vert\ Z_t= j\right]=\sum_{i\in \mathcal J}\mathbb P(X_{\theta_j(t)}=i\ \vert\ \mathcal F^{\mathcal Z}_t)\left(V_i(t)+\int_{\theta_j(t)}^t e^{\int_s^t r(v)\ dv}(B_i-B_j)(ds)\right),
+\]
+
+where \(\theta_j(t)=\sup\bigcup_{0\le s\le t}\inf\{0\le u\le s: Z_u=j, Z_{u-}\ne j\}\) is the latest jumptime to the state \(j\). The interpretation is that we reserve in the sum of all statewise valid time reserves by the probability that the underlying jump process is at the jump time of \(Z\) was in that state. We also add up the mistakes this would have caused during the time span since the jump and now and weigh these \emph{mistake} terms by the same probability. It is however not clear how one may estimate the desired probability.
+
 \hypertarget{parametric-estimation-in-markov-models}{%
 \section{Parametric estimation in Markov models}\label{parametric-estimation-in-markov-models}}
+
+A way to represent a Markov chain is through a marked point process \((T_n,Y_n)_{n\in\mathbb N}\) where \(T_n \in (0, \infty]\) is the \(n\)'th jump-time and \(Y_n \in \mathcal J \cup \{\nabla\}\) is where the process jumps to at time \(T_n\), also known as the \(n\)'th jump-mark. Here \(\nabla\) is the mark corresponding to a jump that does not occur, that is \(Y_n =\nabla\) if and only if \(T_n =\infty\).
+
+The distribution of \(X\) is most easily characterized in terms of the marked point process representation. Since the primarily focus of this section is maximum likelihood estimation, and the likelihood is closely related to the distribution of \(X\), we mainly work with the marked point process representation. Let \(H_n = (T_1,Y_1,...,T_n,Y_n)\) be the first \(n\) jump-times and jump-marks. We will make the conventions \(T_0 = 0, Y_0 = x_0\) and \(H_0 = (T_0,Y_0)\) as the case with no jumps then follows the same formulae as the case with jumps. The distribution of a marked point process is characterized by the conditional jump-time and jump-mark distributions
+\begin{align*}
+F_{H_n}^{(n+1)}(s)&=\mathbb P(T_{n+1} \le s\ \vert\ H_n),\\
+G_{H_n,T_{n+1}}^{(n+1)}(j)&=\mathbb P(Y_{n+1} = j\ \vert\ H_n,T_{n+1}).
+\end{align*}
+Such a sequence of conditional distributions leads to a joint distribution of \((T_n,Y_n)_{n\in\mathbb N}\) with the desired conditional distributions follows from the Ionescu-Tulcea theorem (see e.g.~Theorem 5.17 of Kallenberg (1997)). We will often denote this distribution with the letter \(Q\).
+
+Introduce non-negative measurable functions \(\mu_{jk}\) with \(j,k \in \mathcal J\) and \(k\ne j\)) which we shall assume bounded on any compact set. The marked point process corresponding to a Markov chain with transition rates \(\mu_{jk}\) can be defined by the specification
+\begin{align*}
+\overline F_{H_n}^{(n+1)}(s)&=\exp\left(-\int_{T_n}^s\mu_{Y_n\cdot}(u)\ du \right),\\
+\overline G_{H_n,T_{n+1}}^{(n+1)}(j)&=\frac{\mu_{Y_nj}(T_{n+1})}{\mu_{Y_n\cdot}(T_{n+1})}.
+\end{align*}
+with the usual definition \(\mu_{j\cdot}(t)=\sum_{k\in \mathcal J, k\ne j}\mu_{jk}(t)\). Thus we can think of this as a in homogeneous Poisson arrival model with associated claim sizes \(Y_n\) although with the major difference, that the renewal time depends on the most recent ``\emph{claim size}''. We can formally define the markov chain as
+
+\[
+X_t=\sum_{n=1}^\infty Y_n1_{(T_n\le t <T_{n+1})}.
+\]
+
+\hypertarget{likelihood-without-censoring}{%
+\subsection{Likelihood without censoring}\label{likelihood-without-censoring}}
+
+Let the background probability space be denoted \((\Omega,\mathcal F,\mathbb P)\) and let \(\mathcal F_t \subseteq \mathcal F\) be the filtration generated by \((T_n, Y_n)_{n\in \mathbb N}\). Let \(\mathcal P\) be a statistical model i.e.~a collection of probability measures on \((\Omega,\mathcal F,\mathbb P)\). We think of these as candidates for the distribution of \((T_n, Y_n)_{n\in \mathbb N}\). For elements \(Q, \tilde Q \in\mathcal P\) , we denote by \(Q_t\) and \(\tilde Q_t\) the restrictions of the measures \(Q\), \(\tilde Q\) to the sigma-algebra \(\mathcal F_t\).
+
+\textbf{Definition 3.1.} \emph{Let \(Q\) and \(\tilde Q\) be two probability measures. We say that \(\tilde Q\) is absolutely locally continuous wrt. \(Q\) if for all \(t\ge 0\) it holds}
+
+\[
+\forall F\in\mathcal F_t: Q_t(F)=0\Rightarrow\tilde Q_t(F)=0.
+\]
+
+\emph{If so we write \(\tilde Q\stackrel{\text{loc}}{<<}Q\).}
+
+If we have such two measurus then by the Radon-Nikodym Theorem we can define the \emph{likelihood process}
+
+\[
+\mathcal L_t=\frac{d \tilde Q_t}{d Q_t}.
+\]
+
+Let \(\tilde F\) and \(\tilde G\) be the conditional jump-time and jump-mark distributions for \(\tilde Q\) and likewise use \(F\) and \(G\) for \(Q\). Denote by \(h_n = (t_1, y_1, ..., t_n, y_n)\) a generic outcome of \(H_n\) and let \(\langle t\rangle = \sum_{n=1}^\infty 1_{(T_n\le t)}\) be the number of jumps that have occurred at time \(t\).
+
+\textbf{Proposition 3.2.} \emph{Assume that the Radon-Nikodym derivatives}
+
+\[
+\frac{d\tilde F^{(n)}_{h_{n-1}}}{dF^{(n)}_{h_{n-1}}}(t)\quad \text{and}\quad \frac{d\tilde G^{(n)}_{h_{n-1},t_n}}{dG^{(n)}_{h_{n-1},t_n}}(k),
+\]
+
+\emph{of the jump-time and jump-mark distributions exist. Then \(\tilde Q\) is locally absolutely continuous wrt. \(Q\) and the likelihood process takes the form}
+
+\[
+\mathcal L_t=\left(\prod_{n=1}^{\langle t\rangle} \frac{d\tilde F^{(n)}_{H_{n-1}}}{dF^{(n)}_{H_{n-1}}}(T_n) \frac{d\tilde G^{(n)}_{H_{n-1},T_n}}{dG^{(n)}_{H_{n-1},T_n}}(Y_n)\right)\frac{{\overline {\tilde F}}^{(\langle t\rangle +1)}_{H_{\langle t\rangle}}(t)}{{\overline F}^{(\langle t\rangle +1)}_{H_{\langle t\rangle}}(t)}
+\]
+
+\emph{where \({\overline F}^{(\langle t\rangle +1)}_{H_{\langle t\rangle}}(t)=Q(T_{\langle t\rangle +1}\le t\ \vert\ H_{\langle t\rangle})\) and likewise for \(\tilde Q\).}
+
+Proposition 3.2 holds for a general marked point process, and may hence also be used for semi- Markov processes, processes with point-mass in their distributions etc. For Markov chains with transition rates, the likelihood simplifies. Let \(\tilde \mu_{jk}\) be the transition rates for \(\tilde Q\) and \(\mu_{jk}\) be the transition rates for \(Q\).
+
+\textbf{Corollary 3.3.} \emph{In the case where \(Q\) and \(\tilde Q\) are distributions of a Markov chain with transition rates, the likelihood \(\mathcal L\) is given by}
+\begin{align*}
+\mathcal L_t&=\left(\prod_{n=1}^{\langle t\rangle} \frac{e^{-\int_{T_n-1}^{T_n}\tilde \mu_{Y_{n-1}\cdot}(s)\ ds}\tilde \mu_{Y_{n-1}\cdot}(T_n)}{e^{-\int_{T_n-1}^{T_n} \mu_{Y_{n-1}\cdot}(s)\ ds} \mu_{Y_{n-1}\cdot}(T_n)}\cdot \frac{\tilde \mu_{Y_{n-1}Y_n}(T_n)/\tilde \mu_{Y_{n-1}\cdot }(T_n)}{\mu_{Y_{n-1}Y_n}(T_n)/\mu_{Y_{n-1}\cdot }(T_n)}\right)\frac{e^{-\int_{T_{\langle t\rangle}}^t \tilde \mu_{Y_{\langle s-\rangle \cdot}}(s)\ ds}}{e^{-\int_{T_{\langle t\rangle}}^t  \mu_{Y_{\langle s-\rangle \cdot}}(s)\ ds}}\\
+&=\frac{e^{-\int_0^t \tilde \mu_{Y_{\langle s-\rangle \cdot}}(s)\ ds}}{e^{-\int_0^t  \mu_{Y_{\langle s-\rangle \cdot}}(s)\ ds}}\left(\prod_{n=1}^{\langle t\rangle} \frac{\tilde \mu_{Y_{n-1}Y_n}(T_n)}{\mu_{Y_{n-1}Y_n}(T_n)}\right).
+\end{align*}
+\emph{in other words}
+
+\[
+\mathcal L_t\propto e^{-\int_0^t \tilde \mu_{Y_{\langle s-\rangle \cdot}}(s)\ ds}\prod_{n=1}^{\langle t\rangle} \tilde \mu_{Y_{n-1}Y_n}(T_n).
+\]
+
+We will henceforth switch measure notation and simply say that
+
+\[
+\mathcal L_t\propto \exp\left(-\int_0^t  \mu_{Y_{\langle s-\rangle \cdot}}(s)\ ds\right)\prod_{n=1}^{\langle t\rangle}  \mu_{Y_{n-1}Y_n}(T_n).
+\]
+
+\hypertarget{likelihood-with-right-censoring}{%
+\subsection{Likelihood with right-censoring}\label{likelihood-with-right-censoring}}
+
+With our general results from the previous section, we are able to describe what is basically the most general form of right-censoring that still leaves the underlying transition rates identifiable from the observable data, namely independent right-censoring.
+
+Let \((T_n^*,Y_n^*)_{n\in \mathbb N}\) be the marked point process corresponding to a Markov chain on the state-space \(\mathcal J\) with transition rates \(\mu^*_{jk}\). We will now extend the state-space with an extra absorbing state \((J + 1)\) which represents the censored state. Let \(C > 0\) be a random variable which we think of as the censoring time. We construct a new marked point process \((T_n,Y_n)_{n\in\mathbb N}\) from \((T_n^*, Y_n^*)_{n\in\mathbb N}\) by deleting all jumps with \(T_n^* > C\) and adding a jump \((C, J +1)\). We assume that the marked point process \((T_n, Y_n)_{n\in\mathbb N}\) leads to a Markov chain on the state-space \(\mathcal J \cup \{J + 1\}\) with transition rates \(\mu_{jk}\) with \(j,k \in \mathcal J \cup \{J + 1\}\) and \(j\ne k\). Note that we do not automatically have \(\mu_{jk} = \mu_{jk}^*\) for \(j,k \in\mathcal J\) since for the jump-time distribution, we now also condition on censoring not having occurred yet. We elaborate on this point after stating Assumption 1. In total, we specify the jump-time and jump-mark distributions of \((T_n,Y_n)_{n\in\mathbb N}\) as
+\begin{align*}
+\overline F_{H_n}^{(n+1)}(s)&=\exp\left(-\int_{T_n}^s\mu_{Y_n\cdot}(u)\ du \right),&\qquad\text{on}\ (s>T_n),\\
+\overline G_{H_n,T_{n+1}}^{(n+1)}(k)&=\frac{\mu_{Y_nk}(T_{n+1})}{\mu_{Y_n\cdot}(T_{n+1})},&\qquad\text{on}\ (k\ne Y_n).
+\end{align*}
+We are interested in estimating the underlying transition rates \(\mu^*_{jk}\), but only observe the marked point process \((T_n,Y_n)_{n\in\mathbb N}\). In order for this to be possible, we impose Assumption 1, called \emph{independent right-censoring}.
+
+\textbf{Assumption 1.} \emph{For \(j,k\in\mathcal J\) with \(j\ne k\), it holds that \(\mu_{jk}(s)=\mu^*_{jk}(s)\) for all \(s\ge 0\).}
+
+In other words, the transition rates to the original states are unchanged by incorporating censoring. This means that the information that the subject has not yet been censored has no effect on the probability of making a given transition. One situation where this assumption would be violated would be a two-state life-death model \(J = \{1, 2\}\) where frail people have a higher rate of censoring/drop-out, because the death-transition rate of the non-censored \(\mu_{12}\) would then be lower than the population average \(\mu^*_{12}\). Note also that the transition rate to the censored state \((J + 1)\) is allowed to depend on the current state i.e.~\(\mu_{k,J+1}\) may be different from \(\mu_{j,J+1}\). Hence, the assumption of independent right-censoring is weaker than the assumption that the censoring time \(C\) is independent of \((T_n^* ,Y_n^*)_{n\in\mathbb N}\). This latter assumption is called \emph{entirely random right-censoring}.
+
+As a final remark, note that independent right-censoring is only strictly needed if we really want to estimate \(\mu^*_{jk}\) instead of \(\mu_{jk}\). A life-insurance company will most often be interested in estimating the transition rates for the insureds that stay in the portfolio (i.e.~\(\mu_{jk}\)), since these are the ones generating premium and benefit payments, and care less about whether these transition rates equal the transition rates of the group of people that originally entered the portfolio (i.e.~\(\mu^*_{jk}\)). In life-insurance, one can think of the censoring as being explicitly modeled through policyholder options (freepolicy and surrender). For other biostatistical applications such as medical studies, the object of interest is however almost always \(\mu^*_{jk}\).
+
+We may factorize the likelihood into a part relating to censoring and one relating to the biometric transition rates as follows:
+\begin{align*}
+\mathcal L_t&\propto \exp\left(-\int_0^t  \sum_{k\in\mathcal J}\mu_{Y_{\langle s-\rangle k}}(s)\ ds\right)\left(\prod_{n=1,Y_n\ne J+1}^{\langle t\rangle}  \mu_{Y_{n-1}Y_n}(T_n)\right)\\
+&\times\exp\left(-\int_0^t  \mu_{Y_{\langle s-\rangle J+1}}(s)\ ds\right)\left(\prod_{n=1,Y_n= J+1}^{\langle t\rangle}  \mu_{Y_{n-1}Y_n}(T_n)\right)
+\end{align*}
+and under Assumption 1, one may substitute \(\mu^*_{jk}\) for \(\mu_{jk}\) when \(k\ne J + 1\).
+
+\hypertarget{maximum-likelihood-estimation}{%
+\subsection{Maximum likelihood estimation}\label{maximum-likelihood-estimation}}
+
+We here present maximum likelihood under independent right-censoring, but the case where \(\mu_{jk}\) are the objects of interest is completely analogous. To make the notation less cumbersome, we also only consider one path of the marked point process, but note that with \(n\) i.i.d. subjects, the likelihood \(\mathcal L_t\) becomes a product over the likelihood for each of the \(n\) observed paths which can be handled analogously.
+
+For parametric estimation, we assume that the statistical model is of the form \(\mathcal P = \{P_\theta : \theta\in\Theta\}\) where \(\Theta\) is a subset of some Euclidean space \(\mathbb R^p\) and that the true distribution is in this family for some value \(\theta_0\) of the parameter. We assume that the subject has some baseline covariates \(W\) that are known at time 0 i.e.~we extend the filtration with \(W\) such that \(W\) is \(\mathcal F_0\)-measurable. Then the arguments leading to the likelihood in Proposition 3.2 still hold, but now under the conditional measure given \(\mathcal F_0\). We write \(\mu^*_{jk}(s,W;\theta)\) and \(\mu_{j,J+1}(s,W;\theta)\) for the transition rates corresponding to \(P_\theta\) and \(\mathcal L_t(\theta)\) for the likelihood. The maximum likelihood estimator is defined as \(\hat θ= \arg\max_\theta \mathcal L_t(\theta)\) and under some standard regularity assumptions, this estimator is consistent and asymptotically normal for \(\theta_0\). To avoid having to model the censoring mechanism, we impose Assumption 2, called \emph{non-informative right-censoring}.
+
+\textbf{Assumption 2.} \emph{The parameter space factorizes into a product space \(\Theta = \Theta_1 \times \Theta_2\). For \(\theta = (\theta_1,\theta_2)\) with \(\theta_1 \in\Theta_1\) and \(\theta_2 \in\Theta_2\), the transition rates \(\mu^*_{jk}(s,W;\theta)\) for \(j,k \in\mathcal J\) and \(j\ne k\) only depend on \(\theta\) through \(\theta_1\) and \(\mu_{j,J+1}(s,W;\theta)\) for \(j \in\mathcal J\) only depends on \(\theta\) through \(\theta_2\).}
+
+This assumption is quite weak, as it is usually unnatural to assume that the censoring and biometric transition hazards are not able to be specified separately. It would be violated if we e.g.~assumed that one of the censoring transition rates was proportional to one of the biometric transition rates.
+
+When Assumption 2 holds, the likelihood is on the form \(\mathcal L_t(\theta) = \mathcal L_t(\theta_1) \mathcal L_t(\theta_2)\) with
+
+\[
+\mathcal L_t(\theta_1)= \exp\left(-\int_0^t  \sum_{k\in\mathcal J}\mu^*_{Y_{\langle s-\rangle k}}(s,W;\theta_1)\ ds\right)\left(\prod_{n=1,Y_n\ne J+1}^{\langle t\rangle}  \mu^*_{Y_{n-1}Y_n}(T_n,W;\theta_1)\right).
+\]
+
+The likelihood \(\mathcal L_t(\theta)\) as a function of \(\theta_1\) is thus proportional to \(\mathcal L_t(\theta_1)\), which is the same as if there had been no censoring. Hence when Assumption 1 and 2 hold, one may ignore the right-censoring when making inference about \(\theta 1\). Remarkably, the estimator based on \(\mathcal L_t(\theta_1)\) stays consistent and asymptotically normal even if Assumption 2 does not hold, but it will have a larger asymptotic variance than the estimator based on \(\mathcal L_t(\theta)\).
+
+Write \(\ell_t(\theta_1) = \log\mathcal L_t(\theta_1)\) for the log-likelihood of the biometric transition rates. Note that we can write
+\begin{align*}
+\ell_t(\theta_1)&= \sum_{n=1,Y_n\ne J+1}^{\langle t\rangle}  \log\left(\mu^*_{Y_{n-1}Y_n}(T_n,W;\theta_1)\right)-\int_0^t  \sum_{k\in\mathcal J}\mu^*_{Y_{\langle s-\rangle k}}(s,W;\theta_1)\ ds\\
+&=\sum_{j\in \mathcal J}\sum_{k\in \mathcal J, k\ne j}\int_0^t\log\left(\mu^*_{Y_{n-1}Y_n}(T_n,W;\theta_1)\right)\ dN_{jk}(s)-\int_0^t 1_{(X_s=j)}\mu^*_{jk}(s,W;\theta_1)\ ds.
+\end{align*}
+A trick that allows one to use off-the-shelf statistical software to find the maximum likelihood estimator is to make a discrete approximation of the log-likelihood. Make a partition \(0 = t_0 < t_1 < ... < t_M = t\) of the interval \([0,t]\) and write \(O_{jk}(t_m) = N_{jk}(t_m) − N_{jk}(t_{m−1})\) and \(E_j(t_m) = 1_{(X_{t_m} =j)}(t_m − t_{m−1})\) which we call the occurrences and exposures respectively. Then
+
+\[
+\ell_t(\theta_1)\approx \sum_{j\in \mathcal J}\sum_{k\in \mathcal J, k\ne j}\sum_{m=1}^M\log\left(\mu^*_{Y_{n-1}Y_n}(T_n,W;\theta_1)\right)O_{jk}(t_m)-\mu^*_{jk}(s,W;\theta_1)E_j(t_m).
+\]
+
+Now since \(\log(\mu^*_{jk}(t_m,W;\theta_1)E_j(t_m)) = \log(\mu^*_{jk}(t_m,W;\theta_1))+\log(E_j(t_m))\) and \(\log(E_j(t_m))O_{jk}(t_m)\) does not depend on \(\theta_1\), the log-likelihood is up to an additive constant approximately equal to
+
+\[
+\sum_{j\in \mathcal J}\sum_{k\in \mathcal J, k\ne j}\sum_{m=1}^M\log\left(\mu^*_{Y_{n-1}Y_n}(T_n,W;\theta_1)E_j(t_m)\right)O_{jk}(t_m)-\mu^*_{jk}(s,W;\theta_1)E_j(t_m)
+\]
+
+The expression \(\log\left(\mu^*_{Y_{n-1}Y_n}(T_n,W;\theta_1)E_j(t_m)\right)O_{jk}(t_m)-\mu^*_{jk}(s,W;\theta_1)E_j(t_m)\) can be recognized as the log-likelihood of a Poisson random variable with outcome \(O_{jk}(t_m)\) and mean equal to \(\mu^*_{jk}(t_m,W;\theta_1)E_j(t_m)\). Since independent random variables leads sums in the log-likelihood, one may input \((O_{jk}(t_m))_{j,k\in\mathcal J,m=1,...,M}\) as independent outcomes into a Poisson regression where the mean is modeled as \(\mu^*_{jk}(t_m,W;\theta_1)E_j(t_m)\), treating \(E_j(t_m)\) and \(W\) as non-stochastic. If there are \(n\) i.i.d. subjects, each subject will contribute with a vector of such outcomes \((O_{jk}(t_m))_{j,k\in\mathcal J,m=1,...,M}\), and the Poisson regression may still be used with these as the observations. Additionally, if any of these outcomes between subjects have the same mean (e.g.~from having the same covariates \(W\) at the same time \(t_m\)), we see from the form of the log-likelihood that the outcomes and exposures between these subjects may be summed before inputting into the Poisson regression as a single observation.
+
+A final reparametrization makes this fit into the generalized linear model (GLM) framework: Since \(\mu^*_{jk}\) and \(E_j(t_m)\) are non-negative, we may write
+
+\[
+\mu^*_{jk}(t_m,W;\theta_1)E_j(t_m)=\exp\left(\log\left(\mu^*_{jk}(t_m,W;\theta_1)\right)+\log\left(E_j(t_m)\right)\right).
+\]
+
+In the language of generalized linear models, the outcome \(O_{jk}(t_m)\) is modeled with the Poisson family, log-link, offset \(\log(E_j(t_m))\) and mean \(\log(\mu^*_{jk}(t_m,W;\theta_1))\).
+
+As an example, take a two-state life-death model \(\mathcal J = \{1, 2\}\). Let \(W\) be the age at time 0 and let \(\theta_1 =(\beta_0,\beta_1)\). We model the transition rate as \(\mu^*_{12}(t,W;\theta_1)=\exp(\beta_0+\beta_1(t+W))\). In \texttt{R}, this could be fitted by executing \texttt{glm(occurrence\ ∼\ 1+age+offset(log(exposure)),\ data,\ family\ =\ poisson(link\ =\ "log"))}.
+
+We reiterate that all of this is purely a trick to make implemented statistical packages solve our likelihood equations; we are never actually assuming that \((O_{jk}(t_m))_{j,k\in\mathcal J,m=1,...,M}\) are independent Poisson random variables, but only exploit that the likelihood under this specification would be the same as a discretization of our marked point process likelihood.
 
 \hypertarget{non-parametric-estimation-in-markov-models}{%
 \section{Non-parametric estimation in Markov models}\label{non-parametric-estimation-in-markov-models}}
 
+We start by stating the important result \emph{Glivenko-Cantelli theorem} that let us extend the almost surely pointwise convergence of the empirical distribution to a almost surely uniform convergence for all \(x\in\mathbb R\). This result let us trust the non-parametric distributions we may fit and thus use them as benchmarks for parametric solutions.
+
+\textbf{Theorem 4.1.} \emph{Let \(X_1,...,X_N\) be i.i.d with distribution function \(F_X\), then the empirical distribution}
+
+\[
+F_N(x)=\frac{1}{N}\sum_{i=1}^N 1_{(X_i\le x)},
+\]
+
+\emph{satisfy}
+
+\[
+\sup_{x\in\mathbb R}\left\vert F_N(x)-F_X(x)\right\vert\stackrel{\text{a.s.}}{\to}0,\qquad N\to \infty.
+\]
+
+\textbf{Proof.}
+
+Let \(\varepsilon>0\) be given. Let \(k\ge 2\) and define the increasing sequence \(\mathbb K=(K_i)_{i\in \{0,1,...,k\}}\) as
+
+\[
+K_i=\sup_{x\in\mathbb R}\left \{F_X(x-)\le \frac{i}{k}\right\}
+\]
+
+with \(K_0=-\infty\) and \(K_k=\infty\). Thus we have a partition of the space \(\mathbb R\). Note that some knotpoints may be equal if \(F_X\) jumps a larger size than \(1/k\). Given \(\mathbb K\) we can define
+
+\[
+\Delta_N=\max_{j=1,..,k-1}\left\{\vert F_n(K_j)-F_X(K_j)\vert,\vert F_n(K_j-)-F_X(K_j-)\vert\right\}.
+\]
+
+One can show that \(\Delta_N\stackrel{\text{a.s.}}{\to}0\) for \(N\to\infty\). Then it follows that
+
+\[
+\sup_{x\in\mathbb R}\left\vert F_N(x)-F_X(x)\right\vert\stackrel{\text{a.s.}}{\to}\varepsilon
+\]
+
+as \(N\to\infty\). Then by letting \(\varepsilon \to 0\) the result follows. \(\blacksquare\)
+
+\hypertarget{modelling-the-counting-process}{%
+\subsection{Modelling the counting process}\label{modelling-the-counting-process}}
+
+Let \(Z = (Z_t)_{t\ge 0}\) be a non-explosive jump process on a finite state space \(\mathcal J\), and take \((\Omega, \mathcal F, \mathbb P)\) to be the underlying probability space. We also introduce a multivariate counting process \(N\) with components \(N_{jk} = (N_{jk}(t))_{t\ge 0}\) given by
+
+\[
+N_{jk}(t)=\#\{s\in (0,t] : Z_{s−} =j,Z_s =k\}
+\]
+
+for \(j,k\in\mathcal J\) and \(j\ne k\). Throughout, we assume that \(\mathbb E[N_{jk}(t)]<\infty\), which especially guarantees that \(Z\) is non-explosive. The Doob--Meyer decomposition of \(N_{jk}\) is
+
+\[
+N_{jk}(t)=M_{jk}(t)+\Lambda_{jk}(t),
+\]
+
+where \(M_{jk}\) is a mean-zero martingale and \(\Lambda_{jk}\) is an increasing predictable process with initial value zero.
+
+We focus on Markov models, that is we assume that \(Z\) satisfies the Markov assumption. In this case,
+
+\[
+\Lambda_{jk}(t)=\int_0^t 1_{(Z_{s-}=j)}q_{jk}(ds).
+\]
+
+We let \(q(t)=(q_{jk}(t))_{j,k\in\mathcal J}\) and setting \(q_{jj}(t)=-\sum_{k\in\mathcal J, k\ne j}q_{jk}(t)\). These quantities are known as \emph{cumulative transition rates}, and we recover the classic case of smooth Markov models whenever
+
+\[
+q_{jk}(t)=\int_0^t\mu_{jk}(s)\ ds
+\]
+
+for ordinary transition rates \(\mu_{jk}\). A sufficient, but not necessary, condition for the existence of all moments of the counting processes is boundedness of the transition rates on compacts.
+
+Recall that the transition probabilities \(p_{jk}(t, s) =\mathbb P(Z_s = k\ \vert\ Z_t = j)\) can be represented as a multivariate product integral of the cumulative transition rates:
+
+\[
+(p_{jk}(t,s))_{j,k\in\mathcal J}=p(t,s)=\prod_t^s\Big(1+q(du)\Big).
+\]
+
+\textbf{Lemma 4.2.} \emph{The function \(q_{jk}\) is given by}
+
+\[
+q_{jk}(t)=\int_0^t\frac{1}{\mathbb P(Z_{s-}=j)}\ d\mathbb E[N_{jk}(s)].
+\]
+
+\textbf{Proof.}
+
+Note that by Tonelli's theorem,
+
+\[
+\mathbb E[N_{jk}(s)]=\mathbb E[\Lambda_{jk}(s)]=\int_0^t \mathbb E[1_{(Z_{s-}=j)}] q_{jk}(ds)=\int_0^t \mathbb P(Z_{s-}=j) q_{jk}(ds)
+\]
+
+Thus we obtain
+
+\[
+\int_0^t\frac{1}{\mathbb P(Z_{s-}=j)}\ d\mathbb E[N_{jk}(s)]=\int_0^t\frac{\mathbb P(Z_{s-}=k)}{\mathbb P(Z_{s-}=k)}\ q_{jk}(ds)=q_{jk}(t)
+\]
+
+as desired. \(\blacksquare\)
+
+We are interested in the case where observation of \(Z\) is right-censored. Let \(C\) be a strictly positive random variable describing right-censoring, so that we actually observe the pair
+
+\[
+\Big((Z_t)_{0\le t\le C}, \tau \wedge C\Big),
+\]
+
+where \(\tau\) is the (possibly infinite) absorption time of \(Z\). We introduce
+\begin{align*}
+p^c_j(t)&=\mathbb E\left[1_{(Z_t=j)}1_{(t<C)}\right],\\
+p^c_{jk}(t)&=\mathbb E\left[ N_{jk}(t\wedge C)\right].
+\end{align*}
+
+\textbf{Proposition 4.3.} \emph{Suppose that right-censoring is entirely random, that is \(Z \perp \!\!\! \perp C\). Then}
+
+\[
+q_{jk}(t)=\int_0^t\frac{1}{p^c_j(s-)}p^c_{jk}(ds).
+\]
+
+\textbf{Proof.}
+
+Note that, since \(Z \perp \!\!\! \perp C\), we have that
+
+\[
+p_j^c(t)=\mathbb P(t< C)\mathbb P(Z_t=j).
+\]
+
+Furthermore,
+
+\[
+N_{jk}(t\wedge C)=\int_0^t 1_{(s\le C)}N_{jk}(ds),
+\]
+
+so that by Tonelli's theorem and similar to the proof of the previous lemma,
+
+\[
+p^c_{jk}(t)=\int_0^t \mathbb P(s\le C)\ d\mathbb E[N_{jk}(s)].
+\]
+
+Collecting results yields
+\begin{align*}
+\int_0^t\frac{1}{p^c_j(s-)}p^c_{jk}(ds)&=\int_0^t\frac{\mathbb P(s\le C)}{\mathbb P(s\le C)\mathbb P(Z_{s-} = j)}\ d\mathbb E[N_{jk}(s)]\\
+&=\int_0^t\frac{1}{\mathbb P(Z_{s-} = j)}\ d\mathbb E[N_{jk}(s)]\\
+&=q_{jk}(t)
+\end{align*}
+as desired. \(\blacksquare\)
+
+Notice, since \(Z\) satisfies the Markov assumption, the condition that right-censoring be entirely random may be replaced by a weaker condition of \emph{independent} right-censoring.
+
+\hypertarget{estimators}{%
+\subsection{Estimators}\label{estimators}}
+
+Consider i.i.d. replicates \(\Big((Z_t^\ell)_{0\le t\le C^\ell}, \tau^\ell \wedge C^\ell\Big)_{\ell\in \{1,...,n\}}\). We form a non-parametric estimator for the cumulative transition rates by suitably combining standard non-parametric estimators for the components \(p^c_j\) and \(p^c_{jk}\). To this end, define
+\begin{align*}
+\mathbb N_{jk}^{(n)}(t)=\frac{1}{n}\sum_{\ell = 1}^n N_{jk}^\ell(t\wedge C^\ell),\\
+\mathbb I_{j}^{(n)}(t)=\frac{1}{n}\sum_{\ell = 1}^n 1_{(Z_t^\ell = j)}1_{(t<C^\ell)}.
+\end{align*}
+Note that, due to the strong law of large numbers,
+\begin{align*}
+\mathbb N_{jk}^{(n)}(t)&\stackrel{\text{a.s.}}{\to}p_{jk}^c(t),&\quad n\to\infty,\\
+\mathbb I_{j}^{(n)}(t)&\stackrel{\text{a.s.}}{\to}p_{j}^c(t),&\quad n\to\infty.
+\end{align*}
+
+\textbf{Definition 4.4.} \emph{The \textbf{Nelson-Aalen estimator} for the cumulative transition rates is defined according to}
+
+\[
+\hat q_{jk}^{(n)}(t)=\int_0^t \frac{1}{\mathbb I_{j}^{(n)}(s-)}\mathbb N_{jk}^{(n)}(ds).
+\]
+
+\textbf{Definition 4.4.} \emph{The \textbf{Aalen-Johansen estimator} for the transition probabilities is defined according to}
+
+\[
+\hat p^{(n)}(t,s)=\prod_t^s\Big(\mathbb I+\hat q(du)\Big),
+\]
+
+\emph{employing the convention \(\hat q^{(n)}_{jj}=-\sum_{k\in \mathcal J,k\ne j} \hat q_{jk}^{(n)}\).}
+
+\hypertarget{convergence-and-consistency-of-the-estimators}{%
+\subsubsection{Convergence and consistency of the estimators}\label{convergence-and-consistency-of-the-estimators}}
+
+The product integral has many nice properties, most outside the scope of this note, which essentially allows one to easily extend results for the Nelson--Aalen estimator to the Aalen-- Johansen estimator. In the following, we therefore focus on the Nelson--Aalen estimator.
+
+We intend to prove strong uniform consistency. Adopting such a strong notion of convergence comes at a cost, though. Ideally, we would like to establish convergence on the maximal interval, which is \([0,\eta)\), where \(\eta\) is the (possibly infinite) right endpoint of the support of \(C\). In other words, we would like to show that
+
+\[
+\sup_{0\le t< \eta}\left\vert \hat q_{jk}^{(n)}-q_{jk}(t)\right\vert\stackrel{\text{a.s.}}{\to}0,\qquad n\to \infty.
+\]
+
+But this requires very advanced mathematical tools, so we settle for convergence on compact sets. That is, we fix some \(\theta\) strictly below \(\eta\), the right endpoint of the support of \(C\), and consider the interval \([0, \theta]\). Furthermore, the fractions
+
+\[
+\frac{1}{p^c_j(s-)},\quad \frac{1}{\mathbb I^{(n)}_j(s-)},
+\]
+
+might blow up of the estimator around time \(s\) whenever the event \(\{Z_s = j\}\) is rare. There are multiple ways to circumvent this issue. We here settle for the simple but also quite crude assumption that
+
+\[
+\inf_{0\le t\le \theta}\mathbb P(Z_t=j)>0.
+\]
+
+We begin by establishing strong uniform consistency of the estimators for the components. The following decomposition might be of independent interest.
+
+\textbf{Proposition 4.5.} \emph{It holds for all \(j\in\mathcal J\) that}
+
+\[
+1_{(Z_t=j)}1_{(t<C)}=1_{(Z_0=j)}-1_{(C\le t)}1_{(Z_C=j)}+\sum_{k\in \mathcal J, k\ne j} \left(N_{kj}(t\wedge C)-N_{jk}(t\wedge C)\right).
+\]
+
+The proof is skipped. From the proposition above we see that
+\begin{align*}
+\mathbb I_{j}^{(n)}(t)&=\mathbb I_{j}^{(n)}(0)-\mathbb C_{j}^{(n)}(t)+\sum_{k\in \mathcal J, k\ne j} \left(\mathbb N_{kj}^{(n)}(t)-\mathbb N_{jk}^{(n)}(t)\right),\\
+p_j^c(t)&=p_j^c(0)-C_j(t)+\sum_{k\in \mathcal J, k\ne j} \left(p_{kj}^c(t)-p_{jk}^c(t)\right),
+\end{align*}
+with \(C_j(t)=\mathbb P(C\le t, Z_C=j)\) and
+
+\[
+\mathbb C_{j}^{(n)}(t)=\frac{1}{n}\sum_{\ell = 1}^n 1_{(C^\ell \le t)}1_{(Z^\ell_{C^\ell}=j)}.
+\]
+
+Again, by the strong law of large numbers,
+
+\[
+\mathbb C_{j}^{(n)}(t)\stackrel{\text{a.s.}}{\to}C_{j}(t),\quad n\to\infty.
+\]
+
+Note that although \(C_j\) is not a distribution function, this is only true up to normalization. So by slightly adapting the proof of the Glinveko--Cantelli theorem, one may show that
+
+\[
+\sup_{0\le t<\infty}\left\vert \mathbb C_{j}^{(n)}(t) - C_{j}(t)\right\vert\stackrel{\text{a.s.}}{\to}0,\qquad n\to \infty.
+\]
+
+\textbf{Proposition 4.6.} \emph{It holds that}
+\begin{align*}
+\sup_{0\le t\le \theta}\left\vert \mathbb N_{jk}^{(n)}(t) - p_{jk}^c(t)\right\vert\stackrel{\text{a.s.}}{\to}0,&\qquad n\to \infty,\\
+\sup_{0\le t\le \theta}\left\vert \mathbb I_{j}^{(n)}(t) - p_{j}^c(t)\right\vert\stackrel{\text{a.s.}}{\to}0,&\qquad n\to \infty.
+\end{align*}
+
+\textbf{Theorem 4.7. (Strong uniform consistency)} \emph{Suppose that \(\inf_{0\le t\le \theta}\mathbb P(Z_t=j)>0.\) holds. Then}
+
+\[
+\sup_{0\le t\le \theta}\left\vert \hat q_{jk}^{(n)}(t) - q_{jk}(t)\right\vert\stackrel{\text{a.s.}}{\to}0,\qquad n\to \infty.
+\]
+
+Suppose now that \(\mathbb E[N_{jk}(t)^2] < \infty\). It is then possible to derive asymptotic normality: The process
+
+\[
+\sqrt{n}\left(\hat q_{jk}^{(n)}(t)-q_{jk}(t)\right),\qquad t\in [0,\infty]
+\]
+
+converges weakly to a zero-mean Gaussian process \(X_{jk}\) with independent increments and variances \(V_{jk}(t) = \text{Var}[X_{jk}(t)]\), for which the following estimator turns out to be consistent:
+
+\[
+\mathbb V_{jk}^{(n)}(t)=\int_0^t\frac{n}{\mathbb I_{j}^{(n)}(s-)^2}\mathbb N^{(n)}_{jk}(ds).
+\]
+
+The theory of empirical processes provides an excellent framework for the derivation of such results. An alternative to the approach presented here, and to the application of empirical processes, is offered by martingale theory. Martingale methods yield quite easy extensions in various directions, but also come with certain limitations.
+
 \hypertarget{non-markov-modeling}{%
 \section{Non-Markov modeling}\label{non-markov-modeling}}
+
+The study of non-markov models revolves around a process \(Z\) that is a pure jump process on a finite state space \(\mathcal J\) where we assume that it is non-explosive. Thus we do not assume the classical Markov property. We do however study the usual payment model:
+
+\[
+B(dt)=\sum_{j\in \mathcal J}1_{(Z_{t-}=j)}B_j(dt)+\sum_{k\in\mathcal J,k\ne j} b_{jk}(t)N_{jk}(dt).
+\]
+
+Recall in the Markov case we assume that
+
+\[
+A(t_0,t)=\mathbb E\left[\left.B(t)-B(t_0)\ \right\vert\ \mathcal F_{t_0}^Z\right]=\mathbb E\left[\left.B(t)-B(t_0)\ \right\vert\ Z_{t_0}\right]
+\]
+
+we do not assume the second equation in non-markov models. In the non-markov studies we want to investegate the relation between \(\mathbb E\left[\left.B(t)-B(t_0)\ \right\vert\ \mathcal F_{t_0}^Z\right]\) and \(\mathbb E\left[\left.B(t)-B(t_0)\ \right\vert\ Z_{t_0}\right]\).
+
+Furthermore, recall that in the Markovian case we have the cummutative transition rates given by
+
+\[
+q_{jk}(t)=\int_0^t\frac{1}{\mathbb P(Z_s=j)}\ d\mathbb E[N_{jk}(s)],
+\]
+
+and the matrix representation of the transition probabilities
+
+\[
+p(t_0,t)=\prod_{t_0}^t\Big(\mathbb I + q(du)\Big)
+\]
+
+or that \(p_{jk}\) solves the kolmogorov forward equation
+
+\[
+p_{jk}(t_0,dt)=\sum_{\ell\in\mathcal J}p_{j\ell}(t_0,t-)q_{\ell k}(dt)
+\]
+
+and thus we have the cash flow
+
+\[
+A(t_0,dt)=\sum_{j\in\mathcal J}p_{Z_{t_0}j}\left(B_j(dt)+\sum_{k\in\mathcal J,k\ne j} b_{jk}(t)q_{jk}(dt)\right).
+\]
+
+Still assuming the markov model we can by Tonellis theorem using the predictable compensator we can calculate the increments
+\begin{align*}
+\mathbb E\left[\left.N_{jk}(t)-N_{jk}(t_0)\ \right\vert\ Z_{t_0}=i\right]&=\int_{t_0}^t \mathbb E[1_{(Z_{s-}=j)}\ \vert\ Z_{t_0}=i]q_{jk}(ds)\\
+&=\int_{t_0}^t \mathbb P(Z_{s-}=j\ \vert\ Z_{t_0}=i)q_{jk}(ds),
+\end{align*}
+with
+
+\[
+q_{jk}(t)-q_{jk}(t_0)=\int_{t_0}^t\frac{1}{\mathbb P(Z_{s-}=j\ \vert\ Z_{t_0}=i)} d\mathbb E\left[\left.N_{jk}(s)-N_{jk}(t_0)\ \right\vert\ Z_{t_0}=i\right]
+\]
+
+because of the structure of the predictable compensator \(\Lambda_{jk}(t)=\int_0^t 1_{(Z_{s-}=j)} q_{jk}(ds)\). Having this in mind we formulate the definition.
+
+\textbf{Definition 5.1. (Cummulative forward transition rates)} \emph{Let \(i,j,k\in\mathcal J\) then we define}
+
+\[
+q_{i,jk}(t_0,t)=\int_{t_0}^t\frac{1}{\mathbb P(Z_{s-}=j\ \vert\ Z_{t_0}=i)}d\mathbb E\left[\left.N_{jk}(s)-N_{jk}(t_0)\ \right\vert\ Z_{t_0}=i\right].
+\]
+
+\emph{as the cummulative forward transition rates.}
+
+Recall from the above we in the Markov case simply have
+
+\[
+q_{i,jk}(t_0,t)=q_{jk}(t)-q_{jk}(t_0).
+\]
+
+Notice also that we have
+
+\[
+d\mathbb E\left[\left.N_{jk}(s)\ \right\vert\ Z_{t_0}=i\right]=\mathbb P (Z_{s-}=j\ \vert\ Z_{t_0}=i)q_{i,jk}(t_0,ds).
+\]
+
+\textbf{Proposition 5.2.} \emph{Let \(p_{ij}(t_0,t)=\mathbb P(Z_t=j\ \vert\ Z_{t_0}=i)\) without assuming the Markov property of \(Z\) we have}
+
+\[
+p_{ij}(t_0,dt)=\sum_{k\in\mathcal J}p_{ij}(t_0,t-)q_{i,kj}(t_0,dt)
+\]
+
+\emph{with boundary condition \(p_{ij}(t_0,t_0)=1_{(i=j)}\) and using the convention \(q_{i,jj}=-\sum_{k\in\mathcal J,k\ne j}q_{i,jk}\).}
+
+\textbf{Proof.}
+
+We know that
+
+\[
+1_{(Z_{t}=j)}=1_{(Z_{t_0}=i)}+\sum_{k\in\mathcal J, k\ne j}\left(\Big(N_{kj}(t)-N_{kj}(t_0)\Big)-\Big(N_{jk}(t)-N_{jk}(t_0)\Big)\right).
+\]
+
+Hence taking conditional expectation on the above yields
+\begin{align*}
+\mathbb P(Z_t = j\ \vert\ Z_{t_0}=i)&=\mathbb E\left[\left.1_{(Z_{t_0}=i)}+\sum_{k\in\mathcal J, k\ne j}\left(\Big(N_{kj}(t)-N_{kj}(t_0)\Big)-\Big(N_{jk}(t)-N_{jk}(t_0)\Big)\right)\ \right\vert\ Z_{t_0}=i\right]\\
+&=\mathbb P(Z_{t_0} = j\ \vert\ Z_{t_0}=i)\\
+&+\sum_{k\in\mathcal J, k\ne j}\mathbb E\left[\left.\Big(N_{kj}(t)-N_{kj}(t_0)\Big)-\Big(N_{jk}(t)-N_{jk}(t_0)\Big)\ \right\vert\ Z_{t_0}=i\right]\\
+&=1_{(j= i)}+\sum_{k\in\mathcal J, k\ne j}\int_{t_0}^t \mathbb P(Z_{s-}=k\ \vert\ Z_{t_0}=i)q_{i,kj}(t_0,ds)\\
+&-\sum_{k\in\mathcal J, k\ne j}\int_{t_0}^t \mathbb P(Z_{s-}=j\ \vert\ Z_{t_0}=i)q_{i,jk}(t_0,ds)\\
+&=1_{(j= i)} +\sum_{k\in\mathcal J}\int_{t_0}^t \mathbb P(Z_{s-}=k\ \vert\ Z_{t_0}=i)q_{i,kj}(t_0,ds)
+\end{align*}
+giving the desired result. \(\blacksquare\)
+
+We see that the expected cash flow then has the form
+\begin{align*}
+A(t_0,dt)&=\sum_{j\in\mathcal J} \mathbb P(Z_{t-}= j\ \vert\ Z_{t_0})\left(B_j(dt)+\sum_{k\in\mathcal J,k\ne j}b_{jk}(t) d\mathbb E[N_{jk}(t)\ \vert\ Z_{t_0}]\right)\\
+&=\sum_{j\in\mathcal J} p_{Z_0 j}(t_0,t-)\left(B_j(dt)+\sum_{k\in\mathcal J,k\ne j}b_{jk}(t) q_{Z_0,jk}(t_0,dt)\right).
+\end{align*}
+
+\hypertarget{right-censoring-in-the-non-markov-model}{%
+\subsection{Right censoring in the Non-Markov model}\label{right-censoring-in-the-non-markov-model}}
+
+We now study how one may estimate the cumulative transition rate \(q_{i,jk}(t_0,t)\). Let \(C>0\) be a right-censoring time. We observe the pair
+
+\[
+((Z_t)_{0\le t\le C},\tau \wedge C),
+\]
+
+where \(\tau\) is an absorption time. We define as somewhat like in the previous section the following
+\begin{align*}
+p_{ij}^c(t_0,t)&=\mathbb P(Z_t=j, t<C\ \vert\ Z_{t_0}=i),\\
+p_{i,jk}^c(t_0,t)&=\mathbb E[N_{jk}(t\wedge C)-N_{jk}(t_0\wedge C)\ \vert\ Z_{t_0}=i].
+\end{align*}
+We can write the cumulative transition rate in terms of these processes as
+
+\textbf{Proposition 5.3.} \emph{Suppose \(Z\perp\!\!\!\perp C\). Then}
+
+\[
+q_{i,jk}(t_0,t)=\int_{t_0}^t\frac{1}{p_{ij}^c(t_0,s-)}p_{i,jk}^c(t_0,ds).
+\]
+
+\textbf{Proof.}
+
+We start by calculating the integrator function. We have that
+\begin{align*}
+p_{i,jk}^c(t_0,t)&=\mathbb E\left[\left.\int_{t_0}^t 1_{(s\le C)}dN_{jk}(ds)\ \right\vert\ Z_{t_0}=i\right]\\
+&=\int_{t_0}^t \mathbb E\left[1_{(s\le C)}\right]d\mathbb E\left[\left.N_{jk}(s)\ \right\vert\ Z_{t_0}=i\right]\\
+&=\int_{t_0}^t \mathbb P(s\le C) d\mathbb E\left[\left.N_{jk}(s)-N_{jk}(t_0)\ \right\vert\ Z_{t_0}=i\right].
+\end{align*}
+and
+\begin{align*}
+p_{ij}^c(t_0,t)&=\mathbb P(Z_t=j, t<C\ \vert\ Z_{t_0}=i)\\
+&=\mathbb P(Z_t=j\ \vert\ Z_{t_0}=i)\mathbb P(t\le C)
+\end{align*}
+Hence
+\begin{align*}
+\int_{t_0}^t&\frac{1}{p_{ij}^c(t_0,s-)}p_{i,jk}^c(t_0,ds)\\
+&=\int_{t_0}^t\frac{1}{\mathbb P(Z_{s-}=j\ \vert\ Z_{t_0}=i)\mathbb P(s-\le C)}\mathbb P(s\le C) d\mathbb E\left[\left.N_{jk}(s)-N_{jk}(t_0)\ \right\vert\ Z_{t_0}=i\right]\\
+&=\int_{t_0}^t\frac{1}{\mathbb P(Z_{s-}=j\ \vert\ Z_{t_0}=i)} d\mathbb E\left[\left.N_{jk}(s)-N_{jk}(t_0)\ \right\vert\ Z_{t_0}=i\right]\\
+&=q_{i,jk}(t_0,t).
+\end{align*}
+as desired. \(\blacksquare\)
+
+If we can accept the independece assumption required in the argument, then we can form empirical estimates of the probabilities and mean of the counting process. Assume that we have i.i.d. samples
+
+\[
+\Big((Z_t^\ell)_{0\le t\le C^\ell}, \tau^\ell \wedge C^\ell\Big)_{\ell\in \{1,...,n\}}.
+\]
+
+We form a non-parametric estimator for the cumulative transition rates by suitably combining standard non-parametric estimators for the components \(p^c_{ij}\) and \(p^c_{i,jk}\). To this end we define
+\begin{align*}
+\mathbb I_{j}^{(n)}(t_0,t)&=\frac{1}{\sum_{\ell = 1}^n 1_{(Z^\ell_{t_0}=i)}}\sum_{\ell = 1}^n 1_{(Z^\ell_{t_0}=i)}1_{(Z_t^\ell = j)}1_{(t<C^\ell)},\\
+\mathbb N_{jk}^{(n)}(t_0,t)&=\frac{1}{\sum_{\ell = 1}^n 1_{(Z^\ell_{t_0}=i)}}\sum_{\ell = 1}^n 1_{(Z^\ell_{t_0}=i)}\left(N_{jk}^\ell(t\wedge C^\ell)-N_{jk}^\ell(t_0\wedge C^\ell)\right)
+\end{align*}
+Note that, due to the strong law of large numbers,
+\begin{align*}
+\mathbb I_{j}^{(n)}(t)&\stackrel{\text{a.s.}}{\to}p_{ij}^c(t_0,t),&\quad n\to\infty,\\
+\mathbb N_{jk}^{(n)}(t)&\stackrel{\text{a.s.}}{\to}p_{i,jk}^c(t_0,t),&\quad n\to\infty.
+\end{align*}
+We possible throw away alot of observation by conditioning on the state at time \(t_0\), so this introduces variance. Therefore, one should test if the underlying process is indeed non-Markov.
 
 \hypertarget{outlook}{%
 \section{Outlook}\label{outlook}}
@@ -5908,8 +7556,8 @@ Below is given the abbreviations used when referencing to books:
   \textbf{Mikosch}: \emph{Non-Life Insurance Mathematics} by Thomas Mikosch (2006).\cite{mikosch2009}
 \end{itemize}
 
-\hypertarget{the-basic-model}{%
-\section{The Basic Model}\label{the-basic-model}}
+\hypertarget{the-basic-model-1}{%
+\section{The Basic Model}\label{the-basic-model-1}}
 
 One of Lundberg's main contributions is the introduction of a simple model which is capable of describing the basic dynamics of a homogeneous insurance portfolio. There are three assumptions in the model:
 
@@ -9173,7 +10821,7 @@ As usual, we assume that we are given an iid dataset \(\mathcal D_n=\{X_i,Y_i\}_
 
 \textbf{Single Layer Feed Forward.} We start with a single layer neural network (= 1 hidden layer).
 
-\includegraphics{theory_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{theory_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 The architecture of a single layer neural network corresponds to
 the function class \(\mathcal G\) such that
@@ -9250,7 +10898,7 @@ w^{(r+1)}= w^{(r)} -\gamma  \frac 1 n \sum_{i=1}^n \frac{\partial L(Y_i,\hat m_n
 
 \textbf{Feed foreward Neural Network.} Usually one works with multiple hidden layers and possibly mutlipe outputs.
 
-\includegraphics{theory_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{theory_files/figure-latex/unnamed-chunk-22-1.pdf}
 
 the \(l\)th hidden layer arises from the \(l-1\)th hidden layer from (ignoring intercepts)
 
@@ -11760,7 +13408,7 @@ We say that a set \(A\in\mathbb{E}\) is an \textbf{invariant set} if \(T^{-1}(A)
 \textbf{Lemma 5.9. (Hansen)} \emph{Let \((\mathcal{X},\mathbb{E},\mu)\) be a probability space, and let \(T : \mathcal{X}\to \mathcal{X}\) be a measure-preserving map. Let \((\mathcal{Y},\mathbb{G})\) be another measurable space, and let \(S : \mathcal{Y} \to \mathcal{Y}\) be a measurable map.}
 \emph{Suppose there is a measurable map \(\gamma : \mathcal{X}\to \mathcal{Y}\) such that the following diagram commutes:}
 
-\begin{center}\includegraphics[width=0.25\linewidth]{theory_files/figure-latex/unnamed-chunk-22-1} \end{center}
+\begin{center}\includegraphics[width=0.25\linewidth]{theory_files/figure-latex/unnamed-chunk-27-1} \end{center}
 
 \emph{Then \((\mathcal{Y},\mathbb{G},\gamma(\mu),S)\) is a measure-preserving dynamical system.}
 
@@ -12179,7 +13827,7 @@ Below is given the abbreviations used when referencing to books:
 
 \textbf{Transitionsdiagram.} Et diagram, hvor der fremgår ssh. for et system overgår til et nyt stadie.
 
-\begin{center}\includegraphics[width=0.4\linewidth]{theory_files/figure-latex/unnamed-chunk-23-1} \end{center}
+\begin{center}\includegraphics[width=0.4\linewidth]{theory_files/figure-latex/unnamed-chunk-28-1} \end{center}
 
 \textbf{Definition.} \textbf{(Stokastisk process i diskret tid)} \emph{Lad \(\mathcal{X}=(\mathcal{X}_n)_{n\in\mathbb{N}_0}\) være en familie af stokastiske variable og \(\mathcal{S}\) et udfaldsrum . Da er \(\mathcal{X}\) en funktion der opfylder \(\mathcal{X} : \mathbb{N}_0\times \Omega \to \mathcal{S}\) med \((n,w) \mapsto \mathcal{X}_n(w)\).}
 
@@ -13750,6 +15398,7 @@ A^{-1}=\text{diag}(A_{11}^{-1},...,A_{nn}^{-1}).
 \]
 
 \newpage
+\addcontentsline{toc}{part}{References and Index}
 \nocite{*}
 \phantomsection
 \addcontentsline{toc}{chapter}{References}

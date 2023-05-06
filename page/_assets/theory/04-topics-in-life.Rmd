@@ -378,7 +378,7 @@ Consider the Markov jump process on the state space $E=\{1,2,3\}$ where 1 is the
 We can now implement this intensity matrix as a function in R:
 ```{r,echo = TRUE,results='markup'}
 mu12 <- function(t) {
-  0.000015 + 10^(4.6-10+0.015*t)
+  0.000035 + 10^(4.6-10+0.015*t)
 }
 mu13 <- function(t) {
   0.00005 + 10^(4.6-10+0.05*t)
@@ -387,7 +387,7 @@ mu11 <- function(t) {
   -mu12(t)-mu13(t)
 }
 mu21 <- function(t) {
-  0.000005 + 10^(4.6-10+0.015*t)
+  0.00005 + 10^(4.6-10+0.015*t)
 }
 mu23 <- function(t) {
   0.0001 + 10^(4.6-10+0.05*t)
@@ -510,6 +510,98 @@ E[\tau\ \vert\ X_0=1]=\int_0^\infty \tau f(\tau)\ d\tau\approx\int_0^{120}\tau f
 $$
 
 that the life expectation is `r round(sum(df$t * df$f)/n,digits = 2)` years. We have that we may approximate $f$ and $F$ with an arbitrary precision by choosing $n$ appropriately. $\square$
+
+</details>
+
+<details>
+<summary>**Example (Simulation in time-inhomogeneous case).**</summary>
+
+We elaborate on the above example with $Z(t)$ living on the state-space $E=\{1,2,3\}$ where we assume $Z(0)=1$. We want to simulate sample paths $(Z(t))_{t\ge 0}$ using the intensities $\Lambda(t)=(\mu_{ij})_{i,j\in E}$.
+
+Recall that if $Z(t)=i$ then
+
+$$
+p^{ij}(t,t+h)=\delta_{ij}+\mu^{ij}(t)h+o(h),
+$$
+
+hence we may for an interval $[0,T]$ choose a step length $h>0$ and generate uniform random variables $(U_i)_{i=0,...,T/h}$ and decide the transition from $t$ to $t+h$ by $i\to 1$ if $U_t\le p^{i1}(t,t+h)$, $i\to 2$ if $p^{i1}(t,t+h)<U\le p^{i1}(t,t+h)+p^{i2}(t,t+h)$ and $i\to 3$ otherwise.
+
+We set $h=1/12$ i.e. on month jumps. At time $t=0$ we have the probabilities
+
+```{r,echo=FALSE}
+options(scipen = 999)
+```
+```{r,echo = TRUE,results='markup'}
+Z <- 1
+h <- 1/12
+mu <- M(0)[Z,]
+p <- c(1,0,0) + mu*h
+p
+```
+
+Then by drawing $U_0$ we can determine the value of $Z(0+h)$
+
+```{r,echo = TRUE,results='markup'}
+U <- runif(1,0,1)
+Z <- ifelse(U<=p[1],1,ifelse(U<=p[1]+p[2],2,3))
+Z
+```
+
+
+Let us draw one realization of $Z$ on $[0,120]$.
+
+```{r,echo = TRUE,results='markup'}
+set.seed(67)
+n <- 120*12
+U <- runif(n,0,1)
+results <- data.frame(t = 0:(n)*h,
+                      U = c(U,NA),
+                      Z = NA,
+                      p_Z1 = NA,
+                      p_Z2 = NA,
+                      p_Z3 = NA)
+results[1,"Z"] <- 1
+plot <- data.frame(t=0,Z=1,tend = NA, Zend = 1)
+j <- 1
+Z <- 1
+for (i in 1:n) {
+  t <- results[i,"t"]
+  p <- c(1*(Z == 1),1*(Z == 2),1*(Z == 3)) +
+    M(t)[Z,]*h
+  results[i,c("p_Z1","p_Z2","p_Z3")] <- p
+  u <- results[i,"U"]
+  Z_new <- ifelse(u<=p[1],1,ifelse(u<=p[1]+p[2],2,3))
+  results[i+1,"Z"] <- Z_new
+  if (Z_new != Z) {
+    plot[j,"tend"] <- t+h
+    j <- j + 1 
+    plot[j,] <- c(t+h,Z_new,NA,Z_new)
+  }
+  Z <- Z_new
+}
+plot[j,"tend"] <- 120
+sum(results$Z == 1)
+sum(results$Z == 2)
+sum(results$Z == 3)
+```
+```{r,echo = FALSE, out.width="75%",fig.align='center'}
+p <- ggplot(plot,aes(x=t, y=Z, xend=tend, yend=Zend)) +
+  geom_segment() + #Horisontal lines
+  geom_point() + #Starting point
+  geom_point(aes(x=tend, y=Z), shape=1) +
+  labs(title = "Realization of Z") +
+  theme_custom() + scale_y_continuous(breaks = c(1,2,3))
+ggsave("figures/ex1_Z_realization.png",bg='transparent',plot = p, height = 1080,width = 1620, units="px")
+knitr::include_graphics("figures/ex1_Z_realization.png")
+```
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figures/ex1_Z_realization.png}
+  \end{center}
+\end{figure}
+
+Here we have searched for a sample path where $Z$ visits the state 2. This happened after the 67'th trial and so this is indeed not a frequent event given the intesities in $\Lambda$.
 
 </details>
 
