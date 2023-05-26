@@ -117,7 +117,7 @@ Furthermore the theorem give rise to a measure for dependence i.e. the **covaria
 \begin{align*}
     \text{Cov}(X,Y)=E\left((X-E\,X)(Y-E\,Y)\right)=E(XY)-(E\, X)(E\, Y)\tag{1.26}
 \end{align*}
-with Cov$(X,Y)\ne 0$ if and only if $X$ and $Y$ are dependent. With Cov$(X,Y)=0$ the test is inconlusive. However independence implies Cov$(X,Y)=0$.
+with Cov$(X,Y)\ne 0$ if and only if $X$ and $Y$ are dependent. With Cov$(X,Y)=0$ the test is inconclusive. However independence implies Cov$(X,Y)=0$.
 
  
 

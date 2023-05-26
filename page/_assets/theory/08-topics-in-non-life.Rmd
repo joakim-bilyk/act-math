@@ -4,9 +4,239 @@ Below is given the abbreviations used when referencing to books:
 
   - **Paulsen**: *Non-life Insurance* by Jostein Paulsen (2023).\cite{paulsen2023}
 
+## Some probability theory
+
+## Standard distributions
+
+## Multivariate theory
+
 ## Univariate distributions
 
-### Mixture Poisson distribution
+This chapter goes into depth with some important results regarding thinning and mixtures in the univariate case.
+
+### The binomial distribution
+
+The binomial distribution describes the number of successful trials $k$ in a fixed number of experiments $n\ge k$. The characteristics of the experiments is that
+
+  * Each experiment is independent of the $n-1$ others,
+  * Each experiment has the same success probability $p$ as the others.
+
+Thus we see that if $B_1,...,B_n$ are i.i.d Bernoulli variables with succes probability $p$, then we have that $\sum_{i=1}^n B_i$ is Binomial distributed with $n$ trials and $p$ probability of succes.
+
+<blockquote class = "def">
+
+**Definition. (Binomial distribution)**\index{Binomial distribution} _Let $B_1,...,B_n$ be i.i.d $\text{Bern}(p)$ distributed. The quantity $B=\sum_{i=1}^n B_i$ is said to follow a Binomial distrbution with $n$ trials and success probability $p$ written $B\sim \text{Bin}(n,p)$. The point probabilities are_
+
+$$
+P(B=k)={n\choose k}p^k(1-p)^{n-k},\qquad k=0,...,n.
+$$
+
+</blockquote>
+
+We have some nice properties of this distribution:
+
+  * The mean is $\mathbb E[B]=np$ and the variance is $\text{Var}[B]=np(1-p)$.
+  * The moment generating function is $M_B(t)=\mathbb E[e^{tB}]=(1-p+pe^t)^n$.
+  * If $(B_i)_{i=1,...,m}$ are binomial distributed with trials $(n_i)_{i=1,...,m}$ and success probability then
+  $$\sum_{i=1}^m B_i\sim\text{Bin}\left(\sum_{i=1}^m n_i, p\right).$$
+  in words this says that for fixed $p$, the binomial distribution is closed under convolution.
+  * We have if $B\sim \text{Bin}(1,p)$ and $\tilde B\sim \text{Bern}(p)$ then $B\stackrel{d}{=}\tilde B$.
+
+### Mixtures
+
+Mixtures are distributions given in terms of conditional distributions. Say that a variable $W$ has a known distribution $F_W$ and $X$ is random variable with conditional distribution $F_{X\vert W}(x\vert w)$, then we say that $X$ has a mixture distribution.
+
+<blockquote class = "def">
+
+**Definition. (Mixture distribution)**\index{Mixture distribution} _Let $X$ and $W$ be two random variables with distribution functions $F_X$ and $F_W$. If_
+
+$$
+X\ \vert\ W\sim F_{X\vert W},
+$$
+
+_then we say that $X$ has a mixture distribution wrt. $W$ and this is given by_
+
+$$
+F_X(x)=\int F_{X\vert W}(x\vert w)\ dF_W(w)=\mathbb E[F_{X\vert W}(x\vert W)].
+$$
+
+_If furthermore $X\vert W$ has density $f_{X\vert W}$ then_
+
+$$
+f_X(x)=\int f_{X\vert W}(x\vert w)\ dF_W(w)=\mathbb E[f_{X\vert W}(x\vert W)].
+$$
+
+</blockquote>
+
+In a mixture model we have mean
+
+$$
+\mathbb E[X]=\mathbb E[\mathbb E[X\ \vert\ W]]
+$$
+
+and variance
+
+$$
+\text{Var}[X]=\mathbb E[\text{Var}[X\ \vert\ W]] + \text{Var}[\mathbb E[X\ \vert\ W]].
+$$
+
+#### Finite and countably infinite mixtures
+
+A finite mixture $X$ consist of a vector of probabilities $(p_1,...,p_K)$ with $\sum_{i=1}^K p_i=1$ and a vector function $F(x)=(F_1(x),...,F_K(x))$ where
+
+$$
+F_X(x)=\sum_{i=1}^K p_i F_i(x).
+$$
+
+One may extend this to a countable infinite version making sure that $\sum_{i=1}^\infty p_i=1$ i.e. $p_i\to 0$.
+
+**Example.** We have a rather well-behaved mixture constructed from the random variable
+
+$$
+X=\sum_{i=1}^K J_iX_i,
+$$
+
+with $J_i$ and $X_i$ independent. We assume that $J_i\in\{0,1\}$ and $\mathbb P(\sum_{i=1}^K J_i=1)=1$ i.e. only one of $J_i$ is one and the rest is zero. Thus on the event $\{J_i=1\}$ we have $X=J_iX_i$. This leads to the distribution function
+\begin{align*}
+F_X(x)&=\mathbb P(X\le x)=\sum_{i=1}^K\mathbb P(X_i\le x\ \vert\ J_i = 1)\mathbb P(J_i=1)\\
+&=\sum_{i=1}^K\mathbb P(X_i\le x)p_i=\sum_{i=1}^K p_i F_{X_i}(x).
+\end{align*}
+Hence $X$ is a finite mixture with representation
+
+$$
+p =
+\begin{pmatrix}
+\mathbb P(J_1=1)\\
+\vdots\\
+\mathbb P(J_K=1)
+\end{pmatrix},\qquad F(x) =
+\begin{pmatrix}
+F_{X_1}(x)\\
+\vdots\\
+F_{X_K}(x)
+\end{pmatrix}.
+$$
+
+We have that for any measurable function $g$
+
+$$
+g(X)=\sum_{i=1}^K J_i g(X_i)
+$$
+
+and thus
+
+$$
+F_{g(X)}(y)=\mathbb P(g(X)\le y)=\sum_{i=1}^K p_iP(g(X_i)\le y).
+$$
+
+If $g$ is injective we have the generalized inverse $g^{-1}$ and
+
+$$
+F_{g(X)}(y)=\sum_{i=1}^K p_i F_{X_i}(g^{-1}(y)).
+$$
+
+From this structure we therefore have
+
+$$
+\mathbb E[g(X)]=\sum_{i=1}^K p_i\mathbb E[g(X_i)].
+$$
+
+This easily gives the moments of $X$ and all easily computed expected values. We have a special mixture:
+
+<blockquote class = "def">
+
+**Definition 4.1. (Mixed exponential distributions)**\index{Mixed exponential distributions} _If each $X_i\sim \exp(\beta_i)$ for $i=1,...,K$ in a finite mixture, we write $X\sim \text{mexp}(\beta;p)$, where $\beta=(\beta_1,...,\beta_K)$ and $p=(p_1,...,p_{K})$ with $\sum_{i=1}^Kp_i=1$. That is_
+
+$$
+F_X(x)=\sum_{k=1}^Kp_k F_{X_k}(x)=\sum_{k=1}^Kp_k\beta_k\exp(-\beta_kx)
+$$
+
+</blockquote>
+
+### Thinning of a counting distribution
+
+Thinning revolves around the following construction.
+
+<blockquote class = "def">
+
+**Definition. (Thinning)**\index{Thinning} _Let $N^*$ be a random variable on $\{0,1,...,\}=\mathbb N_0$ and let $(I_i)_{i\in\mathbb N_0}$ be i.i.d $\text{Bern}(q)$ variables. The variable $N$ defined as_
+
+$$
+N=\sum_{i=1}^{N^*} I_i,
+$$
+
+_is called the thinned version of $N^*$ and we write $N\sim \mathcal T(F_{N^*},q)$._
+
+</blockquote>
+
+It is clearly seen that
+
+$$
+N\ \vert\ N^*=n \sim \text{Bin}(n,q).
+$$
+
+In particular we have
+\begin{align*}
+\mathbb P(N=k)&=\sum_{n=k}^\infty \mathbb P(N = k\ \vert\ N^* = n)\mathbb P(N^*=n)\\
+&=\sum_{n=k}^\infty {n\choose k} q^k(1-q)^{n-k}p^*(n;\theta)\\
+&=p(k;q,\theta).
+\end{align*}
+Hence the distribution of $N$i s given by
+
+$$
+\mathbb P(N\le n)=\sum_{k=0}^n p(k;q,\theta)=\sum_{k=0}^n\sum_{m=k}^\infty {m\choose k} q^k(1-q)^{m-k}p^*(m;\theta).
+$$
+
+We also see that $N$ has expected value
+
+$$
+\mathbb E[N]=\mathbb E[\mathbb E[N\vert N^*]]=\mathbb E[N^*\mathbb E[I_1]]=q\mathbb E[N^*].
+$$
+
+and variance
+\begin{align*}
+\text{Var}(N)&=\mathbb E[\text{Var}[N\vert N^*]]+\text{Var}[\mathbb E[N\vert N^*]]\\
+&=\mathbb E[N^*\text{Var}[I_1]]+\text{Var}[qN^*]\\
+&=q(1-q)\mathbb E[N^*] + q^2 \text{Var}[N^*].
+\end{align*}
+In the case where the thinned distribution is on the same form as the mother variable we say:
+
+<blockquote class = "def">
+
+**Definition 4.2. (Closed under thinning)** _A family of discrete distributions $\mathcal P$ is closed under thinning if $N^*\sim P\in \mathcal P$ then $\mathcal T(P,q)\in\mathcal P$._
+
+</blockquote>
+
+An important family that is closed under thinning is the Poisson distribution.
+
+<blockquote class = "prop">
+
+**Proposition 4.1.** _Let $N^*\sim\text{Pois}(\lambda)$ and define_
+
+$$
+N=\sum_{i=1}^{N^*}I_i\quad\text{and}\quad M=\sum_{i=1}^{N^*}(1-I_i),
+$$
+
+_and the $I_i\sim \text{Bern}(q)$ are i.i.d. Then $N\sim \text{Pois}(q\lambda)$ and $M\sim\text{Pois}((1-q)\lambda)$ and $N$ is independent of $M$._
+
+</blockquote>
+
+We also have an example with $N^*$ being a mixture on the form
+
+$$
+\mathbb P(N^*=n)=\int \mathbb P(N^*=n\ \vert\ W=w)\ dF_W(w).
+$$
+
+Then the thinned version of $N^*$, $N$, has the distribution:
+\begin{align*}
+\mathbb P(N=n)&=\sum_{k=n}^\infty \mathbb P(N=n,N^*=k)\\
+&=\sum_{k=n}^\infty \int \mathbb P(N=n,N^*=k\ \vert\ W=w)\ dF_W(w)\\
+&= \int \sum_{k=n}^\infty \mathbb P(N=n,N^*=k\ \vert\ W=w)\ dF_W(w)\\
+&= \int  \mathbb P(N=n\ \vert\ W=w)\ dF_W(w).
+\end{align*}
+Thus the mixture may be applied either to the thinned version and the mother variable.
+
+### Poisson mixtures
 
 The poisson mixture is given by the point probabilities
 
@@ -34,7 +264,13 @@ $$
 
 This is given by proposition 4.2: A thinned Poisson mixture is it self a Poisson mixture.
 
-### Negative binomial distribution
+<blockquote class = "prop">
+
+**Proposition 4.2.** _A Poisson mixture is closed under thinning in the sense that the thinned version is also a Poisson mixture with the same mixture distribution._
+
+</blockquote>
+
+#### Negative binomial distribution
 
 Let $N$ be a Poisson mixture conditional on $W\sim \Gamma(\alpha,\beta)$. Then $N$ has distribution
 \begin{align*}
@@ -54,9 +290,32 @@ Doing some rewriting we have
 &\stackrel{y=(1+\beta)w}{=} \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty \left(\frac{y}{1+\beta}\right)^{n+\alpha -1}e^{-y}\frac{1}{1+\beta}\ dy\\
 &=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\int_0^\infty y^{n+\alpha - 1}e^{-y}\ dy\\
 &=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\Gamma(n+\alpha)\\
-&=
+&=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)}\beta^\alpha (1+\beta)^{-\alpha}(1+\beta)^{-n}\\
+&=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)} \left(\frac{\beta}{1+\beta}\right)^{\alpha}\left(\frac{1}{1+\beta}\right)^{n}
 \end{align*}
-find that $N$ is neg binomial and then deduce the distribution of $N=\sum_{i=1}^{N^*}I_i$.
+thus by defining $p=\beta/(1+\beta)$ we have
+
+$$
+\mathbb P(N=n)=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)} p^\alpha(1-p)^n.
+$$
+
+We define such a variable as negative binomial with parameter $p$ and $\alpha$ and we write $N\sim \text{Nbin}(\alpha,p)$. Thus we trivially have the properties;
+
+  * If $N\sim \text{Nbin}(\alpha,p)$ then $N$ is a mixture of a Poisson $\Gamma(\alpha, p/(1-p))$ variable.
+  * The mean is given by
+  $$\mathbb E[N]=\mathbb E[\mathbb E[N\vert W]]=\mathbb E[W]=\frac{\alpha}{\beta}=\alpha\frac{1-p}{p}$$
+  and the variance is
+  \begin{align*}
+  \text{Var}(N)&=\mathbb E[\text{Var}[N\ \vert\ W]] + \text{Var}[\mathbb E[N\ \vert\ W]]\\
+  &=\mathbb E[W]+\text{Var}[W]\\
+  &=\alpha \frac{1-p}{p}+\alpha \frac{(1-p)^2}{p^2}=\alpha\frac{1-p}{p^2}.
+  \end{align*}
+
+### Modified and inflated counting distributions
+
+### Convolutions and compound distributions
+
+### Dispersed exponential families
 
 ## Multivariate distributions
 
@@ -132,6 +391,41 @@ $$
 Of cause, if $X^*$ has density
 
 $$
-f_X(x)\frac{1}{\alpha}F_{D^*}(x-)f_{X^*}(x).
+f_X(x)=\frac{1}{\alpha}F_{D^*}(x-)f_{X^*}(x).
 $$
+
+The density of the observable deductible hhas the form
+\begin{align*}
+f_D(y)&=\frac{1}{\alpha}\int_d^\infty f_{X^*,D^*}(x,y)\ dx=\frac{1}{\alpha} f_{D^*}(y)\int_d^\infty f_{X^*\vert D^*}(x\vert y)\ dx\\
+&=\frac{1}{\alpha} f_{D^*}(y)\mathbb P(X^*> y\ \vert\ D^* = y).
+\end{align*}
+The density of the claim conditioned on the deductible then becomes
+
+$$
+f_{X\vert D}(x\vert y)=1_{(x> y)}\frac{f_{X^*,D^*}(x,y)}{f_{D^*}(y)\mathbb P(X^*> y\ \vert\ D^*=y)}=1_{(x> y)}\frac{f_{X^*\vert D^*}(x\vert y)}{\mathbb P(X^*> D^*\ \vert\ D^*=y)}.
+$$
+
+Then assuming $X^*$ and $D^*$ are independent the above becomes
+
+$$
+f_{X\vert D}(x\vert y)=1_{(x> y)}\frac{f_{X^*}(x)}{\mathbb P(X^*> y)}=1_{(x> y)}\frac{f_{X^*}(x)}{\overline F_{X^*}(y)}.
+$$
+
+We can derive that for any measurable function $h$ we have
+
+$$
+\mathbb E[h(X)\ \vert\ D=y]=\frac{1}{\mathbb P(X^*> D^*\ \vert\ D^* =y)}\int_d^\infty h(x) f_{X^*\vert D^*}(x\vert y)\ dx.
+$$
+
+And when we are interested in the actual loss $X^*$ we have
+
+$$
+\mathbb E[h(X^*)\ \vert\ D^*=y^*]=\int_0^\infty h(x)\ dF_{X^*\vert D^*}(x\vert y^*).
+$$
+
+## Statistical inference
+
+## Estimation
+
+## Asymptotics
 

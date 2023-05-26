@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.2 Multivariate distributions | Mathematics of the Actuarial Sciences</title>
+  <title>8.5 Multivariate distributions | Mathematics of the Actuarial Sciences</title>
   <meta name="description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.2 Multivariate distributions | Mathematics of the Actuarial Sciences" />
+  <meta property="og:title" content="8.5 Multivariate distributions | Mathematics of the Actuarial Sciences" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.2 Multivariate distributions | Mathematics of the Actuarial Sciences" />
+  <meta name="twitter:title" content="8.5 Multivariate distributions | Mathematics of the Actuarial Sciences" />
   
   <meta name="twitter:description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Joakim Bilyk" />
 
 
-<meta name="date" content="2023-05-06" />
+<meta name="date" content="2023-05-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -433,16 +433,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="univariate-distributions.html"><a href="univariate-distributions.html"><i class="fa fa-check"></i><b>8.1</b> Univariate distributions</a>
+<li class="chapter" data-level="8.1" data-path="some-probability-theory.html"><a href="some-probability-theory.html"><i class="fa fa-check"></i><b>8.1</b> Some probability theory</a></li>
+<li class="chapter" data-level="8.2" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>8.2</b> Standard distributions</a></li>
+<li class="chapter" data-level="8.3" data-path="multivariate-theory.html"><a href="multivariate-theory.html"><i class="fa fa-check"></i><b>8.3</b> Multivariate theory</a></li>
+<li class="chapter" data-level="8.4" data-path="univariate-distributions.html"><a href="univariate-distributions.html"><i class="fa fa-check"></i><b>8.4</b> Univariate distributions</a>
 <ul>
-<li class="chapter" data-level="8.1.1" data-path="univariate-distributions.html"><a href="univariate-distributions.html#mixture-poisson-distribution"><i class="fa fa-check"></i><b>8.1.1</b> Mixture Poisson distribution</a></li>
-<li class="chapter" data-level="8.1.2" data-path="univariate-distributions.html"><a href="univariate-distributions.html#negative-binomial-distribution"><i class="fa fa-check"></i><b>8.1.2</b> Negative binomial distribution</a></li>
+<li class="chapter" data-level="8.4.1" data-path="univariate-distributions.html"><a href="univariate-distributions.html#the-binomial-distribution"><i class="fa fa-check"></i><b>8.4.1</b> The binomial distribution</a></li>
+<li class="chapter" data-level="8.4.2" data-path="univariate-distributions.html"><a href="univariate-distributions.html#mixtures"><i class="fa fa-check"></i><b>8.4.2</b> Mixtures</a></li>
+<li class="chapter" data-level="8.4.3" data-path="univariate-distributions.html"><a href="univariate-distributions.html#thinning-of-a-counting-distribution"><i class="fa fa-check"></i><b>8.4.3</b> Thinning of a counting distribution</a></li>
+<li class="chapter" data-level="8.4.4" data-path="univariate-distributions.html"><a href="univariate-distributions.html#poisson-mixtures"><i class="fa fa-check"></i><b>8.4.4</b> Poisson mixtures</a></li>
+<li class="chapter" data-level="8.4.5" data-path="univariate-distributions.html"><a href="univariate-distributions.html#modified-and-inflated-counting-distributions"><i class="fa fa-check"></i><b>8.4.5</b> Modified and inflated counting distributions</a></li>
+<li class="chapter" data-level="8.4.6" data-path="univariate-distributions.html"><a href="univariate-distributions.html#convolutions-and-compound-distributions"><i class="fa fa-check"></i><b>8.4.6</b> Convolutions and compound distributions</a></li>
+<li class="chapter" data-level="8.4.7" data-path="univariate-distributions.html"><a href="univariate-distributions.html#dispersed-exponential-families"><i class="fa fa-check"></i><b>8.4.7</b> Dispersed exponential families</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="multivariate-distributions.html"><a href="multivariate-distributions.html"><i class="fa fa-check"></i><b>8.2</b> Multivariate distributions</a></li>
-<li class="chapter" data-level="8.3" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html"><i class="fa fa-check"></i><b>8.3</b> Left truncated data and deductibles</a>
+<li class="chapter" data-level="8.5" data-path="multivariate-distributions.html"><a href="multivariate-distributions.html"><i class="fa fa-check"></i><b>8.5</b> Multivariate distributions</a></li>
+<li class="chapter" data-level="8.6" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html"><i class="fa fa-check"></i><b>8.6</b> Left truncated data and deductibles</a>
 <ul>
-<li class="chapter" data-level="8.3.1" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html#deductible-as-a-random-variable"><i class="fa fa-check"></i><b>8.3.1</b> Deductible as a random variable</a></li>
+<li class="chapter" data-level="8.6.1" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html#deductible-as-a-random-variable"><i class="fa fa-check"></i><b>8.6.1</b> Deductible as a random variable</a></li>
 </ul></li>
+<li class="chapter" data-level="8.7" data-path="statistical-inference.html"><a href="statistical-inference.html"><i class="fa fa-check"></i><b>8.7</b> Statistical inference</a></li>
+<li class="chapter" data-level="8.8" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>8.8</b> Estimation</a></li>
+<li class="chapter" data-level="8.9" data-path="asymptotics.html"><a href="asymptotics.html"><i class="fa fa-check"></i><b>8.9</b> Asymptotics</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
 <ul>
@@ -532,9 +543,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>B.2</b> Conditional expectation</a></li>
 <li class="chapter" data-level="B.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>B.3</b> Independence</a></li>
 <li class="chapter" data-level="B.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>B.4</b> Moment generating function</a></li>
-<li class="chapter" data-level="B.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>B.5</b> Standard distributions</a>
+<li class="chapter" data-level="B.5" data-path="standard-distributions-1.html"><a href="standard-distributions-1.html"><i class="fa fa-check"></i><b>B.5</b> Standard distributions</a>
 <ul>
-<li class="chapter" data-level="B.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>B.5.1</b> Normal disribution</a></li>
+<li class="chapter" data-level="B.5.1" data-path="standard-distributions-1.html"><a href="standard-distributions-1.html#normal-disribution"><i class="fa fa-check"></i><b>B.5.1</b> Normal disribution</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>C</b> Discrete Time Stochastic Processes</a>
@@ -609,8 +620,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="multivariate-distributions" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Multivariate distributions<a href="multivariate-distributions.html#multivariate-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="multivariate-distributions" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Multivariate distributions<a href="multivariate-distributions.html#multivariate-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 </div>
             </section>
 

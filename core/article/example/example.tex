@@ -1,0 +1,150 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\usepackage{subfig}
+\usepackage{wrapfig}
+\usepackage{longtable}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Comparing and Intereting Machine Learning Algorithms Estimating Technical Prices},
+  pdfkeywords={mlr3, machine learning, regression, non-life insurance,
+estimating technical price, XGBoost, debiassing, bias, SHAP-values,
+interpretation of ML models},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Comparing and Intereting Machine Learning Algorithms Estimating
+Technical Prices}
+\author{true}
+\date{2023-05-08}
+
+\begin{document}
+
+
+\Large\textbf{Comparing and Intereting Machine Learning Algorithms
+Estimating Technical Prices}
+\normalsize
+
+\noindent \textbf{ Joakim Bilyk, Sebastian Cramer and Teis
+Blem} \hfill  \emph{\small University of Copenhagen}   
+
+
+\hbox{\vrule height .2pt width 39.14pc}
+
+\noindent This document provides a practical example of the application
+of supervised machine learning algorithms to car insurance data using
+the mlr3 package. In non-life insurance pricing, a popular model is the
+frequency-severity model, which decomposes the price into the product of
+the probability of a claim arising and the expected claim size given a
+claim occurs. This paper argues that a tree-based model is well-suited
+to the frequency-severity model, as it can capture complex nonlinear
+relationships between risk factors and claims. To interpret the model's
+estimates, we used shapley values to gain insights into the relative
+importance of each risk factor. Finally, we used a decomposition
+technique to debias the price model and ensure it does not discriminate
+based on gender. Overall, our approach demonstrates the potential of
+machine learning to create more accurate and equitable pricing models in
+the insurance industry.
+
+
+\noindent \emph{Keywords}: mlr3, machine learning, regression, non-life
+insurance, estimating technical price, XGBoost, debiassing, bias,
+SHAP-values, interpretation of ML models \par
+
+ \hbox{\vrule height .2pt width 39.14pc}
+
+
+
+
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\newpage
+
+\hypertarget{getting-familiar-with-the-data}{%
+\section{Getting familiar with the
+data}\label{getting-familiar-with-the-data}}
+
+dsad (Lützen 2019)
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-lutzen2019}{}}%
+Lützen, Jesper. 2019. \emph{Diskrete Matematiske Metoder}. 2nd ed.
+Copenhagen, Denmark.
+
+\end{CSLReferences}
+
+\end{document}

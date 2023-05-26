@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.1 Univariate distributions | Mathematics of the Actuarial Sciences</title>
+  <title>8.4 Univariate distributions | Mathematics of the Actuarial Sciences</title>
   <meta name="description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.1 Univariate distributions | Mathematics of the Actuarial Sciences" />
+  <meta property="og:title" content="8.4 Univariate distributions | Mathematics of the Actuarial Sciences" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.1 Univariate distributions | Mathematics of the Actuarial Sciences" />
+  <meta name="twitter:title" content="8.4 Univariate distributions | Mathematics of the Actuarial Sciences" />
   
   <meta name="twitter:description" content="This document contains lecture notes from the courses i attended during my education. The notes mostly contains results from the master courses but there are also included some results from the bachelor as these lay out some of the fundamentals of the mathematics used during the master courses. I want to stress that this is a work in progress and as such is subject to some small and some severy errors. The contents of these notes have not been supervised by anyone other than myself and so, although i an confident in most of the content, i would not take any of the below as clear facts. Always due your own research and derivations to confirm the results." />
   
@@ -23,14 +23,14 @@
 <meta name="author" content="Joakim Bilyk" />
 
 
-<meta name="date" content="2023-05-06" />
+<meta name="date" content="2023-05-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="topics-in-non-life-insurance-mathematics.html"/>
+<link rel="prev" href="multivariate-theory.html"/>
 <link rel="next" href="multivariate-distributions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -433,16 +433,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="topics-in-non-life-insurance-mathematics.html"><a href="topics-in-non-life-insurance-mathematics.html"><i class="fa fa-check"></i><b>8</b> Topics in Non-Life Insurance Mathematics</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="univariate-distributions.html"><a href="univariate-distributions.html"><i class="fa fa-check"></i><b>8.1</b> Univariate distributions</a>
+<li class="chapter" data-level="8.1" data-path="some-probability-theory.html"><a href="some-probability-theory.html"><i class="fa fa-check"></i><b>8.1</b> Some probability theory</a></li>
+<li class="chapter" data-level="8.2" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>8.2</b> Standard distributions</a></li>
+<li class="chapter" data-level="8.3" data-path="multivariate-theory.html"><a href="multivariate-theory.html"><i class="fa fa-check"></i><b>8.3</b> Multivariate theory</a></li>
+<li class="chapter" data-level="8.4" data-path="univariate-distributions.html"><a href="univariate-distributions.html"><i class="fa fa-check"></i><b>8.4</b> Univariate distributions</a>
 <ul>
-<li class="chapter" data-level="8.1.1" data-path="univariate-distributions.html"><a href="univariate-distributions.html#mixture-poisson-distribution"><i class="fa fa-check"></i><b>8.1.1</b> Mixture Poisson distribution</a></li>
-<li class="chapter" data-level="8.1.2" data-path="univariate-distributions.html"><a href="univariate-distributions.html#negative-binomial-distribution"><i class="fa fa-check"></i><b>8.1.2</b> Negative binomial distribution</a></li>
+<li class="chapter" data-level="8.4.1" data-path="univariate-distributions.html"><a href="univariate-distributions.html#the-binomial-distribution"><i class="fa fa-check"></i><b>8.4.1</b> The binomial distribution</a></li>
+<li class="chapter" data-level="8.4.2" data-path="univariate-distributions.html"><a href="univariate-distributions.html#mixtures"><i class="fa fa-check"></i><b>8.4.2</b> Mixtures</a></li>
+<li class="chapter" data-level="8.4.3" data-path="univariate-distributions.html"><a href="univariate-distributions.html#thinning-of-a-counting-distribution"><i class="fa fa-check"></i><b>8.4.3</b> Thinning of a counting distribution</a></li>
+<li class="chapter" data-level="8.4.4" data-path="univariate-distributions.html"><a href="univariate-distributions.html#poisson-mixtures"><i class="fa fa-check"></i><b>8.4.4</b> Poisson mixtures</a></li>
+<li class="chapter" data-level="8.4.5" data-path="univariate-distributions.html"><a href="univariate-distributions.html#modified-and-inflated-counting-distributions"><i class="fa fa-check"></i><b>8.4.5</b> Modified and inflated counting distributions</a></li>
+<li class="chapter" data-level="8.4.6" data-path="univariate-distributions.html"><a href="univariate-distributions.html#convolutions-and-compound-distributions"><i class="fa fa-check"></i><b>8.4.6</b> Convolutions and compound distributions</a></li>
+<li class="chapter" data-level="8.4.7" data-path="univariate-distributions.html"><a href="univariate-distributions.html#dispersed-exponential-families"><i class="fa fa-check"></i><b>8.4.7</b> Dispersed exponential families</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="multivariate-distributions.html"><a href="multivariate-distributions.html"><i class="fa fa-check"></i><b>8.2</b> Multivariate distributions</a></li>
-<li class="chapter" data-level="8.3" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html"><i class="fa fa-check"></i><b>8.3</b> Left truncated data and deductibles</a>
+<li class="chapter" data-level="8.5" data-path="multivariate-distributions.html"><a href="multivariate-distributions.html"><i class="fa fa-check"></i><b>8.5</b> Multivariate distributions</a></li>
+<li class="chapter" data-level="8.6" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html"><i class="fa fa-check"></i><b>8.6</b> Left truncated data and deductibles</a>
 <ul>
-<li class="chapter" data-level="8.3.1" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html#deductible-as-a-random-variable"><i class="fa fa-check"></i><b>8.3.1</b> Deductible as a random variable</a></li>
+<li class="chapter" data-level="8.6.1" data-path="left-truncated-data-and-deductibles.html"><a href="left-truncated-data-and-deductibles.html#deductible-as-a-random-variable"><i class="fa fa-check"></i><b>8.6.1</b> Deductible as a random variable</a></li>
 </ul></li>
+<li class="chapter" data-level="8.7" data-path="statistical-inference.html"><a href="statistical-inference.html"><i class="fa fa-check"></i><b>8.7</b> Statistical inference</a></li>
+<li class="chapter" data-level="8.8" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>8.8</b> Estimation</a></li>
+<li class="chapter" data-level="8.9" data-path="asymptotics.html"><a href="asymptotics.html"><i class="fa fa-check"></i><b>8.9</b> Asymptotics</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="probabilistic-machine-learning.html"><a href="probabilistic-machine-learning.html"><i class="fa fa-check"></i><b>9</b> Probabilistic Machine Learning</a>
 <ul>
@@ -532,9 +543,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="B.2" data-path="conditional-expectation.html"><a href="conditional-expectation.html"><i class="fa fa-check"></i><b>B.2</b> Conditional expectation</a></li>
 <li class="chapter" data-level="B.3" data-path="independence.html"><a href="independence.html"><i class="fa fa-check"></i><b>B.3</b> Independence</a></li>
 <li class="chapter" data-level="B.4" data-path="moment-generating-function.html"><a href="moment-generating-function.html"><i class="fa fa-check"></i><b>B.4</b> Moment generating function</a></li>
-<li class="chapter" data-level="B.5" data-path="standard-distributions.html"><a href="standard-distributions.html"><i class="fa fa-check"></i><b>B.5</b> Standard distributions</a>
+<li class="chapter" data-level="B.5" data-path="standard-distributions-1.html"><a href="standard-distributions-1.html"><i class="fa fa-check"></i><b>B.5</b> Standard distributions</a>
 <ul>
-<li class="chapter" data-level="B.5.1" data-path="standard-distributions.html"><a href="standard-distributions.html#normal-disribution"><i class="fa fa-check"></i><b>B.5.1</b> Normal disribution</a></li>
+<li class="chapter" data-level="B.5.1" data-path="standard-distributions-1.html"><a href="standard-distributions-1.html#normal-disribution"><i class="fa fa-check"></i><b>B.5.1</b> Normal disribution</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="discrete-time-stochastic-processes.html"><a href="discrete-time-stochastic-processes.html"><i class="fa fa-check"></i><b>C</b> Discrete Time Stochastic Processes</a>
@@ -609,10 +620,174 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="univariate-distributions" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Univariate distributions<a href="univariate-distributions.html#univariate-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="mixture-poisson-distribution" class="section level3 hasAnchor" number="8.1.1">
-<h3><span class="header-section-number">8.1.1</span> Mixture Poisson distribution<a href="univariate-distributions.html#mixture-poisson-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="univariate-distributions" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Univariate distributions<a href="univariate-distributions.html#univariate-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This chapter goes into depth with some important results regarding thinning and mixtures in the univariate case.</p>
+<div id="the-binomial-distribution" class="section level3 hasAnchor" number="8.4.1">
+<h3><span class="header-section-number">8.4.1</span> The binomial distribution<a href="univariate-distributions.html#the-binomial-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The binomial distribution describes the number of successful trials <span class="math inline">\(k\)</span> in a fixed number of experiments <span class="math inline">\(n\ge k\)</span>. The characteristics of the experiments is that</p>
+<ul>
+<li>Each experiment is independent of the <span class="math inline">\(n-1\)</span> others,</li>
+<li>Each experiment has the same success probability <span class="math inline">\(p\)</span> as the others.</li>
+</ul>
+<p>Thus we see that if <span class="math inline">\(B_1,...,B_n\)</span> are i.i.d Bernoulli variables with succes probability <span class="math inline">\(p\)</span>, then we have that <span class="math inline">\(\sum_{i=1}^n B_i\)</span> is Binomial distributed with <span class="math inline">\(n\)</span> trials and <span class="math inline">\(p\)</span> probability of succes.</p>
+<blockquote class="def">
+<p><strong>Definition. (Binomial distribution)</strong> <em>Let <span class="math inline">\(B_1,...,B_n\)</span> be i.i.d <span class="math inline">\(\text{Bern}(p)\)</span> distributed. The quantity <span class="math inline">\(B=\sum_{i=1}^n B_i\)</span> is said to follow a Binomial distrbution with <span class="math inline">\(n\)</span> trials and success probability <span class="math inline">\(p\)</span> written <span class="math inline">\(B\sim \text{Bin}(n,p)\)</span>. The point probabilities are</em></p>
+<p><span class="math display">\[
+P(B=k)={n\choose k}p^k(1-p)^{n-k},\qquad k=0,...,n.
+\]</span></p>
+</blockquote>
+<p>We have some nice properties of this distribution:</p>
+<ul>
+<li>The mean is <span class="math inline">\(\mathbb E[B]=np\)</span> and the variance is <span class="math inline">\(\text{Var}[B]=np(1-p)\)</span>.</li>
+<li>The moment generating function is <span class="math inline">\(M_B(t)=\mathbb E[e^{tB}]=(1-p+pe^t)^n\)</span>.</li>
+<li>If <span class="math inline">\((B_i)_{i=1,...,m}\)</span> are binomial distributed with trials <span class="math inline">\((n_i)_{i=1,...,m}\)</span> and success probability then
+<span class="math display">\[\sum_{i=1}^m B_i\sim\text{Bin}\left(\sum_{i=1}^m n_i, p\right).\]</span>
+in words this says that for fixed <span class="math inline">\(p\)</span>, the binomial distribution is closed under convolution.</li>
+<li>We have if <span class="math inline">\(B\sim \text{Bin}(1,p)\)</span> and <span class="math inline">\(\tilde B\sim \text{Bern}(p)\)</span> then <span class="math inline">\(B\stackrel{d}{=}\tilde B\)</span>.</li>
+</ul>
+</div>
+<div id="mixtures" class="section level3 hasAnchor" number="8.4.2">
+<h3><span class="header-section-number">8.4.2</span> Mixtures<a href="univariate-distributions.html#mixtures" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Mixtures are distributions given in terms of conditional distributions. Say that a variable <span class="math inline">\(W\)</span> has a known distribution <span class="math inline">\(F_W\)</span> and <span class="math inline">\(X\)</span> is random variable with conditional distribution <span class="math inline">\(F_{X\vert W}(x\vert w)\)</span>, then we say that <span class="math inline">\(X\)</span> has a mixture distribution.</p>
+<blockquote class="def">
+<p><strong>Definition. (Mixture distribution)</strong> <em>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(W\)</span> be two random variables with distribution functions <span class="math inline">\(F_X\)</span> and <span class="math inline">\(F_W\)</span>. If</em></p>
+<p><span class="math display">\[
+X\ \vert\ W\sim F_{X\vert W},
+\]</span></p>
+<p><em>then we say that <span class="math inline">\(X\)</span> has a mixture distribution wrt. <span class="math inline">\(W\)</span> and this is given by</em></p>
+<p><span class="math display">\[
+F_X(x)=\int F_{X\vert W}(x\vert w)\ dF_W(w)=\mathbb E[F_{X\vert W}(x\vert W)].
+\]</span></p>
+<p><em>If furthermore <span class="math inline">\(X\vert W\)</span> has density <span class="math inline">\(f_{X\vert W}\)</span> then</em></p>
+<p><span class="math display">\[
+f_X(x)=\int f_{X\vert W}(x\vert w)\ dF_W(w)=\mathbb E[f_{X\vert W}(x\vert W)].
+\]</span></p>
+</blockquote>
+<p>In a mixture model we have mean</p>
+<p><span class="math display">\[
+\mathbb E[X]=\mathbb E[\mathbb E[X\ \vert\ W]]
+\]</span></p>
+<p>and variance</p>
+<p><span class="math display">\[
+\text{Var}[X]=\mathbb E[\text{Var}[X\ \vert\ W]] + \text{Var}[\mathbb E[X\ \vert\ W]].
+\]</span></p>
+<div id="finite-and-countably-infinite-mixtures" class="section level4 hasAnchor" number="8.4.2.1">
+<h4><span class="header-section-number">8.4.2.1</span> Finite and countably infinite mixtures<a href="univariate-distributions.html#finite-and-countably-infinite-mixtures" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A finite mixture <span class="math inline">\(X\)</span> consist of a vector of probabilities <span class="math inline">\((p_1,...,p_K)\)</span> with <span class="math inline">\(\sum_{i=1}^K p_i=1\)</span> and a vector function <span class="math inline">\(F(x)=(F_1(x),...,F_K(x))\)</span> where</p>
+<p><span class="math display">\[
+F_X(x)=\sum_{i=1}^K p_i F_i(x).
+\]</span></p>
+<p>One may extend this to a countable infinite version making sure that <span class="math inline">\(\sum_{i=1}^\infty p_i=1\)</span> i.e. <span class="math inline">\(p_i\to 0\)</span>.</p>
+<p><strong>Example.</strong> We have a rather well-behaved mixture constructed from the random variable</p>
+<p><span class="math display">\[
+X=\sum_{i=1}^K J_iX_i,
+\]</span></p>
+<p>with <span class="math inline">\(J_i\)</span> and <span class="math inline">\(X_i\)</span> independent. We assume that <span class="math inline">\(J_i\in\{0,1\}\)</span> and <span class="math inline">\(\mathbb P(\sum_{i=1}^K J_i=1)=1\)</span> i.e. only one of <span class="math inline">\(J_i\)</span> is one and the rest is zero. Thus on the event <span class="math inline">\(\{J_i=1\}\)</span> we have <span class="math inline">\(X=J_iX_i\)</span>. This leads to the distribution function
+<span class="math display">\[\begin{align*}
+F_X(x)&amp;=\mathbb P(X\le x)=\sum_{i=1}^K\mathbb P(X_i\le x\ \vert\ J_i = 1)\mathbb P(J_i=1)\\
+&amp;=\sum_{i=1}^K\mathbb P(X_i\le x)p_i=\sum_{i=1}^K p_i F_{X_i}(x).
+\end{align*}\]</span>
+Hence <span class="math inline">\(X\)</span> is a finite mixture with representation</p>
+<p><span class="math display">\[
+p =
+\begin{pmatrix}
+\mathbb P(J_1=1)\\
+\vdots\\
+\mathbb P(J_K=1)
+\end{pmatrix},\qquad F(x) =
+\begin{pmatrix}
+F_{X_1}(x)\\
+\vdots\\
+F_{X_K}(x)
+\end{pmatrix}.
+\]</span></p>
+<p>We have that for any measurable function <span class="math inline">\(g\)</span></p>
+<p><span class="math display">\[
+g(X)=\sum_{i=1}^K J_i g(X_i)
+\]</span></p>
+<p>and thus</p>
+<p><span class="math display">\[
+F_{g(X)}(y)=\mathbb P(g(X)\le y)=\sum_{i=1}^K p_iP(g(X_i)\le y).
+\]</span></p>
+<p>If <span class="math inline">\(g\)</span> is injective we have the generalized inverse <span class="math inline">\(g^{-1}\)</span> and</p>
+<p><span class="math display">\[
+F_{g(X)}(y)=\sum_{i=1}^K p_i F_{X_i}(g^{-1}(y)).
+\]</span></p>
+<p>From this structure we therefore have</p>
+<p><span class="math display">\[
+\mathbb E[g(X)]=\sum_{i=1}^K p_i\mathbb E[g(X_i)].
+\]</span></p>
+<p>This easily gives the moments of <span class="math inline">\(X\)</span> and all easily computed expected values. We have a special mixture:</p>
+<blockquote class="def">
+<p><strong>Definition 4.1. (Mixed exponential distributions)</strong> <em>If each <span class="math inline">\(X_i\sim \exp(\beta_i)\)</span> for <span class="math inline">\(i=1,...,K\)</span> in a finite mixture, we write <span class="math inline">\(X\sim \text{mexp}(\beta;p)\)</span>, where <span class="math inline">\(\beta=(\beta_1,...,\beta_K)\)</span> and <span class="math inline">\(p=(p_1,...,p_{K})\)</span> with <span class="math inline">\(\sum_{i=1}^Kp_i=1\)</span>. That is</em></p>
+<p><span class="math display">\[
+F_X(x)=\sum_{k=1}^Kp_k F_{X_k}(x)=\sum_{k=1}^Kp_k\beta_k\exp(-\beta_kx)
+\]</span></p>
+</blockquote>
+</div>
+</div>
+<div id="thinning-of-a-counting-distribution" class="section level3 hasAnchor" number="8.4.3">
+<h3><span class="header-section-number">8.4.3</span> Thinning of a counting distribution<a href="univariate-distributions.html#thinning-of-a-counting-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Thinning revolves around the following construction.</p>
+<blockquote class="def">
+<p><strong>Definition. (Thinning)</strong> <em>Let <span class="math inline">\(N^*\)</span> be a random variable on <span class="math inline">\(\{0,1,...,\}=\mathbb N_0\)</span> and let <span class="math inline">\((I_i)_{i\in\mathbb N_0}\)</span> be i.i.d <span class="math inline">\(\text{Bern}(q)\)</span> variables. The variable <span class="math inline">\(N\)</span> defined as</em></p>
+<p><span class="math display">\[
+N=\sum_{i=1}^{N^*} I_i,
+\]</span></p>
+<p><em>is called the thinned version of <span class="math inline">\(N^*\)</span> and we write <span class="math inline">\(N\sim \mathcal T(F_{N^*},q)\)</span>.</em></p>
+</blockquote>
+<p>It is clearly seen that</p>
+<p><span class="math display">\[
+N\ \vert\ N^*=n \sim \text{Bin}(n,q).
+\]</span></p>
+<p>In particular we have
+<span class="math display">\[\begin{align*}
+\mathbb P(N=k)&amp;=\sum_{n=k}^\infty \mathbb P(N = k\ \vert\ N^* = n)\mathbb P(N^*=n)\\
+&amp;=\sum_{n=k}^\infty {n\choose k} q^k(1-q)^{n-k}p^*(n;\theta)\\
+&amp;=p(k;q,\theta).
+\end{align*}\]</span>
+Hence the distribution of <span class="math inline">\(N\)</span>i s given by</p>
+<p><span class="math display">\[
+\mathbb P(N\le n)=\sum_{k=0}^n p(k;q,\theta)=\sum_{k=0}^n\sum_{m=k}^\infty {m\choose k} q^k(1-q)^{m-k}p^*(m;\theta).
+\]</span></p>
+<p>We also see that <span class="math inline">\(N\)</span> has expected value</p>
+<p><span class="math display">\[
+\mathbb E[N]=\mathbb E[\mathbb E[N\vert N^*]]=\mathbb E[N^*\mathbb E[I_1]]=q\mathbb E[N^*].
+\]</span></p>
+<p>and variance
+<span class="math display">\[\begin{align*}
+\text{Var}(N)&amp;=\mathbb E[\text{Var}[N\vert N^*]]+\text{Var}[\mathbb E[N\vert N^*]]\\
+&amp;=\mathbb E[N^*\text{Var}[I_1]]+\text{Var}[qN^*]\\
+&amp;=q(1-q)\mathbb E[N^*] + q^2 \text{Var}[N^*].
+\end{align*}\]</span>
+In the case where the thinned distribution is on the same form as the mother variable we say:</p>
+<blockquote class="def">
+<p><strong>Definition 4.2. (Closed under thinning)</strong> <em>A family of discrete distributions <span class="math inline">\(\mathcal P\)</span> is closed under thinning if <span class="math inline">\(N^*\sim P\in \mathcal P\)</span> then <span class="math inline">\(\mathcal T(P,q)\in\mathcal P\)</span>.</em></p>
+</blockquote>
+<p>An important family that is closed under thinning is the Poisson distribution.</p>
+<blockquote class="prop">
+<p><strong>Proposition 4.1.</strong> <em>Let <span class="math inline">\(N^*\sim\text{Pois}(\lambda)\)</span> and define</em></p>
+<p><span class="math display">\[
+N=\sum_{i=1}^{N^*}I_i\quad\text{and}\quad M=\sum_{i=1}^{N^*}(1-I_i),
+\]</span></p>
+<p><em>and the <span class="math inline">\(I_i\sim \text{Bern}(q)\)</span> are i.i.d. Then <span class="math inline">\(N\sim \text{Pois}(q\lambda)\)</span> and <span class="math inline">\(M\sim\text{Pois}((1-q)\lambda)\)</span> and <span class="math inline">\(N\)</span> is independent of <span class="math inline">\(M\)</span>.</em></p>
+</blockquote>
+<p>We also have an example with <span class="math inline">\(N^*\)</span> being a mixture on the form</p>
+<p><span class="math display">\[
+\mathbb P(N^*=n)=\int \mathbb P(N^*=n\ \vert\ W=w)\ dF_W(w).
+\]</span></p>
+<p>Then the thinned version of <span class="math inline">\(N^*\)</span>, <span class="math inline">\(N\)</span>, has the distribution:
+<span class="math display">\[\begin{align*}
+\mathbb P(N=n)&amp;=\sum_{k=n}^\infty \mathbb P(N=n,N^*=k)\\
+&amp;=\sum_{k=n}^\infty \int \mathbb P(N=n,N^*=k\ \vert\ W=w)\ dF_W(w)\\
+&amp;= \int \sum_{k=n}^\infty \mathbb P(N=n,N^*=k\ \vert\ W=w)\ dF_W(w)\\
+&amp;= \int  \mathbb P(N=n\ \vert\ W=w)\ dF_W(w).
+\end{align*}\]</span>
+Thus the mixture may be applied either to the thinned version and the mother variable.</p>
+</div>
+<div id="poisson-mixtures" class="section level3 hasAnchor" number="8.4.4">
+<h3><span class="header-section-number">8.4.4</span> Poisson mixtures<a href="univariate-distributions.html#poisson-mixtures" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The poisson mixture is given by the point probabilities</p>
 <p><span class="math display">\[
 \mathbb P(N=n)=\int_0^\infty \mathbb P(N=n\ \vert\ W=w)\ dF_W(w)=\int_0^\infty \frac{w^n}{n!}e^{-w}\ dF_W(w).
@@ -630,9 +805,11 @@ N=\sum_{i=1}^{N^*}I_i,
 N\ \vert\ W=w\sim\text{Pois}(wq).
 \]</span></p>
 <p>This is given by proposition 4.2: A thinned Poisson mixture is it self a Poisson mixture.</p>
-</div>
-<div id="negative-binomial-distribution" class="section level3 hasAnchor" number="8.1.2">
-<h3><span class="header-section-number">8.1.2</span> Negative binomial distribution<a href="univariate-distributions.html#negative-binomial-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote class="prop">
+<p><strong>Proposition 4.2.</strong> <em>A Poisson mixture is closed under thinning in the sense that the thinned version is also a Poisson mixture with the same mixture distribution.</em></p>
+</blockquote>
+<div id="negative-binomial-distribution" class="section level4 hasAnchor" number="8.4.4.1">
+<h4><span class="header-section-number">8.4.4.1</span> Negative binomial distribution<a href="univariate-distributions.html#negative-binomial-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let <span class="math inline">\(N\)</span> be a Poisson mixture conditional on <span class="math inline">\(W\sim \Gamma(\alpha,\beta)\)</span>. Then <span class="math inline">\(N\)</span> has distribution
 <span class="math display">\[\begin{align*}
 \mathbb P(N=n)&amp;=\int_0^\infty \mathbb P(N=n\ \vert\ W=w)\ dF_W(w)\\
@@ -649,9 +826,35 @@ f_W(w)=\frac{\beta^\alpha}{\Gamma(\alpha)}w^{\alpha -1}e^{-\beta w}.
 &amp;\stackrel{y=(1+\beta)w}{=} \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty \left(\frac{y}{1+\beta}\right)^{n+\alpha -1}e^{-y}\frac{1}{1+\beta}\ dy\\
 &amp;=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\int_0^\infty y^{n+\alpha - 1}e^{-y}\ dy\\
 &amp;=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\Gamma(n+\alpha)\\
-&amp;=
+&amp;=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)}\beta^\alpha (1+\beta)^{-\alpha}(1+\beta)^{-n}\\
+&amp;=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)} \left(\frac{\beta}{1+\beta}\right)^{\alpha}\left(\frac{1}{1+\beta}\right)^{n}
 \end{align*}\]</span>
-find that <span class="math inline">\(N\)</span> is neg binomial and then deduce the distribution of <span class="math inline">\(N=\sum_{i=1}^{N^*}I_i\)</span>.</p>
+thus by defining <span class="math inline">\(p=\beta/(1+\beta)\)</span> we have</p>
+<p><span class="math display">\[
+\mathbb P(N=n)=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)} p^\alpha(1-p)^n.
+\]</span></p>
+<p>We define such a variable as negative binomial with parameter <span class="math inline">\(p\)</span> and <span class="math inline">\(\alpha\)</span> and we write <span class="math inline">\(N\sim \text{Nbin}(\alpha,p)\)</span>. Thus we trivially have the properties;</p>
+<ul>
+<li>If <span class="math inline">\(N\sim \text{Nbin}(\alpha,p)\)</span> then <span class="math inline">\(N\)</span> is a mixture of a Poisson <span class="math inline">\(\Gamma(\alpha, p/(1-p))\)</span> variable.</li>
+<li>The mean is given by
+<span class="math display">\[\mathbb E[N]=\mathbb E[\mathbb E[N\vert W]]=\mathbb E[W]=\frac{\alpha}{\beta}=\alpha\frac{1-p}{p}\]</span>
+and the variance is
+<span class="math display">\[\begin{align*}
+  \text{Var}(N)&amp;=\mathbb E[\text{Var}[N\ \vert\ W]] + \text{Var}[\mathbb E[N\ \vert\ W]]\\
+  &amp;=\mathbb E[W]+\text{Var}[W]\\
+  &amp;=\alpha \frac{1-p}{p}+\alpha \frac{(1-p)^2}{p^2}=\alpha\frac{1-p}{p^2}.
+  \end{align*}\]</span></li>
+</ul>
+</div>
+</div>
+<div id="modified-and-inflated-counting-distributions" class="section level3 hasAnchor" number="8.4.5">
+<h3><span class="header-section-number">8.4.5</span> Modified and inflated counting distributions<a href="univariate-distributions.html#modified-and-inflated-counting-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="convolutions-and-compound-distributions" class="section level3 hasAnchor" number="8.4.6">
+<h3><span class="header-section-number">8.4.6</span> Convolutions and compound distributions<a href="univariate-distributions.html#convolutions-and-compound-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="dispersed-exponential-families" class="section level3 hasAnchor" number="8.4.7">
+<h3><span class="header-section-number">8.4.7</span> Dispersed exponential families<a href="univariate-distributions.html#dispersed-exponential-families" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
 </div>
             </section>
@@ -659,7 +862,7 @@ find that <span class="math inline">\(N\)</span> is neg binomial and then deduce
           </div>
         </div>
       </div>
-<a href="topics-in-non-life-insurance-mathematics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multivariate-theory.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="multivariate-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -13,6 +13,7 @@ In context of life insurance, this chapter presents general mathematical definit
 Functions (sample paths) often considered in stochastic process theory are functions where discontinuities are jumps.
 
 <blockquote class = "def">
+
 **Definition 1.1. (Lund)** _A right-continuous $\mathbb R$-valued function $x(t)$ with finite left-limits defined on $[0,\infty)$ is called CADLAG\index{CADLAG} if_
 
   i) $x(t)=x(t+)=\lim_{t\searrow s}x(s)$ _(right-continuous),_
@@ -1028,9 +1029,95 @@ A third way to view this process is as a random counting measure, but will not b
 
 ## Introduction to survival and event history analysis
 
+This chapter introduces some basic concepts and ideas of survival and event history analysis. The observations of moving among a finite number of states are assumed to happen in con- tinuous time and often there are incomplete observations. The statistical models are based on counting processes.
+
 ### Hazard rate (force of mortality)
 
+The hazard rate is used to model survival times. The results below are a reminder to hazard rate and basic properties.
+
+<blockquote class = "def">
+
+**Definition. (Lund) (Hazard rate)** _Let $\tau>0$ be a positive random variable with distribution function $F(t)=\mathbb P(\tau \le t)$ and survival function $\overline F(t)=\mathbb P(\tau > t)$ for $t\ge 0$. The hazard rate $\mu$ is defined by the dynamics._
+
+$$
+d\overline F(t)=-\overline F(t)\ d\mu(t)
+$$
+
+_or equivalently_
+
+$$
+\mu(t)=\lim_{h\to 0}\mathbb P(t\le \tau < t+ h\ \vert\ \tau\ge t)=1_{(\overline F(t)>0)}\frac{f(t)}{\overline F(t)}.
+$$
+
+</blockquote>
+
+We have that
+
+$$
+\overline F(t)=\exp\left(-\int_0^t\mu(s)\ ds\right).
+$$
+
+Hence we also have
+
+$$
+f(t)=\overline F(t)\mu(t).
+$$
+
+That is, we can by choosing $\mu$ entirely describe the survival function, distribution function and density function, that is, if $F$ is absolutely continuous.
+
 ### Examples of basic counting processes models
+
+In this section we introduce the counting processes associated to two concrete models—the survival model and the Markov model (multi-state model).
+
+Incomplete observation can rarely be avoided in the study of life and event history data. The point is that one has to wait for the event to happen and when the study ends one will find the event has occurred for some individuals but not for others. The observations come as a mixture of complete and incomplete observations. In this note the form of incomplete observations is right-censoring at a given deterministic time, that is, the censoring cut off the time interval to the right-hand side at a given time. The concept is called right-censoring.
+
+#### Uncensored survival
+
+We consider a Markoc chain $Z(t)$ on state space $\{a,d\}$ with absorbing state $d$ and $Z(0)=a$. We define the stopping time
+
+$$
+\tau = \inf\{s\ge 0 : Z(s)=d\}
+$$
+
+as the time of transition from $a$ to $b$ or equivalently in this case, the time of absorption. The counting process
+
+$$
+N(t)=1_{[\tau,\infty)}=\#\{0< s\le t\ \vert\ Z(s-)=a,Z(s)=d\}
+$$
+
+that counts the number of transition on the interval $(0,t]$ has intensity process given by
+
+$$
+\lambda (t)=\mu(t)1_{[0,\tau]}=\mu(t)1_{(Z(t-)=a)}.
+$$
+
+The dataset thus consist of $(\tau_i)_{i=1,...,N}$ if the event is not censored.
+
+#### Censured survival
+
+Assuming the same Markov chain as above we now define $C$ as a censoring time. For now we simply assume that $C=c$ is a constant and therefore independent of $Z(t)$. This means in particular we only observe the data $(\tilde \tau_i)_{i=1,...,N}=(\tau_i \wedge c)_{i=0,...,N}$. We may define the indicator $D=1_{\tilde \tau = \tau}$. The observed counting process thus is
+
+$$
+\tilde N(t)=1_{[\tilde \tau ,\infty)}1_{(D=1)}=\int_0^t 1_{[0,c](s)}\ dN(s).
+$$
+
+Where $1_{[0,c]}$ ensures that the integral only counts on the interval $[0,t\wedge c]$. This gives that $\tilde N$ has intensity process
+
+$$
+\tilde \lambda(t)=1_{[0,c]}(t)\lambda (t)=1_{[0,c]}(t)\mu(t)1_{(Z(t-)=a)}
+$$
+
+or simply
+
+$$
+\tilde \lambda(t)=1_{[0,\tilde \tau]}(t)\mu(t).
+$$
+
+In this case we can use all of the data in estimating $\mu$.
+
+#### Markov model
+
+
 
 ### Multiplicative intensity model
 

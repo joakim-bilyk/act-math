@@ -1,0 +1,96 @@
+---
+title: "Comparing and Intereting Machine Learning Algorithms Estimating Technical Prices"
+author:
+  - name: "Joakim Bilyk, Sebastian Cramer and Teis Blem"
+    affiliation: "University of Copenhagen"
+date: "`r Sys.Date()`"
+bibliography: article.bib
+abstract: "This document provides a practical example of the application of supervised machine learning algorithms to car insurance data using the mlr3 package. In non-life insurance pricing, a popular model is the frequency-severity model, which decomposes the price into the product of the probability of a claim arising and the expected claim size given a claim occurs. This paper argues that a tree-based model is well-suited to the frequency-severity model, as it can capture complex nonlinear relationships between risk factors and claims. To interpret the model's estimates, we used shapley values to gain insights into the relative importance of each risk factor. Finally, we used a decomposition technique to debias the price model and ensure it does not discriminate based on gender. Overall, our approach demonstrates the potential of machine learning to create more accurate and equitable pricing models in the insurance industry."
+keywords: "mlr3, machine learning, regression, non-life insurance, estimating technical price, XGBoost, debiassing, bias, SHAP-values, interpretation of ML models"
+header-includes:
+  - \usepackage{subfig}
+  - \usepackage{wrapfig}
+  - \usepackage{longtable}
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+    keep_tex: yes
+    template: ../article-template.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+library(knitr)
+if (knitr::is_latex_output()) {
+  knitr::opts_chunk$set(
+    fig.show = 'hide',
+    echo = TRUE,
+    warning=FALSE,
+    message = FALSE
+  )
+} else {
+  knitr::opts_chunk$set(
+    warning=FALSE,
+    message = FALSE
+  )
+}
+theme_custom <- function() {
+  
+  theme_minimal() %+replace%
+    
+    theme(
+      
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.border = element_rect(colour = "black", fill=NA),
+      axis.ticks = element_line(),
+      #axis.line.x = element_line(color = "#C5C5C5"),
+      axis.line = element_line(color = "black"),
+      #axis.ticks = element_blank(),
+      legend.position = "bottom",
+      legend.title = element_blank(),
+      #plot.background = element_rect(fill='transparent', color=NA),
+      
+      plot.title = element_text(             #title
+                   #family = font,            #set font family
+                   size = 16,                #set font size
+                   face = 'bold',            #bold typeface
+                   hjust = 0,                #left align
+                   vjust = 2,
+                   color = "black"),               #raise slightly
+      
+      plot.subtitle = element_text(          #subtitle
+                   #family = font,            #font family
+                   size = 12,
+                   hjust = 0,
+                   color = "black"),               #font size
+      
+      plot.caption = element_text(           #caption
+                   #family = font,            #font family
+                    face = "italic",
+                   size = 8,                 #font size
+                   hjust = 1,
+                   color = "black"),               #right align
+      
+      axis.title = element_text(             #axis titles
+                   #family = font,            #font family
+                   size = 12,
+                   color = "black"),               #font size
+      
+      axis.text = element_text(              #axis text
+                   #family = font,            #axis famuly
+                   size = 12,
+                   color = "black"),                #font size
+      
+      axis.text.x = element_text(            #margin for axis text
+                    margin=margin(5, b = 10))
+      
+    )
+}
+```
+
+# Getting familiar with the data
+
+dsad [@lutzen2019]

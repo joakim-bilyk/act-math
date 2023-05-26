@@ -163,7 +163,7 @@
 \end{textblock}
 
 \begin{textblock}{12}(1.5,13.7)
-\noindent\fontsize{11}{11}\selectfont Date: May 06, 2023
+\noindent\fontsize{11}{11}\selectfont Date: May 13, 2023
 \end{textblock}
 
 \hspace{1pt}
@@ -282,19 +282,19 @@ X
 & StokLiv & Chapter 1-4 & X \\
 & Skade1 & Chapter 1-2.1 & X \\
 & SkadeStok & Chapter 1-2 (Schmidli) & X \\
-& Skade2 & Chapter 4 + 6 & \\
+& Skade2 & Chapter 4.1-4.4 + 6 (1 + 2, 4.5-4.7) & Mangler 1 + 2, 4.5-4.7 og 6.2 \\
 2 & QRM & Extreme value theory with heavy tails; Hill estimator; POT method. & \\
 & Liv1 & Chapter 4 & X \\
 & StokLiv & Chapter 6-11 & (X) \\
 & Skade1 & Chapter 2.2-2.3 & \\
 & SkadeStok & Chapter 3 (Schmidli) & \\
-& Skade2 & TBD & \\
+& Skade2 & Chapter 7 + 8 (3) & \\
 3 & QRM & Multivariate distributions and dependence. Elliptical distributions; copula & \\
 & Liv1 & Chapter 5-6 & \\
 & StokLiv & Chapter 12, 14-16 & \\
 & Skade1 & Chapter 3.1-3.2 & \\
 & SkadeStok & Notes on stochastic investments & \\
-& Skade2 & TBD & \\
+& Skade2 & Chapter 9 (5) & \\
 4 & QRM & Credit risk modelling & \\
 & Liv1 & Chapter 7 & \\
 & StokLiv & Chapter 17-18 & \\
@@ -1628,11 +1628,94 @@ A third way to view this process is as a random counting measure, but will not b
 \hypertarget{introduction-to-survival-and-event-history-analysis}{%
 \section{Introduction to survival and event history analysis}\label{introduction-to-survival-and-event-history-analysis}}
 
+This chapter introduces some basic concepts and ideas of survival and event history analysis. The observations of moving among a finite number of states are assumed to happen in con- tinuous time and often there are incomplete observations. The statistical models are based on counting processes.
+
 \hypertarget{hazard-rate-force-of-mortality}{%
 \subsection{Hazard rate (force of mortality)}\label{hazard-rate-force-of-mortality}}
 
+The hazard rate is used to model survival times. The results below are a reminder to hazard rate and basic properties.
+
+\textbf{Definition. (Lund) (Hazard rate)} \emph{Let \(\tau>0\) be a positive random variable with distribution function \(F(t)=\mathbb P(\tau \le t)\) and survival function \(\overline F(t)=\mathbb P(\tau > t)\) for \(t\ge 0\). The hazard rate \(\mu\) is defined by the dynamics.}
+
+\[
+d\overline F(t)=-\overline F(t)\ d\mu(t)
+\]
+
+\emph{or equivalently}
+
+\[
+\mu(t)=\lim_{h\to 0}\mathbb P(t\le \tau < t+ h\ \vert\ \tau\ge t)=1_{(\overline F(t)>0)}\frac{f(t)}{\overline F(t)}.
+\]
+
+We have that
+
+\[
+\overline F(t)=\exp\left(-\int_0^t\mu(s)\ ds\right).
+\]
+
+Hence we also have
+
+\[
+f(t)=\overline F(t)\mu(t).
+\]
+
+That is, we can by choosing \(\mu\) entirely describe the survival function, distribution function and density function, that is, if \(F\) is absolutely continuous.
+
 \hypertarget{examples-of-basic-counting-processes-models}{%
 \subsection{Examples of basic counting processes models}\label{examples-of-basic-counting-processes-models}}
+
+In this section we introduce the counting processes associated to two concrete models---the survival model and the Markov model (multi-state model).
+
+Incomplete observation can rarely be avoided in the study of life and event history data. The point is that one has to wait for the event to happen and when the study ends one will find the event has occurred for some individuals but not for others. The observations come as a mixture of complete and incomplete observations. In this note the form of incomplete observations is right-censoring at a given deterministic time, that is, the censoring cut off the time interval to the right-hand side at a given time. The concept is called right-censoring.
+
+\hypertarget{uncensored-survival}{%
+\subsubsection{Uncensored survival}\label{uncensored-survival}}
+
+We consider a Markoc chain \(Z(t)\) on state space \(\{a,d\}\) with absorbing state \(d\) and \(Z(0)=a\). We define the stopping time
+
+\[
+\tau = \inf\{s\ge 0 : Z(s)=d\}
+\]
+
+as the time of transition from \(a\) to \(b\) or equivalently in this case, the time of absorption. The counting process
+
+\[
+N(t)=1_{[\tau,\infty)}=\#\{0< s\le t\ \vert\ Z(s-)=a,Z(s)=d\}
+\]
+
+that counts the number of transition on the interval \((0,t]\) has intensity process given by
+
+\[
+\lambda (t)=\mu(t)1_{[0,\tau]}=\mu(t)1_{(Z(t-)=a)}.
+\]
+
+The dataset thus consist of \((\tau_i)_{i=1,...,N}\) if the event is not censored.
+
+\hypertarget{censured-survival}{%
+\subsubsection{Censured survival}\label{censured-survival}}
+
+Assuming the same Markov chain as above we now define \(C\) as a censoring time. For now we simply assume that \(C=c\) is a constant and therefore independent of \(Z(t)\). This means in particular we only observe the data \((\tilde \tau_i)_{i=1,...,N}=(\tau_i \wedge c)_{i=0,...,N}\). We may define the indicator \(D=1_{\tilde \tau = \tau}\). The observed counting process thus is
+
+\[
+\tilde N(t)=1_{[\tilde \tau ,\infty)}1_{(D=1)}=\int_0^t 1_{[0,c](s)}\ dN(s).
+\]
+
+Where \(1_{[0,c]}\) ensures that the integral only counts on the interval \([0,t\wedge c]\). This gives that \(\tilde N\) has intensity process
+
+\[
+\tilde \lambda(t)=1_{[0,c]}(t)\lambda (t)=1_{[0,c]}(t)\mu(t)1_{(Z(t-)=a)}
+\]
+
+or simply
+
+\[
+\tilde \lambda(t)=1_{[0,\tilde \tau]}(t)\mu(t).
+\]
+
+In this case we can use all of the data in estimating \(\mu\).
+
+\hypertarget{markov-model}{%
+\subsubsection{Markov model}\label{markov-model}}
 
 \hypertarget{multiplicative-intensity-model}{%
 \subsection{Multiplicative intensity model}\label{multiplicative-intensity-model}}
@@ -8885,11 +8968,236 @@ Below is given the abbreviations used when referencing to books:
   \textbf{Paulsen}: \emph{Non-life Insurance} by Jostein Paulsen (2023).\cite{paulsen2023}
 \end{itemize}
 
+\hypertarget{some-probability-theory}{%
+\section{Some probability theory}\label{some-probability-theory}}
+
+\hypertarget{standard-distributions}{%
+\section{Standard distributions}\label{standard-distributions}}
+
+\hypertarget{multivariate-theory}{%
+\section{Multivariate theory}\label{multivariate-theory}}
+
 \hypertarget{univariate-distributions}{%
 \section{Univariate distributions}\label{univariate-distributions}}
 
-\hypertarget{mixture-poisson-distribution}{%
-\subsection{Mixture Poisson distribution}\label{mixture-poisson-distribution}}
+This chapter goes into depth with some important results regarding thinning and mixtures in the univariate case.
+
+\hypertarget{the-binomial-distribution}{%
+\subsection{The binomial distribution}\label{the-binomial-distribution}}
+
+The binomial distribution describes the number of successful trials \(k\) in a fixed number of experiments \(n\ge k\). The characteristics of the experiments is that
+
+\begin{itemize}
+\tightlist
+\item
+  Each experiment is independent of the \(n-1\) others,
+\item
+  Each experiment has the same success probability \(p\) as the others.
+\end{itemize}
+
+Thus we see that if \(B_1,...,B_n\) are i.i.d Bernoulli variables with succes probability \(p\), then we have that \(\sum_{i=1}^n B_i\) is Binomial distributed with \(n\) trials and \(p\) probability of succes.
+
+\textbf{Definition. (Binomial distribution)}\index{Binomial distribution} \emph{Let \(B_1,...,B_n\) be i.i.d \(\text{Bern}(p)\) distributed. The quantity \(B=\sum_{i=1}^n B_i\) is said to follow a Binomial distrbution with \(n\) trials and success probability \(p\) written \(B\sim \text{Bin}(n,p)\). The point probabilities are}
+
+\[
+P(B=k)={n\choose k}p^k(1-p)^{n-k},\qquad k=0,...,n.
+\]
+
+We have some nice properties of this distribution:
+
+\begin{itemize}
+\tightlist
+\item
+  The mean is \(\mathbb E[B]=np\) and the variance is \(\text{Var}[B]=np(1-p)\).
+\item
+  The moment generating function is \(M_B(t)=\mathbb E[e^{tB}]=(1-p+pe^t)^n\).
+\item
+  If \((B_i)_{i=1,...,m}\) are binomial distributed with trials \((n_i)_{i=1,...,m}\) and success probability then
+  \[\sum_{i=1}^m B_i\sim\text{Bin}\left(\sum_{i=1}^m n_i, p\right).\]
+  in words this says that for fixed \(p\), the binomial distribution is closed under convolution.
+\item
+  We have if \(B\sim \text{Bin}(1,p)\) and \(\tilde B\sim \text{Bern}(p)\) then \(B\stackrel{d}{=}\tilde B\).
+\end{itemize}
+
+\hypertarget{mixtures}{%
+\subsection{Mixtures}\label{mixtures}}
+
+Mixtures are distributions given in terms of conditional distributions. Say that a variable \(W\) has a known distribution \(F_W\) and \(X\) is random variable with conditional distribution \(F_{X\vert W}(x\vert w)\), then we say that \(X\) has a mixture distribution.
+
+\textbf{Definition. (Mixture distribution)}\index{Mixture distribution} \emph{Let \(X\) and \(W\) be two random variables with distribution functions \(F_X\) and \(F_W\). If}
+
+\[
+X\ \vert\ W\sim F_{X\vert W},
+\]
+
+\emph{then we say that \(X\) has a mixture distribution wrt. \(W\) and this is given by}
+
+\[
+F_X(x)=\int F_{X\vert W}(x\vert w)\ dF_W(w)=\mathbb E[F_{X\vert W}(x\vert W)].
+\]
+
+\emph{If furthermore \(X\vert W\) has density \(f_{X\vert W}\) then}
+
+\[
+f_X(x)=\int f_{X\vert W}(x\vert w)\ dF_W(w)=\mathbb E[f_{X\vert W}(x\vert W)].
+\]
+
+In a mixture model we have mean
+
+\[
+\mathbb E[X]=\mathbb E[\mathbb E[X\ \vert\ W]]
+\]
+
+and variance
+
+\[
+\text{Var}[X]=\mathbb E[\text{Var}[X\ \vert\ W]] + \text{Var}[\mathbb E[X\ \vert\ W]].
+\]
+
+\hypertarget{finite-and-countably-infinite-mixtures}{%
+\subsubsection{Finite and countably infinite mixtures}\label{finite-and-countably-infinite-mixtures}}
+
+A finite mixture \(X\) consist of a vector of probabilities \((p_1,...,p_K)\) with \(\sum_{i=1}^K p_i=1\) and a vector function \(F(x)=(F_1(x),...,F_K(x))\) where
+
+\[
+F_X(x)=\sum_{i=1}^K p_i F_i(x).
+\]
+
+One may extend this to a countable infinite version making sure that \(\sum_{i=1}^\infty p_i=1\) i.e.~\(p_i\to 0\).
+
+\textbf{Example.} We have a rather well-behaved mixture constructed from the random variable
+
+\[
+X=\sum_{i=1}^K J_iX_i,
+\]
+
+with \(J_i\) and \(X_i\) independent. We assume that \(J_i\in\{0,1\}\) and \(\mathbb P(\sum_{i=1}^K J_i=1)=1\) i.e.~only one of \(J_i\) is one and the rest is zero. Thus on the event \(\{J_i=1\}\) we have \(X=J_iX_i\). This leads to the distribution function
+\begin{align*}
+F_X(x)&=\mathbb P(X\le x)=\sum_{i=1}^K\mathbb P(X_i\le x\ \vert\ J_i = 1)\mathbb P(J_i=1)\\
+&=\sum_{i=1}^K\mathbb P(X_i\le x)p_i=\sum_{i=1}^K p_i F_{X_i}(x).
+\end{align*}
+Hence \(X\) is a finite mixture with representation
+
+\[
+p =
+\begin{pmatrix}
+\mathbb P(J_1=1)\\
+\vdots\\
+\mathbb P(J_K=1)
+\end{pmatrix},\qquad F(x) =
+\begin{pmatrix}
+F_{X_1}(x)\\
+\vdots\\
+F_{X_K}(x)
+\end{pmatrix}.
+\]
+
+We have that for any measurable function \(g\)
+
+\[
+g(X)=\sum_{i=1}^K J_i g(X_i)
+\]
+
+and thus
+
+\[
+F_{g(X)}(y)=\mathbb P(g(X)\le y)=\sum_{i=1}^K p_iP(g(X_i)\le y).
+\]
+
+If \(g\) is injective we have the generalized inverse \(g^{-1}\) and
+
+\[
+F_{g(X)}(y)=\sum_{i=1}^K p_i F_{X_i}(g^{-1}(y)).
+\]
+
+From this structure we therefore have
+
+\[
+\mathbb E[g(X)]=\sum_{i=1}^K p_i\mathbb E[g(X_i)].
+\]
+
+This easily gives the moments of \(X\) and all easily computed expected values. We have a special mixture:
+
+\textbf{Definition 4.1. (Mixed exponential distributions)}\index{Mixed exponential distributions} \emph{If each \(X_i\sim \exp(\beta_i)\) for \(i=1,...,K\) in a finite mixture, we write \(X\sim \text{mexp}(\beta;p)\), where \(\beta=(\beta_1,...,\beta_K)\) and \(p=(p_1,...,p_{K})\) with \(\sum_{i=1}^Kp_i=1\). That is}
+
+\[
+F_X(x)=\sum_{k=1}^Kp_k F_{X_k}(x)=\sum_{k=1}^Kp_k\beta_k\exp(-\beta_kx)
+\]
+
+\hypertarget{thinning-of-a-counting-distribution}{%
+\subsection{Thinning of a counting distribution}\label{thinning-of-a-counting-distribution}}
+
+Thinning revolves around the following construction.
+
+\textbf{Definition. (Thinning)}\index{Thinning} \emph{Let \(N^*\) be a random variable on \(\{0,1,...,\}=\mathbb N_0\) and let \((I_i)_{i\in\mathbb N_0}\) be i.i.d \(\text{Bern}(q)\) variables. The variable \(N\) defined as}
+
+\[
+N=\sum_{i=1}^{N^*} I_i,
+\]
+
+\emph{is called the thinned version of \(N^*\) and we write \(N\sim \mathcal T(F_{N^*},q)\).}
+
+It is clearly seen that
+
+\[
+N\ \vert\ N^*=n \sim \text{Bin}(n,q).
+\]
+
+In particular we have
+\begin{align*}
+\mathbb P(N=k)&=\sum_{n=k}^\infty \mathbb P(N = k\ \vert\ N^* = n)\mathbb P(N^*=n)\\
+&=\sum_{n=k}^\infty {n\choose k} q^k(1-q)^{n-k}p^*(n;\theta)\\
+&=p(k;q,\theta).
+\end{align*}
+Hence the distribution of \(N\)i s given by
+
+\[
+\mathbb P(N\le n)=\sum_{k=0}^n p(k;q,\theta)=\sum_{k=0}^n\sum_{m=k}^\infty {m\choose k} q^k(1-q)^{m-k}p^*(m;\theta).
+\]
+
+We also see that \(N\) has expected value
+
+\[
+\mathbb E[N]=\mathbb E[\mathbb E[N\vert N^*]]=\mathbb E[N^*\mathbb E[I_1]]=q\mathbb E[N^*].
+\]
+
+and variance
+\begin{align*}
+\text{Var}(N)&=\mathbb E[\text{Var}[N\vert N^*]]+\text{Var}[\mathbb E[N\vert N^*]]\\
+&=\mathbb E[N^*\text{Var}[I_1]]+\text{Var}[qN^*]\\
+&=q(1-q)\mathbb E[N^*] + q^2 \text{Var}[N^*].
+\end{align*}
+In the case where the thinned distribution is on the same form as the mother variable we say:
+
+\textbf{Definition 4.2. (Closed under thinning)} \emph{A family of discrete distributions \(\mathcal P\) is closed under thinning if \(N^*\sim P\in \mathcal P\) then \(\mathcal T(P,q)\in\mathcal P\).}
+
+An important family that is closed under thinning is the Poisson distribution.
+
+\textbf{Proposition 4.1.} \emph{Let \(N^*\sim\text{Pois}(\lambda)\) and define}
+
+\[
+N=\sum_{i=1}^{N^*}I_i\quad\text{and}\quad M=\sum_{i=1}^{N^*}(1-I_i),
+\]
+
+\emph{and the \(I_i\sim \text{Bern}(q)\) are i.i.d. Then \(N\sim \text{Pois}(q\lambda)\) and \(M\sim\text{Pois}((1-q)\lambda)\) and \(N\) is independent of \(M\).}
+
+We also have an example with \(N^*\) being a mixture on the form
+
+\[
+\mathbb P(N^*=n)=\int \mathbb P(N^*=n\ \vert\ W=w)\ dF_W(w).
+\]
+
+Then the thinned version of \(N^*\), \(N\), has the distribution:
+\begin{align*}
+\mathbb P(N=n)&=\sum_{k=n}^\infty \mathbb P(N=n,N^*=k)\\
+&=\sum_{k=n}^\infty \int \mathbb P(N=n,N^*=k\ \vert\ W=w)\ dF_W(w)\\
+&= \int \sum_{k=n}^\infty \mathbb P(N=n,N^*=k\ \vert\ W=w)\ dF_W(w)\\
+&= \int  \mathbb P(N=n\ \vert\ W=w)\ dF_W(w).
+\end{align*}
+Thus the mixture may be applied either to the thinned version and the mother variable.
+
+\hypertarget{poisson-mixtures}{%
+\subsection{Poisson mixtures}\label{poisson-mixtures}}
 
 The poisson mixture is given by the point probabilities
 
@@ -8917,8 +9225,10 @@ N\ \vert\ W=w\sim\text{Pois}(wq).
 
 This is given by proposition 4.2: A thinned Poisson mixture is it self a Poisson mixture.
 
+\textbf{Proposition 4.2.} \emph{A Poisson mixture is closed under thinning in the sense that the thinned version is also a Poisson mixture with the same mixture distribution.}
+
 \hypertarget{negative-binomial-distribution}{%
-\subsection{Negative binomial distribution}\label{negative-binomial-distribution}}
+\subsubsection{Negative binomial distribution}\label{negative-binomial-distribution}}
 
 Let \(N\) be a Poisson mixture conditional on \(W\sim \Gamma(\alpha,\beta)\). Then \(N\) has distribution
 \begin{align*}
@@ -8938,9 +9248,40 @@ Doing some rewriting we have
 &\stackrel{y=(1+\beta)w}{=} \frac{\beta^\alpha}{n!\Gamma(\alpha)}\int_0^\infty \left(\frac{y}{1+\beta}\right)^{n+\alpha -1}e^{-y}\frac{1}{1+\beta}\ dy\\
 &=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\int_0^\infty y^{n+\alpha - 1}e^{-y}\ dy\\
 &=\frac{\beta^\alpha}{n!\Gamma(\alpha)}(1+\beta)^{-(n+\alpha)}\Gamma(n+\alpha)\\
-&=
+&=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)}\beta^\alpha (1+\beta)^{-\alpha}(1+\beta)^{-n}\\
+&=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)} \left(\frac{\beta}{1+\beta}\right)^{\alpha}\left(\frac{1}{1+\beta}\right)^{n}
 \end{align*}
-find that \(N\) is neg binomial and then deduce the distribution of \(N=\sum_{i=1}^{N^*}I_i\).
+thus by defining \(p=\beta/(1+\beta)\) we have
+
+\[
+\mathbb P(N=n)=\frac{\Gamma(n+\alpha)}{n!\Gamma(\alpha)} p^\alpha(1-p)^n.
+\]
+
+We define such a variable as negative binomial with parameter \(p\) and \(\alpha\) and we write \(N\sim \text{Nbin}(\alpha,p)\). Thus we trivially have the properties;
+
+\begin{itemize}
+\tightlist
+\item
+  If \(N\sim \text{Nbin}(\alpha,p)\) then \(N\) is a mixture of a Poisson \(\Gamma(\alpha, p/(1-p))\) variable.
+\item
+  The mean is given by
+  \[\mathbb E[N]=\mathbb E[\mathbb E[N\vert W]]=\mathbb E[W]=\frac{\alpha}{\beta}=\alpha\frac{1-p}{p}\]
+  and the variance is
+  \begin{align*}
+    \text{Var}(N)&=\mathbb E[\text{Var}[N\ \vert\ W]] + \text{Var}[\mathbb E[N\ \vert\ W]]\\
+    &=\mathbb E[W]+\text{Var}[W]\\
+    &=\alpha \frac{1-p}{p}+\alpha \frac{(1-p)^2}{p^2}=\alpha\frac{1-p}{p^2}.
+    \end{align*}
+\end{itemize}
+
+\hypertarget{modified-and-inflated-counting-distributions}{%
+\subsection{Modified and inflated counting distributions}\label{modified-and-inflated-counting-distributions}}
+
+\hypertarget{convolutions-and-compound-distributions}{%
+\subsection{Convolutions and compound distributions}\label{convolutions-and-compound-distributions}}
+
+\hypertarget{dispersed-exponential-families}{%
+\subsection{Dispersed exponential families}\label{dispersed-exponential-families}}
 
 \hypertarget{multivariate-distributions}{%
 \section{Multivariate distributions}\label{multivariate-distributions}}
@@ -9019,8 +9360,46 @@ F_X(x)=\frac{1}{\alpha}\int_0^xF_{D^*}(y-)\ dF_{X^*}(y).
 Of cause, if \(X^*\) has density
 
 \[
-f_X(x)\frac{1}{\alpha}F_{D^*}(x-)f_{X^*}(x).
+f_X(x)=\frac{1}{\alpha}F_{D^*}(x-)f_{X^*}(x).
 \]
+
+The density of the observable deductible hhas the form
+\begin{align*}
+f_D(y)&=\frac{1}{\alpha}\int_d^\infty f_{X^*,D^*}(x,y)\ dx=\frac{1}{\alpha} f_{D^*}(y)\int_d^\infty f_{X^*\vert D^*}(x\vert y)\ dx\\
+&=\frac{1}{\alpha} f_{D^*}(y)\mathbb P(X^*> y\ \vert\ D^* = y).
+\end{align*}
+The density of the claim conditioned on the deductible then becomes
+
+\[
+f_{X\vert D}(x\vert y)=1_{(x> y)}\frac{f_{X^*,D^*}(x,y)}{f_{D^*}(y)\mathbb P(X^*> y\ \vert\ D^*=y)}=1_{(x> y)}\frac{f_{X^*\vert D^*}(x\vert y)}{\mathbb P(X^*> D^*\ \vert\ D^*=y)}.
+\]
+
+Then assuming \(X^*\) and \(D^*\) are independent the above becomes
+
+\[
+f_{X\vert D}(x\vert y)=1_{(x> y)}\frac{f_{X^*}(x)}{\mathbb P(X^*> y)}=1_{(x> y)}\frac{f_{X^*}(x)}{\overline F_{X^*}(y)}.
+\]
+
+We can derive that for any measurable function \(h\) we have
+
+\[
+\mathbb E[h(X)\ \vert\ D=y]=\frac{1}{\mathbb P(X^*> D^*\ \vert\ D^* =y)}\int_d^\infty h(x) f_{X^*\vert D^*}(x\vert y)\ dx.
+\]
+
+And when we are interested in the actual loss \(X^*\) we have
+
+\[
+\mathbb E[h(X^*)\ \vert\ D^*=y^*]=\int_0^\infty h(x)\ dF_{X^*\vert D^*}(x\vert y^*).
+\]
+
+\hypertarget{statistical-inference}{%
+\section{Statistical inference}\label{statistical-inference}}
+
+\hypertarget{estimation}{%
+\section{Estimation}\label{estimation}}
+
+\hypertarget{asymptotics}{%
+\section{Asymptotics}\label{asymptotics}}
 
 \hypertarget{probabilistic-machine-learning}{%
 \chapter{Probabilistic Machine Learning}\label{probabilistic-machine-learning}}
@@ -13092,8 +13471,8 @@ E\left[e^{\lambda_1X+\lambda_2Y}\right]=\psi_X(\lambda_1)\psi_Y(\lambda_2)
 
 \emph{for \(\vert\lambda_i\vert<h\) for \(i=1,2\) for some \(h>0\), then \(X\) and \(Y\) are independent random variables.}
 
-\hypertarget{standard-distributions}{%
-\section{Standard distributions}\label{standard-distributions}}
+\hypertarget{standard-distributions-1}{%
+\section{Standard distributions}\label{standard-distributions-1}}
 
 \hypertarget{normal-disribution}{%
 \subsection{Normal disribution}\label{normal-disribution}}

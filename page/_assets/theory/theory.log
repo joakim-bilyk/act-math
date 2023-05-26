@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.3.18)  6 MAY 2023 12:51
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.3.18)  13 MAY 2023 10:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1165,123 +1165,123 @@ Missing character: There is no − ("2212) in font rm-lmr10!
 [20]
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr10!
-[21] [22] [23] [24] [25] [26]
+[21] [22] [23] [24] [25] [26] [27] [28]
 Chapter 3.
 
 Underfull \vbox (badness 1286) has occurred while \output is active []
 
-[27
+[29
 
-] [28] [29] [30] [31]
+] [30] [31] [32] [33]
 File: theory_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 <use theory_files/figure-latex/unnamed-chunk-1-1.pdf>
-[32]
+[34]
 File: figures/BS_call_price.png Graphic file (type bmp)
 <figures/BS_call_price.png>
-[33] [34] [35] [36] [37] [38] [39] [40] [41]
+[35] [36] [37] [38] [39] [40] [41] [42] [43]
 File: figures/BS_sim.png Graphic file (type bmp)
 <figures/BS_sim.png>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52]
+[44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54]
 Underfull \vbox (badness 1917) has occurred while \output is active []
 
-[53] [54] [55] [56] [57] [58] [59] [60] [61] [62]
+[55] [56] [57] [58] [59] [60] [61] [62] [63] [64]
 Chapter 4.
-[63
+[65
 
-] [64] [65]
-Underfull \hbox (badness 1019) in paragraph at lines 3977--3978
+] [66] [67]
+Underfull \hbox (badness 1019) in paragraph at lines 4060--4061
 []\T1/lmr/m/n/10 Consider a time-inhomogeneous Markov jump pro-cess $\U/matha/m
 /n/10 t\OML/lmm/m/it/10 X[]\U/matha/m/n/10 u[]$ \T1/lmr/m/n/10 on the fi-nite s
 tate-space $\OML/lmm/m/it/10 E \U/matha/m/n/10 ^^P 
  []
 
-[66]
+[68]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-063.
+146.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 4064.
-[67] [68]
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 4147.
+[69] [70]
 File: figures/ex1_PT_dist.png Graphic file (type bmp)
 <figures/ex1_PT_dist.png>
-[69] [70]
+[71] [72]
 File: figures/ex1_Z_realization.png Graphic file (type bmp)
 <figures/ex1_Z_realization.png>
-[71]
+[73]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[72] [73] [74] [75] [76] [77]
+[74] [75] [76] [77] [78] [79]
 File: figures/ph_est_data.png Graphic file (type bmp)
 <figures/ph_est_data.png>
-[78] [79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90] [91] [92] [93]
-[94]
-Overfull \hbox (18.57072pt too wide) detected at line 5752
+[80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90] [91] [92] [93] [94] [95]
+[96]
+Overfull \hbox (18.57072pt too wide) detected at line 5835
 []
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[95]
+[97]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[96] [97] [98]
+[98] [99] [100]
 Underfull \vbox (badness 1668) has occurred while \output is active []
 
-[99]
-Overfull \hbox (18.79974pt too wide) detected at line 5971
+[101]
+Overfull \hbox (18.79974pt too wide) detected at line 6054
 []
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[100]
+[102]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[101] [102]
+[103] [104]
 Underfull \vbox (badness 6691) has occurred while \output is active []
 
-[103] [104] [105] [106] [107] [108] [109] [110] [111] [112]
+[105] [106] [107] [108] [109] [110] [111] [112] [113] [114]
 Chapter 5.
-[113
+[115
 
-] [114] [115] [116]
+] [116] [117] [118]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 6721.
+(Font)              <12> on input line 6804.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 6721.
+(Font)              <8> on input line 6804.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 6721.
-[117] [118] [119] [120]
+(Font)              <6> on input line 6804.
+[119] [120] [121] [122]
 Underfull \vbox (badness 6380) has occurred while \output is active []
 
-[121] [122] [123]
+[123] [124] [125]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[124]
+[126]
 Missing character: There is no θ ("3B8) in font lmmi10!
 Missing character: There is no θ ("3B8) in font lmmi10!
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr7!
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr7!
-[125]
-Underfull \hbox (badness 1472) in paragraph at lines 7105--7106
+[127]
+Underfull \hbox (badness 1472) in paragraph at lines 7188--7189
 \T1/lmr/m/n/10 as the log-likelihood of a Pois-son ran-dom vari-able with out-c
 ome $\OML/lmm/m/it/10 O[]\U/matha/m/n/10 p\OML/lmm/m/it/10 t[]\U/matha/m/n/10 q
 $ \T1/lmr/m/n/10 and mean equal to 
  []
 
 Missing character: There is no ∼ ("223C) in font ec-lmtt10!
-[126]
+[128]
 Missing character: There is no − ("2212) in font rm-lmr7!
-[127] [128] [129] [130] [131] [132] [133] [134
+[129] [130] [131] [132] [133] [134] [135] [136
 
 ]
 Chapter 6.
@@ -1290,13 +1290,13 @@ File: figures/skade1_plot1.png Graphic file (type bmp)
 
 Underfull \vbox (badness 6412) has occurred while \output is active []
 
-[135
+[137
 
-] [136]
+] [138]
 Underfull \vbox (badness 2401) has occurred while \output is active []
 
-[137]
-Underfull \hbox (badness 1048) in paragraph at lines 7698--7699
+[139]
+Underfull \hbox (badness 1048) in paragraph at lines 7781--7782
 []\T1/lmr/m/n/10 This gives us a pow-er-ful tool to sim-u-late a in-ho-mo-ge-ne
 ous Pois-son Pro-cess sim-ply by do-ing a 
  []
@@ -1306,123 +1306,131 @@ File: figures/skade1_plot2.png Graphic file (type bmp)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[138]
+[140]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[139] [140]
+[141] [142]
 Chapter 7.
-[141
+[143
 
 ]
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr7!
-[142]
+[144]
 Missing character: There is no − ("2212) in font rm-lmr10!
-[143] [144] [145]
+[145] [146] [147]
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr7!
 Missing character: There is no − ("2212) in font rm-lmr10!
-[146]
+[148]
 Missing character: There is no − ("2212) in font rm-lmr5!
 Missing character: There is no − ("2212) in font rm-lmr5!
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr10!
-[147] [148]
+[149] [150]
 Missing character: There is no μ ("3BC) in font lmmi10!
-[149]
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-[150]
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr7!
-Missing character: There is no − ("2212) in font rm-lmr5!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr10!
 [151]
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr10!
-Missing character: There is no − ("2212) in font rm-lmr7!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
 [152]
 Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr7!
+Missing character: There is no − ("2212) in font rm-lmr5!
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr10!
-[153] [154]
+Missing character: There is no − ("2212) in font rm-lmr10!
+[153]
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr10!
-[155]
+Missing character: There is no − ("2212) in font rm-lmr7!
+[154]
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+[155] [156]
+Missing character: There is no − ("2212) in font rm-lmr10!
+Missing character: There is no − ("2212) in font rm-lmr10!
+[157]
 Missing character: There is no − ("2212) in font rm-lmr10!
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[156] [157]
+[158] [159]
 Chapter 8.
-[158
 
-]
-Underfull \hbox (badness 1237) in paragraph at lines 8971--8972
+Package amsmath Warning: Foreign command \atopwithdelims;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 9003.
+
+[160
+
+] [161] [162] [163] [164]
+Underfull \hbox (badness 1237) in paragraph at lines 9312--9313
 \T1/lmr/m/n/10 We study the ef-fects of the miss-ing data com-ing from a de-duc
 tible mak-ing the avail-able data 
  []
 
 
-Underfull \hbox (badness 1248) in paragraph at lines 8971--8972
+Underfull \hbox (badness 1248) in paragraph at lines 9312--9313
 \T1/lmr/m/n/10 left-truncated. To this end, we let $\U/matha/m/n/10 p\OML/lmm/m
 /it/10 X[]; D[]\U/matha/m/n/10 q$ \T1/lmr/m/n/10 be any non-negative ran-dom va
 ri-able and we let 
  []
 
-[159] [160]
-Chapter 9.
-[161
+[165]
+Underfull \vbox (badness 2809) has occurred while \output is active []
 
-] [162] [163] [164] [165] [166] [167] [168] [169]
-Overfull \hbox (10.29079pt too wide) detected at line 9617
+[166] [167]
+Chapter 9.
+[168
+
+] [169] [170] [171] [172] [173] [174] [175] [176]
+Overfull \hbox (10.29079pt too wide) detected at line 9996
 \U/msb/m/n/10 E\U/matha/m/n/10 r\OML/lmm/m/it/10 R [] \U/matha/m/n/10 |\OML/lmm
 /m/it/10 X\U/matha/m/n/10 s ^^A \OML/lmm/m/it/10 r [] \U/matha/m/n/10 ^^P [] ^^
 D [] [] ^^@ \OML/lmm/m/it/10 ^^U[] [][] :
  []
 
-[170] [171] [172] [173] [174] [175]
+[177] [178] [179] [180] [181] [182]
 File: figures/ML_fig_kernel.png Graphic file (type bmp)
 <figures/ML_fig_kernel.png>
-[176] [177] [178] [179] [180] [181] [182] [183]
-Underfull \hbox (badness 1226) in paragraph at lines 10436--10437
+[183] [184] [185] [186] [187] [188] [189] [190]
+Underfull \hbox (badness 1226) in paragraph at lines 10815--10816
 []\T1/lmr/bx/n/10 Definition. \T1/lmr/m/it/10 (Bag-ging)[] Given data $[]$, dra
 w $\OML/lmm/m/it/10 B$ \T1/lmr/m/it/10 boot-strap sam-ples $[] \U/matha/m/n/10 
 ^^P 
  []
 
-[184] [185] [186]
+[191] [192] [193]
 Underfull \vbox (badness 1137) has occurred while \output is active []
 
-[187] [188] [189] [190]
+[194] [195] [196] [197]
 File: theory_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
 <use theory_files/figure-latex/unnamed-chunk-21-1.pdf>
 
 Underfull \vbox (badness 1748) has occurred while \output is active []
 
-[191]
+[198]
 File: theory_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pdf)
 <use theory_files/figure-latex/unnamed-chunk-22-1.pdf>
 
 Underfull \vbox (badness 1442) has occurred while \output is active []
 
-[192]
+[199]
 Missing character: There is no − ("2212) in font rm-lmr10!
-[193]
+[200]
 Missing character: There is no − ("2212) in font rm-lmr10!
-[194]
-Overfull \hbox (22.19453pt too wide) in paragraph at lines 11043--11044
+[201]
+Overfull \hbox (22.19453pt too wide) in paragraph at lines 11422--11423
 []\T1/lmr/bx/n/10 Theorem. \T1/lmr/m/it/10 (Shap-ley Ax-ioms) Given a value fun
 c-tion $\OML/lmm/m/it/10 v[]$\T1/lmr/m/it/10 , there ex-ist unique con-stants $
 \OML/lmm/m/it/10 ^^^[]; ^^^[]\U/matha/m/n/10 p\OML/lmm/m/it/10 x[]\U/matha/m/n/
@@ -1430,105 +1438,99 @@ c-tion $\OML/lmm/m/it/10 v[]$\T1/lmr/m/it/10 , there ex-ist unique con-stants $
 m/n/10 q$ 
  []
 
-[195] [196] [197] [198] [199]
+[202] [203] [204] [205] [206]
 Missing character: There is no − ("2212) in font rm-lmr10!
-LaTeX Font Info:    Trying to load font information for U+euf on input line 114
-28.
+LaTeX Font Info:    Trying to load font information for U+euf on input line 118
+07.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/microtype/mt-euf.cfg
 File: mt-euf.cfg 2006/07/03 v1.1 microtype config. file: AMS Euler Fraktur (RS)
 
 )
-Underfull \hbox (badness 1221) in paragraph at lines 11436--11437
+Underfull \hbox (badness 1221) in paragraph at lines 11815--11816
 []\T1/lmr/m/n/10 Note: An SCM $\U/euf/m/n/10 C$ \T1/lmr/m/n/10 de-fines a uniqu
 e graph $\OML/lmm/m/it/10 G$ \T1/lmr/m/n/10 and a unique dis-tri-bu-tion, $\OML
 /lmm/m/it/10 P[]$\T1/lmr/m/n/10 , over the vari-ables 
  []
 
-[200] [201]
+[207] [208]
 Missing character: There is no 𝑋 ("1D44B) in font lmmi10!
 Missing character: There is no 𝑌 ("1D44C) in font lmmi10!
 Missing character: There is no 𝑋 ("1D44B) in font lmmi10!
 Missing character: There is no 𝑌 ("1D44C) in font lmmi10!
-[202]
-Overfull \hbox (12.21191pt too wide) in paragraph at lines 11615--11616
+[209]
+Overfull \hbox (12.21191pt too wide) in paragraph at lines 11994--11995
 []\T1/lmr/bx/n/10 Counterfactual fair-ness. \T1/lmr/m/n/10 As-sume $\OML/lmm/m/
 it/10 U$ \T1/lmr/m/n/10 is a set of pro-tected fea-tures. For ex-am-ple $\OML/l
 mm/m/it/10 U \U/matha/m/n/10 ^^P t[]u$\T1/lmr/m/n/10 . 
  []
 
-[203] [204] [205] [206]
+[210] [211] [212] [213]
 Chapter 10.
 
-Underfull \hbox (badness 2080) in paragraph at lines 11902--11903
+Underfull \hbox (badness 2080) in paragraph at lines 12281--12282
 \T1/lmr/m/n/10 We de-scribe the fi-nan-cial risk with ran-dom vari-ables de-fin
 ed on a fil-tered prob-a-bil-ity space 
  []
 
-[207
+[214
 
-] [208]
+] [215]
 File: figures/VaR_ES.png Graphic file (type bmp)
 <figures/VaR_ES.png>
-[209] [210] [211
+[216] [217] [218
 
 ]
 Appendix A.
-[212
+[219
 
-] [213]
-
-Package amsmath Warning: Foreign command \atopwithdelims;
-(amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 12226.
-
+] [220]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 12250.
-[214] [215]
-Underfull \hbox (badness 1242) in paragraph at lines 12394--12395
+(Font)              <14.4> on input line 12629.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 12655.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <11> on input line 12655.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7.69997> on input line 12655.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5.5> on input line 12655.
+
+LaTeX Font Warning: Font shape `U/matha/m/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 12655.
+
+
+LaTeX Font Warning: Font shape `U/mathb/m/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 12655.
+
+
+LaTeX Font Warning: Font shape `U/mathx/m/n' in size <5.5> not available
+(Font)              size <5> substituted on input line 12655.
+
+[221] [222]
+Underfull \hbox (badness 1242) in paragraph at lines 12773--12774
 []\T1/lmr/bx/n/10 Theorem 9.3. (Prot-ter) (Cauchy-Schwarz ulighed) \T1/lmr/m/it
 /10 Lad $\OML/lmm/m/it/10 L[] \U/matha/m/n/10 ^^P t\OML/lmm/m/it/10 X \OT1/lmr/
 m/n/10 : \U/matha/m/n/10 p\OT1/lmr/m/n/10 
 \OML/lmm/m/it/10 ; \OMS/lmsy/m/n/10 A\OML/lmm/m/it/10 ; P\U/matha/m/n/10 q Ñ 
  []
 
-[216] [217] [218]
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 12592.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <11> on input line 12592.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7.69997> on input line 12592.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5.5> on input line 12592.
-
-LaTeX Font Warning: Font shape `U/matha/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 12592.
-
-
-LaTeX Font Warning: Font shape `U/mathb/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 12592.
-
-
-LaTeX Font Warning: Font shape `U/mathx/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 12592.
-
-[219]
-Underfull \hbox (badness 1087) in paragraph at lines 12636--12637
+[223] [224] [225] [226]
+Underfull \hbox (badness 1087) in paragraph at lines 13015--13016
 []\T1/lmr/bx/n/10 Theorem A.52. (Bjork) (The Radon-Nikodym The-o-rem)[] \T1/lmr
 /m/it/10 Con-sider the mea-sure space 
  []
 
-[220] [221]
+[227] [228]
 Appendix B.
-[222
+[229
 
-] [223] [224] [225] [226] [227] [228] [229]
+] [230] [231] [232] [233] [234] [235] [236]
 Appendix C.
-[230
+[237
 
 ]
-Overfull \hbox (32.1269pt too wide) in paragraph at lines 13179--13180
+Overfull \hbox (32.1269pt too wide) in paragraph at lines 13558--13559
 []\T1/lmr/bx/n/10 Lemma 2.8. (Hansen) \T1/lmr/m/it/10 Let $\OML/lmm/m/it/10 X[]
 ; X[]; :::$ \T1/lmr/m/it/10 be real-valued ran-dom vari-ables on $\U/matha/m/n/
 10 p\OT1/lmr/m/n/10 
@@ -1537,62 +1539,62 @@ Overfull \hbox (32.1269pt too wide) in paragraph at lines 13179--13180
 a/m/n/10 q[][] ^^P 
  []
 
-[231]
+[238]
 Underfull \vbox (badness 1112) has occurred while \output is active []
 
-[232]
+[239]
 Underfull \vbox (badness 1342) has occurred while \output is active []
 
-[233] [234] [235]
+[240] [241] [242]
 File: theory_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
 <use theory_files/figure-latex/unnamed-chunk-27-1.pdf>
-[236] [237] [238] [239]
+[243] [244] [245] [246]
 Underfull \vbox (badness 3229) has occurred while \output is active []
 
-[240] [241] [242] [243] [244] [245] [246]
+[247] [248] [249] [250] [251] [252] [253]
 Appendix D.
 File: theory_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
 <use theory_files/figure-latex/unnamed-chunk-28-1.pdf>
-[247
+[254
 
 ]
-Underfull \hbox (badness 1173) in paragraph at lines 13905--13906
+Underfull \hbox (badness 1173) in paragraph at lines 14284--14285
 []\T1/lmr/bx/n/10 Theorem 13. (An-tal af besøg) \T1/lmr/m/it/10 An-tal af besøg
  er givet ved den stokastiske vari-abel $\OML/lmm/m/it/10 N[] \OT1/lmr/m/n/10 :
 \U/matha/m/n/10 ^^P 
  []
 
-[248] [249] [250]
+[255] [256] [257]
 Underfull \vbox (badness 3343) has occurred while \output is active []
 
-[251] [252] [253]
-Underfull \hbox (badness 1199) in paragraph at lines 14211--14212
+[258] [259] [260]
+Underfull \hbox (badness 1199) in paragraph at lines 14590--14591
 []\T1/lmr/bx/n/10 Theorem 56. (Tilstrække-lig betingelse for en in-vari-ant for
 del-ing) \T1/lmr/m/it/10 Hvis $[]$ over-holder 
  []
 
-[254] [255]
+[261] [262]
 Appendix E.
-[256
+[263
 
 ]
 Missing character: There is no − ("2212) in font rm-lmr10!
 Missing character: There is no − ("2212) in font rm-lmr7!
 
-Overfull \hbox (7.50931pt too wide) in paragraph at lines 14398--14399
+Overfull \hbox (7.50931pt too wide) in paragraph at lines 14777--14778
 \T1/lmr/m/n/10 Filtrations[] is widely used in stochas-tic pro-cesses, as they 
 al-low for the con-cept of knowl-edge/information. 
  []
 
-[257]
+[264]
 File: figures/BM_sim.png Graphic file (type bmp)
 <figures/BM_sim.png>
-[258] [259]
+[265] [266]
 Appendix F.
-[260
+[267
 
-] [261] [262] [263] [264]
-Overfull \hbox (1.63632pt too wide) in paragraph at lines 14786--14788
+] [268] [269] [270] [271]
+Overfull \hbox (1.63632pt too wide) in paragraph at lines 15165--15167
 \T1/lmr/m/n/10 should sim-ply have had $\OML/lmm/m/it/10 dX\U/matha/m/n/10 p\OM
 L/lmm/m/it/10 t\U/matha/m/n/10 q$ \T1/lmr/m/n/10 that is with-out the term $[][
 ] []\OML/lmm/m/it/10 ^^_[]\U/matha/m/n/10 p\OML/lmm/m/it/10 t; X\U/matha/m/n/10
@@ -1604,38 +1606,38 @@ L/lmm/m/it/10 t\U/matha/m/n/10 q$ \T1/lmr/m/n/10 that is with-out the term $[][
 
 Underfull \vbox (badness 4144) has occurred while \output is active []
 
-[265] [266] [267] [268] [269] [270] [271] [272]
+[272] [273] [274] [275] [276] [277] [278] [279]
 Appendix G.
-[273
+[280
 
-] [274] (./theory.bbl [275
+] [281] (./theory.bbl [282
 
-]) [276]
+]) [283]
 runsystem(makeindex theory.idx)...executed safely (allowed).
 
-(./theory.ind [277
+(./theory.ind [284
 
 
-] [278] [279]) [280] (./theory.aux)
+] [285] [286]) [287] (./theory.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
  ) 
 Here is how much of TeX's memory you used:
- 19935 strings out of 476684
- 333195 string characters out of 5804055
+ 19962 strings out of 476684
+ 333667 string characters out of 5804055
  1867018 words of memory out of 5000000
- 39769 multiletter control sequences out of 15000+600000
+ 39796 multiletter control sequences out of 15000+600000
  706596 words of font info for 164 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 85i,19n,133p,1323b,610s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 85i,19n,133p,1323b,604s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on theory.pdf (292 pages).
+Output written on theory.pdf (299 pages).
 
 ! This is makeindex, version 2.16 [TeX Live 2022] (kpathsea + Thai support).
-! Scanning input file theory.idx....done (373 entries accepted, 0 rejected).
-! Sorting entries......done (3600 comparisons).
-! Generating output file theory.ind....done (405 lines written, 0 warnings).
+! Scanning input file theory.idx....done (377 entries accepted, 0 rejected).
+! Sorting entries......done (3616 comparisons).
+! Generating output file theory.ind....done (409 lines written, 0 warnings).
 ! Output written in theory.ind.
 ! Transcript written in theory.ilg.
