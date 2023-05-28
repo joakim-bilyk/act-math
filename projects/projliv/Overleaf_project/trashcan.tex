@@ -1,0 +1,128 @@
+\documentclass[12pt,letter,twoside]{article}
+%Setup
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[nopatch]{microtype}
+\usepackage{booktabs}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{amsthm}
+%Theorems etc.
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem{example}{Example}
+%Bibliography
+%\usepackage[authordate-trad,noibid,backend=biber,natbib]{biblatex-chicago}
+\usepackage[style=authoryear,backend=bibe]{biblatex}
+\addbibresource{book.bib}
+
+\begin{document}
+
+If we want to model the behaviour of the counting process we want to say something about its predictable compensator.
+\begin{definition}[Predictable compensator]
+Let $(X_t)_{t\ge 0}$ be an adapted process to $\mathbb F$. If a predictable process $(\Lambda^X_t)_{t\ge 0}$ exists such that $(X_t-\Lambda^X_t)_{t\ge 0}$ is a Martingale wrt. $\mathbb F$, then $(\Lambda^X_t)_{t\ge 0}$ is called the predictable compensator of $X_t$.
+\end{definition}
+It happens to be that such a process is exist if $\mathbf X$ has CADLAG sample paths is of finite variation.
+\begin{theorem}
+Let $(X_t)_{t\ge 0}$ be an adapted process to $\mathbb F$. If $\mathbf X$ has almost surely CADLAG sample paths and satisfies
+\begin{align}
+\forall t\ge 0 : \mathbb E\left[\sup_{0=t_0<t_1<\cdots < t_N=t} \sum_{n=1}^N \vert X_{t_n}-X_{t_{n-1}} \vert \right]<\infty,
+\end{align}
+that is of finite variation. Then $\mathbf X$ has a predictable process $(\Lambda^X_t)_{t\ge 0}$ with $\mathbb E\vert \Lambda^X_t\vert <\infty$ that is unique.
+\end{theorem}
+\begin{proof}
+See \cite{lund2022}.
+\end{proof}
+The process in (\ref{eq:3}) has predictable compensator as given below.
+\begin{lemma}
+Let $\mathbb F$ be a filtration and $\mathbf Z\sim\text{PJP}(\mathbb F)$. The predictable compensator for $N^{jk}(t)$ exists and is unique. Furthermore, it has representation
+\begin{align*}
+\Lambda^{jk}(t)=\sum_{n=0}^{n_\infty}\int_0^t \mathds 1_{[\tau_n,\tau_{n+1})}(u)\frac{\mathbb P(\tau_{n+1}\in [u,u+\text du), Z_{n+1}=k\vert (Z_0,\tau_0),...,(Z_n,\tau _n))}{\mathbb P(\tau_{n+1}\ge u\vert (Z_0,\tau_0),...,(Z_n,\tau _n))}
+\end{align*}
+\end{lemma}
+\begin{proof}
+Notice that we may write
+\begin{align}
+dN^{jk}(t)=\mathds 1_{\{ Z_{t-}=j\}}\text dN^k(t),
+\end{align}
+where $N^k(t)=\sum_{j\in \mathcal Z}N^{jk}(t)$. Consider the process
+\begin{align}
+\Lambda^{k}(t)=\sum_{n=0}^{n_\infty}\int_0^t \mathds 1_{[\tau_n,\tau_{n+1})}(u)\frac{\mathbb P(\tau_{n+1}\in [u,u+\text du), Z_{n+1}=k\vert (Z_0,\tau_0),...,(Z_n,\tau _n))}{\mathbb P(\tau_{n+1}\ge u\vert (Z_0,\tau_0),...,(Z_n,\tau _n))}.
+\end{align}
+%Above $\langle t\rangle$ is the number of jumps just before time $t$ i.e. $\langle t\rangle=\sum_{k\in \mathcal Z}N^k(t-)$.
+as a candidate for the predictable compensator. Recall that $\tau_n$ for $n\ge 0$ is a stopping time wrt. $\mathcal F_t$ and thus $\mathds 1_{[\tau_n,\tau_{n+1})}(t)$ is $\mathcal F_t$-measurable. It is furthermore left-continuous hence why it by proposition 6.12 in \cite{lund2022} is predictable. The integrator for each $n=0,...,\langle t\rangle$ is deterministic and therefore predictable. Thus $\Lambda^k(t)$ is a predictable process.
+
+Next, we may say that $\Lambda^k(t)$ is the predictable compensator for $N^k(t)$ if
+\begin{align}
+\forall 0\le s\le t : \mathbb E[N^k(t)-\Lambda^k(t)\vert \mathcal F_s]=N^k(s)-\Lambda^k(s).
+\end{align}
+This is equivalent with
+\begin{align}
+\forall 0\le s\le t : \mathbb E[N^k(t)-N^k(s)\vert \mathcal F_s]=\mathbb E[\Lambda^k(t)-\Lambda^k(s)\vert \mathcal F_s].
+\end{align}
+Simply split the conditional expectation and use that $N^k(s)$ and $\Lambda^k(s)$ both are $\mathcal F_s$-measurable. From the right side we see that
+\begin{align*}
+    \mathbb E&[\Lambda^k(t)-\Lambda^k(s)\vert \mathcal F_s]\\
+&=\mathbb E\left[\left.\sum_{n=0}^{n_\infty}\int_s^t \mathds 1_{[\tau_n,\tau_{n+1})}(u)\frac{\mathbb P(\tau_{n+1}\in [u,u+\text du), Z_{n+1}=k\vert (Z_0,\tau_0),...,(Z_n,\tau _n))}{\mathbb P(\tau_{n+1}\ge u\vert (Z_0,\tau_0),...,(Z_n,\tau _n))} \ \right\vert\ \mathcal F_s\right]\\
+&=\sum_{n=0}^{n_\infty}\int_s^t  \mathds 1_{[\tau_n,\tau_{n+1})}(u) \mathbbE\left[\left.\mathds 1_{[\tau_n,\tau_{n+1})}(u)\frac{\mathbb P(\tau_{n+1}\in [u,u+\text du), Z_{n+1}=k\vert (Z_0,\tau_0),...,(Z_n,\tau _n))}{\mathbb P(\tau_{n+1}\ge u\vert (Z_0,\tau_0),...,(Z_n,\tau _n))} \ \right\vert\ \mathcal F_s\right]\\
+\end{align*}
+
+
+\end{proof}
+
+By conditioning on the available information $\mathcal G$ we see that.
+\begin{theorem}
+Let $\mathcal G\subseteq \mathcal F$ be a sub-$\sigma$-algebra and let $N^{jk}(t)$ be a multivariate counting process with stemming from the pure jump process $\mathbf Z\sim \text{PJP}(\mathbb F)$. Define the process $\Lambda^{jk}(t)$ with differential form
+\begin{align}
+\text d\Lambda^{jk}(t)=\frac{1}{\mathbb E[\mathds 1_{\{Z_{t-}=j\}}\vert \mathcal G]}\ \text d_t\mathbb E[N^{jk}(t)\vert \mathcal G],
+\end{align}
+and boundary condition $\Lambda^{jk}(0)=\mathbb E[N^{jk}(0)\vert \mathcal G]$. Then $\mathbb E[N^{jk}(t)\vert \mathcal G]-\Lambda^{jk}(t)$ is a zero-mean $\mathbb F$ martingale.
+\end{theorem}
+\begin{proof}
+Define the process $H$ as follows:
+\begin{align}
+H(t)=\mathbb E[N^{jk}(t)\vert \mathcal G]-\Lambda^{jk}(t)
+\end{align}
+We know that $N^{jk}(t)$ is $\mathcal F_t$-measurable. This in particular means that $\mathbb E[N^{jk}(t)\vert \mathcal G]$ is $\mathcal F_t$-measurable. The process $\mathds 1_{Z_{t-}=j}$ is left continuous and adapted to $\mathcal F_t$ and thus predictable. Conditioning on $\mathcal G$ yields a version that is still $\mathcal F_t$-measurable and left continuous. In particular,
+\begin{align}
+    \frac{1}{\mathbb E[\mathds 1_{\{Z_{t-}=j\}}\vert \mathcal G]}\quad \text{is progressive.}
+\end{align}
+Combining with $\mathbb E[N^{jk}(t)\vert \mathcal G]$ is $\mathcal F_t$-measurable we have using a result from \cite{lund2022} (proposition 10.3) that
+\begin{align}
+    \int_0^t\frac{1}{\mathbb E[\mathds 1_{\{Z_{s-}=j\}}\vert \mathcal G]}\ \text d_s\mathbb E[N^{jk}(s)\vert \mathcal G] \quad \text{is adapted to $\mathcal F_t$.}
+\end{align}
+Knowing that $\Lambda^{jk}(0)=\mathbb E[N^{jk}(0)\vert \mathcal G]$ gives that $H(0)=0$, hence we are left to shot that $\mathbf H$ is a Martingale. Consider that
+\begin{align}
+H(t)=\int_0^t\frac{1-\mathbb E[\mathds 1_{\{Z_{s-}=j\}}\vert \mathcal G]}{\mathbb E[\mathds 1_{\{Z_{s-}=j\}}\vert \mathcal G]}\ \text d_s\mathbb E[N^{jk}(s)\vert \mathcal G],
+\end{align}
+hence take $0\le s\le t$ and see that
+\begin{align}
+\mathbb E[H(t)\vert \mathcal F_s]-H(s)&=\mathbb E\left[\left.\int_s^t\frac{1-\mathbb E[\mathds 1_{\{Z_{u-}=j\}}\vert \mathcal G]}{\mathbb E[\mathds 1_{\{Z_{u-}=j\}}\vert \mathcal G]}\ \text d_u\mathbb E[N^{jk}(u)\vert \mathcal G] \ \right\vert\ \mathcal F_s\right]
+\end{align}
+\begin{align}
+\mathbb E\left[\left.\mathbb E[N^{jk}(t)\vert G] -\mathbb E[N^{jk}(s)\vert \mathcal G] \ \right\vert\ \mathcal F_s\right]&=\mathbb E\left[\left.\mathbb E\left[\left. N^{jk}(t)-N^{jk}(s)\ \right\vert\ \mathcal G\right]  \ \right\vert\ \mathcal F_s\right]\\
+&=
+\end{align}
+%as it is the sum of variables $Y\mathds 1_{[\tau_n,\infty)}$ where $Y=\mathds 1_{Z_{n-1}=j}\mathds 1_{Z_n=k}$ which both are 
+\end{proof}
+
+%Old product integral
+\begin{definition}[Product integral/limit]
+Let $\mathbf Y(t) : \mathcal M_{m\times n}(\mathbb R)\to \mathcal M_{m\times n}(\mathbb R)$ and $\mathbf A(t) : \mathcal M_{n\times n}(\mathbb R)\to \mathcal M_{n\times n}(\mathbb R)$ be respectfully a $m\times n$-matrix function and $n\times n$-matrix function both taking values entry-wise in $\mathbb R$. If $\mathbf Y(t)$ solves the differential equation
+\begin{align}
+\text d_t\mathbf Y(t)=\mathbf Y(t)\text d_t \mathbf A(t)
+\end{align}
+with boundary condition $\mathbf C\in \mathcal M_{m\times n}(\mathbb R)$ at some point $s\in\mathbb R$, then we say that $\mathbf Y$ is \textit{the product integral} of $\mathbf A$ with boundary condition $\mathbf C$ at $s$ and we write
+\begin{align}
+\mathbf Y(t)=\mathbf C\prod_{s}^t\Big(\text{Id}+\text d_u\mathbf A(u)\Big).
+\end{align}
+\end{definition}
+
+\end{document}

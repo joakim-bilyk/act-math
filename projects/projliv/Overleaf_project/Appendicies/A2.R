@@ -1,113 +1,3 @@
-library(AalenJohansen)
-library(dplyr)
-library(ggplot2)
-library(ggpubr)
-library(latex2exp)
-rm(list = ls())
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-
-##### CODE FROM FURRER #####
-
-# 1. Markov model with independent censoring
-set.seed(2)
-
-jump_rate <- function(i, t, u){
-  if(i == 1){
-    2 / (1+1/2*t)
-  } else if(i == 2){
-    3 / (1+1/2*t)
-  } else{
-    0
-  }
-}
-
-mark_dist <- function(i, s, v){
-  if(i == 1){
-    c(0, 1/2, 1/2)
-  } else if(i == 2){
-    c(2/3, 0, 1/3)
-  } else{
-    0
-  } 
-}
-
-lambda <- function(t){
-  A <- matrix(c(2/(1+1/2*t)*mark_dist(1, t, 0), 3/(1+1/2*t)*mark_dist(2, t, 0), rep(0, 3)),
-              nrow = 3, ncol = 3, byrow = TRUE)
-  diag(A) <- -rowSums(A)
-  A
-}
-
-n <- 1000
-c <- runif(n, 0, 5)
-
-sim <- list()
-for(i in 1:n){
-  sim[[i]] <- sim_path(sample(1:2, 1), rates = jump_rate, dists = mark_dist,
-                       tn = c[i], bs = c(2*c[i], 3*c[i], 0))
-}
-
-sum(c == unlist(lapply(sim, FUN = function(z){tail(z$times, 1)}))) / n
-
-fit <- aalen_johansen(sim)
-
-v1 <- unlist(lapply(fit$Lambda, FUN = function(L) L[2,1]))
-v0 <- fit$t
-p <- unlist(lapply(fit$p, FUN = function(L) L[2]))
-P <- unlist(lapply(prodint(0, 5, 0.01, lambda), FUN = function(L) (c(1/2, 1/2, 0) %*% L)[2]))
-
-par(mfrow = c(1, 2))
-par(mar = c(2.5, 2.5, 1.5, 1.5))
-
-plot(v0, v1, type = "l", lty = 2, xlab = "", ylab = "", main = "Hazard")
-lines(v0, 4*log(1+1/2*v0))
-plot(v0, p, type = "l", lty = 2, xlab = "", ylab = "", main = "Probability")
-lines(seq(0, 5, 0.01), P)
-
-# 2. Markov model with independent censoring and covariates
-
-#### END OF CODE FROM FURRER #####
-
-rm(list = ls())
-#### Appendix A.1 ####
-M <- t(matrix(c(-3,2,1,
-              3,-4,1,
-              0,0,0),ncol=3,nrow=3))
-lambda <- function(t){
-  1/(1+0.5*t)
-}
-d_Lambda <- function(t,M,lambda){
-  lambda(t)*M
-}
-jump_rate <- function(i,t,u){
-  #the variable u is not used, it will be used later for time sojourned in the current state
-  d_L_t <- d_Lambda(t,M,lambda)
-  J <- dim(d_L_t)[1]
-  vec <- (1:J==i)*1
-  -vec%*%d_L_t%*%vec
-}
-mark_dist <- function(i,s,v){
-  #the variable v is not used
-  d_L_t <- d_Lambda(s,M,lambda)
-  J <- dim(d_L_t)[1]
-  vec <- (1:J==i)*1
-  tmp <- (vec %*% d_L_t)* (1-vec)
-  tmp / sum(tmp)
-}
-
-L <- 1000
-set.seed(1)
-R <- runif(L,0,10)
-#Simulate paths
-paths <- lapply(1:L,function(n) {
-  sim_path(1,rates = jump_rate, dist = mark_dist,
-         tn = R[n], bs= c(R[n]*3,R[n]*4,0))})
-end_time <- Sys.time()
-round(as.numeric(end_time-start_time,units = "secs"),digits = 3)
-#Tests
-jump_rate(2,20,1)
-mark_dist(1,20,1)
-
 #### Appendix A.2 ####
 #Convert path data to main_df
 paths_to_df <- function(paths){
@@ -267,7 +157,7 @@ Estimate <- function(paths,num_states,s= NA, j = NA, as_if = FALSE,debug = TRUE)
   }
   main_df_tmp <- paths_to_df(paths)
   if(debug) {
-    print(paste0("Convert paths to main_df: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    print(paste0("Convert paths to main_df: ",round(Sys.time()-start_time,digits=2)," seconds."))
     start_time <- Sys.time()
   }
   if (as_if) {
@@ -283,30 +173,30 @@ Estimate <- function(paths,num_states,s= NA, j = NA, as_if = FALSE,debug = TRUE)
   # 2. Calculate I and N
   I_list_tmp <- df_to_I(main_df_tmp,num_states)
   if (debug) {
-    print(paste0("Convert main_df to I: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    print(paste0("Convert main_df to I: ",round(Sys.time()-start_time,digits=2)," seconds."))
     start_time <- Sys.time()
   }
   N_list_tmp <- df_to_N(main_df_tmp,num_states)
   if (debug) {
-    print(paste0("Convert main_df to N: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    print(paste0("Convert main_df to N: ",round(Sys.time()-start_time,digits=2)," seconds."))
     start_time <- Sys.time()
   }
   # 3. Calculate Nelson-Aalen
   NelsonAalen_list_tmp <- N_I_to_NA(I_list_tmp,N_list_tmp,num_states)
   if (debug) {
-    print(paste0("Convert I and N to Nelson-Aalen: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    print(paste0("Convert I and N to Nelson-Aalen: ",round(Sys.time()-start_time,digits=2)," seconds."))
     start_time <- Sys.time()
   }
   # 4. Calculate Aalen-Johansen
   P_tmp <- NA_to_p(I_list_tmp,N_list_tmp,NelsonAalen_list_tmp, 3)
   if (debug) {
-    print(paste0("Convert Nelson-Aalen to transition probs: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    print(paste0("Convert Nelson-Aalen to transition probs: ",round(Sys.time()-start_time,digits=2)," seconds."))
     start_time <- Sys.time()
   }
   # 5. Calculate probabilties
   p_con_tmp <- P_conditioned(NelsonAalen_list_tmp,s,j,num_states)
   if (debug) {
-    print(paste0("Convert transition probs to conditioned probs: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    print(paste0("Convert transition probs to conditioned probs: ",round(Sys.time()-start_time,digits=2)," seconds."))
     start_time <- Sys.time()
   }
   return(list(I = I_list_tmp$I, I_left_limit = I_list_tmp$I_left_limit,
@@ -316,44 +206,3 @@ Estimate <- function(paths,num_states,s= NA, j = NA, as_if = FALSE,debug = TRUE)
 }
 total <- Estimate(paths,3)
 total <- Estimate(paths,3,s=1,j=1,as_if = TRUE)
-
-#### Appendix A.3 ####
-plot_function1 <- function(paths,num_states,s= 0, j = 1, debug = TRUE) {
-  #Markov estimate
-  total <- Estimate(paths,num_states,s= s, j = j, as_if = FALSE, debug = debug)
-  #As-If-Markov estimate
-  total2 <- Estimate(paths,num_states,s= s, j = j, as_if = TRUE, debug = debug)
-  plotdf <- total$p_con
-  colnames(plotdf)[2:4] <- paste0("j=",1:3,", Markov")
-  plotdf <- plotdf%>% reshape2::melt(., id = "Time")
-  plotdf2 <- total2$p_con
-  colnames(plotdf2)[2:4] <- paste0("j=",1:3,", As-If")
-  plotdf2 <- plotdf2%>% reshape2::melt(., id = "Time")
-  times <- s+0:1000*(10-s)/1000
-  plotdf3 <- data.frame(Time = times,
-                        matrix(unlist(lapply(times, function(t) ((1:num_states == j)*1)%*%expm::expm(2*M*(log(1+0.5*t)-log(1+0.5*s))))),ncol=3,byrow=TRUE))
-  colnames(plotdf3)[2:4] <- paste0("j=",1:3,", True")
-  plotdf3 <- plotdf3 %>% reshape2::melt(., id = "Time")
-  asif_n <- sum(total2$I[1,])-total2$I[1,1]
-  markov_n <- sum(total$I[1,])-total$I[1,1]
-  ggplot() +
-    geom_step(data = plotdf ,mapping = aes(x=Time, y = value,col = variable)) + 
-    geom_step(data = plotdf2,mapping = aes(x=Time, y = value,col = variable),linetype = "dashed") +
-    geom_line(data = plotdf3,mapping = aes(x=Time, y = value,col = variable),linetype = "dotted",size=1) +
-    theme_bw() +
-    labs(title = TeX(paste0("Occupation probabilities under assumption $Z_",s,"=",j,"$")),
-         y =  TeX(paste0("$P(Z_t=j|Z_",s,"=",j,")$")),
-         subtitle = paste0("As-if estimate based on ",asif_n," observations,\nMarkov based on ",markov_n," observations")) +
-    theme(legend.title = element_blank(),
-          plot.title = element_text(face = "bold"),
-          plot.subtitle = element_text(face = "italic")) +
-    scale_color_manual(values=c("#FA8072", "#FF0000","#8B0000",
-                                "#7B68EE", "#1E90FF","#00008B",
-                                "#3CB371", "#32CD32","#006400"))
-}
-plot1 <- plot_function1(paths,3,s= 0, j = 1)
-plot2 <- plot_function1(paths,3,s= 1, j = 1)
-plot3 <- plot_function1(paths,3,s= 3, j = 1)
-plot4 <- plot_function1(paths,3,s= 6, j = 1)
-ggarrange(plotlist = list(plot1,plot2,plot3,plot4),ncol = 2,nrow=2)
-ggsave("plot1.png",units = "px", width = 1920,height = 1080,scale = 1.75)
