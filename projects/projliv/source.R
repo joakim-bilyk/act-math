@@ -357,3 +357,92 @@ plot3 <- plot_function1(paths,3,s= 3, j = 1)
 plot4 <- plot_function1(paths,3,s= 6, j = 1)
 ggarrange(plotlist = list(plot1,plot2,plot3,plot4),ncol = 2,nrow=2)
 ggsave("plot1.png",units = "px", width = 1920,height = 1080,scale = 1.75)
+
+#### Appendix A.4 ####
+estimate_to_cashflow <- function(estimate,pi,T) {
+  Nelson <- estimate$delta_NelsonAalen
+  Nelson <- lapply(1:dim(Nelson)[1], function(i) matrix(Nelson[i,2:dim(Nelson)[2]],nrow=num_states,ncol = num_states,byrow=TRUE))
+  p_con <- estimate$p_con
+  times <- lapply(1:dim(p_con)[1], function(i) p_con[i,1])
+  p_con <- lapply(1:dim(p_con)[1], function(i) p_con[i,2:dim(p_con)[2]])
+  
+  A <- list()
+  A[[1]] <- rep(0,4)
+  for (i in 2:length(p_con)) {
+    A1 <- A[[i-1]][1] + p_con[[i]][1]*ifelse(times[[i]]>T,times[[i]]-max(T,times[[i-1]]),0)
+    A2 <- A[[i-1]][2] - pi * p_con[[i]][1]*ifelse(times[[i-1]]<T,min(T,times[[i]])-times[[i-1]],0)
+    A3 <- A[[i-1]][3] + p_con[[i]][2]*(times[[i]]-times[[i-1]])
+    A4 <- A[[i-1]][4] + p_con[[i-1]][1]*Nelson[[i-1]][1,3] + p_con[[i-1]][2]*Nelson[[i-1]][2,3]
+    A[[i]] <- c(A1, A2, A3, A4)
+  }
+  A <- cbind(unlist(times),matrix(unlist(A),ncol = 4,byrow=TRUE)) %>% as.data.frame()
+  colnames(A) <- c("Time","A1","A2","A3","A4")
+  A[,"A"] <- rowSums(A[,2:5])
+  return(A)
+}
+estimate <- Estimate(paths,3)
+cashflow <- estimate_to_cashflow(estimate,1,3)
+plot_function2 <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
+  #Markov estimate
+  estimate1 <- Estimate(paths,num_states,s= s, j = j, as_if = FALSE, debug = debug)
+  start_time <- Sys.time()
+  cashflow1 <- estimate_to_cashflow(estimate1,pi,T)
+  if (debug) {
+    print(paste0("Calculate cashflows: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    start_time <- Sys.time()
+  }
+  #As-If-Markov estimate
+  estimate2 <- Estimate(paths,num_states,s= s, j = j, as_if = TRUE, debug = debug)
+  cashflow2 <- estimate_to_cashflow(estimate2,pi,T)
+  if (debug) {
+    print(paste0("Calculate cashflows: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    start_time <- Sys.time()
+  }
+  plotdf1 <- cashflow1 %>% reshape2::melt(id = "Time")
+  plotdf2 <- cashflow2 %>% reshape2::melt(id = "Time")
+  asif_n <- sum(estimate2$I[1,])-estimate2$I[1,1]
+  markov_n <- sum(estimate1$I[1,])-estimate1$I[1,1]
+  #Calculate true values
+  times <- s+0:1000*(10-s)/1000
+  cashflow3 <- cashflow1
+  for (i in 2:dim(cashflow3)[1]) {
+    t_1 <- cashflow3$Time[i]
+    t_0 <- cashflow3$Time[i-1]
+    prod_int_0 <- expm::expm(2*M*(log(1+0.5*t_0)))
+    delta_Prod_int <- expm::expm(2*M*(log(1+0.5*t_1)))-prod_int_0
+    p_con_0 <- (1:num_states==j)%*%expm::expm(2*M*(log(1+0.5*t_0)-log(1+0.5*s)))
+    p_con_1 <- (1:num_states==j)%*%expm::expm(2*M*(log(1+0.5*t_1)-log(1+0.5*s)))
+    A1 <- cashflow3$A1[i-1] + p_con_1[1]*ifelse(t_1>T,t_1-max(T,t_0),0)
+    A2 <- cashflow3$A2[i-1] - pi * p_con_1[1]*ifelse(t_0<T,min(T,t_1)-t_0,0)
+    A3 <- cashflow3$A3[i-1] + p_con_1[2]*(t_1-t_0)
+    A4 <- cashflow3$A4[i-1] + p_con_0[1]*delta_Prod_int[1,3] + p_con_0[2]*delta_Prod_int[2,3]
+    cashflow3[i,2:5] <- c(A1,A2,A3,A4)
+  }
+  cashflow3[,6] <- rowSums(cashflow3[,2:5])
+  colnames(cashflow3) <- c("Time","A1_true","A2_true","A3_true","A4_true","A_true")
+  plotdf3 <- cashflow3 %>% reshape2::melt(id = "Time")
+  if (debug) {
+    print(paste0("Calculate theoretical cashflows and more: ",round(as.numeric(Sys.time()-start_time,units = "secs"),digits=3)," seconds."))
+    start_time <- Sys.time()
+  }
+  ggplot() +
+    geom_step(data = plotdf1 ,mapping = aes(x=Time, y = value,col = variable)) +
+    geom_step(data = plotdf2,mapping = aes(x=Time, y = value,col = variable), linetype = "dashed") +
+    geom_line(data = plotdf3,mapping = aes(x=Time, y = value,col = variable), linetype = "dotted", size=1) +
+    geom_vline(xintercept = T, col = "black",linetype = "dashed") +
+    theme_bw() +
+    labs(title = TeX(paste0("Accumulated cash-flow under assumption $Z_",s,"=",j,"$")),
+         y =  TeX(paste0("A(t)-A(s)")),
+         subtitle = paste0("As-if estimate based on ",asif_n," observations,\nMarkov based on ",markov_n," observations")) +
+    theme(legend.title = element_blank(),
+          plot.title = element_text(face = "bold"),
+          plot.subtitle = element_text(face = "italic")) +
+    scale_color_manual(values=c("#FA8072","#8B0000","#1E90FF","#7B68EE","#FF00FF","#800080",
+                                "#32CD32","#006400","#F4A460","#DEB887"))
+}
+plot1 <- plot_function2(paths,1,3,3,s= 0, j = 1)
+plot2 <- plot_function2(paths,1,3,3,s= 1, j = 1)
+plot3 <- plot_function2(paths,1,3,3,s= 3, j = 1)
+plot4 <- plot_function2(paths,1,3,3,s= 6, j = 1)
+ggarrange(plotlist = list(plot1,plot2,plot3,plot4),ncol = 2,nrow=2)
+ggsave("plot2.png",units = "px", width = 1920,height = 1080,scale = 1.75)
