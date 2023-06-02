@@ -548,3 +548,20 @@ scaler <- 1.75
 ggsave("plot1.png",p1,units = "px", width = 1920*scaler,height = 1080*scaler,scale = 1.5)
 ggsave("plot2.png",p2,units = "px", width = 1920*scaler,height = 1080*scaler,scale = 1.5)
 ggsave("plot3.png",p3,units = "px", width = 1920*scaler,height = 1080*scaler,scale = 1.5)
+
+#### Appendix A.4 ####
+L <- 1:100*10
+plot_function2 <- function(L, debug = TRUE) {
+  
+  supremum_norm_diff <- list()
+  
+  for (l in L) {
+    
+    #Generate paths
+    paths <- simulate_markov_inhomogenous(l)
+    estimate1 <- Estimate(paths,3, debug = debug)
+    
+    
+  }
+  
+}
