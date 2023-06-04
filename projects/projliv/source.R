@@ -115,6 +115,7 @@ mark_dist(1,20,1)
 #### Appendix A.2.1 ####
 #Convert path data to main_df
 paths_to_df <- function(paths){
+  L <- length(paths)
   times <- unlist(lapply(1:L, function(i){
     paths[[i]]$times
   }))
@@ -333,7 +334,7 @@ j <- 1
 debug <- TRUE
 pi <- 1
 T <- 3
-estimate_to_cashflow <- function(estimate,pi,T) {
+estimate_to_cashflow <- function(estimate,pi,T,n_steps=10000) {
   p_con <- estimate$p_con
   s <- min(p_con$Time)
   t_0 <- p_con[-dim(p_con)[1],1]
@@ -360,7 +361,29 @@ estimate_to_cashflow <- function(estimate,pi,T) {
 }
 estimate <- Estimate(paths,3)
 cashflow <- estimate_to_cashflow(estimate,1,3)
-plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
+#Runge-Kutta for true probabilities
+runge_kutta <- function(f,a,b,y0,n) {
+  y <- list()
+  y[[1]] <- y0
+  t <- list()
+  t[[1]] <- a
+  h <- (b-a)/n
+  t0 <- a
+  for (i in 1:n) {
+    k1 <- f(t0,y0)
+    k2 <- f(t0 + h/2, y0 + (h/2)*k1)
+    k3 <- f(t0 + h/2, y0 + (h/2)*k2)
+    k4 <- f(t0 + h, y0 + h*k3)
+    y1 <- y0+ (h/6)*(k1+2*k2+2*k3+k4)
+    y[[i+1]] <- y1
+    t[[i+1]] <- t0+h
+    t0 <- t0+h
+    y0 <- y1
+  }
+  return(list(t=t,y=y))
+}
+n_steps <- 10000
+plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE,n_steps=10000) {
   #Markov estimate
   estimate1 <- Estimate(paths,num_states,s= s, j = j, as_if = FALSE, debug = debug)
   start_time <- Sys.time()
@@ -384,9 +407,13 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
   plotdf2 <- estimate2$p_con
   colnames(plotdf2)[2:4] <- paste0("j=",1:3,", As-If")
   plotdf2 <- plotdf2%>% reshape2::melt(., id = "Time")
-  times <- s+0:1000*(10-s)/1000
-  plotdf3 <- data.frame(Time = times,
-                        matrix(unlist(lapply(times, function(t) ((1:num_states == j)*1)%*%expm::expm(2*M*(log(1+0.5*t)-log(1+0.5*s))))),ncol=3,byrow=TRUE))
+  #True values (approximated with 4th order runge kutta)
+  derivative <- function(t,y) {
+    y %*% d_Lambda(t,M,lambda)
+  }
+  y <- runge_kutta(derivative, s,10,(1:num_states == j)*1,n_steps)
+  plotdf3 <- data.frame(Time = unlist(y$t),
+                        matrix(unlist(y$y),ncol=3,byrow=TRUE))
   colnames(plotdf3)[2:4] <- paste0("j=",1:3,", True")
   plotdf3 <- plotdf3 %>% reshape2::melt(., id = "Time")
   asif_n <- sum(estimate2$I[1,])-estimate2$I[1,1]
@@ -397,7 +424,7 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
     geom_line(data = plotdf3,mapping = aes(x=Time, y = value,col = variable),linetype = "dotted",linewidth=1) +
     xlim(0,10) +
     theme_bw() +
-    labs(title = TeX(paste0("Occupation probabilities under assumption $Z_",s,"=",j,"$ (G)")),
+    labs(title = TeX(paste0("Occupation probabilities under assumption $\\psi(Z_",s,")=",j,"$ (G)")),
          y =  TeX(paste0("$P(Z_t=j|G)$")),
          x = "t",
          subtitle = paste0("As-if estimate based on ",asif_n," observations,\nMarkov based on ",markov_n," observations")) +
@@ -407,15 +434,15 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
                                 "#7B68EE", "#1E90FF","#00008B",
                                 "#3CB371", "#32CD32","#006400"),
                        name = "Probability, Estimate",
-                       labels = c(TeX("$P(Z_t=1|\\cdot)$, As-If"),
-                                  TeX("$P(Z_t=1|\\cdot)$, Markov"),
-                                  TeX("$P(Z_t=1|\\cdot)$, True"),
-                                  TeX("$P(Z_t=2|\\cdot)$, As-If"),
-                                  TeX("$P(Z_t=2|\\cdot)$, Markov"),
-                                  TeX("$P(Z_t=2|\\cdot)$, True"),
-                                  TeX("$P(Z_t=3|\\cdot)$, As-If"),
-                                  TeX("$P(Z_t=3|\\cdot)$, Markov"),
-                                  TeX("$P(Z_t=3|\\cdot)$, True")))
+                       labels = c(TeX("$P(Z_t=a|\\cdot)$, As-If"),
+                                  TeX("$P(Z_t=a|\\cdot)$, Markov"),
+                                  TeX("$P(Z_t=a|\\cdot)$, True"),
+                                  TeX("$P(Z_t=b|\\cdot)$, As-If"),
+                                  TeX("$P(Z_t=b|\\cdot)$, Markov"),
+                                  TeX("$P(Z_t=b|\\cdot)$, True"),
+                                  TeX("$P(Z_t=c|\\cdot)$, As-If"),
+                                  TeX("$P(Z_t=c|\\cdot)$, Markov"),
+                                  TeX("$P(Z_t=c|\\cdot)$, True")))
   #Plots of intensities
   plotdf1 <- estimate1$NelsonAalen %>% 
     select(Time,
@@ -437,6 +464,7 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
   plotdf2[,2:dim(plotdf2)[2]] <- plotdf2[,2:dim(plotdf2)[2]] - as.data.frame(matrix(as.numeric(rep(plotdf2[1,2:dim(plotdf2)[2]],dim(plotdf2)[1])),ncol = dim(plotdf2)[2]-1,byrow = TRUE))
   plotdf2 <- plotdf2 %>%
     reshape2::melt(., id = "Time")
+  times <- s+0:n_steps*(10-s)/n_steps
   plotdf3 <- data.frame(Time = times,
                         matrix(unlist(lapply(times, function(t) as.numeric(t(2*M*(log(1+0.5*t)-log(1+0.5*s)))))),ncol = num_states**2,byrow = TRUE))
   colnames(plotdf3) <- c("Time",unlist(lapply(1:num_states, function(i) paste0(i,"_",1:num_states))))
@@ -453,7 +481,7 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
     geom_line(data = plotdf3,mapping = aes(x=Time, y = value,col = variable),linetype = "dotted",linewidth=1) +
     xlim(0,10) +
     theme_bw() +
-    labs(title = TeX(paste0("Cumulative transition rates under assumption $Z_",s,"=",j,"$ (G)")),
+    labs(title = TeX(paste0("Cumulative transition rates under assumption $\\psi(Z_",s,")=",j,"$ (G)")),
          y =  TeX(paste0("$\\Lambda_{jk}(t|G)-\\Lambda_{jk}(s|G)$")),
          x = "t",
          subtitle = paste0("As-if estimate based on ",asif_n," observations,\nMarkov based on ",markov_n," observations")) +
@@ -463,39 +491,53 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
                                 "#1E90FF","#00008B","#3CB371", "#32CD32",
                                 "#006400","#D2691E","#F4A460","#DEB887"),
                        name = "j to k, Estimate",
-                       labels = c("j=1, k=2, True",
-                                  "j=1, k=2, As-If",
-                                  "j=1, k=2, Markov",
-                                  "j=1, k=3, True",
-                                  "j=1, k=3, As-If",
-                                  "j=1, k=3, Markov",
-                                  "j=2, k=1, True",
-                                  "j=2, k=1, As-If",
-                                  "j=2, k=1, Markov",
-                                  "j=2, k=3, True",
-                                  "j=2, k=3, As-If",
-                                  "j=2, k=3, Markov"))
+                       labels = c("j=a, k=b, True",
+                                  "j=a, k=b, As-If",
+                                  "j=a, k=b, Markov",
+                                  "j=a, k=c, True",
+                                  "j=a, k=c, As-If",
+                                  "j=a, k=c, Markov",
+                                  "j=b, k=a, True",
+                                  "j=b, k=a, As-If",
+                                  "j=b, k=a, Markov",
+                                  "j=b, k=c, True",
+                                  "j=b, k=c, As-If",
+                                  "j=b, k=c, Markov"))
   #Plots of cashflows
   colnames(cashflow1)[2:dim(cashflow1)[2]] <- paste0(colnames(cashflow1)[2:dim(cashflow1)[2]],", Markov")
   plotdf1 <- cashflow1 %>% reshape2::melt(id = "Time")
   colnames(cashflow2)[2:dim(cashflow2)[2]] <- paste0(colnames(cashflow2)[2:dim(cashflow2)[2]],", As-If")
   plotdf2 <- cashflow2 %>% reshape2::melt(id = "Time")
   #Calculate true values
-  times <- s+0:1000*(10-s)/1000
   cashflow3 <- cashflow1
-  for (i in 2:dim(cashflow3)[1]) {
-    t_1 <- cashflow3$Time[i]
-    t_0 <- cashflow3$Time[i-1]
-    d_Lambda_tmp <- 2*M*(log(1+0.5*t_1)-log(1+0.5*t_0))
-    p_con_0 <- (1:num_states==j)%*%expm::expm(2*M*(log(1+0.5*t_0)-log(1+0.5*s)))
-    p_con_1 <- (1:num_states==j)%*%expm::expm(2*M*(log(1+0.5*t_1)-log(1+0.5*s)))
-    A1 <- cashflow3$A1[i-1] + p_con_1[1]*ifelse(t_1>T,t_1-max(T,t_0),0)
-    A2 <- cashflow3$A2[i-1] - pi * p_con_1[1]*ifelse(t_0<T,min(T,t_1)-t_0,0)
-    A3 <- cashflow3$A3[i-1] + p_con_1[2]*(t_1-t_0)
-    A4 <- cashflow3$A4[i-1] + p_con_0[1]*d_Lambda_tmp[1,3] + p_con_0[2]*d_Lambda_tmp[2,3]
-    cashflow3[i,2:5] <- c(A1,A2,A3,A4)
+  prob_to_1 <- approxfun(y$t,y=unlist(y$y)[1:length(y$t)*length(y$y[[1]])-2])
+  prob_to_2 <- approxfun(y$t,y=unlist(y$y)[1:length(y$t)*length(y$y[[1]])-1])
+  prob_to_3 <- approxfun(y$t,y=unlist(y$y)[1:length(y$t)*length(y$y[[1]])-0])
+  A1_derivative <- function(t,y){
+    (t>T)*prob_to_1(t)
   }
-  cashflow3[,6] <- rowSums(cashflow3[,2:5])
+  A1 <- runge_kutta(A1_derivative,s,10,0,n_steps)
+  A2_derivative <- function(t,y){
+    -pi*(t<=T)*prob_to_1(t)
+  }
+  A2 <- runge_kutta(A2_derivative,s,10,0,n_steps)
+  A3_derivative <- function(t,y){
+    prob_to_2(t)
+  }
+  A3 <- runge_kutta(A3_derivative,s,10,0,n_steps)
+  A4_derivative <- function(t,y){
+    #prob_to_1(t-)=prob_to_1(t) same for prob_to_2
+    prob_to_1(t)*d_Lambda(t,M,lambda)[1,3]+prob_to_2(t)*d_Lambda(t,M,lambda)[2,3]
+  }
+  A4 <- runge_kutta(A4_derivative,s,10,0,n_steps)
+  cashflow3 <- data.frame(
+    Time = unlist(A1$t),
+    A1 = unlist(A1$y),
+    A2 = unlist(A2$y),
+    A3 = unlist(A3$y),
+    A4 = unlist(A4$y)
+  ) %>%
+    mutate(A = A1 + A2 + A3 + A4)
   colnames(cashflow3) <- c("Time","A1_true","A2_true","A3_true","A4_true","A_true")
   plotdf3 <- cashflow3 %>% reshape2::melt(id = "Time")
   if (debug) {
@@ -509,7 +551,7 @@ plot_function <- function(paths,pi,T,num_states,s= 0, j = 1, debug = TRUE) {
     geom_vline(xintercept = T, col = "black",linetype = "dashed") +
     xlim(0,10) +
     theme_bw() +
-    labs(title = TeX(paste0("Accumulated cash-flow under assumption $Z_",s,"=",j,"$ (G)")),
+    labs(title = TeX(paste0("Accumulated cash-flow under assumption $\\psi(Z_",s,")=",j,"$ (G)")),
          y =  TeX(paste0("A(t|G)-A(s|G)")),
          x = "t",
          subtitle = paste0("As-if estimate based on ",asif_n," observations,\nMarkov based on ",markov_n," observations")) +
@@ -550,18 +592,136 @@ ggsave("plot2.png",p2,units = "px", width = 1920*scaler,height = 1080*scaler,sca
 ggsave("plot3.png",p3,units = "px", width = 1920*scaler,height = 1080*scaler,scale = 1.5)
 
 #### Appendix A.4 ####
-L <- 1:100*10
-plot_function2 <- function(L, debug = TRUE) {
+L <- ceil(2*65**(2*0:100/100+1))
+S <- 6
+J <- 1
+supremums <- function(L,S,J, debug = TRUE,n_steps = 10000) {
   
-  supremum_norm_diff <- list()
-  
+  results <- data.frame(L = NA,s=NA,j=NA,as_if = TRUE,`Lambda(1,2)`=NA,`Lambda(1,3)`=NA,`Lambda(2,1)`=NA,`Lambda(2,3)`=NA)
+  L <- as.integer(L)
+  counter <- 1
+  set.seed(1)
+  if (debug) {
+    print(paste0(Sys.time()," Starting simulating ",max(L)," sample paths."))
+  }
+  paths <- simulate_markov_inhomogenous(max(L))
+  if (debug) {
+    print(paste0(Sys.time()," Done simulating ",max(L)," sample paths."))
+  }
   for (l in L) {
-    
-    #Generate paths
-    paths <- simulate_markov_inhomogenous(l)
-    estimate1 <- Estimate(paths,3, debug = debug)
-    
+    tmp_paths <- paths[1:l]
+    for (s in S) {
+      for (j in J) {
+        #Generate paths
+        estimate1 <- tryCatch(Estimate(tmp_paths,3, s= s, j=j,as_if = FALSE, debug = FALSE),
+                              error = function(e) NA)
+        estimate2 <- tryCatch(Estimate(tmp_paths,3,s= s, j=j,as_if = TRUE, debug = FALSE),
+                              error = function(e) NA)
+        if ((length(estimate1)>1) & (length(estimate2)>1)) {
+          markov <- estimate1$NelsonAalen %>% 
+            select(Time,
+                   `Lambda(1,2)`=`1_2`,
+                   `Lambda(1,3)`=`1_3`,
+                   `Lambda(2,1)`=`2_1`,
+                   `Lambda(2,3)`=`2_3`) %>%
+            filter(Time >= s)
+          markov[,2:dim(markov)[2]] <- markov[,2:dim(markov)[2]] -
+            as.data.frame(matrix(as.numeric(rep(markov[1,2:dim(markov)[2]],dim(markov)[1])),ncol = dim(markov)[2]-1,byrow = TRUE))
+          as_if_markov <- estimate2$NelsonAalen %>% 
+            select(Time,
+                   `Lambda(1,2)`=`1_2`,
+                   `Lambda(1,3)`=`1_3`,
+                   `Lambda(2,1)`=`2_1`,
+                   `Lambda(2,3)`=`2_3`) %>%
+            filter(Time >= s)
+          as_if_markov[,2:dim(as_if_markov)[2]] <- as_if_markov[,2:dim(as_if_markov)[2]] -
+            as.data.frame(matrix(as.numeric(rep(as_if_markov[1,2:dim(as_if_markov)[2]],dim(as_if_markov)[1])),ncol = dim(as_if_markov)[2]-1,byrow = TRUE))
+          times <- sort(unique(c(s+0:n_steps*(10-s)/n_steps,as_if_markov$Time,markov$Time)),decreasing = FALSE)
+          true_values <- data.frame(Time = times,
+                                    matrix(unlist(lapply(times, function(t) as.numeric(t(2*M*(log(1+0.5*t)-log(1+0.5*s)))))),ncol = num_states**2,byrow = TRUE))
+          colnames(true_values) <- c("Time",unlist(lapply(1:num_states, function(i) paste0(i,"_",1:num_states))))
+          true_values <- true_values %>% 
+            select(Time,
+                   `Lambda(1,2),true`=`1_2`,
+                   `Lambda(1,3),true`=`1_3`,
+                   `Lambda(2,1),true`=`2_1`,
+                   `Lambda(2,3),true`=`2_3`)
+          markov <- merge(markov,true_values,all.x = TRUE)
+          as_if_markov <- merge(as_if_markov,true_values,all.x = TRUE)
+          
+          results[counter,] <- c(
+            l,s,j,FALSE,
+            max(abs(markov$`Lambda(1,2)`-markov$`Lambda(1,2),true`)),
+            max(abs(markov$`Lambda(1,3)`-markov$`Lambda(1,3),true`)),
+            max(abs(markov$`Lambda(2,1)`-markov$`Lambda(2,1),true`)),
+            max(abs(markov$`Lambda(2,3)`-markov$`Lambda(2,3),true`))
+          )
+          results[counter+1,] <- c(
+            l,s,j,TRUE,
+            max(abs(as_if_markov$`Lambda(1,2)`-as_if_markov$`Lambda(1,2),true`)),
+            max(abs(as_if_markov$`Lambda(1,3)`-as_if_markov$`Lambda(1,3),true`)),
+            max(abs(as_if_markov$`Lambda(2,1)`-as_if_markov$`Lambda(2,1),true`)),
+            max(abs(as_if_markov$`Lambda(2,3)`-as_if_markov$`Lambda(2,3),true`))
+          )
+          counter <- counter + 2
+          if (debug == TRUE) {
+            print(paste0(Sys.time(),": Done with L=",l,", s=",s," and j=",j,"."))
+          }
+        }
+      }
+    }
     
   }
+  return(results)
+}
+plot_function <- function(results, s, j) {
+  
+  plotdf <- results %>% filter((s==s) & (j==j)) %>% filter(as_if == TRUE) %>%
+    select(-s,-j,-as_if) %>%
+    melt(id = "L")
+  plotdf2 <- results %>% filter((s==s) & (j==j)) %>% filter(as_if == FALSE) %>%
+    select(-s,-j,-as_if) %>%
+    melt(id = "L")
+  
+  ggplot() + geom_point(data = plotdf %>% filter(variable == "Lambda.1.3."), aes(x=L,y = value, col = variable))+
+    geom_line(data = plotdf2 %>% filter(variable == "Lambda.1.3."), aes(x=L,y = value, col = variable)) +
+    scale_x_continuous(trans = "log2") + scale_y_continuous(trans = "log2")
   
 }
+
+results1 <- supremums(L = 1:10*1000,S=0:6,J=1) #run-time ≈ 
+results2 <- supremums(L = ceil(2*65**(2*0:25/25+1)),S=6,J=1,n_steps = 1000000) #run-time ≈ 11.5 min
+results3 <- supremums(L = ceil(2*88**(2*0:25/25+1)),S=6,J=2) #run-time ≈ 
+
+plot1 <- plot_function(results,6,1)
+plot1
+#Calcuæate P(Z_s=j)P(R>s)
+s <- 6
+c(1,0,0)%*%expm::expm(M*2*log(1+0.5*s))
+
+##################################
+###### Estimate Semi-Markov ######
+##################################
+#### Appendix A.5 ####
+jump_rate <- function(i, t, u){
+  if(i == 1){
+    0.1 + 0.002*t
+  } else if(i == 2){
+    ifelse(u < 4, 0.29, 0.09) + 0.001*t
+  } else{
+    0
+  }
+}
+
+mark_dist <- function(i, s, v){
+  if(i == 1){
+    c(0, 0.9, 0.1)
+  } else if(i == 2){
+    c(0, 0, 1)
+  } else{
+    0
+  }
+}
+c <- runif(n, 10, 40)
+
+
