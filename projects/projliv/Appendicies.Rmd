@@ -29,7 +29,7 @@ library(zoo)
 library(kableExtra)
 projected_objects <- c("projected_objects","mode")
 mode <- "markdown"
-#mode <- "develop"
+mode <- "develop"
 ```
 
 **Notice:** The setting `mode = "markdown` gives a lighter version of the simulation studies below and is intended for fast compilation of the markdown project. If the above `mode <- "develop"` is commented out, then the below is based on the light version of this appendix. Due to this figures and tables may differ from the ones given in the project. If you want to go through the figures used in the main document please see the folder `plots_backup`.
@@ -1728,7 +1728,7 @@ tbl <- tbl %>% mutate(Norm = "p-norm") %>% add_row(mutate(., Norm = "sup-norm"))
   mutate(Estimator = ifelse(Estimator == "As_If","As-If","Markov"))
 
 tbl %>%
-  kbl(digits=4) %>%
+  kbl(digits=2) %>%
   kable_styling()
 #For latex
 tbl %>% kbl(digits = 2, format = "latex", booktabs = T)
@@ -1747,7 +1747,7 @@ if (mode == "markdown") {
 debug <- TRUE
 s <- 5
 j <- 1
-approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE, T_max) {
+approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE, T_max,increments=100) {
   if (debug) {
     print(paste0(Sys.time()," Calculating Markov estimate."))
     start_time <- Sys.time()
@@ -1770,7 +1770,7 @@ approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE
   plots <- lapply(1:num_states, function(i) {
     
     p_con <- results$p_con[,c(1,1 + i,1 + i + num_states)]
-    times <- data.frame(Time = p_con[,"Time"])
+    times_i <- data.frame(Time = p_con[,"Time"])
     
     for (k in 1:length(Ls)) {
         L <- Ls[k]
@@ -1781,7 +1781,7 @@ approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE
         colnames(asif_tmp) <- c("Time", "As_If")
         
         
-        tmp <- merge(times,markov_tmp,all = TRUE,by = "Time")
+        tmp <- merge(times_i,markov_tmp,all = TRUE,by = "Time")
         tmp <- merge(tmp,asif_tmp,all = TRUE,by = "Time")
         tmp <- na.locf(tmp, na.rm = FALSE)
         tmp[,"L"] <- L
@@ -1809,21 +1809,38 @@ approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE
         
         tmp <- tmp[tmp$Time %in% unique(c(markov_tmp$Time,asif_tmp$Time)),]
         tmp2 <- tmp2[tmp2$Time %in% unique(c(markov_tmp$Time,asif_tmp$Time)),]
+        tmp3 <- data.frame(Time = (T_max-s)*0:increments/increments+s)
+        tmp3[,"reference_time"] <- unlist(lapply(tmp3$Time, function(t) min(tmp$Time[tmp$Time>= t])))
+        tmp3 <- tmp3 %>% filter(!is.infinite(reference_time))
+        tmp3 <- merge(tmp3, tmp,all.x = TRUE,by.x = "reference_time",by.y = "Time")
+        tmp3[,"Markov"] <- c(0,tmp3[2:dim(tmp3)[1],"Markov"] - tmp3[1:(dim(tmp3)[1]-1),"Markov"])
+        tmp3[,"As_If"] <- c(0,tmp3[2:dim(tmp3)[1],"As_If"] - tmp3[1:(dim(tmp3)[1]-1),"As_If"])
+        tmp3 <- tmp3[,c("Time","L","Markov","As_If")]
+        
+        tmp[,"L_order"] <- LETTERS[k]
+        tmp2[,"L_order"] <- LETTERS[k]
+        tmp3[,"L_order"] <- LETTERS[k]
         
         if (k > 1) {
           plotdf <- rbind(plotdf,tmp)
           plotdf2 <- rbind(plotdf2,tmp2)
+          plotdf3 <- rbind(plotdf3,tmp3)
           norms <- rbind(norms, norms_tmp)
         } else {
           plotdf <- tmp
           plotdf2 <- tmp2
+          plotdf3 <- tmp3
           norms <- norms_tmp
         }
     }
+    labels <- data.frame(
+      factor = c(paste0(unique(plotdf$L_order),", Markov"),paste0(unique(plotdf$L_order),", As-If")),
+      label = c(paste0(unique(plotdf$L),", Markov"),paste0(unique(plotdf$L),", As-If"))
+      ) %>% arrange(factor)
     
     plot1 <- ggplot(plotdf) +
-      geom_line(mapping = aes(x=Time, y = Markov,col = factor(paste0(L,", Markov"))), linetype = "solid") +
-      geom_line(mapping = aes(x=Time, y = As_If,col =  factor(paste0(L,", Af-If"))), linetype = "solid") +
+      geom_line(mapping = aes(x=Time, y = Markov,col = factor(paste0(L_order,", Markov"))), linetype = "solid") +
+      geom_line(mapping = aes(x=Time, y = As_If,col =  factor(paste0(L_order,", Af-If"))), linetype = "solid") +
       theme_bw() +
       labs(title = TeX(paste0("Accumulated norm for $p^{(L)}_{",letters[i],"}$")),
            y =  TeX(paste0("$AR(p^{(L)}_",letters[i],"(\\cdot | Z_{",s,"}=",letters[j],"))$")),
@@ -1835,7 +1852,9 @@ approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE
                                   "#FF0000", "#6495ED",
                                   "#FA8072","#87CEFA",
                                   "#FFA07A","#B0E0E6"
-                                  ))
+                                  ),
+                         labels = labels$label)
+    
     plot2 <- ggplot(plotdf) +
       geom_line(mapping = aes(x=Time, y = Markov-As_If,col = factor(L)), linetype = "solid") +
       theme_bw() +
@@ -1846,9 +1865,33 @@ approximation_risk <- function(paths,results,Ls,s,j,p=2,num_states,debug = FALSE
             plot.subtitle = element_text(face = "italic")) +
       scale_color_manual(values=c("#00008B","#7B68EE", "#6495ED","#87CEFA","#B0E0E6"))
     
+    plot3 <- ggplot(plotdf3) +
+      geom_line(mapping = aes(x=Time, y = Markov,col = factor(paste0(L_order,", Markov"))), linetype = "solid") +
+      geom_line(mapping = aes(x=Time, y = As_If,col =  factor(paste0(L_order,", Af-If"))), linetype = "solid") +
+      theme_bw() +
+      labs(title = TeX(paste0("Increments in accumulated norm for $p^{(L)}_{",letters[i],"}$")),
+           y =  "Increments",
+           x = "t",col = "L") +
+      theme(plot.title = element_text(face = "bold"),
+            plot.subtitle = element_text(face = "italic")) +
+      scale_color_manual(values=c("#8B0000","#00008B",
+                                  "#CD5C5C","#7B68EE",
+                                  "#FF0000", "#6495ED",
+                                  "#FA8072","#87CEFA",
+                                  "#FFA07A","#B0E0E6"
+                                  ),
+                         labels = labels$label)
     
-    
-    return(list(p1 = plot1, p2 = plot2,norms = norms))})
+    plot4 <- ggplot(plotdf3) +
+      geom_line(mapping = aes(x=Time, y = Markov-As_If,col = factor(L)), linetype = "solid") +
+      theme_bw() +
+      labs(title = TeX(paste0("Difference in increments in accumulated norm for $p^{(L)}_{",letters[i],"}$")),
+           y = "Markov - As-If",
+           x = "t",col = "L") +
+      theme(plot.title = element_text(face = "bold"),
+            plot.subtitle = element_text(face = "italic")) +
+      scale_color_manual(values=c("#00008B","#7B68EE", "#6495ED","#87CEFA","#B0E0E6"))
+  return(list(p1 = plot1, p2 = plot2, p3 = plot3, p4 = plot4,norms = norms))})
   
   if (debug) {
     print(Sys.time() - start_time)
@@ -1923,7 +1966,7 @@ tbl <- tbl %>% mutate(Norm = "p-norm") %>% add_row(mutate(., Norm = "sup-norm"))
   mutate(Estimator = ifelse(Estimator == "As_If","As-If","Markov"))
 
 tbl %>%
-  kbl(digits=4) %>%
+  kbl(digits=2) %>%
   kable_styling()
 #For latex
 tbl_p <- tbl[tbl$Norm == "p-norm",c("Start State","Estimator","L","Risk_a","Risk_b","Risk_c")]
