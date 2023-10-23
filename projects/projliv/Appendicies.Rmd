@@ -29,7 +29,7 @@ library(zoo)
 library(kableExtra)
 projected_objects <- c("projected_objects","mode")
 mode <- "markdown"
-mode <- "develop"
+#mode <- "develop"
 ```
 
 **Notice:** The setting `mode = "markdown` gives a lighter version of the simulation studies below and is intended for fast compilation of the markdown project. If the above `mode <- "develop"` is commented out, then the below is based on the light version of this appendix. Due to this figures and tables may differ from the ones given in the project. If you want to go through the figures used in the main document please see the folder `plots_backup`.
@@ -142,6 +142,7 @@ main_df[1:10,]
 ```{r}
 #### Appendix A.2.2 ####
 #Convert main_df to I
+df <- main_df
 df_to_I <- function(df,num_states) {
   Init <- df %>%
     group_by(State = Start_State) %>%
